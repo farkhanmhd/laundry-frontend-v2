@@ -47,7 +47,7 @@ export function LoginForm({
         });
       } else {
         toast.success(`Welcome back, ${session.user.name}!`);
-        push("/");
+        push("/dashboard");
       }
     } catch (error) {
       if (error instanceof Error) {

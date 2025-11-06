@@ -1,10 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getSession } from "./lib/auth-helpers";
+import { getMiddlewareSession } from "./lib/auth-helpers";
 
 export async function proxy(request: NextRequest) {
   try {
-    const session = await getSession();
-
+    const session = await getMiddlewareSession();
     // Case 1: No session, and not on the login page -> redirect to login
     if (!session && request.nextUrl.pathname !== "/login") {
       const loginUrl = new URL("/login", request.nextUrl.origin);

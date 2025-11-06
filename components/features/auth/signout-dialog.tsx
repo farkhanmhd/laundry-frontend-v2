@@ -32,12 +32,12 @@ export const SignoutDialog = () => {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <SidebarMenuButton size="lg">
+        <SidebarMenuButton>
           <LogOut />
-          Sign Out
+          <span>Sign Out</span>
         </SidebarMenuButton>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="z-200">
         <AlertDialogHeader>
           <AlertDialogTitle>Sign out</AlertDialogTitle>
         </AlertDialogHeader>

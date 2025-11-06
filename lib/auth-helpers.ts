@@ -12,7 +12,13 @@ export const getHeaders = async () => {
   return headersObject;
 };
 
-export const getSession = async () => {
+export const getHeadersWithoutContentType = async () => {
+  const nextHeaders = new Headers(await headers());
+  nextHeaders.delete("content-type");
+  return nextHeaders;
+};
+
+export const getMiddlewareSession = async () => {
   const { data: session } = await authClient.getSession({
     fetchOptions: {
       headers: await headers(),

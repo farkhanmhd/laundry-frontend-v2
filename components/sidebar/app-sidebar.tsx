@@ -19,7 +19,7 @@ type Props = React.ComponentPropsWithoutRef<typeof Sidebar>;
 export function AppSidebar({ children, ...props }: Props) {
   return (
     <Sidebar
-      className="border-muted-foreground border-r dark:border-muted"
+      className="border-muted-foreground/60 border-r dark:border-muted"
       collapsible="icon"
       variant="inset"
       {...props}
@@ -29,7 +29,7 @@ export function AppSidebar({ children, ...props }: Props) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
               <Link href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">

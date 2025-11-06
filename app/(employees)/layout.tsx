@@ -1,5 +1,8 @@
 import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { MobileNav } from "@/components/navigation/mobile-nav";
+import NavigationSidebar from "@/components/navigation/navigation-sidebar";
+import { SidebarErrorFallback } from "@/components/navigation/sidebar-error-fallback";
 import { SidebarSkeleton } from "@/components/navigation/sidebar-skeleton";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
@@ -12,15 +15,17 @@ import {
 
 export default function EmployeeLayout({
   children,
-  sidebar,
 }: {
   children: React.ReactNode;
-  sidebar: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
       <AppSidebar>
-        <Suspense fallback={<SidebarSkeleton />}>{sidebar}</Suspense>
+        <ErrorBoundary FallbackComponent={SidebarErrorFallback}>
+          <Suspense fallback={<SidebarSkeleton />}>
+            <NavigationSidebar />
+          </Suspense>
+        </ErrorBoundary>
       </AppSidebar>
       <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0.5 md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
         <SiteHeader />

@@ -1,6 +1,3 @@
-import { getProducts } from "./products";
+const HomePage = () => <div>HomePage</div>;
 
-export default async function Home() {
-  const data = await getProducts();
-  return <div>{JSON.stringify(data)}</div>;
-}
+export default HomePage;

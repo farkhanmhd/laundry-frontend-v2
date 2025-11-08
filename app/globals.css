@@ -20,7 +20,7 @@
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
+  --border: oklch(0.705 0.015 286.067);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.141 0.005 285.823);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -54,7 +54,7 @@
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(0.275 0 0);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.985 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -136,7 +136,10 @@
 }
 
 .wave {
-  --mask: radial-gradient(11.66px at 50% 16px, #000 99%, #0000 101%) calc(50% - 20px) 0 / 40px 100%, radial-gradient(11.66px at 50% -6px, #0000 99%, #000 101%) 50% 10px / 40px 100% repeat-x;
+  --mask:
+    radial-gradient(11.66px at 50% 16px, #000 99%, #0000 101%) calc(50% - 20px)
+    0 / 40px 100%, radial-gradient(11.66px at 50% -6px, #0000 99%, #000 101%)
+    50% 10px / 40px 100% repeat-x;
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }
@@ -149,5 +152,3 @@
     opacity: 1;
   }
 }
-
-/* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */

@@ -1,25 +1,23 @@
-import { TableToolbar } from "@/components/table/table-toolbar";
-import { columns } from "../components/columns";
-import { TableProvider } from "@/components/table/context";
-import { TablePagination } from "@/components/table/table-pagination";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { TableProvider } from "@/components/table/context";
+import { TablePagination } from "@/components/table/table-pagination";
+import { TableToolbar } from "@/components/table/table-toolbar";
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { columns } from "../components/columns";
 
-const ProductsLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <TableProvider columns={columns}>
-      <TableToolbar>
-        <Link href='/vouchers/new' className={cn(buttonVariants())}>
-          <Plus />
-          Voucher
-        </Link>
-      </TableToolbar>
-      {children}
-      <TablePagination />
-    </TableProvider>
-  );
-};
+const ProductsLayout = ({ children }: { children: React.ReactNode }) => (
+  <TableProvider columns={columns}>
+    <TableToolbar>
+      <Link className={cn(buttonVariants())} href="/vouchers/new">
+        <Plus />
+        Voucher
+      </Link>
+    </TableToolbar>
+    {children}
+    <TablePagination />
+  </TableProvider>
+);
 
 export default ProductsLayout;

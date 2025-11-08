@@ -9,7 +9,7 @@ import { useSidebar } from "../ui/sidebar";
 export function MobileNav() {
   const { toggleSidebar } = useSidebar();
   return (
-    <footer className="h-16 border-muted-foreground/60 border-t md:hidden dark:border-muted">
+    <footer className="h-16 border-t md:hidden">
       <nav className="size-full">
         <ul className="flex size-full text-muted-foreground [&>li>*]:size-full [&>li>*]:rounded-none [&>li]:flex [&>li]:flex-1 [&>li]:items-center [&>li]:justify-center">
           <li>

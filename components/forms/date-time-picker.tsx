@@ -1,13 +1,17 @@
 "use client";
 
 import { ChevronDownIcon } from "lucide-react";
-import * as React from "react";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 type Props = {
   date: Date | undefined;
@@ -16,7 +20,12 @@ type Props = {
   timeLabel?: string;
 };
 
-export function DateTimePicker({ date, onChange, dateLabel = "", timeLabel = "" }: Props) {
+export function DateTimePicker({
+  date,
+  onChange,
+  dateLabel = "",
+  timeLabel = "",
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const futureDateLimit = new Date();
   futureDateLimit.setFullYear(futureDateLimit.getFullYear() + 100);
@@ -81,37 +90,49 @@ export function DateTimePicker({ date, onChange, dateLabel = "", timeLabel = "" 
   };
 
   return (
-    <div className='flex gap-4'>
-      <div className='flex flex-1 flex-col gap-3'>
+    <div className="flex gap-4">
+      <div className="flex flex-1 flex-col gap-3">
         {dateLabel && (
-          <Label className='px-1' htmlFor='date-picker'>
+          <Label className="px-1" htmlFor="date-picker">
             {dateLabel}
           </Label>
         )}
         <Popover onOpenChange={setOpen} open={open}>
           <PopoverTrigger asChild>
-            <Button className='justify-between font-normal' id='date-picker' variant='outline'>
+            <Button
+              className="justify-between border-input font-normal"
+              id="date-picker"
+              variant="outline"
+            >
               {date ? date.toLocaleDateString() : "Select date"}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
-          <PopoverContent align='start' className='w-auto overflow-hidden p-0'>
-            <Calendar captionLayout='dropdown' disabled={{ before: new Date() }} endMonth={futureDateLimit} mode='single' onSelect={handleDateSelect} selected={date} startMonth={new Date()} />
+          <PopoverContent align="start" className="w-auto overflow-hidden p-0">
+            <Calendar
+              captionLayout="dropdown"
+              disabled={{ before: new Date() }}
+              endMonth={futureDateLimit}
+              mode="single"
+              onSelect={handleDateSelect}
+              selected={date}
+              startMonth={new Date()}
+            />
           </PopoverContent>
         </Popover>
       </div>
-      <div className='flex flex-1 flex-col gap-3'>
+      <div className="flex flex-1 flex-col gap-3">
         {timeLabel && (
-          <Label className='px-1' htmlFor='time-picker'>
+          <Label className="px-1" htmlFor="time-picker">
             {timeLabel}
           </Label>
         )}
         <Input
-          className='appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none'
-          id='time-picker'
+          className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          id="time-picker"
           onChange={handleTimeChange}
-          step='1'
-          type='time'
+          step="1"
+          type="time"
           value={timeValue}
         />
       </div>

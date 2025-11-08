@@ -1,6 +1,17 @@
-import { type ColumnDef, flexRender, type Table as TableType } from "@tanstack/react-table";
+import {
+  type ColumnDef,
+  flexRender,
+  type Table as TableType,
+} from "@tanstack/react-table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
 type Props<TData, TValue> = {
@@ -10,15 +21,25 @@ type Props<TData, TValue> = {
   className?: string;
 };
 
-const DataTable = <TData, TValue>({ table, columns, selectableRows = false, className }: Props<TData, TValue>) => (
-  <ScrollArea className={cn("relative border-muted-foreground/60 border-y dark:border-muted [&>div>div]:h-full", className)}>
+const DataTable = <TData, TValue>({
+  table,
+  columns,
+  selectableRows = false,
+  className,
+}: Props<TData, TValue>) => (
+  <ScrollArea className={cn("relative border-y [&>div>div]:h-full", className)}>
     <Table>
-      <TableHeader className='sticky top-0 z-50 bg-background'>
+      <TableHeader className="sticky top-0 z-50 bg-background">
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow className='border-muted-foreground/60 dark:border-muted' key={headerGroup.id}>
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <TableHead className='px-4' key={header.id}>
-                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+              <TableHead className="px-4" key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
               </TableHead>
             ))}
           </TableRow>
@@ -36,22 +57,22 @@ const DataTable = <TData, TValue>({ table, columns, selectableRows = false, clas
               onClick={() => selectableRows && row.toggleSelected()}
             >
               {row.getVisibleCells().map((cell) => (
-                <TableCell className='px-4' key={cell.id}>
+                <TableCell className="px-4" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
             </TableRow>
           ))
         ) : (
-          <TableRow className='h-full'>
-            <TableCell className='text-center' colSpan={columns.length}>
+          <TableRow className="h-full">
+            <TableCell className="text-center" colSpan={columns.length}>
               No results found
             </TableCell>
           </TableRow>
         )}
       </TableBody>
     </Table>
-    <ScrollBar orientation='horizontal' />
+    <ScrollBar orientation="horizontal" />
   </ScrollArea>
 );
 

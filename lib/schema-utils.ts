@@ -18,14 +18,14 @@ export const positiveIntNoLeadingZero = z.preprocess(
 );
 
 export const imageSchema = z.preprocess(
-    (val) =>
-      val && typeof FileList !== "undefined" && val instanceof FileList
-        ? val[0]
-        : val,
-    z
-      .instanceof(File, { error: 'No file chosen'})
-      .refine(
-        (file) => ["image/jpeg", "image/png"].includes(file.type),
-        "Only JPEG or PNG images are allowed"
-      )
-  )
+  (val) =>
+    val && typeof FileList !== "undefined" && val instanceof FileList
+      ? val[0]
+      : val,
+  z
+    .instanceof(File, { error: "No file chosen" })
+    .refine(
+      (file) => ["image/jpeg", "image/png"].includes(file.type),
+      "Only JPEG or PNG images are allowed"
+    )
+);

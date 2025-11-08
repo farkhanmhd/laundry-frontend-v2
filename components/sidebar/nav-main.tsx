@@ -1,11 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { adminNavData, superAdminNavData } from "@/lib/constants";
 import { SheetClose } from "../ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { usePathname } from "next/navigation";
 
 export function NavMain({ type }: { type: string }) {
   const selectedMenu = {
@@ -25,7 +30,11 @@ export function NavMain({ type }: { type: string }) {
             <SidebarMenuItem key={item.title}>
               {isMobile ? (
                 <SheetClose asChild>
-                  <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive}
+                    tooltip={item.title}
+                  >
                     <Link href={item.url}>
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
@@ -33,7 +42,11 @@ export function NavMain({ type }: { type: string }) {
                   </SidebarMenuButton>
                 </SheetClose>
               ) : (
-                <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive}
+                  tooltip={item.title}
+                >
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>

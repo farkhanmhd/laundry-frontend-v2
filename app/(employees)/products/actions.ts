@@ -1,17 +1,18 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { actionClient } from "@/lib/safe-action";
 import {
   addProduct,
   adjustQuantity,
   deleteProduct,
   updateProductData,
+  updateProductImage,
 } from "./data";
 import {
   addProductSchema,
   adjustQuantitySchema,
   deleteProductSchema,
+  updateProductImageSchema,
   updateProductSchema,
 } from "./schema";
 
@@ -61,7 +62,6 @@ export const deleteProductAction = actionClient
       };
     }
 
-    revalidatePath("/products");
     return {
       status: "success",
       message: result.data?.message,
@@ -84,8 +84,6 @@ export const updateProductAction = actionClient
       return errorResult;
     }
 
-    revalidatePath("/products");
-    revalidatePath(`/products/${id}`);
     return {
       status: "success",
       message: "Product updated",
@@ -102,9 +100,23 @@ export const adjustQuantityAction = actionClient
       return errorResult;
     }
 
-    revalidatePath("/products");
     return {
       status: "success",
       message: "Quantity Adjusted",
+    };
+  });
+
+export const updateProductImageAction = actionClient
+  .inputSchema(updateProductImageSchema)
+  .action(async ({ parsedInput }) => {
+    const { id, ...body } = parsedInput;
+    const result = await updateProductImage(id, body);
+    if (!result || result.error) {
+      return errorResult;
+    }
+
+    return {
+      status: "success",
+      message: "Product updated",
     };
   });

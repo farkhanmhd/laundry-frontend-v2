@@ -2,7 +2,13 @@
 
 import type { ColumnDef, Table } from "@tanstack/react-table";
 
-import { createContext, Dispatch, SetStateAction, useContext, type ReactNode } from "react";
+import {
+  createContext,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  useContext,
+} from "react";
 import { useTable } from "./state"; // Your generic hook
 
 // 1. Define the shape of the context
@@ -13,11 +19,11 @@ interface TableContextType<T> {
   // This type is inferred from useSearchQueryParams
   setGlobalFilter: (
     value: string | ((old: string) => string | null) | null,
-    options?: any, // You can tighten this if you know the 'options' type
+    options?: unknown // You can tighten this if you know the 'options' type
   ) => Promise<URLSearchParams>;
   // This type is from useState
   setInternalData: Dispatch<SetStateAction<T[]>>;
-  columns: ColumnDef<T, any>[];
+  columns: ColumnDef<T, unknown>[];
 }
 
 // 2. Create the context
@@ -28,23 +34,32 @@ const TableContext = createContext<unknown | undefined>(undefined);
 // 3. Create the Provider component
 interface TableProviderProps<T extends { id: string }> {
   children: ReactNode;
-  columns: ColumnDef<T, any>[];
+  columns: ColumnDef<T, unknown>[];
 }
 
-export function TableProvider<T extends { id: string }>({ children, columns }: TableProviderProps<T>) {
+export function TableProvider<T extends { id: string }>({
+  children,
+  columns,
+}: TableProviderProps<T>) {
   // This hook is generic and correctly infers 'T'
   const { table, globalFilter, setGlobalFilter, setInternalData } = useTable({
     columns,
   });
 
   // 'value' has the specific type: TableContextType<T>
-  const value = { table, globalFilter, setGlobalFilter, columns, setInternalData };
+  const value = {
+    table,
+    globalFilter,
+    setGlobalFilter,
+    columns,
+    setInternalData,
+  };
 
   // This works because any specific type (TableContextType<T>)
   // is assignable to 'unknown'.
   return (
     <TableContext.Provider value={value}>
-      <div className='flex flex-col h-full'>{children}</div>
+      <div className="flex h-full flex-col">{children}</div>
     </TableContext.Provider>
   );
 }

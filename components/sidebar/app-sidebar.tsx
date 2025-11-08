@@ -18,12 +18,7 @@ type Props = React.ComponentPropsWithoutRef<typeof Sidebar>;
 
 export function AppSidebar({ children, ...props }: Props) {
   return (
-    <Sidebar
-      className="border-muted-foreground/60 border-r dark:border-muted"
-      collapsible="icon"
-      variant="inset"
-      {...props}
-    >
+    <Sidebar className="border-r" collapsible="icon" variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

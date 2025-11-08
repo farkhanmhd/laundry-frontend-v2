@@ -1,10 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
 import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
-import { addService, deleteService, updateService } from "./data";
+import { addService, deleteService } from "./data";
 import {
   type AddServiceSchema,
   addServiceSchema,
@@ -61,17 +59,16 @@ export const deleteServiceAction = actionClient
       };
     }
 
-    revalidatePath("/services");
     return {
       status: "success",
       message: result.data?.message,
     };
   });
 
-const errorResult = {
-  status: "error",
-  message: "Something went wrong",
-};
+// const errorResult = {
+//   status: "error",
+//   message: "Something went wrong",
+// };
 
 // export const updateServiceAction = actionClient
 //   .inputSchema(updateServiceSchema)

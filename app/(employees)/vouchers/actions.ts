@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
@@ -17,7 +16,7 @@ export const addVoucherAction = actionClient
     // Convert date to ISO string for the API.
     const apiInput = {
       ...parsedInput,
-    expiresAt: parsedInput.expiresAt.toISOString(),
+      expiresAt: parsedInput.expiresAt.toISOString(),
     };
 
     const result = await addVoucher(apiInput);
@@ -52,7 +51,6 @@ export const deleteVoucherAction = actionClient
       };
     }
 
-    revalidatePath("/vouchers");
     return {
       status: "success",
       message: result.data?.message || "Voucher deleted successfully",
@@ -90,7 +88,6 @@ export const updateVoucherAction = actionClient
       };
     }
 
-    revalidatePath("/vouchers");
     return {
       status: "success",
       message: "Voucher updated successfully",

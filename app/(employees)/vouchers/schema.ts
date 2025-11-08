@@ -1,5 +1,5 @@
-import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 import { z } from "zod";
+import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
 export const addVoucherSchema = z.object({
   name: z.string().min(1, "Voucher name is required"),

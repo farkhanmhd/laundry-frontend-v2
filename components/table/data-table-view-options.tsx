@@ -23,10 +23,7 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          className="flex rounded-none border-l border-l-muted-foreground/60 dark:border-l-muted"
-          variant="ghost"
-        >
+        <Button className="flex rounded-none border-l" variant="ghost">
           <Settings2 />
           <span className="hidden md:block">Column</span>
         </Button>

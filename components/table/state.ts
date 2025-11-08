@@ -20,7 +20,7 @@ interface UseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
 
-export const useTable = <TData extends { id: string}, TValue>({
+export const useTable = <TData extends { id: string }, TValue>({
   columns,
 }: UseTableProps<TData, TValue>) => {
   // [FIX] The internal state must also be generic over TData

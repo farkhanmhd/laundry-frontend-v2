@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { elysia } from "@/elysia";
 import { getHeadersWithoutContentType } from "@/lib/auth-helpers";
 import type { AddServiceBody } from "./actions";
-import type { UpdateServiceBody } from "./schema";
+// import type { UpdateServiceBody } from "./schema";
 
 export const getServices = async () => {
   const { data: response } = await elysia.services.get({
@@ -76,15 +76,15 @@ export const updateServiceData = async (
   return result;
 };
 
-export const updateService = async (id: string, data: UpdateServiceBody) => {
-  const { image, ...serviceData } = data;
-  const updateDataResult = await updateServiceData(id, serviceData);
+// export const updateService = async (id: string, data: UpdateServiceBody) => {
+//   const { image, ...serviceData } = data;
+//   const updateDataResult = await updateServiceData(id, serviceData);
 
-  if (image) {
-    const updateWithImageResult = await updateServiceImage(id, { image });
+//   if (image) {
+//     const updateWithImageResult = await updateServiceImage(id, { image });
 
-    return updateWithImageResult;
-  }
+//     return updateWithImageResult;
+//   }
 
-  return updateDataResult;
-};
+//   return updateDataResult;
+// };

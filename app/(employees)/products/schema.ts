@@ -19,13 +19,14 @@ export const deleteProductSchema = z.object({
 export const updateProductSchema = z.object({
   id: z.string().min(1, "Product id cannot be empty"),
   name: z.string().min(1, "Product name cannot be empty"),
-  description: z.string().min(1, "Product name is required"),
+  description: z.string().min(1, "Product description is required"),
   price: positiveIntNoLeadingZero,
   reorderPoint: positiveIntNoLeadingZero,
 });
 
+export const updateProductBodySchema = updateProductSchema.omit({ id: true });
 export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
-export type UpdateProductBody = Omit<UpdateProductSchema, "id">;
+export type UpdateProductBodySchema = z.infer<typeof updateProductBodySchema>;
 
 export const adjustQuantitySchema = z
   .object({
@@ -34,18 +35,8 @@ export const adjustQuantitySchema = z
         error: "Product ID is required.",
       })
       .min(1, { message: "Product ID cannot be empty." }),
-    currentQuantity: z
-      .number({
-        error: "Current quantity is required.",
-      })
-      .int({ message: "Current quantity must be a whole number." })
-      .nonnegative({ message: "Current quantity cannot be negative." }),
-    newQuantity: z
-      .number({
-        error: "New quantity is required.",
-      })
-      .int({ message: "New quantity must be a whole number." })
-      .min(1, { message: "New quantity must be at least 1." }),
+    currentQuantity: positiveIntNoLeadingZero,
+    newQuantity: positiveIntNoLeadingZero,
     reason: z
       .string({
         error: "A reason for the adjustment is required.",
@@ -59,3 +50,14 @@ export const adjustQuantitySchema = z
   });
 
 export type AdjustQuantitySchema = z.infer<typeof adjustQuantitySchema>;
+
+export const updateProductImageSchema = z.object({
+  id: z
+    .string({
+      error: "Product ID is required.",
+    })
+    .min(1, { message: "Product ID cannot be empty." }),
+  image: imageSchema,
+});
+
+export type UpdateProductImageSchema = z.infer<typeof updateProductImageSchema>;

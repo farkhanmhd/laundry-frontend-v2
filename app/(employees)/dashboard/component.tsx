@@ -1,9 +1,13 @@
 "use client";
 
 import { use } from "react";
-import { Product } from "../products/data";
+import type { Product } from "../products/data";
 
-export const Products = ({ productsPromise }: { productsPromise: Promise<Product[] | undefined> }) => {
+export const Products = ({
+  productsPromise,
+}: {
+  productsPromise: Promise<Product[] | undefined>;
+}) => {
   const products = use(productsPromise);
 
   return (

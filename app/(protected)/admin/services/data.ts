@@ -1,0 +1,42 @@
+export const mockServices = [
+  {
+    id: "s-001",
+    name: "Dry Cleaning",
+    description: "Professional dry cleaning service for delicate fabrics",
+    price: 25_000,
+    image: "/dry-cleaning-shop.png",
+    createdAt: "2025-11-01T10:00:00",
+  },
+  {
+    id: "s-002",
+    name: "Laundry & Iron",
+    description: "Standard laundry with professional ironing",
+    price: 15_000,
+    image: "/laundry-ironing.jpg",
+    createdAt: "2025-11-02T10:00:00",
+  },
+  {
+    id: "s-003",
+    name: "Express Service",
+    description: "Same-day laundry and delivery service",
+    price: 35_000,
+    image: "/express-delivery.png",
+    createdAt: "2025-11-03T10:00:00",
+  },
+  {
+    id: "s-004",
+    name: "Carpet Cleaning",
+    description: "Deep carpet and upholstery cleaning",
+    price: 50_000,
+    image: "/carpet-cleaning-in-progress.png",
+    createdAt: "2025-11-04T10:00:00",
+  },
+  {
+    id: "s-005",
+    name: "Shoe Cleaning",
+    description: "Professional shoe and sneaker cleaning",
+    price: 20_000,
+    image: "/shoe-cleaning.jpg",
+    createdAt: "2025-11-05T10:00:00",
+  },
+];

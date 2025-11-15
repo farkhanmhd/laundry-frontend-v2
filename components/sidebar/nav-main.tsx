@@ -9,13 +9,18 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { adminNavData, superAdminNavData } from "@/lib/constants";
+import {
+  adminNavData,
+  customerNavData,
+  superAdminNavData,
+} from "@/lib/constants";
 import { SheetClose } from "../ui/sheet";
 
 export function NavMain({ type }: { type: string }) {
   const selectedMenu = {
     superadmin: superAdminNavData,
     admin: adminNavData,
+    user: customerNavData,
   };
   const isMobile = useIsMobile();
   const pathname = usePathname();

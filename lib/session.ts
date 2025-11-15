@@ -1,25 +1,19 @@
+import { headers } from "next/headers";
 import { authClient } from "./auth-client";
-import { getHeaders } from "./auth-helpers";
-// import { unstable_cacheTag as cacheTag, unstable_cacheLife as cacheLife } from "next/cache";
+// import { getHeaders } from "./auth-helpers";
 
-export const getCachedSession = async (
-  nextHeaders: Record<string, string> | null
-) => {
-  // "use cache";
-  // cacheTag("session");
-  // cacheLife('hours');
-
+export const getCachedSession = async () => {
   const { data: session } = await authClient.getSession({
     fetchOptions: {
-      headers: nextHeaders ?? {},
+      headers: await headers(),
     },
   });
 
   return session;
 };
 
-export const getComponentSession = async () => {
-  const nextHeaders = await getHeaders();
-  const session = await getCachedSession(nextHeaders);
-  return session;
-};
+// export const getComponentSession = async () => {
+//   const nextHeaders = await getHeaders();
+//   const session = await getCachedSession(nextHeaders);
+//   return session;
+// };

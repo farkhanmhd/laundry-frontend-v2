@@ -1,6 +1,6 @@
 "use client";
 
-import { Command } from "lucide-react";
+import { Triangle } from "lucide-react";
 import Link from "next/link";
 import type * as React from "react";
 import {
@@ -24,8 +24,8 @@ export function AppSidebar({ children, ...props }: Props) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
               <Link href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-foreground">
+                  <Triangle />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Laundry App</span>

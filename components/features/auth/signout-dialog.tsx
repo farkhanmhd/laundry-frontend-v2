@@ -18,6 +18,7 @@ import { authClient } from "@/lib/auth-client";
 
 export const SignoutDialog = () => {
   const [open, setOpen] = useState(false);
+
   const { push } = useRouter();
 
   const onSignout = async () => {

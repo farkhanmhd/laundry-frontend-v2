@@ -13,7 +13,7 @@ import { useTable } from "./state"; // Your generic hook
 
 // 1. Define the shape of the context
 // We make it generic and use the precise types from your hook
-interface TableContextType<T> {
+interface TableContextType<T extends { id: string }> {
   table: Table<T>;
   globalFilter: string;
   // This type is inferred from useSearchQueryParams

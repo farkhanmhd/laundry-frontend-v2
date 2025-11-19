@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { PosOrder } from "@/components/features/pos/pos-order";
+import { MobilePosOrder } from "@/components/features/pos/mobile-pos-order";
 import { MobileNav } from "@/components/navigation/mobile-nav";
 import NavigationSidebar from "@/components/navigation/navigation-sidebar";
 import { SidebarErrorFallback } from "@/components/navigation/sidebar-error-fallback";
@@ -20,7 +20,7 @@ export default function EmployeeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider open={false}>
       <AppSidebar>
         <ErrorBoundary FallbackComponent={SidebarErrorFallback}>
           <Suspense fallback={<SidebarSkeleton />}>
@@ -35,7 +35,7 @@ export default function EmployeeLayout({
             {children}
           </ScrollArea>
         </SidebarContent>
-        <PosOrder />
+        <MobilePosOrder />
         <MobileNav />
       </SidebarInset>
     </SidebarProvider>

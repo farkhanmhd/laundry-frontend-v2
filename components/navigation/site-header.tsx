@@ -2,48 +2,27 @@
 
 import { Bell, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
 import { toast } from "sonner";
 import { usePosProducts } from "@/hooks/state";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useBreakpoint } from "@/hooks/use-breakpoints";
 import { superAdminNavData } from "@/lib/constants";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { SidebarTrigger } from "../ui/sidebar";
 import { Back } from "./back-button";
 import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
-  const isMobile = useIsMobile();
   const pathname = usePathname();
-  const { posProduct, setPosProduct } = usePosProducts();
+  const { posProduct, toggleCart, totalItems } = usePosProducts();
+  const isLarge = useBreakpoint(1024);
   const splittedPathname = pathname.split("/");
   const title = superAdminNavData.find(
     (item) => item.url.split("/")[1] === splittedPathname[1]
   )?.title;
 
-  const handleCartClick = () => {
-    setPosProduct({ ...posProduct, open: !posProduct.open });
-  };
-
-  const totalItems = useMemo(
-    () => posProduct.items.reduce((total, item) => total + item.quantity, 0),
-    [posProduct.items]
-  );
-
   return (
     <header className="b flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
       <div className="flex items-center gap-2">
-        {!isMobile && (
-          <div className="hidden items-center gap-2 md:flex">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              className="mr-2 data-[orientation=vertical]:h-4"
-              orientation="vertical"
-            />
-          </div>
-        )}
         {splittedPathname.length >= 3 ? (
           <Back />
         ) : (
@@ -60,18 +39,17 @@ export function SiteHeader() {
         >
           <Bell />
         </Button>
-        <Button
-          className="relative hidden w-9 rounded-full md:flex"
-          onClick={handleCartClick}
-          variant="ghost"
-        >
-          <ShoppingCart />
-          {posProduct.items.length > 0 && (
-            <Badge className="absolute top-0.5 right-[-0.5px] h-4 w-4 rounded-full p-0 text-[10px]">
-              {totalItems}
-            </Badge>
-          )}
-        </Button>
+        {!isLarge && (
+          <Button className="relative w-9" onClick={toggleCart} variant="ghost">
+            <ShoppingCart />
+            {posProduct.items.length > 0 && (
+              <Badge className="absolute top-0.5 right-[-0.5px] h-4 w-4 rounded-full p-0 text-[10px]">
+                {totalItems}
+              </Badge>
+            )}
+          </Button>
+        )}
+
         <ThemeToggle />
       </div>
     </header>

@@ -10,7 +10,10 @@ import { columns } from "../components/columns";
 const ProductsLayout = ({ children }: { children: React.ReactNode }) => (
   <TableProvider columns={columns}>
     <TableToolbar>
-      <Link className={cn(buttonVariants())} href="/vouchers/new">
+      <Link
+        className={cn(buttonVariants(), "rounded-none")}
+        href="/vouchers/new"
+      >
         <Plus />
         Voucher
       </Link>

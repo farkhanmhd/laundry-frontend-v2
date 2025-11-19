@@ -1,18 +1,18 @@
 "use client";
 
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { usePosProducts } from "@/hooks/state";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { PosOrderProducts } from "./pos-order-products";
 
 export const PosOrder = () => {
-  const { posProduct, close } = usePosProducts();
+  const isMobile = useIsMobile();
 
-  return (
-    <Sheet onOpenChange={close} open={posProduct.open}>
-      <SheetContent className="w-svw sm:max-w-md">
-        <SheetTitle className="hidden" />
+  if (!isMobile) {
+    return (
+      <div className="w-2xl border-l">
         <PosOrderProducts />
-      </SheetContent>
-    </Sheet>
-  );
+      </div>
+    );
+  }
+
+  return null;
 };

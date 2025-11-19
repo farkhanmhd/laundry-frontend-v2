@@ -100,10 +100,7 @@ export const columns: ColumnDef<Voucher>[] = [
       const active = row.original.isActive;
       return (
         <div className="min-w-max font-medium uppercase">
-          <Badge
-            className="rounded-none font-bold"
-            variant={active ? "default" : "outline"}
-          >
+          <Badge className="font-bold" variant={active ? "default" : "outline"}>
             {active ? "Active" : "Expired"}
           </Badge>
         </div>
@@ -117,10 +114,7 @@ export const columns: ColumnDef<Voucher>[] = [
       const active = row.original.isVisible;
       return (
         <div className="min-w-max font-medium uppercase">
-          <Badge
-            className="rounded-none font-bold"
-            variant={active ? "default" : "outline"}
-          >
+          <Badge className="font-bold" variant={active ? "default" : "outline"}>
             {active ? "Visible" : "Hidden"}
           </Badge>
         </div>

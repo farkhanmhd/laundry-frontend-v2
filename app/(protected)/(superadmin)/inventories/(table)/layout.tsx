@@ -10,7 +10,10 @@ import { columns } from "../components/columns";
 const InventoryLayout = ({ children }: { children: React.ReactNode }) => (
   <TableProvider columns={columns}>
     <TableToolbar>
-      <Link className={cn(buttonVariants())} href="/inventories/new">
+      <Link
+        className={cn(buttonVariants(), "rounded-none")}
+        href="/inventories/new"
+      >
         <Plus />
         Inventory
       </Link>

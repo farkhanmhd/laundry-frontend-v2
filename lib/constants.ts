@@ -1,5 +1,6 @@
 import {
   Archive,
+  Blocks,
   ChartNoAxesCombined,
   ClipboardClock,
   HandPlatter,
@@ -30,7 +31,7 @@ export const adminNavData: NavItem[] = [
     icon: ChartNoAxesCombined,
   },
   {
-    title: "Point of Sales",
+    title: "POS",
     url: "/pos",
     icon: Logs,
   },
@@ -72,6 +73,11 @@ export const superAdminNavData: NavItem[] = [
     title: "Vouchers",
     url: "/vouchers",
     icon: Ticket,
+  },
+  {
+    title: "Bundlings",
+    url: "/bundlings",
+    icon: Blocks,
   },
   {
     title: "Users",

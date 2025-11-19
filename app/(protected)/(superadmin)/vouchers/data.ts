@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
-import { getHeadersWithoutContentType } from "@/lib/auth-helpers";
+import { getHeadersWithoutContentType } from "@/lib/auth/auth-helpers";
 import type { AddVoucherBody, UpdateVoucherBody } from "./actions";
 
 /**

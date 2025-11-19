@@ -1,6 +1,7 @@
 import { Inventory } from "@/lib/features/inventories/data";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { useMemo } from "react";
 
 export interface PosProduct {
   quantity: number;
@@ -23,9 +24,14 @@ const posProductsAtom = atomWithStorage<PosProductState>(
 export const usePosProducts = () => {
   const [posProduct, setPosProduct] = useAtom(posProductsAtom);
 
-  const close = () => {
-    setPosProduct((prev) => ({ ...prev, open: false }));
+  const toggleCart = () => {
+    setPosProduct((prev) => ({ ...prev, open: !prev.open }));
   };
 
-  return { posProduct, setPosProduct, close };
+  const totalItems = useMemo(
+      () => posProduct.items.reduce((total, item) => total + item.quantity, 0),
+      [posProduct.items]
+    );
+
+  return { posProduct, setPosProduct, toggleCart, totalItems };
 };

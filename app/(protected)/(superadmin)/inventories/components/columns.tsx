@@ -128,7 +128,7 @@ export const columns: ColumnDef<Inventory>[] = [
       return (
         <div className="min-w-max font-medium uppercase">
           <Badge
-            className="rounded-none font-bold"
+            className="rounded-md font-bold"
             variant={stockStatus === "Shortage" ? "destructive" : "default"}
           >
             {stockStatus}

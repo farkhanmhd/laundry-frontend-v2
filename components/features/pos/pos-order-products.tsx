@@ -1,12 +1,12 @@
 "use client";
 
-import { Pencil } from "lucide-react";
 import Image from "next/image";
 import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Client } from "@/components/utils/client";
 import { type PosProduct, usePosProducts } from "@/hooks/state";
-import { MapItems } from "@/lib/utils";
+import { formatToIDR, MapItems } from "@/lib/utils";
 
 export function PosOrderProducts() {
   const { posProduct, setPosProduct } = usePosProducts();
@@ -75,7 +75,7 @@ export function PosOrderProducts() {
   return (
     <>
       <header className="z-50 flex h-20 items-center justify-center">
-        <span className="font-semibold text-lg">Order</span>
+        <span className="font-semibold text-lg">Cart</span>
       </header>
       <ScrollArea className="h-[calc(100dvh-80px-48px-200px)] flex-1">
         <ul className="flex flex-col divide-y divide-dashed divide-primary/20 px-4">
@@ -88,40 +88,39 @@ export function PosOrderProducts() {
               of={posProduct.items}
               render={(item, index) => (
                 <li
-                  className="flex w-full items-end justify-between py-4"
+                  className="flex w-full items-end gap-6 py-4"
                   key={`${item.product.id}-${index}`}
                 >
-                  <div className="flex h-full gap-4">
-                    <Image
-                      alt="Cart item"
-                      className="max-h-[100px] rounded-lg object-cover"
-                      height={100}
-                      src={item.product.image as string}
-                      width={150}
-                    />
+                  <Image
+                    alt="Cart item"
+                    className="max-h-[100px] rounded-lg object-cover"
+                    height={100}
+                    src={item.product.image as string}
+                    width={150}
+                  />
+                  <div className="flex w-full flex-col justify-between gap-3">
                     <div className="flex flex-col justify-between">
                       <div className="flex flex-col">
                         <span className="font-medium">{item.product.name}</span>
                         <span className="text-muted-foreground">
-                          {item.product.price}
+                          <Client>{formatToIDR(item.product.price)}</Client>
                         </span>
                       </div>
-                      <Button className="rounded-full" size="icon">
-                        <Pencil />
-                      </Button>
                     </div>
-                  </div>
-                  <div className="max-w-[120px]">
-                    <NumberInput
-                      onDecrement={() =>
-                        handleDecrementQuantity(item.product.id)
-                      }
-                      onIncrement={() =>
-                        handleIncrementQuantity(item.product.id)
-                      }
-                      onInputChange={(e) => handleInputChange(e, item)}
-                      value={item.quantity}
-                    />
+                    <div className="flex justify-end">
+                      <div className="w-30">
+                        <NumberInput
+                          onDecrement={() =>
+                            handleDecrementQuantity(item.product.id)
+                          }
+                          onIncrement={() =>
+                            handleIncrementQuantity(item.product.id)
+                          }
+                          onInputChange={(e) => handleInputChange(e, item)}
+                          value={item.quantity}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </li>
               )}
@@ -129,24 +128,26 @@ export function PosOrderProducts() {
           )}
         </ul>
       </ScrollArea>
-      <footer className="mt-auto flex flex-col gap-4 p-4">
+      <footer className="flex flex-col gap-4 p-4">
         <div className="flex items-center justify-between font-semibold text-lg">
           <span>Total</span>
-          <span>{total}</span>
+          <Client>
+            <span>{formatToIDR(total)}</span>
+          </Client>
         </div>
         <div className="flex gap-2">
-          <Button className="h-12 flex-1 rounded-full" variant="secondary">
+          <Button className="h-10 flex-1 rounded-full" variant="secondary">
             Add Promo or Voucher
           </Button>
           <Button
-            className="h-12 flex-1 rounded-full text-base"
+            className="h-10 flex-1 rounded-full text-base"
             variant="secondary"
           >
             Cash
           </Button>
         </div>
         <div>
-          <Button className="h-16 w-full text-lg">Place Order</Button>
+          <Button className="h-12 w-full text-lg">Place Order</Button>
         </div>
       </footer>
     </>

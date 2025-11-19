@@ -13,7 +13,7 @@ import {
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { FieldDescription } from "@/components/ui/field";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { cn } from "@/lib/utils";
 
 export function LoginForm({
@@ -52,7 +52,7 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col", className)} {...props}>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form
         className="flex flex-col gap-6"
         onSubmit={form.handleSubmit(onSubmit)}

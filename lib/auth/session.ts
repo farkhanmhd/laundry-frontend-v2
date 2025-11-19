@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { authClient } from "./auth-client";
 // import { getHeaders } from "./auth-helpers";
 
-export const getCachedSession = async () => {
+export const getSession = async () => {
   const { data: session } = await authClient.getSession({
     fetchOptions: {
       headers: await headers(),

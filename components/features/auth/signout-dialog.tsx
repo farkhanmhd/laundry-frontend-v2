@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 
 export const SignoutDialog = () => {
   const [open, setOpen] = useState(false);
@@ -33,9 +33,12 @@ export const SignoutDialog = () => {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <SidebarMenuButton>
+        <SidebarMenuButton
+          className="flex aspect-square items-center p-2 group-data-[collapsible=icon]:size-full! md:justify-center md:text-muted-foreground [&>svg]:size-5"
+          size="lg"
+        >
           <LogOut />
-          <span>Sign Out</span>
+          <span className="md:hidden">Sign Out</span>
         </SidebarMenuButton>
       </AlertDialogTrigger>
       <AlertDialogContent className="z-200">

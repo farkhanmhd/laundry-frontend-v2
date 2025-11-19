@@ -40,7 +40,7 @@ export function AppSidebar({ children, ...props }: Props) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-        <ScrollArea className="h-full [&>div>div]:h-full">
+        <ScrollArea className="h-full max-h-[calc(100dvh-160px)] [&>div>div]:h-full">
           {children}
         </ScrollArea>
         <SidebarFooter>

@@ -118,7 +118,7 @@ export default function OrderDetailPage() {
             <p className="mt-2 text-muted-foreground">
               The order you're looking for doesn't exist.
             </p>
-            <Link href="/my-orders">
+            <Link href="/customer/my-orders">
               <Button className="mt-4 bg-transparent" variant="outline">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Orders
@@ -142,7 +142,7 @@ export default function OrderDetailPage() {
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/my-orders">
+          <Link href="/customer/my-orders">
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Orders
@@ -288,7 +288,7 @@ export default function OrderDetailPage() {
                 {order.paymentStatus === "pending" && (
                   <Link
                     className="w-full"
-                    href={`/my-orders/${orderId}/payment`}
+                    href={`/customer/my-orders/${orderId}/payment`}
                   >
                     <Button className="w-full">Pay Now</Button>
                   </Link>

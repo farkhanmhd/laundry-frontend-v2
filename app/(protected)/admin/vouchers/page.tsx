@@ -12,10 +12,7 @@ import { mockVouchers } from "./data";
 const VouchersPage = () => (
   <TableProvider columns={vouchersColumns}>
     <TableToolbar>
-      <Link
-        className={cn(buttonVariants(), "rounded-none")}
-        href="/admin/vouchers/new"
-      >
+      <Link className={cn(buttonVariants(), "rounded-none")} href="#">
         <Plus className="h-4 w-4" />
         Voucher
       </Link>

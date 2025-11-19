@@ -14,7 +14,7 @@ const MyOrdersPage = () => (
     <TableToolbar searchPlaceholder="Search your orders...">
       <Link
         className={cn(buttonVariants(), "rounded-none")}
-        href="/my-orders/new"
+        href="/customer/my-orders/new"
       >
         <Plus className="h-4 w-4" />
         New Order

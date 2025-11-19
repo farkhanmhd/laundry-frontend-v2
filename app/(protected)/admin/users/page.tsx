@@ -12,10 +12,7 @@ import { mockUsers } from "./data";
 const UsersPage = () => (
   <TableProvider columns={usersColumns}>
     <TableToolbar>
-      <Link
-        className={cn(buttonVariants(), "rounded-none")}
-        href="/admin/users/new"
-      >
+      <Link className={cn(buttonVariants(), "rounded-none")} href="#">
         <Plus className="h-4 w-4" />
         User
       </Link>

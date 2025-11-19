@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_API_URL}/uploads/**`)],
   },
-  typedRoutes: true,
   experimental: {
+    useCache: true,
     serverActions: {
       bodySizeLimit: "10mb",
     },

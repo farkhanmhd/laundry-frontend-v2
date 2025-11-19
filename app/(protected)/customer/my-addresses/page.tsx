@@ -40,7 +40,7 @@ export default function MyAddressesPage() {
               Manage your delivery addresses
             </p>
           </div>
-          <Link href="/my-addresses/new">
+          <Link href="/customer/my-addresses/new">
             <Button>
               <Plus className="mr-2 h-4 w-4" />
               Add New Address
@@ -65,7 +65,7 @@ export default function MyAddressesPage() {
                   [Map Preview]
                 </div>
                 <div className="flex gap-2">
-                  <Link className="flex-1" href={`/my-addresses/${addr.id}`}>
+                  <Link className="flex-1" href="/customer/my-addresses">
                     <Button className="w-full bg-transparent" variant="outline">
                       Edit
                     </Button>

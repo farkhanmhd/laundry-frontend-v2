@@ -14,7 +14,7 @@ const InventoriesPage = () => (
     <TableToolbar>
       <Link
         className={cn(buttonVariants(), "rounded-none")}
-        href="/admin/inventories/new"
+        href="/inventories/new"
       >
         <Plus className="h-4 w-4" />
         Inventory

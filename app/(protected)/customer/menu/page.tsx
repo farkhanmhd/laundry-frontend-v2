@@ -183,7 +183,7 @@ function MenuItem({ item }: { item: MenuItem }) {
           <div className="font-bold text-2xl">
             Rp {new Intl.NumberFormat("id-ID").format(item.price)}
           </div>
-          <Link href={`/my-orders/new?service=${item.id}`}>
+          <Link href="#">
             <Button size="sm">
               <ShoppingCart className="h-4 w-4" />
             </Button>

@@ -14,7 +14,7 @@ const PickupsPage = () => (
     <TableToolbar>
       <Link
         className={cn(buttonVariants(), "rounded-none")}
-        href="/admin/pickups/new"
+        href="/admin/pickups"
       >
         <Plus className="h-4 w-4" />
         Pickup

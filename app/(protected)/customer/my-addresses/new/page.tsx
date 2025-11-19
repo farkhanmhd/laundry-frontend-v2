@@ -25,7 +25,7 @@ export default function NewAddressPage() {
     setIsSaving(true);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    router.push("/my-addresses");
+    router.push("/customer/my-addresses");
   };
 
   return (
@@ -33,7 +33,7 @@ export default function NewAddressPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/my-addresses">
+          <Link href="/customer/my-addresses">
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Addresses
@@ -115,7 +115,7 @@ export default function NewAddressPage() {
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Link className="flex-1" href="/my-addresses">
+            <Link className="flex-1" href="/customer/my-addresses">
               <Button className="w-full bg-transparent" variant="outline">
                 Cancel
               </Button>

@@ -22,7 +22,7 @@ export const customerOrdersColumns: ColumnDef<CustomerOrder>[] = [
     cell: ({ row }) => (
       <Link
         className="font-medium font-mono text-primary hover:underline"
-        href={`/my-orders/${row.getValue("id")}`}
+        href={`/customer/my-orders/${row.getValue("id")}`}
       >
         {row.getValue("id")}
       </Link>

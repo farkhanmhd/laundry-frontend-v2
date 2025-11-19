@@ -37,22 +37,22 @@ export const adminNavData: NavItem[] = [
   },
   {
     title: "Orders",
-    url: "/orders",
+    url: "#",
     icon: ListTodo,
   },
   {
     title: "Pick Ups",
-    url: "/pickups",
+    url: "#",
     icon: Package,
   },
   {
     title: "Members",
-    url: "/members",
+    url: "#",
     icon: Users,
   },
   {
     title: "Shifts",
-    url: "/shifts",
+    url: "#",
     icon: ClipboardClock,
   },
 ];
@@ -76,12 +76,12 @@ export const superAdminNavData: NavItem[] = [
   },
   {
     title: "Bundlings",
-    url: "/bundlings",
+    url: "#",
     icon: Blocks,
   },
   {
     title: "Users",
-    url: "/users",
+    url: "#",
     icon: ShieldUser,
   },
 ];
@@ -94,42 +94,42 @@ export const customerNavData: NavItem[] = [
   },
   {
     title: "Services", // Based on the 'services' table
-    url: "/services",
+    url: "#",
     icon: HandPlatter,
   },
   {
     title: "Products", // Based on the 'inventories' table
-    url: "/products",
+    url: "#",
     icon: ShoppingBag,
   },
   {
     title: "Bundles", // Based on the 'bundlings' table
-    url: "/bundles",
+    url: "#",
     icon: Archive,
   },
   {
     title: "My Orders", // Based on the 'orders' table
-    url: "/orders",
+    url: "#",
     icon: ListTodo,
   },
   {
     title: "My Deliveries", // Based on the 'deliveries' table
-    url: "/deliveries",
+    url: "#",
     icon: Truck,
   },
   {
     title: "Vouchers", // Based on the 'vouchers' table and 'members' table (points)
-    url: "/vouchers",
+    url: "#",
     icon: Ticket,
   },
   {
     title: "My Profile", // Based on the 'user' table
-    url: "/profile",
+    url: "#",
     icon: User,
   },
   {
     title: "My Addresses", // Based on the 'addresses' table
-    url: "/addresses",
+    url: "#",
     icon: MapPin,
   },
 ];

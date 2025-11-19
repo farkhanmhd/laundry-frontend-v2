@@ -86,7 +86,7 @@ export default function NewOrderPage() {
     setIsSubmitting(true);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    router.push("/my-orders");
+    router.push("/customer/my-orders");
   };
 
   return (
@@ -94,7 +94,7 @@ export default function NewOrderPage() {
       <div className="mx-auto max-w-3xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/my-orders">
+          <Link href="/customer/my-orders">
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Orders
@@ -240,7 +240,7 @@ export default function NewOrderPage() {
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Link className="flex-1" href="/my-orders">
+            <Link className="flex-1" href="/customer/my-orders">
               <Button className="w-full bg-transparent" variant="outline">
                 Cancel
               </Button>

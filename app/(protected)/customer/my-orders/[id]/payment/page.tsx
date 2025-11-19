@@ -51,7 +51,7 @@ export default function PaymentPage() {
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
     // Redirect to order detail page
-    router.push(`/my-orders/${orderId}`);
+    router.push(`/customer/my-orders/${orderId}`);
   };
 
   return (
@@ -59,7 +59,7 @@ export default function PaymentPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href={`/my-orders/${orderId}`}>
+          <Link href={`/customer/my-orders/${orderId}`}>
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Order
@@ -163,7 +163,7 @@ export default function PaymentPage() {
 
             {/* Action Buttons */}
             <div className="mt-8 flex gap-3">
-              <Link className="flex-1" href={`/my-orders/${orderId}`}>
+              <Link className="flex-1" href={`/customer/my-orders/${orderId}`}>
                 <Button className="w-full bg-transparent" variant="outline">
                   Cancel
                 </Button>

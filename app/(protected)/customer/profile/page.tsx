@@ -68,7 +68,7 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/my-orders">
+          <Link href="/customer/my-orders">
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
@@ -189,7 +189,7 @@ export default function ProfilePage() {
               <CardTitle>Saved Addresses</CardTitle>
               <CardDescription>Manage your delivery addresses</CardDescription>
             </div>
-            <Link href="/my-addresses/new">
+            <Link href="/customer/my-addresses/new">
               <Button size="sm">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Address

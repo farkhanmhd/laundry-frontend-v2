@@ -23,7 +23,7 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     cell: ({ row }) => (
       <Link
         className="font-medium font-mono text-primary hover:underline"
-        href={`/my-deliveries/${row.getValue("id")}`}
+        href="/customer/my-deliveries"
       >
         {row.getValue("id")}
       </Link>
@@ -37,7 +37,7 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     cell: ({ row }) => (
       <Link
         className="font-mono text-primary text-sm hover:underline"
-        href={`/my-orders/${row.getValue("orderId")}`}
+        href={`/customer/my-orders/${row.getValue("orderId")}`}
       >
         {row.getValue("orderId")}
       </Link>

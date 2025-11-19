@@ -82,7 +82,7 @@ export default function CustomerDashboard() {
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Link href="/menu">
+              <Link href="/customer/menu">
                 <Button
                   className="w-full justify-start bg-transparent"
                   variant="outline"
@@ -91,7 +91,7 @@ export default function CustomerDashboard() {
                   New Order
                 </Button>
               </Link>
-              <Link href="/my-orders">
+              <Link href="/customer/my-orders">
                 <Button
                   className="w-full justify-start bg-transparent"
                   variant="outline"
@@ -100,7 +100,7 @@ export default function CustomerDashboard() {
                   View My Orders
                 </Button>
               </Link>
-              <Link href="/my-deliveries">
+              <Link href="/customer/my-deliveries">
                 <Button
                   className="w-full justify-start bg-transparent"
                   variant="outline"
@@ -109,7 +109,7 @@ export default function CustomerDashboard() {
                   Track Deliveries
                 </Button>
               </Link>
-              <Link href="/loyalty">
+              <Link href="/customer/loyalty">
                 <Button
                   className="w-full justify-start bg-transparent"
                   variant="outline"
@@ -136,7 +136,7 @@ export default function CustomerDashboard() {
                 <p className="text-muted-foreground text-sm">Member ID</p>
                 <p className="font-medium font-mono">c-001</p>
               </div>
-              <Link href="/profile">
+              <Link href="/customer/profile">
                 <Button className="w-full bg-transparent" variant="outline">
                   Edit Profile
                 </Button>
@@ -155,7 +155,7 @@ export default function CustomerDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {recentOrders.map((order) => (
-                  <Link href={`/my-orders/${order.id}`} key={order.id}>
+                  <Link href={`/customer/my-orders/${order.id}`} key={order.id}>
                     <div className="flex cursor-pointer items-center justify-between rounded-lg border p-3 transition hover:bg-accent">
                       <div>
                         <p className="font-medium font-mono text-sm">
@@ -185,7 +185,7 @@ export default function CustomerDashboard() {
                   </Link>
                 ))}
               </div>
-              <Link className="mt-4 block" href="/my-orders">
+              <Link className="mt-4 block" href="/customer/my-orders">
                 <Button className="w-full bg-transparent" variant="outline">
                   View All Orders
                 </Button>
@@ -203,10 +203,7 @@ export default function CustomerDashboard() {
               <div className="space-y-4">
                 {activeDeliveries.length > 0 ? (
                   activeDeliveries.map((delivery) => (
-                    <Link
-                      href={`/my-deliveries/${delivery.id}`}
-                      key={delivery.id}
-                    >
+                    <Link href="#" key={delivery.id}>
                       <div className="flex cursor-pointer items-center justify-between rounded-lg border p-3 transition hover:bg-accent">
                         <div>
                           <p className="font-medium font-mono text-sm">
@@ -236,7 +233,7 @@ export default function CustomerDashboard() {
                   </p>
                 )}
               </div>
-              <Link className="mt-4 block" href="/my-deliveries">
+              <Link className="mt-4 block" href="/customer/my-deliveries">
                 <Button className="w-full bg-transparent" variant="outline">
                   View All Deliveries
                 </Button>

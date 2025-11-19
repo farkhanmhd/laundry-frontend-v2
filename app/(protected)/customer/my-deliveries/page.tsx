@@ -14,7 +14,7 @@ const MyDeliveriesPage = () => (
     <TableToolbar searchPlaceholder="Search deliveries...">
       <Link
         className={cn(buttonVariants(), "rounded-none")}
-        href="/my-deliveries/new"
+        href="/customer/my-deliveries/new"
       >
         <Plus className="h-4 w-4" />
         Request Delivery

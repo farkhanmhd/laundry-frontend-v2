@@ -4,6 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import Image from "next/image";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
+import { formatToIDR } from "@/lib/utils";
 // import { formatCurrency } from "@/lib/utils";
 import type { ServiceData } from "../data";
 
@@ -56,7 +57,7 @@ export const columns: ColumnDef<ServiceData>[] = [
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {row.getValue("price")}
+        {formatToIDR(row.getValue("price"))}
       </div>
     ),
   },

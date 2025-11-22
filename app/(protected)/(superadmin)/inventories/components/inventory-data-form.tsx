@@ -3,21 +3,33 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
+import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { updateInventoryAction } from "../actions";
-import { type UpdateInventorySchema, updateInventorySchema } from "../schema";
+import {
+  type UpdateInventorySchema,
+  units,
+  updateInventorySchema,
+} from "../schema";
 
 export const InventoryDataForm = ({
   id,
   name,
   description,
   price,
+  unit,
   safetyStock,
 }: UpdateInventorySchema) => {
-  // 🔹 local edit mode toggle
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -31,6 +43,7 @@ export const InventoryDataForm = ({
           description,
           price,
           safetyStock,
+          unit,
           id,
         },
       },
@@ -51,14 +64,16 @@ export const InventoryDataForm = ({
       id,
       name: form.getValues("name"),
       description: form.getValues("description"),
+      unit: form.getValues("unit"),
       price: Number(form.getValues("price")),
       safetyStock: Number(form.getValues("safetyStock")),
     };
+
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({ name, description, price, safetyStock }); // reset to original data
+    form.reset({ name, description, price, safetyStock });
     setIsEditing(false);
   };
 
@@ -97,14 +112,40 @@ export const InventoryDataForm = ({
           name="price"
           placeholder="10000"
         />
-        <FormInput
-          defaultValue={safetyStock}
-          disabled={!isEditing || action.isPending}
-          form={form}
-          label="Safety Stock of Inventory"
-          name="safetyStock"
-          placeholder="Safety Stock"
-        />
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormInput
+            defaultValue={safetyStock}
+            disabled={!isEditing || action.isPending}
+            form={form}
+            label="Safety Stock of Inventory"
+            name="safetyStock"
+            placeholder="Safety Stock"
+          />
+          <FieldGroup>
+            <Controller
+              control={form.control}
+              name="unit"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-base" htmlFor={field.name}>
+                    Unit
+                  </FieldLabel>
+                  <FormSelect
+                    aria-invalid={fieldState.invalid}
+                    disabled={!isEditing || action.isPending}
+                    id={field.name}
+                    onValueChange={field.onChange}
+                    options={units}
+                    value={field.value}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+        </div>
 
         <div className="flex justify-end gap-3">
           {isEditing ? (

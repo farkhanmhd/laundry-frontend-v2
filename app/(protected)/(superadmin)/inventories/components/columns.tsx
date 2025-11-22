@@ -8,7 +8,7 @@ import { DataTableColumnHeader } from "@/components/table/data-table-column-head
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import { cn, formatToIDR } from "@/lib/utils";
 import type { Inventory } from "../data";
 
 export const columns: ColumnDef<Inventory>[] = [
@@ -90,7 +90,7 @@ export const columns: ColumnDef<Inventory>[] = [
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {row.getValue("price")}
+        {formatToIDR(row.getValue("price"))}
       </div>
     ),
   },
@@ -113,6 +113,17 @@ export const columns: ColumnDef<Inventory>[] = [
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium uppercase">
         {row.getValue("safetyStock")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "unit",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Unit" />
+    ),
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max font-medium capitalize">
+        {row.getValue("unit")}
       </div>
     ),
   },

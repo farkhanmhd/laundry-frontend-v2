@@ -1,5 +1,3 @@
-"use client";
-
 import type { Table } from "@tanstack/react-table";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -26,7 +24,7 @@ export const DataTableSearch = <TData,>({
   };
   return (
     <div className="flex w-full items-center gap-2 px-0 md:px-3">
-      <Search className="hidden size-5 text-muted-foreground/60 md:block dark:text-muted" />
+      <Search className="hidden size-5 text-muted-foreground md:block" />
       <Input
         className={cn("bg-background", className)}
         onChange={(e) => handleTableSearchChange(e.target.value)}

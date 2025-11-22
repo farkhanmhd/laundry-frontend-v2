@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
 import { getHeadersWithoutContentType } from "@/lib/auth/auth-helpers";
-import type { AddInventorySchema } from "./schema";
 
 export const getInventories = async () => {
   const { data: response } = await elysia.inventories.get({
@@ -31,7 +30,9 @@ export type Inventory = NonNullable<
   Awaited<ReturnType<typeof getInventoryById>>
 >;
 
-export const addInventory = async (body: AddInventorySchema) => {
+type AddInventoryBody = Parameters<typeof elysia.inventories.post>[0];
+
+export const addInventory = async (body: AddInventoryBody) => {
   const result = await elysia.inventories.post(body, {
     fetch: {
       headers: await getHeadersWithoutContentType(),

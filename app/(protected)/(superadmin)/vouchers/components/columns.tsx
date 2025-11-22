@@ -4,10 +4,33 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
-// import { formatCurrency } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { formatToIDR } from "@/lib/utils";
 import type { Voucher } from "../data";
 
 export const columns: ColumnDef<Voucher>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        aria-label="Select all"
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        aria-label="Select row"
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "id",
     header: ({ column }) => (
@@ -48,7 +71,7 @@ export const columns: ColumnDef<Voucher>[] = [
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {row.getValue("discountAmount")}
+        {formatToIDR(row.getValue("discountAmount"))}
       </div>
     ),
   },

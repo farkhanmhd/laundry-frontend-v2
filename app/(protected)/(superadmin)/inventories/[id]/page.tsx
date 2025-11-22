@@ -2,7 +2,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { ImageForm } from "../components/image-form";
 import { InventoryDataForm } from "../components/inventory-data-form";
 import { StockAdjustmentForm } from "../components/stock-adjustment-form";
-import { getInventoryById } from "../data";
+import { getInventoryById, type Inventory } from "../data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -10,7 +10,7 @@ type Props = {
 
 const InventoryDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const inventory = await getInventoryById(id);
+  const inventory = (await getInventoryById(id)) as Inventory;
   return (
     <>
       <TabsContent
@@ -19,11 +19,12 @@ const InventoryDetailPage = async ({ params }: Props) => {
         value="inventory"
       >
         <InventoryDataForm
-          description={inventory?.description as string}
+          description={inventory.description}
           id={id}
-          name={inventory?.name as string}
-          price={inventory?.price as number}
-          safetyStock={inventory?.safetyStock as number}
+          name={inventory.name}
+          price={inventory.price}
+          safetyStock={inventory.safetyStock}
+          unit={inventory.unit}
         />
       </TabsContent>
       <TabsContent
@@ -31,10 +32,7 @@ const InventoryDetailPage = async ({ params }: Props) => {
         forceMount
         value="image"
       >
-        <ImageForm
-          id={inventory?.id as string}
-          src={inventory?.image as string}
-        />
+        <ImageForm id={inventory.id} src={inventory.image as string} />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
@@ -42,8 +40,8 @@ const InventoryDetailPage = async ({ params }: Props) => {
         value="stock"
       >
         <StockAdjustmentForm
-          currentQuantity={inventory?.stock as number}
-          id={inventory?.id as string}
+          currentQuantity={inventory.stock}
+          id={inventory.id}
         />
       </TabsContent>
     </>

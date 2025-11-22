@@ -1,11 +1,40 @@
 import { z } from "zod";
+import type { SelectOption } from "@/components/forms/form-select";
 import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
+
+export const units: SelectOption[] = [
+  {
+    label: "Pieces",
+    value: "pieces",
+  },
+  {
+    label: "Kilogram",
+    value: "kilogram",
+  },
+  {
+    label: "gram",
+    value: "gram",
+  },
+  {
+    label: "litre",
+    value: "litre",
+  },
+  {
+    label: "milliliter",
+    value: "milliliter",
+  },
+];
+
+const unitEnum = z.enum(["kilogram", "gram", "litre", "milliliter", "pieces"], {
+  error: "Invalid option",
+});
 
 export const addInventorySchema = z.object({
   name: z.string().min(1, "Inventory name is required"),
-  description: z.string().min(1, "Inventory name is required"),
   image: imageSchema,
+  description: z.string().min(1, "Inventory name is required"),
   price: positiveIntNoLeadingZero,
+  unit: unitEnum,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
 });
@@ -20,6 +49,7 @@ export const updateInventorySchema = z.object({
   id: z.string().min(1, "Inventory id cannot be empty"),
   name: z.string().min(1, "Inventory name cannot be empty"),
   description: z.string().min(1, "Inventory description is required"),
+  unit: unitEnum,
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
 });

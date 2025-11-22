@@ -26,7 +26,7 @@ export function SiteHeader() {
         {splittedPathname.length >= 3 ? (
           <Back />
         ) : (
-          <h1 className="font-medium text-base">{title}</h1>
+          <h1 className="font-medium">{title}</h1>
         )}
       </div>
       <div className="flex items-center gap-2">

@@ -51,8 +51,11 @@ export function PosProductCard({ product }: Props) {
   return (
     <Card
       aria-roledescription="button"
-      className="h-full cursor-pointer overflow-hidden rounded-sm p-0 shadow-none duration-200 hover:shadow-card active:bg-card-foreground/10"
+      className="h-full cursor-pointer overflow-hidden rounded-sm p-0 duration-200 hover:shadow-card active:bg-card-foreground/10"
       onClick={handleAddToOrder}
+      style={{
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      }}
     >
       <CardContent className="flex flex-1 flex-col justify-between px-0">
         <Image

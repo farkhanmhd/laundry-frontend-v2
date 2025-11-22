@@ -10,12 +10,12 @@ const PosLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex">
-      <section className="w-full space-y-3 p-3">
+      <section className="w-full space-y-4 p-4">
         <Input
           className="border bg-background px-6 md:h-12 md:text-base"
           placeholder="Search Items or Services"
         />
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3">
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-4">
           {children}
         </ul>
       </section>

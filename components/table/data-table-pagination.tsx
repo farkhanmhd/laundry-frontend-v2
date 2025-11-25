@@ -49,7 +49,6 @@ export function DataTablePagination<TData>({
             onValueChange={(value) => {
               table.setPageSize(Number(value));
               table.setPageIndex(0);
-
               if (value === "50") {
                 removeQuery("rows");
               } else {

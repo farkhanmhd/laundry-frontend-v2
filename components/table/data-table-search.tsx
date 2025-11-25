@@ -1,7 +1,9 @@
 import type { Table } from "@tanstack/react-table";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useSearchQuery } from "@/hooks/use-search-query";
 import { cn } from "@/lib/utils";
+import { useTableContext } from "./context";
 
 type Props<TData> = {
   value: string;
@@ -18,9 +20,17 @@ export const DataTableSearch = <TData,>({
   table,
   className,
 }: Props<TData>) => {
+  const { updateSearchQuery } = useSearchQuery();
+  const { setGlobalFilter, isManualPagination } = useTableContext();
+
   const handleTableSearchChange = (searchQuery: string) => {
-    onChange(searchQuery);
-    table.firstPage();
+    if (isManualPagination) {
+      setGlobalFilter(searchQuery);
+      updateSearchQuery(searchQuery);
+    } else {
+      onChange(searchQuery);
+      table.firstPage();
+    }
   };
   return (
     <div className="flex w-full items-center gap-2 px-0 md:px-3">

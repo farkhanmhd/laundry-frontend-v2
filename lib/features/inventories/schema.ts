@@ -1,10 +1,19 @@
 import { z } from "zod";
 import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
+const unitSchema = z.enum([
+  "pieces",
+  "kilogram",
+  "gram",
+  "litre",
+  "milliliter",
+]);
+
 export const addInventorySchema = z.object({
   name: z.string().min(1, "Inventory name is required"),
   description: z.string().min(1, "Inventory name is required"),
   image: imageSchema,
+  unit: unitSchema,
   price: positiveIntNoLeadingZero,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
@@ -22,6 +31,7 @@ export const updateInventorySchema = z.object({
   description: z.string().min(1, "Inventory description is required"),
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
+  unit: unitSchema,
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({

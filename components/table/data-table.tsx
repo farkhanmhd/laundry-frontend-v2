@@ -27,7 +27,12 @@ const DataTable = <TData, TValue>({
   selectableRows = false,
   className,
 }: Props<TData, TValue>) => (
-  <ScrollArea className={cn("relative border-y [&>div>div]:h-full", className)}>
+  <ScrollArea
+    className={cn(
+      "h-[calc(100dvh-200px)] max-w-svw md:h-[calc(100dvh-136px)]",
+      className
+    )}
+  >
     <Table>
       <TableHeader className="sticky top-0 z-50 bg-background">
         {table.getHeaderGroups().map((headerGroup) => (

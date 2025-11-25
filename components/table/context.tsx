@@ -23,6 +23,8 @@ interface TableContextType<T extends { id: string }> {
   ) => Promise<URLSearchParams>;
   // This type is from useState
   setInternalData: Dispatch<SetStateAction<T[]>>;
+  setTotalRow: Dispatch<SetStateAction<number | undefined>>;
+  isManualPagination: boolean;
   columns: ColumnDef<T, unknown>[];
 }
 
@@ -35,15 +37,25 @@ const TableContext = createContext<unknown | undefined>(undefined);
 interface TableProviderProps<T extends { id: string }> {
   children: ReactNode;
   columns: ColumnDef<T, unknown>[];
+  manualPagination?: boolean;
 }
 
 export function TableProvider<T extends { id: string }>({
   children,
   columns,
+  manualPagination = false,
 }: TableProviderProps<T>) {
   // This hook is generic and correctly infers 'T'
-  const { table, globalFilter, setGlobalFilter, setInternalData } = useTable({
+  const {
+    table,
+    globalFilter,
+    setGlobalFilter,
+    setInternalData,
+    setTotalRow,
+    isManualPagination,
+  } = useTable({
     columns,
+    manualPagination,
   });
 
   // 'value' has the specific type: TableContextType<T>
@@ -53,6 +65,8 @@ export function TableProvider<T extends { id: string }>({
     setGlobalFilter,
     columns,
     setInternalData,
+    setTotalRow,
+    isManualPagination,
   };
 
   // This works because any specific type (TableContextType<T>)

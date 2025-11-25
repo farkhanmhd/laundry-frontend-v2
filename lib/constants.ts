@@ -47,7 +47,7 @@ export const adminNavData: NavItem[] = [
   },
   {
     title: "Members",
-    url: "#",
+    url: "/members",
     icon: Users,
   },
   {

@@ -29,12 +29,12 @@ const DataTable = <TData, TValue>({
 }: Props<TData, TValue>) => (
   <ScrollArea
     className={cn(
-      "h-[calc(100dvh-200px)] max-w-svw md:h-[calc(100dvh-136px)]",
+      "h-[calc(100dvh-200px)] max-w-svw border-y md:h-[calc(100dvh-136px)]",
       className
     )}
   >
     <Table>
-      <TableHeader className="sticky top-0 z-50 bg-background">
+      <TableHeader className="sticky top-0 z-49 bg-background">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (

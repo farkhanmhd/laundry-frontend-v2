@@ -32,6 +32,9 @@
       "style": {
         "noMagicNumbers": "off",
         "useConsistentTypeDefinitions": "off"
+      },
+      "nursery": {
+        "noLeakedRender": "off"
       }
     },
     "domains": {

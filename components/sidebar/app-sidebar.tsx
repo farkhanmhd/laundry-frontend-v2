@@ -19,7 +19,7 @@ type Props = React.ComponentPropsWithoutRef<typeof Sidebar>;
 export function AppSidebar({ children, ...props }: Props) {
   return (
     <Sidebar
-      className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
+      className="z-50 overflow-hidden *:data-[sidebar=sidebar]:flex-row"
       collapsible="icon"
       {...props}
     >
@@ -40,7 +40,7 @@ export function AppSidebar({ children, ...props }: Props) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-        <ScrollArea className="h-full max-h-[calc(100dvh-160px)] [&>div>div]:h-full">
+        <ScrollArea className="h-full max-h-[calc(100dvh-112px)] md:max-h-[calc(100dvh-160px)] [&>div>div]:h-full">
           {children}
         </ScrollArea>
         <SidebarFooter>

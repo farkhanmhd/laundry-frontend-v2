@@ -76,7 +76,7 @@ export const superAdminNavData: NavItem[] = [
   },
   {
     title: "Bundlings",
-    url: "#",
+    url: "/bundlings",
     icon: Blocks,
   },
   {

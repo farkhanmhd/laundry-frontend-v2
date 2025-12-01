@@ -2,21 +2,15 @@
 
 import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
-import { addService, deleteService } from "./data";
-import {
-  type AddServiceSchema,
-  addServiceSchema,
-  deleteServiceSchema,
-  // type UpdateServiceBody,
-  // updateServiceSchema,
-} from "./schema";
+import { addMember } from "./data";
+import { addMemberSchema } from "./schema";
 
 export type AddServiceBody = Parameters<typeof elysia.services.post>[0];
 
-export const addServiceAction = actionClient
-  .inputSchema(addServiceSchema)
+export const addMemberAction = actionClient
+  .inputSchema(addMemberSchema)
   .action(async ({ parsedInput }) => {
-    const result = await addService(parsedInput as AddServiceSchema);
+    const result = await addMember(parsedInput);
 
     if (!result) {
       return {
@@ -35,61 +29,7 @@ export const addServiceAction = actionClient
     if (result.data) {
       return {
         status: "success",
-        message: "New Service added",
+        message: "New Member added",
       };
     }
   });
-
-export const deleteServiceAction = actionClient
-  .inputSchema(deleteServiceSchema)
-  .action(async ({ parsedInput }) => {
-    const result = await deleteService(parsedInput.id);
-
-    if (!result) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
-    }
-
-    if (result.status !== 200) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
-    }
-
-    return {
-      status: "success",
-      message: result.data?.message,
-    };
-  });
-
-// const errorResult = {
-//   status: "error",
-//   message: "Something went wrong",
-// };
-
-// export const updateServiceAction = actionClient
-//   .inputSchema(updateServiceSchema)
-//   .action(async ({ parsedInput }) => {
-//     const { id, name, price, image } = parsedInput;
-
-//     const data: UpdateServiceBody = {
-//       name,
-//       price,
-//       image,
-//     };
-
-//     const result = await updateService(id, data);
-
-//     if (!result || result.error) {
-//       return errorResult;
-//     }
-
-//     revalidatePath("/services");
-//     return {
-//       status: "success",
-//       message: "Service updated",
-//     };
-//   });

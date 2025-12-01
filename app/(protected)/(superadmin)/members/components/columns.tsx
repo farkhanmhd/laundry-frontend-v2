@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import type { Member } from "../data";
 
 export const columns: ColumnDef<Member>[] = [
@@ -37,6 +38,15 @@ export const columns: ColumnDef<Member>[] = [
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
         {row.getValue("points")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Join Date",
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max font-medium">
+        {format(row.getValue("createdAt"), "dd MMM yyyy")}
       </div>
     ),
   },

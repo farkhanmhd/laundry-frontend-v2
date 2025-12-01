@@ -3,38 +3,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
-import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { updateInventoryAction } from "../actions";
-import {
-  type UpdateInventorySchema,
-  units,
-  updateInventorySchema,
-} from "../schema";
+import { updateBundlingAction } from "../actions";
+import { type UpdateBundlingSchema, updateBundlingSchema } from "../schema";
 
-export const InventoryDataForm = ({
+export const BundlingDataForm = ({
   id,
   name,
   description,
   price,
-  unit,
-  safetyStock,
-}: UpdateInventorySchema) => {
+  isActive,
+}: UpdateBundlingSchema) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
-    updateInventoryAction,
-    zodResolver(updateInventorySchema),
+    updateBundlingAction,
+    zodResolver(updateBundlingSchema),
     {
       formProps: {
         mode: "onChange",
@@ -42,9 +30,8 @@ export const InventoryDataForm = ({
           name,
           description,
           price,
-          safetyStock,
-          unit,
           id,
+          isActive,
         },
       },
       actionProps: {
@@ -60,20 +47,19 @@ export const InventoryDataForm = ({
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formData: UpdateInventorySchema = {
+    const formData: UpdateBundlingSchema = {
       id,
       name: form.getValues("name"),
       description: form.getValues("description"),
-      unit: form.getValues("unit"),
       price: Number(form.getValues("price")),
-      safetyStock: Number(form.getValues("safetyStock")),
+      isActive: form.getValues("isActive"),
     };
 
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({ name, description, price, safetyStock });
+    form.reset({ name, description, price, isActive });
     setIsEditing(false);
   };
 
@@ -82,8 +68,8 @@ export const InventoryDataForm = ({
       <div>
         <h2 className="font-semibold text-xl">Inventory Data</h2>
         <p className="text-muted-foreground text-sm">
-          Review and modify key Inventory details such as name, description,
-          price, and reorder point.
+          Review and modify key Bundling details such as name, description,
+          price.
         </p>
       </div>
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
@@ -91,16 +77,16 @@ export const InventoryDataForm = ({
           defaultValue={name}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Name"
+          label="Bundling Name"
           name="name"
-          placeholder="Sabun Cair"
+          placeholder="Paket Cuci Kering Lipat"
         />
         <FormInput
           as={Textarea}
           defaultValue={description}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Description"
+          label="Bundling Description"
           name="description"
           placeholder="Inventory description"
         />
@@ -109,44 +95,20 @@ export const InventoryDataForm = ({
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Price (IDR)"
+          label="Bundling Price (IDR)"
           name="price"
           placeholder="10000"
         />
-        <div className="flex flex-col gap-6 md:flex-row">
-          <FormInput
-            defaultValue={safetyStock}
-            disabled={!isEditing || action.isPending}
-            form={form}
-            label="Safety Stock of Inventory"
-            name="safetyStock"
-            placeholder="Safety Stock"
-          />
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="unit"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className="text-base" htmlFor={field.name}>
-                    Unit
-                  </FieldLabel>
-                  <FormSelect
-                    aria-invalid={fieldState.invalid}
-                    disabled={!isEditing || action.isPending}
-                    id={field.name}
-                    onValueChange={field.onChange}
-                    options={units}
-                    value={field.value}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
-        </div>
+        <FormInput
+          as={Switch}
+          className="max-w-8"
+          defaultChecked={isActive}
+          defaultValue={price}
+          disabled={!isEditing || action.isPending}
+          form={form}
+          label="Active State"
+          name="isActive"
+        />
 
         <div className="flex justify-end gap-3">
           {isEditing ? (

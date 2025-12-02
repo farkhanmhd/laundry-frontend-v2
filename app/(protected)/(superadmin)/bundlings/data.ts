@@ -27,12 +27,12 @@ export const getBundlingById = async (id: string) => {
   return data;
 };
 
-export type Bundling = NonNullable<Awaited<ReturnType<typeof getBundlingById>>>;
+export type Bundling = Awaited<ReturnType<typeof getBundlingById>>;
 
-type AddInventoryBody = Parameters<typeof elysia.inventories.post>[0];
+type AddBundlingBody = Parameters<typeof elysia.bundlings.post>[0];
 
-export const addInventory = async (body: AddInventoryBody) => {
-  const result = await elysia.inventories.post(body, {
+export const addBundling = async (body: AddBundlingBody) => {
+  const result = await elysia.bundlings.post(body, {
     fetch: {
       headers: await getHeadersWithoutContentType(),
     },

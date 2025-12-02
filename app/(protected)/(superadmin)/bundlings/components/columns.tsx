@@ -6,33 +6,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { cn, formatToIDR } from "@/lib/utils";
 import type { Bundling } from "../data";
 
 export const columns: ColumnDef<Bundling>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        aria-label="Select all"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        aria-label="Select row"
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       aria-label="Select all"
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       aria-label="Select row"
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "image",
     header: ({ column }) => (
@@ -41,11 +41,10 @@ export const columns: ColumnDef<Bundling>[] = [
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium uppercase">
         <Image
-          alt="Product Image"
-          className="max-h-[60px] rounded-lg"
+          alt="Bundling Image"
+          className="max-h-[60px] w-auto rounded-lg"
           height={60}
           src={row.getValue("image") || "/placeholder.svg"}
-          unoptimized
           width={60}
         />
       </div>

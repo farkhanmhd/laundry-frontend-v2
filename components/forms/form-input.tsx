@@ -11,7 +11,7 @@ export type FormInputProps<
   InputType extends ElementType = typeof Input,
 > = {
   form: UseFormReturn<TFieldValues>;
-  label: string;
+  label?: string;
   name: Path<TFieldValues>;
   as?: InputType;
   defaultValue?: TFieldValues[Path<TFieldValues>];
@@ -36,9 +36,11 @@ export function FormInput<
         name={name}
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel className="text-base" htmlFor={field.name}>
-              {label}
-            </FieldLabel>
+            {label && (
+              <FieldLabel className="text-base" htmlFor={field.name}>
+                {label}
+              </FieldLabel>
+            )}
             <Component
               aria-invalid={fieldState.invalid}
               autoComplete="off"

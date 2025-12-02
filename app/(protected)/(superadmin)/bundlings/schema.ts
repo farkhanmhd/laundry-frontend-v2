@@ -1,14 +1,25 @@
 import { z } from "zod";
 import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
-export const addInventorySchema = z.object({
+const bundlingItems = z.object({
+  serviceId: z.nullable(z.optional(z.string())),
+  inventoryId: z.nullable(z.optional(z.string())),
+  itemType: z.enum(["service", "inventory"]),
+  quantity: z.number({ error: "Quantity required" }),
+});
+
+export const addBundlingSchema = z.object({
   name: z.string().min(1, "Bundling name is required"),
   image: imageSchema,
   description: z.string().min(1, "Bundling description is required"),
   price: positiveIntNoLeadingZero,
+  items: z
+    .array(bundlingItems)
+    .min(1, "At least 1 item is required")
+    .max(10, "Maximum 10 bundling items allowed"),
 });
 
-export type AddInventorySchema = z.infer<typeof addInventorySchema>;
+export type AddBundlingSchema = z.infer<typeof addBundlingSchema>;
 
 export const deleteInventorySchema = z.object({
   id: z.string(),

@@ -2,46 +2,46 @@
 
 import { actionClient } from "@/lib/safe-action";
 import {
-  // addInventory,
+  addBundling,
   // adjustQuantity,
   // deleteInventory,
   updateBundlingData,
   // updateInventoryImage,
 } from "./data";
 import {
-  // addInventorySchema,
+  addBundlingSchema,
   // adjustQuantitySchema,
   // deleteInventorySchema,
   // updateInventoryImageSchema,
   updateBundlingSchema,
 } from "./schema";
 
-// export const addInventoryAction = actionClient
-//   .inputSchema(addInventorySchema)
-//   .action(async ({ parsedInput }) => {
-//     const result = await addInventory(parsedInput);
+export const addBundlingAction = actionClient
+  .inputSchema(addBundlingSchema)
+  .action(async ({ parsedInput }) => {
+    const result = await addBundling(parsedInput);
 
-//     if (!result) {
-//       return {
-//         status: "error",
-//         message: "Something went wrong",
-//       };
-//     }
+    if (!result) {
+      return {
+        status: "error",
+        message: "Something went wrong",
+      };
+    }
 
-//     if (result.status !== 201) {
-//       return {
-//         status: "error",
-//         message: `Something went wrong. ${result.error?.value?.message}`,
-//       };
-//     }
+    if (result.status !== 201) {
+      return {
+        status: "error",
+        message: `Something went wrong. ${result.error?.value?.message}`,
+      };
+    }
 
-//     if (result.data) {
-//       return {
-//         status: "success",
-//         message: "New Inventory added",
-//       };
-//     }
-//   });
+    if (result.data) {
+      return {
+        status: "success",
+        message: "New Inventory added",
+      };
+    }
+  });
 
 // export const deleteInventoryAction = actionClient
 //   .inputSchema(deleteInventorySchema)

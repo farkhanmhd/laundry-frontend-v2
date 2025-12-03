@@ -27,8 +27,7 @@ export const getBundlingById = async (id: string) => {
   return data;
 };
 
-export type Bundling = Awaited<ReturnType<typeof getBundlingById>>;
-
+export type Bundling = NonNullable<Awaited<ReturnType<typeof getBundlingById>>>;
 type AddBundlingBody = Parameters<typeof elysia.bundlings.post>[0];
 
 export const addBundling = async (body: AddBundlingBody) => {
@@ -92,10 +91,30 @@ export type AdjustQuantityBody = Parameters<
   ReturnType<typeof elysia.inventories>["stock"]["patch"]
 >[0];
 
-export const adjustQuantity = async (id: string, body: AdjustQuantityBody) => {
-  const result = await elysia.inventories({ id }).stock.patch(body, {
+type UpdateBundlingItemBody = Parameters<
+  ReturnType<typeof elysia.bundlings>["items"]["patch"]
+>[0];
+
+export const updateBundlingItems = async (
+  id: string,
+  body: UpdateBundlingItemBody
+) => {
+  const result = await elysia.bundlings({ id }).items.patch(body, {
     fetch: {
-      headers: await headers(),
+      headers: await getHeadersWithoutContentType(),
+    },
+  });
+
+  return result;
+};
+
+export const updateBundlingImage = async (
+  id: string,
+  body: UpdateInventoryImageBody
+) => {
+  const result = await elysia.bundlings({ id }).image.patch(body, {
+    fetch: {
+      headers: await getHeadersWithoutContentType(),
     },
   });
 

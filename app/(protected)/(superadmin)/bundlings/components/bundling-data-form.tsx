@@ -6,7 +6,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { updateBundlingAction } from "../actions";
 import { type UpdateBundlingSchema, updateBundlingSchema } from "../schema";
@@ -16,7 +15,6 @@ export const BundlingDataForm = ({
   name,
   description,
   price,
-  isActive,
 }: UpdateBundlingSchema) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -31,14 +29,14 @@ export const BundlingDataForm = ({
           description,
           price,
           id,
-          isActive,
         },
       },
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
             toast.success(data.message);
-            setIsEditing(false); // exit edit mode after successful save
+            setIsEditing(false);
+            form.reset(form.control._formValues);
           }
         },
       },
@@ -52,14 +50,13 @@ export const BundlingDataForm = ({
       name: form.getValues("name"),
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
-      isActive: form.getValues("isActive"),
     };
 
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({ name, description, price, isActive });
+    form.reset({ name, description, price });
     setIsEditing(false);
   };
 
@@ -98,16 +95,6 @@ export const BundlingDataForm = ({
           label="Bundling Price (IDR)"
           name="price"
           placeholder="10000"
-        />
-        <FormInput
-          as={Switch}
-          className="max-w-8"
-          defaultChecked={isActive}
-          defaultValue={price}
-          disabled={!isEditing || action.isPending}
-          form={form}
-          label="Active State"
-          name="isActive"
         />
 
         <div className="flex justify-end gap-3">

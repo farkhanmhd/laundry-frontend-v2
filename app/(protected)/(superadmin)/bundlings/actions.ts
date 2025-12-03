@@ -3,16 +3,14 @@
 import { actionClient } from "@/lib/safe-action";
 import {
   addBundling,
-  // adjustQuantity,
-  // deleteInventory,
   updateBundlingData,
-  // updateInventoryImage,
+  updateBundlingImage,
+  updateBundlingItems,
 } from "./data";
 import {
   addBundlingSchema,
-  // adjustQuantitySchema,
-  // deleteInventorySchema,
-  // updateInventoryImageSchema,
+  updateBundlingImageSchema,
+  updateBundlingItemsSchema,
   updateBundlingSchema,
 } from "./schema";
 
@@ -43,31 +41,6 @@ export const addBundlingAction = actionClient
     }
   });
 
-// export const deleteInventoryAction = actionClient
-//   .inputSchema(deleteInventorySchema)
-//   .action(async ({ parsedInput }) => {
-//     const result = await deleteInventory(parsedInput.id);
-
-//     if (!result) {
-//       return {
-//         status: "error",
-//         message: "Something went wrong",
-//       };
-//     }
-
-//     if (result.status !== 200) {
-//       return {
-//         status: "error",
-//         message: "Something went wrong",
-//       };
-//     }
-
-//     return {
-//       status: "success",
-//       message: result.data?.message,
-//     };
-//   });
-
 const errorResult = {
   status: "error",
   message: "Something went wrong",
@@ -90,17 +63,33 @@ export const updateBundlingAction = actionClient
     };
   });
 
-// export const updateInventoryImageAction = actionClient
-//   .inputSchema(updateInventoryImageSchema)
-//   .action(async ({ parsedInput }) => {
-//     const { id, ...body } = parsedInput;
-//     const result = await updateInventoryImage(id, body);
-//     if (!result || result.error) {
-//       return errorResult;
-//     }
+export const updateBundlingItemsAction = actionClient
+  .inputSchema(updateBundlingItemsSchema)
+  .action(async ({ parsedInput }) => {
+    const { id, items } = parsedInput;
+    const result = await updateBundlingItems(id, items);
 
-//     return {
-//       status: "success",
-//       message: "Inventory updated",
-//     };
-//   });
+    if (!result || result.error) {
+      return errorResult;
+    }
+
+    return {
+      status: "success",
+      message: "Bundling updated",
+    };
+  });
+
+export const updateBundlingImageAction = actionClient
+  .inputSchema(updateBundlingImageSchema)
+  .action(async ({ parsedInput }) => {
+    const { id, ...body } = parsedInput;
+    const result = await updateBundlingImage(id, body);
+    if (!result || result.error) {
+      return errorResult;
+    }
+
+    return {
+      status: "success",
+      message: "Inventory updated",
+    };
+  });

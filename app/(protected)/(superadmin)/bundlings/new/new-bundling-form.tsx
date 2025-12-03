@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { type UseFieldArrayUpdate, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import type { SelectOption } from "@/components/forms/form-select";
@@ -52,6 +52,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
   const { fields, append, remove, update } = useFieldArray({
     control: form.control,
     name: "items",
+    keyName: "_id",
   });
 
   const canAddMore = fields.length < 10;
@@ -66,7 +67,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FormInput
-        disabled={action.isPending}
+        disabled={action.isPending || !form.formState.isDirty}
         form={form}
         label="Bundlings Name"
         name="name"
@@ -74,7 +75,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         as={Textarea}
-        disabled={action.isPending}
+        disabled={action.isPending || !form.formState.isDirty}
         form={form}
         label="Bundlings Description"
         name="description"
@@ -82,7 +83,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         className="text-right"
-        disabled={action.isPending}
+        disabled={action.isPending || !form.formState.isDirty}
         form={form}
         label="Bundlings Price (IDR)"
         name="price"
@@ -90,6 +91,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+        disabled={action.isPending || !form.formState.isDirty}
         form={form}
         label="Image"
         name="image"
@@ -101,19 +103,21 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         <div className="flex flex-col gap-6">
           {fields.map((field, index) => (
             <BundlingItemForm
+              disabled={action.isPending || !form.formState.isDirty}
               field={field}
               index={index}
               inventories={inventories}
-              key={field.id}
+              key={field._id}
               onDeleteClick={() => remove(index)}
               removable={fields.length > 1}
               services={services}
-              update={update as UseFieldArrayUpdate<AddBundlingSchema>}
+              update={update}
             />
           ))}
         </div>
         {canAddMore && (
           <Button
+            disabled={action.isPending || !form.formState.isDirty}
             onClick={() => append({ itemType: "inventory", quantity: 0 })}
             type="button"
             variant="outline"
@@ -124,7 +128,10 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         )}
       </div>
 
-      <Button disabled={action.isPending} type="submit">
+      <Button
+        disabled={action.isPending || !form.formState.isDirty}
+        type="submit"
+      >
         Add Bundlings
       </Button>
     </form>

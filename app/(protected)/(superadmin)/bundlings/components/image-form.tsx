@@ -14,11 +14,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { updateInventoryImageAction } from "../actions"; // You can define this like updateInventoryAction
+import { updateBundlingImageAction } from "../actions";
 import {
-  type UpdateInventoryImageSchema,
-  updateInventoryImageSchema,
-} from "../schema"; // Example schema import
+  type UpdateBundlingImageSchema,
+  updateBundlingImageSchema,
+} from "../schema";
 
 type Props = {
   id: string;
@@ -26,15 +26,13 @@ type Props = {
 };
 
 export const ImageForm = ({ id, src }: Props) => {
-  // 🔹 Edit mode
   const [isEditing, setIsEditing] = useState(false);
 
-  // 🔹 Track current image preview
   const [imageSrc, setImageSrc] = useState(src);
 
   const { form, action } = useHookFormAction(
-    updateInventoryImageAction,
-    zodResolver(updateInventoryImageSchema),
+    updateBundlingImageAction,
+    zodResolver(updateBundlingImageSchema),
     {
       formProps: {
         mode: "onChange",
@@ -60,17 +58,16 @@ export const ImageForm = ({ id, src }: Props) => {
     setImageSrc(src);
     form.reset();
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // ⬅️ clears the visible filename
+      fileInputRef.current.value = "";
     }
     setIsEditing(false);
   };
 
-  // 🔹 Submit handler
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const image = form.getValues("image") as File;
     const imageString = URL.createObjectURL(image);
-    const formData: UpdateInventoryImageSchema = {
+    const formData: UpdateBundlingImageSchema = {
       id,
       image,
     };
@@ -78,25 +75,23 @@ export const ImageForm = ({ id, src }: Props) => {
     action.execute(formData);
     setImageSrc(imageString);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // ⬅️ clears the visible filename
+      fileInputRef.current.value = "";
     }
   };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
-        <h2 className="font-semibold text-xl">Inventory Image</h2>
+        <h2 className="font-semibold text-xl">Bundling Image</h2>
         <p className="text-muted-foreground text-sm">
-          Manage and update the inventory image below. You can preview new
+          Manage and update the bundling image below. You can preview new
           uploads before saving.
         </p>
       </div>
 
-      {/* Image Preview */}
       <div className="flex justify-center">
         <Image
-          alt="Inventory Image"
+          alt="Bundling Image"
           className="aspect-square max-h-64 max-w-64 rounded-md object-cover"
           height={500}
           src={imageSrc}
@@ -104,7 +99,6 @@ export const ImageForm = ({ id, src }: Props) => {
         />
       </div>
 
-      {/* Form Section */}
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
         <FieldGroup>
           <Controller
@@ -132,17 +126,15 @@ export const ImageForm = ({ id, src }: Props) => {
                       form.setError("image", {
                         message: "Only JPEG or PNG images are allowed",
                       });
-                      e.target.value = ""; // clear input
+                      e.target.value = "";
                       return;
                     }
 
                     form.clearErrors("image");
 
-                    // ✅ Update preview
                     const previewUrl = URL.createObjectURL(file);
                     setImageSrc(previewUrl);
 
-                    // ✅ Pass actual File object to React Hook Form
                     field.onChange(file);
                   }}
                   ref={fileInputRef}

@@ -1,12 +1,15 @@
 import { z } from "zod";
 import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
-const bundlingItems = z.object({
+const bundlingItem = z.object({
+  id: z.nullable(z.optional(z.string())),
   serviceId: z.nullable(z.optional(z.string())),
   inventoryId: z.nullable(z.optional(z.string())),
   itemType: z.enum(["service", "inventory"]),
   quantity: z.number({ error: "Quantity required" }),
 });
+
+export type BundlingItem = z.infer<typeof bundlingItem>;
 
 export const addBundlingSchema = z.object({
   name: z.string().min(1, "Bundling name is required"),
@@ -14,7 +17,7 @@ export const addBundlingSchema = z.object({
   description: z.string().min(1, "Bundling description is required"),
   price: positiveIntNoLeadingZero,
   items: z
-    .array(bundlingItems)
+    .array(bundlingItem)
     .min(1, "At least 1 item is required")
     .max(10, "Maximum 10 bundling items allowed"),
 });
@@ -30,7 +33,6 @@ export const updateBundlingSchema = z.object({
   name: z.string().min(1, "Bundling name cannot be empty"),
   description: z.string().min(1, "Bundling description is required"),
   price: positiveIntNoLeadingZero,
-  isActive: z.boolean(),
 });
 
 export const updateBundlingBodySchema = updateBundlingSchema.omit({
@@ -39,38 +41,26 @@ export const updateBundlingBodySchema = updateBundlingSchema.omit({
 export type UpdateBundlingSchema = z.infer<typeof updateBundlingSchema>;
 export type UpdateBundlingBodySchema = z.infer<typeof updateBundlingBodySchema>;
 
-export const adjustQuantitySchema = z
-  .object({
-    id: z
-      .string({
-        error: "Inventory ID is required.",
-      })
-      .min(1, { error: "Inventory ID cannot be empty." }),
-    currentQuantity: positiveIntNoLeadingZero,
-    newQuantity: positiveIntNoLeadingZero,
-    reason: z
-      .string({
-        error: "A reason for the adjustment is required.",
-      })
-      .min(5, { error: "Please provide a reason (at least 5 characters)." })
-      .max(500, { error: "The reason must be 500 characters or less." }),
-  })
-  .refine((data) => data.newQuantity !== data.currentQuantity, {
-    error: "New quantity must be different from the current quantity.",
-    path: ["newQuantity"], // Where to display this error
-  });
-
-export type AdjustQuantitySchema = z.infer<typeof adjustQuantitySchema>;
-
-export const updateInventoryImageSchema = z.object({
+export const updateBundlingImageSchema = z.object({
   id: z
     .string({
-      error: "Inventory ID is required.",
+      error: "Bundling ID is required.",
     })
-    .min(1, { error: "Inventory ID cannot be empty." }),
+    .min(1, { error: "Bundling ID cannot be empty." }),
   image: imageSchema,
 });
 
-export type UpdateInventoryImageSchema = z.infer<
-  typeof updateInventoryImageSchema
+export type UpdateBundlingImageSchema = z.infer<
+  typeof updateBundlingImageSchema
+>;
+
+export const updateBundlingItemsSchema = z.object({
+  id: z.string(),
+  items: z.array(
+    bundlingItem.extend({ bundlingId: z.nullable(z.string()).optional() })
+  ),
+});
+
+export type UpdateBundlingItemSchema = z.infer<
+  typeof updateBundlingItemsSchema
 >;

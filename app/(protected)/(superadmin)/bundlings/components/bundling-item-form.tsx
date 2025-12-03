@@ -1,5 +1,5 @@
 import { MinusIcon, Plus, Trash } from "lucide-react";
-import type { FieldArrayWithId, UseFieldArrayUpdate } from "react-hook-form";
+import type { FieldArrayWithId } from "react-hook-form";
 import type { SelectOption } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import type { AddBundlingSchema } from "../schema";
+import type { BundlingItem } from "../schema";
 
 const itemTypeOptions: SelectOption[] = [
   {
@@ -27,14 +27,19 @@ const itemTypeOptions: SelectOption[] = [
   },
 ];
 
+type BundlingFormValues = {
+  items: BundlingItem[];
+};
+
 type Props = {
   services: SelectOption[];
   inventories: SelectOption[];
   onDeleteClick: () => void;
   removable: boolean;
-  field: FieldArrayWithId<AddBundlingSchema>;
+  field: FieldArrayWithId<BundlingFormValues, "items", "_id">;
   index: number;
-  update: UseFieldArrayUpdate<AddBundlingSchema>;
+  update: (index: number, item: BundlingItem) => void;
+  disabled: boolean;
 };
 
 export function BundlingItemForm({
@@ -45,6 +50,7 @@ export function BundlingItemForm({
   field,
   index,
   update,
+  disabled,
 }: Props) {
   const itemType = field.itemType || "select item type";
   const currentId =
@@ -90,7 +96,11 @@ export function BundlingItemForm({
   return (
     <ButtonGroup className="w-full">
       <ButtonGroup className="w-full">
-        <Select onValueChange={handleItemTypeChange} value={itemType}>
+        <Select
+          disabled={disabled}
+          onValueChange={handleItemTypeChange}
+          value={itemType}
+        >
           <SelectTrigger className="capitalize">{itemType}</SelectTrigger>
           <SelectContent>
             {itemTypeOptions.map((opt) => (
@@ -100,7 +110,11 @@ export function BundlingItemForm({
             ))}
           </SelectContent>
         </Select>
-        <Select onValueChange={handleItemSelectionChange} value={selectedItem}>
+        <Select
+          disabled={disabled}
+          onValueChange={handleItemSelectionChange}
+          value={selectedItem}
+        >
           <SelectTrigger className="capitalize">
             {selectedItemLabel}
           </SelectTrigger>
@@ -114,26 +128,37 @@ export function BundlingItemForm({
         </Select>
         <Input
           className="text-right"
+          disabled={disabled}
           pattern="[0-9]*"
           placeholder="Quantity"
           readOnly
           value={field.quantity === 0 ? "" : field.quantity}
         />
         <Button
-          disabled={field.quantity <= 0}
+          disabled={field.quantity <= 0 || disabled}
           onClick={handleDecrement}
           type="button"
           variant="outline"
         >
           <MinusIcon />
         </Button>
-        <Button onClick={handleIncrement} type="button" variant="outline">
+        <Button
+          disabled={disabled}
+          onClick={handleIncrement}
+          type="button"
+          variant="outline"
+        >
           <Plus />
         </Button>
       </ButtonGroup>
       {removable && (
         <ButtonGroup>
-          <Button onClick={onDeleteClick} type="button" variant="outline">
+          <Button
+            disabled={disabled}
+            onClick={onDeleteClick}
+            type="button"
+            variant="outline"
+          >
             <Trash />
           </Button>
         </ButtonGroup>

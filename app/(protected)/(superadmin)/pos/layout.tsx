@@ -15,7 +15,7 @@ const PosLayout = ({ children }: { children: ReactNode }) => {
           className="border bg-background px-6 md:h-12 md:text-base"
           placeholder="Search Items or Services"
         />
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-4">
+        <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
           {children}
         </ul>
       </section>

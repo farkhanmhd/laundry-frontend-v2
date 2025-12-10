@@ -1,14 +1,18 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: temporary */
 "use client";
 
+import { format } from "date-fns";
 import {
   AlertCircle,
+  Calendar as CalendarIcon,
   DollarSign,
   ShoppingCart,
   TrendingUp,
   Truck,
   Users,
 } from "lucide-react";
+import React from "react";
+import type { DateRange } from "react-day-picker";
 import {
   Bar,
   BarChart,
@@ -25,6 +29,8 @@ import {
   YAxis,
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -32,6 +38,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 // Mock data based on database schema
 const dashboardMetrics = {
@@ -44,10 +56,10 @@ const dashboardMetrics = {
 };
 
 const orderStatusData = [
-  { name: "Pending", value: 24, fill: "hsl(var(--chart-1))" },
-  { name: "Processing", value: 67, fill: "hsl(var(--chart-2))" },
-  { name: "Ready", value: 89, fill: "hsl(var(--chart-3))" },
-  { name: "Completed", value: 144, fill: "hsl(var(--chart-4))" },
+  { name: "Pending", value: 24, fill: "var(--chart-1)" },
+  { name: "Processing", value: 67, fill: "var(--chart-2)" },
+  { name: "Ready", value: 89, fill: "var(--chart-3)" },
+  { name: "Completed", value: 144, fill: "var(--chart-4)" },
 ];
 
 const revenueData = [
@@ -62,11 +74,31 @@ const revenueData = [
 ];
 
 const topServices = [
-  { name: "Express Wash", revenue: 1_240_000, orders: 85 },
-  { name: "Premium Dry Clean", revenue: 980_000, orders: 56 },
-  { name: "Ironing Service", revenue: 760_000, orders: 92 },
-  { name: "Fabric Treatment", revenue: 640_000, orders: 38 },
-  { name: "Alterations", revenue: 520_000, orders: 31 },
+  {
+    name: "Express Wash",
+    revenue: 1_240_000,
+    orders: 85,
+    fill: "var(--chart-5)",
+  },
+  {
+    name: "Premium Dry Clean",
+    revenue: 980_000,
+    orders: 56,
+    fill: "var(--chart-4)",
+  },
+  {
+    name: "Ironing Service",
+    revenue: 760_000,
+    orders: 92,
+    fill: "var(--chart-3)",
+  },
+  {
+    name: "Fabric Treatment",
+    revenue: 640_000,
+    orders: 38,
+    fill: "var(--chart-2)",
+  },
+  { name: "Alterations", revenue: 520_000, orders: 31, fill: "var(--chart-1)" },
 ];
 
 const deliveryStatusData = [
@@ -161,15 +193,75 @@ const StatCard = ({ icon: Icon, label, value, change }: any) => (
 );
 
 export default function SuperAdminDashboard() {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(),
+  });
+
+  const dateState = () => {
+    if (date?.from && date.to) {
+      return "range";
+    }
+
+    if (date?.from) {
+      return "single";
+    }
+
+    return "empty";
+  };
+
+  // 2. Create the mapping object
+  // Note: We use logical && checks inside values to prevent "undefined" errors during evaluation
+  const dateDisplay = {
+    empty: <span>Pick a date</span>,
+    single: date?.from && format(date.from, "LLL dd, y"),
+    range: date?.from && date?.to && (
+      <>
+        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+      </>
+    ),
+  };
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-bold text-3xl">Superadmin Dashboard</h1>
-          <p className="mt-1 text-muted-foreground">
-            Welcome back! Here's your business overview.
-          </p>
+        <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+          <div>
+            <h1 className="font-bold text-3xl">Dashboard</h1>
+            <p className="mt-1 text-muted-foreground">
+              Welcome back! Here's your business overview.
+            </p>
+          </div>
+
+          {/* Date Range Picker */}
+          <div className="grid gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  className={cn(
+                    "w-[300px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                  id="date"
+                  variant={"outline"}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {dateDisplay[dateState()]}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-auto p-0">
+                <Calendar
+                  autoFocus
+                  defaultMonth={date?.from}
+                  mode="range"
+                  numberOfMonths={2}
+                  onSelect={setDate}
+                  selected={date}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
         {/* Key Metrics */}
@@ -220,7 +312,7 @@ export default function SuperAdminDashboard() {
                   <Line
                     dataKey="revenue"
                     name="Revenue (Rp)"
-                    stroke="hsl(var(--chart-1))"
+                    stroke="var(--chart-1)"
                     strokeWidth={2}
                     type="monotone"
                     yAxisId="left"
@@ -228,7 +320,7 @@ export default function SuperAdminDashboard() {
                   <Line
                     dataKey="orders"
                     name="Orders"
-                    stroke="hsl(var(--chart-2))"
+                    stroke="var(--chart-2)"
                     strokeWidth={2}
                     type="monotone"
                     yAxisId="right"
@@ -286,7 +378,7 @@ export default function SuperAdminDashboard() {
                   <XAxis type="number" />
                   <YAxis dataKey="name" type="category" width={120} />
                   <Tooltip />
-                  <Bar dataKey="revenue" fill="hsl(var(--chart-1))" />
+                  <Bar dataKey="revenue" radius={5} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -342,10 +434,7 @@ export default function SuperAdminDashboard() {
                       <p className="font-medium text-sm">
                         Rp{(order.amount / 1000).toFixed(0)}K
                       </p>
-                      <Badge
-                        className={getStatusColor(order.status)}
-                        variant="outline"
-                      >
+                      <Badge className={getStatusColor(order.status)}>
                         {order.status.charAt(0).toUpperCase() +
                           order.status.slice(1)}
                       </Badge>
@@ -368,10 +457,7 @@ export default function SuperAdminDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {lowStockItems.map((item) => (
-                  <div
-                    className="rounded-lg border border-orange-200 bg-orange-50 p-3"
-                    key={item.id}
-                  >
+                  <div className="rounded-lg border p-3" key={item.id}>
                     <div className="mb-2 flex items-start justify-between">
                       <p className="font-medium text-sm">{item.name}</p>
                       <Badge variant="destructive">Alert</Badge>
@@ -380,9 +466,9 @@ export default function SuperAdminDashboard() {
                       <span>Current: {item.current}</span>
                       <span>Safety Stock: {item.safety}</span>
                     </div>
-                    <div className="mt-2 h-2 w-full rounded-full bg-orange-200">
+                    <div className="mt-2 h-2 w-full rounded-full border bg-muted">
                       <div
-                        className="h-2 rounded-full bg-orange-600"
+                        className="h-2 rounded-full bg-destructive"
                         style={{
                           width: `${(item.current / item.safety) * 100}%`,
                         }}

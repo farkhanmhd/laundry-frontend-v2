@@ -31,13 +31,22 @@ export type Bundling = NonNullable<Awaited<ReturnType<typeof getBundlingById>>>;
 type AddBundlingBody = Parameters<typeof elysia.bundlings.post>[0];
 
 export const addBundling = async (body: AddBundlingBody) => {
-  const result = await elysia.bundlings.post(body, {
-    fetch: {
-      headers: await getHeadersWithoutContentType(),
-    },
+  const formData = new FormData();
+
+  formData.append("name", body.name);
+  formData.append("price", String(body.price));
+  formData.append("description", body.description);
+  formData.append("image", body.image);
+  formData.append("items", JSON.stringify(body.items));
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bundlings`, {
+    method: "POST",
+    headers: await getHeadersWithoutContentType(),
+    body: formData,
   });
 
-  return result;
+  const json = await response.json();
+  return json;
 };
 
 export const deleteInventory = async (id: string) => {

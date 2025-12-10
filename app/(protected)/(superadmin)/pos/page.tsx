@@ -1,18 +1,14 @@
-import { PosProductCard } from "@/components/features/pos/pos-product-card";
+import { PosItemCard } from "@/components/features/pos/pos-item-card";
 import { MapItems } from "@/lib/utils";
-import { getInventories } from "../inventories/data";
+import { getPosItems } from "./data";
 
 const PosPage = async () => {
-  const data = await getInventories();
+  const data = await getPosItems();
 
   return (
     <MapItems
       of={data || []}
-      render={(item) => (
-        <li key={item.id}>
-          <PosProductCard product={item} />
-        </li>
-      )}
+      render={(item) => <PosItemCard item={item} key={item.id} />}
     />
   );
 };

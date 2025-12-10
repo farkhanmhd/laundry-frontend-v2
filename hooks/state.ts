@@ -3,6 +3,16 @@ import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useMemo } from "react";
 
+type OrderItem = {
+  itemType: "service" | "inventory" | "bundling" | "voucher";
+  serviceId?: string | null | undefined;
+  inventoryId?: string | null | undefined;
+  bundlingId?: string | null | undefined;
+  voucherId?: string | null | undefined;
+  note?: string | null | undefined;
+  quantity: number;
+};
+
 export interface PosProduct {
   quantity: number;
   product: Inventory;

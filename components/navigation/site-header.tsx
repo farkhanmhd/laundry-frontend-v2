@@ -3,9 +3,9 @@
 import { Bell, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
-import { usePosProducts } from "@/hooks/state";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
 import { superAdminNavData } from "@/lib/constants";
+import { usePosOrderItem } from "@/lib/features/pos/state";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Back } from "./back-button";
@@ -13,7 +13,7 @@ import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { posProduct, toggleCart, totalItems } = usePosProducts();
+  const { posItem, toggleCart, totalItems } = usePosOrderItem();
   const isLarge = useBreakpoint(1024);
   const splittedPathname = pathname.split("/");
   const title = superAdminNavData.find(
@@ -42,7 +42,7 @@ export function SiteHeader() {
         {!isLarge && (
           <Button className="relative w-9" onClick={toggleCart} variant="ghost">
             <ShoppingCart />
-            {posProduct.items.length > 0 && (
+            {posItem.items.length > 0 && (
               <Badge className="absolute top-0.5 right-[-0.5px] h-4 w-4 rounded-full p-0 text-[10px]">
                 {totalItems}
               </Badge>

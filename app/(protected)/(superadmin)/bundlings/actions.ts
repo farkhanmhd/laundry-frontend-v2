@@ -26,19 +26,17 @@ export const addBundlingAction = actionClient
       };
     }
 
-    if (result.status !== 201) {
+    if (result.status !== "success") {
       return {
         status: "error",
         message: `Something went wrong. ${result.error?.value?.message}`,
       };
     }
 
-    if (result.data) {
-      return {
-        status: "success",
-        message: "New Inventory added",
-      };
-    }
+    return {
+      status: "success",
+      message: "New Bundling added",
+    };
   });
 
 const errorResult = {

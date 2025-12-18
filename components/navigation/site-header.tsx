@@ -4,8 +4,8 @@ import { Bell, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
-import { superAdminNavData } from "@/lib/constants";
-import { usePosOrderItem } from "@/lib/features/pos/state";
+import { customerNavData, superAdminNavData } from "@/lib/constants";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Back } from "./back-button";
@@ -16,7 +16,7 @@ export function SiteHeader() {
   const { posItem, toggleCart, totalItems } = usePosOrderItem();
   const isLarge = useBreakpoint(1024);
   const splittedPathname = pathname.split("/");
-  const title = superAdminNavData.find(
+  const title = [...superAdminNavData, ...customerNavData].find(
     (item) => item.url.split("/")[1] === splittedPathname[1]
   )?.title;
 

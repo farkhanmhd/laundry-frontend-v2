@@ -6,9 +6,10 @@ import { useTableContext } from "@/components/table/context";
 import { DataTableSearch } from "@/components/table/data-table-search";
 import { DataTableViewOptions } from "@/components/table/data-table-view-options";
 import { Button } from "@/components/ui/button";
+import { useSearchQuery } from "@/hooks/use-search-query";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   searchPlaceholder?: string;
 };
 
@@ -16,7 +17,9 @@ export function TableToolbar({
   children,
   searchPlaceholder = "Search...",
 }: Props) {
-  const { table, globalFilter, setGlobalFilter } = useTableContext();
+  const { table, globalFilter, setGlobalFilter, isManualPagination } =
+    useTableContext();
+  const { updateSearchQuery } = useSearchQuery();
   const isFiltered =
     table.getState().columnFilters.length > 0 || !!globalFilter;
 
@@ -35,6 +38,10 @@ export function TableToolbar({
           onClick={() => {
             table.resetColumnFilters();
             setGlobalFilter("");
+            table.firstPage();
+            if (isManualPagination) {
+              updateSearchQuery("");
+            }
           }}
           variant="ghost"
         >
@@ -42,8 +49,8 @@ export function TableToolbar({
         </Button>
       )}
       <div className="ml-auto flex max-w-max">
-        <DataTableViewOptions table={table} />
         {children}
+        <DataTableViewOptions table={table} />
       </div>
     </div>
   );

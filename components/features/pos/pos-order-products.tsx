@@ -4,7 +4,7 @@ import Image from "next/image";
 import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { type PosOrderItem, usePosOrderItem } from "@/lib/features/pos/state";
+import { type PosOrderItem, usePosOrderItem } from "@/lib/modules/pos/state";
 import { formatToIDR, MapItems } from "@/lib/utils";
 
 export function PosOrderProducts() {

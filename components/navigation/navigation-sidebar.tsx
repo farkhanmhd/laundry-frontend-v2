@@ -1,5 +1,5 @@
 import { NavMain } from "@/components/sidebar/nav-main";
-import { getSession } from "@/lib/auth/session";
+import { getSession } from "@/lib/modules/auth/session";
 
 const NavigationSidebar = async () => {
   const session = await getSession();

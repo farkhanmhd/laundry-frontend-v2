@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { usePosOrderItem } from "@/lib/features/pos/state";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
 import { PosOrderProducts } from "./pos-order-products";
 
 const OrderProductsSheet = () => {

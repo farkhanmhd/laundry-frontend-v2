@@ -1,9 +1,8 @@
+import { AddMemberDialog } from "@/components/features/members/add-member-dialog";
+import { columns } from "@/components/features/members/columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableToolbar } from "@/components/table/table-toolbar";
-import { AddMemberDialog } from "../components/add-member-dialog";
-
-import { columns } from "../components/columns";
 
 const ProductsLayout = ({ children }: { children: React.ReactNode }) => (
   <TableProvider columns={columns} manualPagination>

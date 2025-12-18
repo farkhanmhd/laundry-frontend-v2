@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { addServiceAction } from "../actions";
-import { addServiceSchema } from "../schema";
+import { addServiceAction } from "@/lib/modules/services/actions";
+import { addServiceSchema } from "@/lib/modules/services/schema";
 
 const NewServicePage = () => {
   const { push } = useRouter();

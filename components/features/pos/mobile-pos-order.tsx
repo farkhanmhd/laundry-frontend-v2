@@ -2,7 +2,7 @@
 
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
-import { usePosOrderItem } from "@/lib/features/pos/state";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
 import { PosOrderProducts } from "./pos-order-products";
 
 export const MobilePosOrder = () => {

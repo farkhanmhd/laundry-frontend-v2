@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/modules/auth/auth-client";
 
 export const SignoutDialog = () => {
   const [open, setOpen] = useState(false);

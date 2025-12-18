@@ -3,12 +3,12 @@
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
-import type { PosItemData } from "@/app/(protected)/(superadmin)/pos/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
-import { usePosOrderItem } from "@/lib/features/pos/state";
+import type { PosItemData } from "@/lib/modules/pos/data";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
 import { formatToIDR } from "@/lib/utils";
 
 interface Props {

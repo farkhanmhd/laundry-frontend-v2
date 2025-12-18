@@ -1,8 +1,11 @@
+import { InventoryDataForm } from "@/components/features/inventories/inventory-data-form";
+import { InventoryImageForm } from "@/components/features/inventories/inventory-image-form";
+import { StockAdjustmentForm } from "@/components/features/inventories/stock-adjustment-form";
 import { TabsContent } from "@/components/ui/tabs";
-import { ImageForm } from "../components/image-form";
-import { InventoryDataForm } from "../components/inventory-data-form";
-import { StockAdjustmentForm } from "../components/stock-adjustment-form";
-import { getInventoryById, type Inventory } from "../data";
+import {
+  getInventoryById,
+  type Inventory,
+} from "@/lib/modules/inventories/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -32,7 +35,7 @@ const InventoryDetailPage = async ({ params }: Props) => {
         forceMount
         value="image"
       >
-        <ImageForm id={inventory.id} src={inventory.image as string} />
+        <InventoryImageForm id={inventory.id} src={inventory.image as string} />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"

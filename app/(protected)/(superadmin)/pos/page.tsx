@@ -1,6 +1,6 @@
 import { PosItemCard } from "@/components/features/pos/pos-item-card";
+import { getPosItems } from "@/lib/modules/pos/data";
 import { MapItems } from "@/lib/utils";
-import { getPosItems } from "./data";
 
 const PosPage = async () => {
   const data = await getPosItems();

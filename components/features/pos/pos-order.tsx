@@ -8,7 +8,12 @@ export const PosOrder = () => {
 
   if (!isMobile) {
     return (
-      <div className="sticky top-0 h-[calc(100dvh-64px)] w-2xl border-l">
+      <div
+        className="sticky top-0 h-[calc(100dvh-64px)] w-2xl border-l"
+        style={{
+          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+        }}
+      >
         <PosOrderProducts />
       </div>
     );

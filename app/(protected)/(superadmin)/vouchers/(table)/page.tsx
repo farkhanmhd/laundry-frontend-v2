@@ -1,5 +1,5 @@
 import { TableView } from "@/components/table/table-view";
-import { getVouchers } from "../data";
+import { getVouchers } from "@/lib/modules/vouchers/data";
 
 const ProductsPage = async () => {
   const vouchers = await getVouchers();

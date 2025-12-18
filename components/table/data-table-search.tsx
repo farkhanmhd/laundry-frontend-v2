@@ -29,8 +29,8 @@ export const DataTableSearch = <TData,>({
       updateSearchQuery(searchQuery);
     } else {
       onChange(searchQuery);
-      table.firstPage();
     }
+    table.firstPage();
   };
   return (
     <div className="flex w-full items-center gap-2 px-0 md:px-3">

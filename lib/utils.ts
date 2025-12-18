@@ -15,8 +15,39 @@ export const MapItems = <T>({ of, render }: MapItemsProps<T>): ReactNode[] =>
   Children.toArray(of.map((item, index) => render(item, index)));
 
 export const formatToIDR = (value: number) =>
-  new Intl.NumberFormat("id-ID", {
+  new Intl.NumberFormat("en-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(value);
+
+export const getStatusColor = (
+  status: string
+): "default" | "secondary" | "outline" | "destructive" => {
+  switch (status.toLowerCase()) {
+    case "pending":
+      return "destructive";
+    case "processing":
+    case "in progress":
+      return "outline";
+    case "ready":
+    case "assigned":
+      return "secondary";
+    case "completed":
+      return "default";
+    default:
+      return "outline";
+  }
+};
+
+export const formatDate = (dateString: string) =>
+  new Date(dateString).toLocaleDateString("en-ID", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+export const cardShadowStyle = {
+  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+};

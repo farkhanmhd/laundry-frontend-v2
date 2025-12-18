@@ -1,6 +1,6 @@
 import { TableView } from "@/components/table/table-view";
+import { getMembers } from "@/lib/modules/members/data";
 import type { SearchQuery } from "@/lib/search-params";
-import { getMembers } from "../data";
 
 type Props = {
   searchParams: Promise<{

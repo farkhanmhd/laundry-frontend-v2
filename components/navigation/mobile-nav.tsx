@@ -32,7 +32,7 @@ export function MobileNav() {
             <li>
               <Link
                 className={cn(buttonVariants({ variant: "ghost" }))}
-                href="/customer/my-orders"
+                href="/customer-orders"
               >
                 <ListTodo className="size-6" />
               </Link>

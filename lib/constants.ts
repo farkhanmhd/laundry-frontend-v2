@@ -2,16 +2,12 @@ import {
   Archive,
   Blocks,
   ChartNoAxesCombined,
-  ClipboardClock,
   HandPlatter,
-  Home,
   ListTodo,
   Logs,
   type LucideIcon,
-  MapPin,
-  Package,
+  Motorbike,
   ShieldUser,
-  ShoppingBag,
   Ticket,
   Truck,
   User,
@@ -37,28 +33,24 @@ export const adminNavData: NavItem[] = [
   },
   {
     title: "Orders",
-    url: "#",
+    url: "/orders",
     icon: ListTodo,
   },
   {
+    title: "Deliveries",
+    url: "/deliveries",
+    icon: Motorbike,
+  },
+  {
     title: "Pick Ups",
-    url: "#",
-    icon: Package,
+    url: "/pickups",
+    icon: Truck,
   },
   {
     title: "Members",
     url: "/members",
     icon: Users,
   },
-  {
-    title: "Shifts",
-    url: "#",
-    icon: ClipboardClock,
-  },
-];
-
-export const superAdminNavData: NavItem[] = [
-  ...adminNavData,
   {
     title: "Inventories",
     url: "/inventories",
@@ -79,6 +71,10 @@ export const superAdminNavData: NavItem[] = [
     url: "/bundlings",
     icon: Blocks,
   },
+];
+
+export const superAdminNavData: NavItem[] = [
+  ...adminNavData,
   {
     title: "Users",
     url: "#",
@@ -89,47 +85,22 @@ export const superAdminNavData: NavItem[] = [
 export const customerNavData: NavItem[] = [
   {
     title: "Home",
-    url: "/",
-    icon: Home,
+    url: "/dashboard",
+    icon: ChartNoAxesCombined,
   },
   {
-    title: "Services", // Based on the 'services' table
-    url: "#",
-    icon: HandPlatter,
-  },
-  {
-    title: "Products", // Based on the 'inventories' table
-    url: "#",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Bundles", // Based on the 'bundlings' table
-    url: "#",
-    icon: Archive,
-  },
-  {
-    title: "My Orders", // Based on the 'orders' table
-    url: "#",
+    title: "Orders", // Based on the 'orders' table
+    url: "/customer-orders",
     icon: ListTodo,
   },
   {
-    title: "My Deliveries", // Based on the 'deliveries' table
-    url: "#",
+    title: "Deliveries", // Based on the 'orders' table
+    url: "/customer-deliveries",
     icon: Truck,
   },
   {
-    title: "Vouchers", // Based on the 'vouchers' table and 'members' table (points)
-    url: "#",
-    icon: Ticket,
-  },
-  {
-    title: "My Profile", // Based on the 'user' table
-    url: "#",
+    title: "Account", // Based on the 'user' table
+    url: "/account",
     icon: User,
-  },
-  {
-    title: "My Addresses", // Based on the 'addresses' table
-    url: "#",
-    icon: MapPin,
   },
 ];

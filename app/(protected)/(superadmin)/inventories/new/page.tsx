@@ -15,8 +15,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
-import { addInventoryAction } from "../actions";
-import { addInventorySchema, units } from "../schema";
+import { addInventoryAction } from "@/lib/modules/inventories/actions";
+import { addInventorySchema, units } from "@/lib/modules/inventories/schema";
 
 const NewInventoryPage = () => {
   const { push } = useRouter();

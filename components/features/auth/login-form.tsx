@@ -13,7 +13,7 @@ import {
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { FieldDescription } from "@/components/ui/field";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import { cn } from "@/lib/utils";
 
 export function LoginForm({

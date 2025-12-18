@@ -1,5 +1,5 @@
+import { PosItemSkeleton } from "@/components/features/pos/pos-item-skeleton";
 import { MapItems } from "@/lib/utils";
-import { PosItemSkeleton } from "./pos-item-skeleton";
 
 const Loading = () => (
   <MapItems

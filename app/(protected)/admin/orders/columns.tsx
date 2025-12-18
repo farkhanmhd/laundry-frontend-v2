@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { DataTableRowActions } from "@/components/features/orders/data-table-row-actions"; // Adjust path as needed
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
 
@@ -21,7 +22,9 @@ export const ordersColumns: ColumnDef<Order>[] = [
       <DataTableColumnHeader column={column} title="Order ID" />
     ),
     cell: ({ row }) => (
-      <div className="font-medium font-mono text-sm">{row.getValue("id")}</div>
+      <div className="font-medium font-mono text-sm uppercase">
+        {row.getValue("id")}
+      </div>
     ),
   },
   {
@@ -67,6 +70,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       );
     },
   },
+  // --- UPDATED COLUMN ---
   {
     accessorKey: "status",
     header: ({ column }) => (
@@ -76,17 +80,22 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const status = row.getValue("status") as string;
       const variants = {
         pending: "secondary",
-        processing: "outline",
-        ready: "default",
-        completed: "default",
+        processing: "outline", // Or generic 'outline'
+        ready: "default", // Perhaps blue or green
+        completed: "secondary", // Often greyed out when done
       } as const;
+
+      // Safety check for variant
+      const variant = variants[status as keyof typeof variants] || "secondary";
+
       return (
-        <Badge variant={variants[status as keyof typeof variants]}>
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+        <Badge className="capitalize" variant={variant}>
+          {status}
         </Badge>
       );
     },
   },
+  // ----------------------
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
@@ -96,5 +105,9 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const date = new Date(row.getValue("createdAt") as string);
       return <div className="text-sm">{date.toLocaleDateString("id-ID")}</div>;
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

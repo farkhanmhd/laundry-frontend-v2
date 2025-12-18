@@ -1,4 +1,4 @@
-import { Inventory } from "@/lib/features/inventories/data";
+import { Inventory } from "@/lib/modules/inventories/data";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useMemo } from "react";

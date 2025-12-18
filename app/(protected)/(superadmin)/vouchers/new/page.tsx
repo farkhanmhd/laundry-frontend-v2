@@ -14,8 +14,8 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { addVoucherAction } from "../actions";
-import { addVoucherSchema } from "../schema";
+import { addVoucherAction } from "@/lib/modules/vouchers/actions";
+import { addVoucherSchema } from "@/lib/modules/vouchers/schema";
 
 const NewProductPage = () => {
   const { push } = useRouter();

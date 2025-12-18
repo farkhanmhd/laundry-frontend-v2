@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getMiddlewareSession } from "./lib/auth/auth-helpers";
+import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
 export async function middleware(request: NextRequest) {
   try {

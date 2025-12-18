@@ -1,12 +1,12 @@
+import { BundlingDataForm } from "@/components/features/bundlings/bundling-data-form";
+import { BundlingImageForm } from "@/components/features/bundlings/bundling-image-form";
+import { BundlingItemTab } from "@/components/features/bundlings/bundling-item-tab";
 import type { SelectOption } from "@/components/forms/form-select";
 import { TabsContent } from "@/components/ui/tabs";
-import { getInventories } from "../../inventories/data";
-import { getServices } from "../../services/data";
-import { BundlingDataForm } from "../components/bundling-data-form";
-import { BundlingItemTab } from "../components/bundling-item-tab";
-import { ImageForm } from "../components/image-form";
-import { type Bundling, getBundlingById } from "../data";
-import type { BundlingItem } from "../schema";
+import { type Bundling, getBundlingById } from "@/lib/modules/bundlings/data";
+import type { BundlingItem } from "@/lib/modules/bundlings/schema";
+import { getInventories } from "@/lib/modules/inventories/data";
+import { getServices } from "@/lib/modules/services/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -49,7 +49,7 @@ const InventoryDetailPage = async ({ params }: Props) => {
         forceMount
         value="image"
       >
-        <ImageForm id={bundling.id} src={bundling.image as string} />
+        <BundlingImageForm id={bundling.id} src={bundling.image as string} />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"

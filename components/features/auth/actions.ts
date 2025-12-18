@@ -1,6 +1,6 @@
 "use server";
 
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import { actionClient } from "@/lib/safe-action";
 import { loginSchema } from "./schema";
 

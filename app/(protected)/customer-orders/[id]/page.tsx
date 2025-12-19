@@ -3,26 +3,16 @@ import {
   ArrowDownCircle,
   ArrowUpCircle,
   Calendar,
-  CheckCircle2,
-  Clock,
   CreditCard,
-  Hammer,
   MapPin,
   Package,
   Truck,
 } from "lucide-react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
 
 // --- Types based on your Drizzle Schema ---
@@ -39,25 +29,25 @@ type Delivery = {
   notes?: string | null;
 };
 
+type OrderItem = {
+  id: string;
+  quantity: number;
+  subtotal: number;
+  note?: string; // Added
+  details: {
+    name: string;
+    price: number;
+  };
+};
+
 type OrderData = {
   id: string;
   status: "pending" | "processing" | "ready" | "completed";
   createdAt: string;
   customerName: string;
   member?: { name: string; phone: string; points: number };
-  items: Array<{
-    id: string;
-    itemType: "service" | "inventory" | "bundling" | "voucher";
-    quantity: number;
-    subtotal: number;
-    details: {
-      name: string;
-      description?: string;
-      price: number;
-      unit?: string;
-    };
-  }>;
-  payment?: {
+  items: OrderItem[];
+  payment: {
     status: string;
     method: "qris" | "cash";
     total: number;
@@ -73,36 +63,33 @@ async function getOrder(id: string): Promise<OrderData> {
 
   return {
     id,
-    status: "completed", // Try 'processing', 'ready', 'completed' to see changes
+    status: "pending", // Try 'processing', 'ready', 'completed' to see changes
     createdAt: new Date().toISOString(),
     customerName: "Budi Santoso",
     member: { name: "Budi Santoso", phone: "08123456789", points: 150 },
     items: [
       {
         id: "od-123",
-        itemType: "service",
         quantity: 5,
         subtotal: 50_000,
+        note: "Separate white clothes",
         details: {
           name: "Complete Wash (Wash & Fold)",
           price: 10_000,
-          description: "Per KG",
         },
       },
       {
         id: "od-124",
-        itemType: "inventory",
         quantity: 1,
         subtotal: 15_000,
         details: {
           name: "Premium Laundry Perfume",
           price: 15_000,
-          unit: "bottle",
         },
       },
     ],
     payment: {
-      status: "settlement",
+      status: "pending",
       method: "qris",
       total: 65_000,
       amountPaid: 65_000,
@@ -125,42 +112,30 @@ async function getOrder(id: string): Promise<OrderData> {
 const OrderStatusBadge = ({ status }: { status: OrderData["status"] }) => {
   const config = {
     pending: {
-      label: "Waiting for Payment",
-      icon: Clock,
-      className:
-        "bg-destructive-foreground text-destructive border-destructive",
+      label: "Payment Required",
+      variant: "destructive",
     },
     processing: {
       label: "Processing",
-      icon: Hammer,
-      className:
-        "bg-primary/10 text-primary border-primary/20 hover:bg-primary/10",
-      iconClass: "animate-spin",
+      variant: "outline",
     },
     ready: {
-      label: "Ready for Pickup",
-      icon: Package,
-      className:
-        "bg-green-50 text-green-700 border-green-200 hover:bg-green-50",
+      label: "Ready",
+      variant: "secondary",
     },
     completed: {
       label: "Completed",
-      icon: CheckCircle2,
-      className: "bg-primary text-primary-foreground",
+      variant: "default",
     },
   };
 
-  const { label, icon: Icon, className } = config[status] || config.pending;
+  const { label, variant } = config[status] || config.pending;
 
   return (
     <Badge
-      className={cn(
-        "flex items-center gap-1.5 border px-3 py-1.5 font-medium text-sm uppercase tracking-wide",
-        className
-      )}
-      variant="outline"
+      className="font-semibold text-xs uppercase"
+      variant={variant as "destructive" | "outline" | "secondary" | "default"}
     >
-      <Icon className={cn("h-3.5 w-3.5")} />
       {label}
     </Badge>
   );
@@ -168,6 +143,7 @@ const OrderStatusBadge = ({ status }: { status: OrderData["status"] }) => {
 
 // --- Main Page Component ---
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <will be fixed later>
 export default async function OrderDetailPage({ params }: OrderDetailProps) {
   const { id } = await params;
   const order = await getOrder(id);
@@ -187,19 +163,17 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
   return (
     <div className="mx-auto max-w-3xl space-y-8 p-6">
       {/* Header Section */}
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <div>
-            <h1 className="font-bold text-3xl text-foreground uppercase tracking-tight">
-              Order {order.id}
-            </h1>
-          </div>
-          <p className="mt-1 flex items-center gap-2 text-muted-foreground">
-            <Calendar className="h-4 w-4" />
-            {format(new Date(order.createdAt), "MMMM dd, yyyy, HH:mm")}
-          </p>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <h1 className="font-bold text-foreground text-xl uppercase tracking-tight">
+            Order {order.id}
+          </h1>
+          <OrderStatusBadge status={order.status} />
         </div>
-        <OrderStatusBadge status={order.status} />
+        <p className="mt-1 flex items-center gap-2 text-muted-foreground text-sm">
+          <Calendar className="h-4 w-4" />
+          {format(new Date(order.createdAt), "MMMM dd, yyyy, HH:mm")}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
@@ -213,47 +187,44 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-b-border hover:bg-transparent">
-                    <TableHead className="w-[50%] text-muted-foreground">
-                      Item
-                    </TableHead>
-                    <TableHead className="text-right text-muted-foreground">
-                      Price
-                    </TableHead>
-                    <TableHead className="text-right text-muted-foreground">
-                      Qty
-                    </TableHead>
-                    <TableHead className="text-right text-muted-foreground">
-                      Subtotal
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {order.items.map((item) => (
-                    <TableRow
-                      className="border-b-border hover:bg-muted/30"
-                      key={item.id}
-                    >
-                      <TableCell>
-                        <div className="font-medium text-foreground">
-                          {item.details.name}
+              <div className="space-y-4">
+                {order.items.map((item) => (
+                  <div className="rounded-xl border p-3" key={item.id}>
+                    {/* 2. ITEM DETAILS */}
+                    <div className="flex flex-1 flex-col justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <h4 className="line-clamp-1 font-semibold text-foreground">
+                              {item.details.name}
+                            </h4>
+                          </div>
                         </div>
-                      </TableCell>
-                      <TableCell className="text-right text-foreground">
-                        {formatToIDR(item.details.price)}
-                      </TableCell>
-                      <TableCell className="text-right text-foreground">
-                        {item.quantity}
-                      </TableCell>
-                      <TableCell className="text-right font-medium text-foreground">
-                        {formatToIDR(item.subtotal)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+
+                        {/* PRICE x QUANTITY */}
+                        <p className="text-muted-foreground text-sm">
+                          {item.quantity} x {formatToIDR(item.details.price)}
+                        </p>
+                      </div>
+
+                      {/* ITEM NOTE */}
+                      {item.note && (
+                        <div className="mt-3 flex items-start gap-2 rounded-md bg-muted/30 p-2 text-muted-foreground text-xs">
+                          <span className="italic">"{item.note}"</span>
+                        </div>
+                      )}
+
+                      {/* SUBTOTAL (Mobile Only) */}
+                      <div className="mt-3 flex items-center justify-between border-t pt-3">
+                        <span className="font-medium text-sm">Subtotal</span>
+                        <span className="font-bold text-primary">
+                          {formatToIDR(item.subtotal)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -277,12 +248,13 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Status</span>
-                {order.payment ? (
+                {order.payment?.status === "settlement" ? (
                   <Badge>PAID</Badge>
                 ) : (
                   <Badge variant="destructive">UNPAID</Badge>
                 )}
               </div>
+
               {order.payment && (
                 <>
                   <div className="flex justify-between text-sm">
@@ -301,7 +273,9 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                   )}
                 </>
               )}
+
               <Separator className="bg-sidebar-border" />
+
               <div className="flex items-center justify-between pt-2">
                 <span className="font-semibold text-sidebar-foreground">
                   Total
@@ -310,6 +284,16 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                   {formatToIDR(order.payment?.total || 0)}
                 </span>
               </div>
+
+              {/* --- NEW: Payment Button Logic --- */}
+              {order.payment && order.payment.status !== "settlement" && (
+                <Link
+                  className={cn(buttonVariants(), "w-full")}
+                  href={`/customer-orders/${order.id}/payment`}
+                >
+                  Pay Now
+                </Link>
+              )}
             </CardContent>
           </Card>
 
@@ -351,7 +335,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                           </Badge>
                         </div>
 
-                        <div className="flex items-start gap-3 pl-1">
+                        <div className="flex items-start gap-2">
                           <MapPin className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
                           <div className="text-sm">
                             <p className="font-medium text-foreground">

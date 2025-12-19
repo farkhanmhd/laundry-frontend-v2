@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { Home, MapIcon, MapPin, Plus, Trash2, X } from "lucide-react";
+import { MapPin, Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -95,7 +95,7 @@ export default function AddressManager({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" id="address">
       {/* 1. LIST VIEW */}
       {!isAdding && (
         <Card style={cardShadowStyle}>
@@ -133,39 +133,27 @@ export default function AddressManager({
               </div>
             ) : (
               addresses.map((addr) => (
-                <div
-                  className="flex items-start justify-between rounded-lg border bg-card p-4 transition-colors hover:bg-accent/5"
-                  key={addr.id}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 rounded-md bg-secondary p-2">
-                      <Home className="h-4 w-4 text-foreground" />
-                    </div>
-                    <div className="space-y-1">
-                      <p className="font-medium leading-none">{addr.label}</p>
-                      <p className="text-muted-foreground text-sm">
-                        {addr.street}
-                      </p>
-
-                      {/* --- CHANGED: View Location Button --- */}
-                      <Button
-                        className="flex h-auto items-center gap-1 p-0 text-blue-600 text-xs hover:no-underline"
-                        onClick={() => setViewingAddress(addr)}
-                        variant="link"
-                      >
-                        <MapIcon className="h-3 w-3" />
-                        View Location
-                      </Button>
-                    </div>
+                <div className="space-y-4 rounded-lg border p-3" key={addr.id}>
+                  <div className="space-y-1">
+                    <p className="font-medium leading-none">{addr.label}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {addr.street}
+                    </p>
                   </div>
-                  <Button
-                    className="text-muted-foreground hover:bg-red-50 hover:text-red-600"
-                    onClick={() => handleDelete(addr.id)}
-                    size="icon"
-                    variant="ghost"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center justify-between">
+                    <Button
+                      onClick={() => setViewingAddress(addr)}
+                      variant="secondary"
+                    >
+                      View Location
+                    </Button>
+                    <Button
+                      onClick={() => handleDelete(addr.id)}
+                      variant="destructive"
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ))
             )}
@@ -267,11 +255,9 @@ export default function AddressManager({
           <div className="h-[300px] w-full overflow-hidden rounded-md border">
             {viewingAddress && (
               <MapPicker
-                // Key forces re-render when switching between different addresses
                 initialPosition={[viewingAddress.lat, viewingAddress.lng]}
                 key={viewingAddress.id}
-                // Empty function effectively makes it "read-only" for selection purposes
-                onLocationSelect={() => {}}
+                onLocationSelect={() => ({})}
               />
             )}
           </div>

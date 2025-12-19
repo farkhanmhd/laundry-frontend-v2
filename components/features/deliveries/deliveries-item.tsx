@@ -1,4 +1,4 @@
-import { ChevronRight, Clock, Truck } from "lucide-react";
+import { Clock } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -19,21 +19,13 @@ type Props = {
 export function DeliveriesItem({ delivery, shadow = false }: Props) {
   return (
     <div
-      className="flex flex-col gap-3 rounded-lg border p-4 transition-colors sm:flex-row sm:items-center sm:justify-between"
+      className="grid gap-3 rounded-lg border p-4"
       style={shadow ? cardShadowStyle : {}}
     >
       <div className="flex items-start gap-4">
-        <div
-          className={cn(
-            buttonVariants({ variant: "secondary" }),
-            "rounded-full"
-          )}
-        >
-          <Truck className="h-5 w-5" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <h4 className="font-semibold uppercase">{delivery.type} Request</h4>
+        <div className="flex w-full flex-col gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <h4 className="font-semibold text-sm uppercase">{delivery.type}</h4>
             <Badge
               className="font-semibold"
               variant={getStatusColor(delivery.status)}
@@ -41,38 +33,39 @@ export function DeliveriesItem({ delivery, shadow = false }: Props) {
               {delivery.status.toUpperCase().split("_").join(" ")}
             </Badge>
           </div>
-          <p className="line-clamp-1 text-muted-foreground text-sm">
-            {delivery.address}
-          </p>
-          <div className="flex items-center gap-2 text-muted-foreground text-sm">
-            <Link
-              className={cn(
-                buttonVariants({
-                  variant: "link",
-                }),
-                "px-0 uppercase"
-              )}
-              href={`/customer/orders/${delivery.orderId}`}
-            >
-              {delivery.orderId}
-            </Link>
-            <Client>
-              <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3" /> {formatDate(delivery.date)}
-              </span>
-            </Client>
+          <div>
+            <p className="line-clamp-1 text-muted-foreground text-sm">
+              {delivery.address}
+            </p>
+            <div className="flex items-center gap-2 text-muted-foreground text-sm">
+              <Client>
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" /> {formatDate(delivery.date)}
+                </span>
+              </Client>
+            </div>
           </div>
         </div>
       </div>
-      <Link
-        className={cn(
-          buttonVariants({ variant: "outline", size: "icon" }),
-          "self-end sm:self-center"
-        )}
-        href={`/customer-deliveries/${delivery.id}`}
-      >
-        <ChevronRight className="h-4 w-4 text-muted-foreground" />
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          className={cn(
+            buttonVariants({
+              variant: "link",
+            }),
+            "px-0 text-sm uppercase"
+          )}
+          href={`/customer/orders/${delivery.orderId}`}
+        >
+          {delivery.orderId}
+        </Link>
+        <Link
+          className={cn(buttonVariants({ variant: "secondary" }))}
+          href={`/customer-deliveries/${delivery.id}`}
+        >
+          View Delivery
+        </Link>
+      </div>
     </div>
   );
 }

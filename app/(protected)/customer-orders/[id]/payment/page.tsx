@@ -1,182 +1,190 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, CheckCircle2, Download, RefreshCw } from "lucide-react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { Client } from "@/components/utils/client";
+import { cardShadowStyle, formatDate } from "@/lib/utils"; // Assuming utils exist
 
-interface PaymentMethod {
-  id: string;
-  name: string;
-  icon: string;
-  description: string;
-}
-
-const paymentMethods: PaymentMethod[] = [
-  {
-    id: "qris",
-    name: "QRIS",
-    icon: "📱",
-    description: "Quick Response Code for instant transfer",
-  },
-  {
-    id: "cash",
-    name: "Cash Payment",
-    icon: "💵",
-    description: "Pay with cash upon delivery",
-  },
-];
+// Helper for currency formatting
+const formatToIDR = (amount: number) =>
+  new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(amount);
 
 export default function PaymentPage() {
   const params = useParams();
   const router = useRouter();
   const orderId = params.id as string;
-  const [selectedMethod, setSelectedMethod] = useState("qris");
-  const [isProcessing, setIsProcessing] = useState(false);
 
-  const orderTotal = 165_000; // Mock amount from order
-
-  const handlePayment = async () => {
-    setIsProcessing(true);
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    // Redirect to order detail page
-    router.push(`/customer/my-orders/${orderId}`);
+  // --- MOCK DATA (Replace with your actual data fetching) ---
+  const order = {
+    id: orderId,
+    total: 165_000,
+    subtotal: 185_000,
+    discount: 20_000,
+    payment: {
+      // CHANGE THIS TO 'pending' OR 'settlement' TO SEE THE DIFFERENT STATES
+      status: "pending",
+      method: "qris",
+      paidAt: new Date().toISOString(),
+    },
   };
+  // ---------------------------------------------------------
 
+  // --- VIEW 1: SUCCESS STATE ---
+  if (order.payment.status === "settlement") {
+    return (
+      <div className="flex min-h-[80vh] items-center justify-center p-6">
+        <Card className="w-full max-w-md text-center" style={cardShadowStyle}>
+          <CardContent className="space-y-6 pt-10 pb-10">
+            <div className="flex justify-center">
+              <div className="rounded-full bg-green-100 p-4">
+                <CheckCircle2 className="h-12 w-12 text-green-600" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="font-bold text-2xl tracking-tight">
+                Payment Successful!
+              </h2>
+              <p className="text-muted-foreground">
+                Thank you for your payment. Your order is now being processed.
+              </p>
+            </div>
+
+            <div className="space-y-3 rounded-lg border bg-muted/50 p-4 text-left">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Transaction ID</span>
+                <span className="font-medium font-mono uppercase">
+                  {orderId}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Date</span>
+                <Client>
+                  <span className="font-medium">
+                    {formatDate(order.payment.paidAt)}
+                  </span>
+                </Client>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Payment Method</span>
+                <span className="font-medium uppercase">
+                  {order.payment.method}
+                </span>
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between font-bold">
+                <span>Total Paid</span>
+                <Client>
+                  <span className="text-lg text-primary">
+                    {formatToIDR(order.total)}
+                  </span>
+                </Client>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <Button
+                className="w-full gap-2"
+                onClick={() => router.push(`/orders/${orderId}`)}
+                size="lg" // Adjust route as needed
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Return to Order Details
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // --- VIEW 2: PENDING / QRIS SCAN STATE ---
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-2xl">
-        {/* Header */}
-        <div className="mb-8">
-          <Link href={`/customer/my-orders/${orderId}`}>
-            <Button className="mb-4" size="sm" variant="ghost">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Order
-            </Button>
-          </Link>
-          <h1 className="font-bold text-3xl">Payment</h1>
-          <p className="mt-1 text-muted-foreground">Order {orderId}</p>
-        </div>
-
+    <div className="p-6">
+      <div className="mx-auto max-w-2xl space-y-6">
         {/* Order Summary */}
-        <Card className="mb-8">
-          <CardHeader>
+        <Card style={cardShadowStyle}>
+          <CardHeader className="pb-4">
             <CardTitle>Order Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal:</span>
-                <span>Rp 185.000</span>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground text-sm">Order ID</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium font-mono text-sm uppercase">
+                    {orderId}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between text-green-600">
-                <span className="text-muted-foreground">Discount:</span>
-                <span>-Rp 20.000</span>
+              <Separator />
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span>{formatToIDR(order.subtotal)}</span>
               </div>
-              <div className="flex justify-between border-t pt-3 font-bold text-lg">
-                <span>Total Amount:</span>
-                <span>
-                  Rp {new Intl.NumberFormat("id-ID").format(orderTotal)}
-                </span>
+              <div className="flex justify-between text-green-600 text-sm">
+                <span className="text-muted-foreground">Discount</span>
+                <span>-{formatToIDR(order.discount)}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-dashed pt-3 font-bold text-lg">
+                <span>Total Amount</span>
+                <span className="text-primary">{formatToIDR(order.total)}</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Payment Methods */}
-        <Card>
+        <Card
+          className="overflow-hidden border-primary/20"
+          style={cardShadowStyle}
+        >
           <CardHeader>
-            <CardTitle>Select Payment Method</CardTitle>
-            <CardDescription>Choose how you want to pay</CardDescription>
+            <CardTitle className="font-bold text-2xl">Scan to Pay</CardTitle>
+            <CardDescription>
+              Scan the QRIS code below with your preferred payment app.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <RadioGroup
-              onValueChange={setSelectedMethod}
-              value={selectedMethod}
-            >
-              <div className="space-y-4">
-                {paymentMethods.map((method) => (
-                  <div
-                    className="flex cursor-pointer items-center space-x-4 rounded-lg border p-4 transition hover:bg-accent"
-                    key={method.id}
-                  >
-                    <RadioGroupItem id={method.id} value={method.id} />
-                    <Label
-                      className="flex-1 cursor-pointer"
-                      htmlFor={method.id}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{method.icon}</span>
-                        <div>
-                          <p className="font-medium">{method.name}</p>
-                          <p className="text-muted-foreground text-sm">
-                            {method.description}
-                          </p>
-                        </div>
-                      </div>
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </RadioGroup>
 
-            {/* Payment Details */}
-            <div className="mt-8 rounded-lg bg-muted p-4">
-              {selectedMethod === "qris" && (
-                <div className="text-center">
-                  <p className="mb-4 font-medium text-sm">
-                    Scan QR Code to complete payment
-                  </p>
-                  <div className="mb-4 inline-block rounded-lg bg-white p-4">
-                    <div className="flex h-40 w-40 items-center justify-center rounded bg-gray-200 text-muted-foreground text-sm">
-                      [QR Code Here]
-                    </div>
-                  </div>
-                  <p className="mt-2 text-muted-foreground text-xs">
-                    Valid for 15 minutes
-                  </p>
-                </div>
-              )}
-              {selectedMethod === "cash" && (
-                <div>
-                  <p className="text-sm">
-                    Pay{" "}
-                    <span className="font-bold">
-                      Rp {new Intl.NumberFormat("id-ID").format(orderTotal)}
-                    </span>{" "}
-                    in cash when the order is delivered.
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="mt-8 flex gap-3">
-              <Link className="flex-1" href={`/customer/my-orders/${orderId}`}>
-                <Button className="w-full bg-transparent" variant="outline">
-                  Cancel
-                </Button>
-              </Link>
-              <Button
-                className="flex-1"
-                disabled={isProcessing}
-                onClick={handlePayment}
-              >
-                {isProcessing ? "Processing..." : "Complete Payment"}
-              </Button>
+          <CardContent className="space-y-6 pt-4">
+            {/* QR Code Section */}
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <Image
+                alt="QRIS Code"
+                className="h-50 w-50 rounded-md object-contain"
+                height={200}
+                priority // Replace with real QR data
+                src="/placeholder.svg"
+                width={200}
+              />
             </div>
           </CardContent>
+
+          <CardFooter className="flex-col gap-3 bg-muted/20 pt-6">
+            <Button className="w-full gap-2" size="lg">
+              <RefreshCw className="h-4 w-4" />
+              Check Payment Status
+            </Button>
+            <Button className="w-full gap-2" variant="outline">
+              <Download className="h-4 w-4" />
+              Save QR Image
+            </Button>
+          </CardFooter>
         </Card>
       </div>
     </div>

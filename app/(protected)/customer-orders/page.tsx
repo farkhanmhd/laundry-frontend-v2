@@ -1,4 +1,4 @@
-import { OrderItem } from "@/components/features/orders/order-item";
+import { OrderListItem } from "@/components/features/orders/order-list-item";
 import { Button } from "@/components/ui/button";
 import { mockCustomerOrders } from "./data";
 
@@ -12,7 +12,7 @@ const MyOrdersPage = () => (
     </div>
     <div className="grid gap-4">
       {mockCustomerOrders.map((order) => (
-        <OrderItem key={order.id} order={order} shadow />
+        <OrderListItem key={order.id} order={order} shadow />
       ))}
       <Button variant="secondary">Load More</Button>
     </div>

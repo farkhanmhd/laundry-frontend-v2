@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -63,29 +62,28 @@ export function AccountDataForm({ account }: Props) {
   };
 
   return (
-    <Card style={cardShadowStyle}>
-      <CardHeader className="flex flex-row items-start justify-between space-y-0">
-        <div className="space-y-1.5">
-          <CardTitle className="font-semibold text-2xl">
+    <Card id="settings" style={cardShadowStyle}>
+      <CardHeader className="space-y-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="font-semibold text-lg">
             Account Settings
           </CardTitle>
-          <CardDescription>
-            Manage your personal information and contact details.
-          </CardDescription>
+          {!isEditing && (
+            <Button
+              className="gap-2"
+              onClick={() => setIsEditing(true)}
+              size="sm"
+              variant="outline"
+            >
+              Edit Profile
+            </Button>
+          )}
         </div>
 
         {/* Edit Button Toggle */}
-        {!isEditing && (
-          <Button
-            className="gap-2"
-            onClick={() => setIsEditing(true)}
-            size="sm"
-            variant="outline"
-          >
-            <Pencil className="h-4 w-4" />
-            Edit Profile
-          </Button>
-        )}
+        <CardDescription>
+          Manage your personal information and contact details.
+        </CardDescription>
       </CardHeader>
 
       <CardContent>

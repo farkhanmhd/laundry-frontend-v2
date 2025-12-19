@@ -3,7 +3,7 @@
 import { MapPin, Ticket, Truck, Wallet } from "lucide-react";
 import Link from "next/link";
 import { DeliveriesItem } from "@/components/features/deliveries/deliveries-item";
-import { OrderItem } from "@/components/features/orders/order-item";
+import { OrderListItem } from "@/components/features/orders/order-list-item";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -138,15 +138,15 @@ export default function CustomerDashboard() {
             {/* Recent Deliveries */}
             <Card className="gap-3" style={cardShadowStyle}>
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="font-semibold text-lg">
+                <div className="flex items-center justify-between gap-3">
+                  <CardTitle className="font-semibold md:text-lg">
                     Recent Deliveries
                   </CardTitle>
                   <Link
                     className={cn(buttonVariants({ variant: "outline" }))}
                     href="/customer-deliveries"
                   >
-                    View All Deliveries
+                    View All
                   </Link>
                 </div>
               </CardHeader>
@@ -168,13 +168,13 @@ export default function CustomerDashboard() {
                     className={cn(buttonVariants({ variant: "outline" }))}
                     href="/customer-orders"
                   >
-                    View All Orders
+                    View All
                   </Link>
                 </div>
               </CardHeader>
               <CardContent className="grid gap-4">
                 {recentOrders.map((order) => (
-                  <OrderItem key={order.id} order={order} />
+                  <OrderListItem key={order.id} order={order} />
                 ))}
               </CardContent>
             </Card>
@@ -198,15 +198,18 @@ export default function CustomerDashboard() {
                     <Truck className="h-6 w-6" />
                     <span className="font-semibold text-xs">New Order</span>
                   </Button>
-                  <Button
-                    className="flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
-                    variant="outline"
+                  <Link
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
+                    )}
+                    href="/account#address"
                   >
                     <MapPin className="h-6 w-6" />
                     <span className="font-semibold text-xs">
                       Manage Address
                     </span>
-                  </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

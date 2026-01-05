@@ -40,39 +40,12 @@ export function PosOrderProducts() {
     }));
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    orderItem: PosOrderItem
-  ) => {
-    // 1. Sanitize the input to get a valid number.
-    const newQuantity = Number(e.target.value.replace(/[^0-9]/g, ""));
-
-    // 2. Determine the quantity, ensuring it doesn't exceed the available stock.
-    const cappedQuantity = Math.min(newQuantity, orderItem.stock);
-
-    // if (newQuantity === 0) {
-    //   setPosItem((currentProducts) => ({
-    //     ...posItem,
-    //     items: currentProducts.items.filter(
-    //       (item) => item.product.id !== orderProduct.product.id
-    //     ),
-    //   }));
-    // }
-
-    setPosItem((currentProducts) => ({
-      ...posItem,
-      items: currentProducts.items.map((item) =>
-        item.id === orderItem.id ? { ...item, quantity: cappedQuantity } : item
-      ),
-    }));
-  };
-
   return (
     <>
       <header className="z-50 flex h-20 items-center justify-center">
         <span className="font-semibold text-lg">Cart</span>
       </header>
-      <ScrollArea className="h-[calc(100dvh-80px-48px-200px)] flex-1">
+      <ScrollArea className="h-[calc(100dvh-72px-200px)] flex-1">
         <ul className="flex flex-col divide-y divide-dashed divide-primary/20 px-4">
           {posItem.items.length === 0 ? (
             <li className="flex h-[133px] items-center justify-center border-b border-dashed text-secondary-foreground/70">
@@ -107,7 +80,6 @@ export function PosOrderProducts() {
                         <NumberInput
                           onDecrement={() => handleDecrementQuantity(item.id)}
                           onIncrement={() => handleIncrementQuantity(item.id)}
-                          onInputChange={(e) => handleInputChange(e, item)}
                           value={item.quantity}
                         />
                       </div>
@@ -124,19 +96,8 @@ export function PosOrderProducts() {
           <span>Total</span>
           <span>{formatToIDR(total)}</span>
         </div>
-        <div className="flex gap-2">
-          <Button className="h-10 flex-1 rounded-full" variant="secondary">
-            Add Promo or Voucher
-          </Button>
-          <Button
-            className="h-10 flex-1 rounded-full text-base"
-            variant="secondary"
-          >
-            Cash
-          </Button>
-        </div>
         <div>
-          <Button className="h-12 w-full text-lg">Place Order</Button>
+          <Button className="h-12 w-full text-lg">Order Summary</Button>
         </div>
       </footer>
     </>

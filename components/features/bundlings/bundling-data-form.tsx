@@ -66,7 +66,7 @@ export const BundlingDataForm = ({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">Inventory Data</h2>
+        <h2 className="font-semibold text-xl">Bundling Data</h2>
         <p className="text-muted-foreground text-sm">
           Review and modify key Bundling details such as name, description,
           price.

@@ -77,7 +77,7 @@ export const superAdminNavData: NavItem[] = [
   ...adminNavData,
   {
     title: "Users",
-    url: "#",
+    url: "/users",
     icon: ShieldUser,
   },
 ];

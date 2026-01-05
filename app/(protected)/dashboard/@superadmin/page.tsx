@@ -39,7 +39,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
+import { cardShadowStyle, cn } from "@/lib/utils";
 
 // --- DASHBOARD METRICS ---
 const dashboardMetrics = {
@@ -50,32 +50,6 @@ const dashboardMetrics = {
   revenueGrowth: 12.5,
   orderGrowth: 8.2,
 };
-
-// --- CHART DATA ---
-const revenueData = [
-  { month: "January", revenue: 320_000, orders: 24 },
-  { month: "February", revenue: 380_000, orders: 28 },
-  { month: "March", revenue: 420_000, orders: 35 },
-  { month: "April", revenue: 450_000, orders: 41 },
-  { month: "May", revenue: 520_000, orders: 48 },
-  { month: "June", revenue: 480_000, orders: 44 },
-  { month: "July", revenue: 550_000, orders: 51 },
-  { month: "August", revenue: 650_000, orders: 58 },
-];
-
-const revenueTrendConfig = {
-  revenue: {
-    label: "Revenue",
-    color: "var(--chart-4)",
-  },
-} satisfies ChartConfig;
-
-const ordersTrendConfig = {
-  orders: {
-    label: "Orders",
-    color: "var(--chart-4)",
-  },
-} satisfies ChartConfig;
 
 const orderStatusData = [
   { name: "Pending", value: 24, fill: "var(--chart-1)" },
@@ -402,14 +376,10 @@ const StatCard = ({
   value,
   valueColor = "text-foreground",
 }: StatCardProps) => (
-  <Card
-    style={{
-      boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-    }}
-  >
+  <Card style={cardShadowStyle}>
     <CardHeader className="pb-2">
       <CardDescription>{label}</CardDescription>
-      <CardTitle className={cn("font-bold text-4xl", valueColor)}>
+      <CardTitle className={cn("font-bold text-2xl", valueColor)}>
         {typeof value === "number" && value > 100_000
           ? `Rp${(value / 1_000_000).toFixed(1)}M`
           : value}
@@ -523,12 +493,7 @@ export default function SuperAdminDashboard() {
         {/* ROW 1: Order Status, Delivery Status, Low Stock */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Order Status Distribution (Donut Chart) */}
-          <Card
-            className="flex flex-col"
-            style={{
-              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            }}
-          >
+          <Card className="flex flex-col" style={cardShadowStyle}>
             <CardHeader className="items-center pb-0">
               <CardTitle>Order Status Distribution</CardTitle>
               <CardDescription>
@@ -593,11 +558,7 @@ export default function SuperAdminDashboard() {
           </Card>
 
           {/* Low Stock Alert - Clickable Links */}
-          <Card
-            style={{
-              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            }}
-          >
+          <Card style={cardShadowStyle}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
@@ -647,16 +608,9 @@ export default function SuperAdminDashboard() {
         {/* ROW 2: Top Services, Inventory Usage, Bundling */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Top Services */}
-          <Card
-            style={{
-              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            }}
-          >
+          <Card style={cardShadowStyle}>
             <CardHeader>
               <CardTitle>Top Services</CardTitle>
-              <CardDescription>
-                Best performing services by revenue
-              </CardDescription>
             </CardHeader>
             <CardContent>
               <ChartContainer config={topServicesConfig}>
@@ -713,10 +667,9 @@ export default function SuperAdminDashboard() {
           </Card>
 
           {/* Inventory Usage */}
-          <Card style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
+          <Card style={cardShadowStyle}>
             <CardHeader>
               <CardTitle>Inventory Usage</CardTitle>
-              <CardDescription>Most used items this month</CardDescription>
             </CardHeader>
             <CardContent>
               <ChartContainer config={inventoryUsageConfig}>
@@ -767,11 +720,11 @@ export default function SuperAdminDashboard() {
           </Card>
 
           {/* Bundling Stats */}
-          <Card style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
+          <Card style={cardShadowStyle}>
             <CardHeader>
               <CardTitle>Bundling Performance</CardTitle>
-              <CardDescription>Best selling bundles</CardDescription>
             </CardHeader>
+
             <CardContent>
               <ChartContainer config={bundlingStatsConfig}>
                 <BarChart
@@ -821,110 +774,9 @@ export default function SuperAdminDashboard() {
           </Card>
         </div>
 
-        {/* ROW 3: Revenue & Orders Trends */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Revenue Trend Chart */}
-          <Card style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
-            <CardHeader>
-              <CardTitle>Revenue Trend</CardTitle>
-              <CardDescription>Monthly revenue performance</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={revenueTrendConfig}>
-                <BarChart
-                  accessibilityLayer
-                  data={revenueData}
-                  margin={{
-                    top: 20,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    axisLine={false}
-                    dataKey="month"
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    tickLine={false}
-                    tickMargin={10}
-                  />
-                  <ChartTooltip
-                    content={<ChartTooltipContent hideLabel />}
-                    cursor={false}
-                  />
-                  <Bar dataKey="revenue" fill="var(--color-revenue)" radius={8}>
-                    <LabelList
-                      className="fill-foreground"
-                      fontSize={12}
-                      formatter={(value: number) =>
-                        `${(value / 1000).toFixed(0)}k`
-                      }
-                      offset={12}
-                      position="top"
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="text-muted-foreground leading-none">
-                Showing total revenue for the last 8 months
-              </div>
-            </CardFooter>
-          </Card>
-
-          {/* Orders Trend Chart */}
-          <Card style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}>
-            <CardHeader>
-              <CardTitle>Orders Trend</CardTitle>
-              <CardDescription>Monthly orders performance</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={ordersTrendConfig}>
-                <BarChart
-                  accessibilityLayer
-                  data={revenueData} // Using same dataset for demo
-                  margin={{
-                    top: 20,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    axisLine={false}
-                    dataKey="month"
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    tickLine={false}
-                    tickMargin={10}
-                  />
-                  <ChartTooltip
-                    content={<ChartTooltipContent hideLabel />}
-                    cursor={false}
-                  />
-                  <Bar dataKey="orders" fill="var(--color-orders)" radius={8}>
-                    <LabelList
-                      className="fill-foreground"
-                      fontSize={12}
-                      offset={12}
-                      position="top"
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="text-muted-foreground leading-none">
-                Showing total orders for the last 8 months
-              </div>
-            </CardFooter>
-          </Card>
-        </div>
-
         {/* ROW 4: Recent Orders */}
         <div className="grid grid-cols-1 gap-6">
-          <Card
-            className="flex h-full flex-col"
-            style={{
-              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            }}
-          >
+          <Card className="flex h-full flex-col" style={cardShadowStyle}>
             <Tabs className="flex w-full flex-1 flex-col" defaultValue="all">
               <CardHeader className="flex flex-col gap-4 pb-4">
                 <div className="flex w-full items-center justify-between">
@@ -958,7 +810,7 @@ export default function SuperAdminDashboard() {
                 {["all", "pending", "processing", "ready", "completed"].map(
                   (tab) => (
                     <TabsContent
-                      className="mt-0 space-y-1"
+                      className="mt-0 space-y-2"
                       key={tab}
                       value={tab}
                     >

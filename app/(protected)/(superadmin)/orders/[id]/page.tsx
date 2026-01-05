@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Banknote,
-  Bike,
-  CreditCard,
-  MapPin,
-  Phone,
-  StickyNote,
-  User,
-} from "lucide-react";
-import Link from "next/link";
+import { Banknote, Bike, CreditCard, StickyNote, User } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,18 +8,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -146,7 +129,7 @@ export default function OrderDetailPage() {
   const order = orderDetail;
 
   return (
-    <div className="min-h-screen space-y-6 p-6">
+    <div className="min-h-[calc(100dvh-128px)] space-y-6 p-6 md:min-h-[calc(100dvh-64px)]">
       {/* HEADER */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
@@ -337,56 +320,6 @@ export default function OrderDetailPage() {
 
         {/* RIGHT COLUMN: Customer, Delivery, Actions */}
         <div className="space-y-6">
-          {/* STATUS ACTIONS */}
-          <Card className="border-l-4 border-l-primary" style={cardShadowStyle}>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Update Status</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Select defaultValue={order.status}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="processing">Processing</SelectItem>
-                  <SelectItem value="ready">Ready</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <div className="space-y-4 pt-2">
-                <div className="flex gap-3 text-sm">
-                  <div className="flex flex-col items-center">
-                    <div className="h-2 w-2 rounded-full bg-primary" />
-                    <div className="h-full w-0.5 bg-muted" />
-                  </div>
-                  <div className="pb-4">
-                    <p className="font-medium leading-none">Order Created</p>
-                    <p className="mt-1 text-muted-foreground text-xs">
-                      10:30 AM
-                    </p>
-                  </div>
-                </div>
-                <div className="flex gap-3 text-sm">
-                  <div className="flex flex-col items-center">
-                    <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-primary leading-none">
-                      Processing
-                    </p>
-                    <p className="mt-1 text-muted-foreground text-xs">
-                      In Progress
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <Button className="w-full">Save Changes</Button>
-            </CardContent>
-          </Card>
-
           {/* CUSTOMER DETAILS */}
           <Card className="gap-3" style={cardShadowStyle}>
             <CardHeader>
@@ -395,44 +328,10 @@ export default function OrderDetailPage() {
                 Customer Details
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted font-bold text-foreground">
-                  {order.member.name.charAt(0)}
-                </div>
-                <div className="space-y-1.5">
-                  <p className="font-medium">{order.member.name}</p>
-                  <p className="w-fit rounded bg-muted px-1.5 py-0.5 font-mono text-muted-foreground text-xs uppercase">
-                    {order.member.id}
-                  </p>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm">
-                  <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
-                  <span>{order.member.phone}</span>
-                </div>
-                {order.member && (
-                  <div className="flex items-center gap-3 text-sm">
-                    <div className="flex w-4 items-center justify-center">
-                      <span className="font-bold text-primary text-xs">P</span>
-                    </div>
-                    <span>{order.member.points} Points</span>
-                  </div>
-                )}
-              </div>
-              <Separator />
+            <CardContent>
+              <p className="font-medium">{order.member.name}</p>
+              <span className="text-sm">{order.member.phone}</span>
             </CardContent>
-            <CardFooter>
-              <Button asChild className="h-8 w-full" size="sm" variant="ghost">
-                <Link href={`/members/${order.member.id}`}>
-                  View Member Profile
-                </Link>
-              </Button>
-            </CardFooter>
           </Card>
 
           {/* DELIVERY INFORMATION */}
@@ -451,11 +350,7 @@ export default function OrderDetailPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-1">
-                  <p className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
-                    Address
-                  </p>
                   <div className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
                     <div className="text-sm">
                       <span className="mb-0.5 block font-medium">
                         {order.delivery.address.label}

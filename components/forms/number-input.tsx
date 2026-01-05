@@ -1,7 +1,6 @@
 "use client";
 
 import { MinusIcon, PlusIcon } from "lucide-react";
-import type { ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +10,6 @@ interface Props {
   withLabel?: boolean;
   label?: string;
   value: number;
-  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onIncrement: () => void;
   onDecrement: () => void;
 }
@@ -20,7 +18,6 @@ export default function NumberInput({
   withLabel,
   label = "label",
   value = 0,
-  onInputChange,
   onIncrement,
   onDecrement,
 }: Props) {
@@ -29,13 +26,9 @@ export default function NumberInput({
       {withLabel && (
         <Label className="font-medium text-foreground text-sm">{label}</Label>
       )}
-      <Input
-        className="h-8 w-14! font-mono"
-        onChange={onInputChange}
-        value={value}
-      />
       <Button
         aria-label="Decrement"
+        className="h-7.5"
         onClick={onDecrement}
         size="icon-sm"
         type="button"
@@ -43,9 +36,14 @@ export default function NumberInput({
       >
         <MinusIcon aria-hidden="true" size={12} />
       </Button>
-
+      <Input
+        className="h-7.5 w-13! text-center font-mono focus-visible:border-input focus-visible:ring-0"
+        readOnly
+        value={value}
+      />
       <Button
         aria-label="Increment"
+        className="h-7.5"
         onClick={onIncrement}
         size="icon-sm"
         type="button"

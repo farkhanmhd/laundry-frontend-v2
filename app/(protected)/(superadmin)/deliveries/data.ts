@@ -24,6 +24,30 @@ export const mockDeliveries: Delivery[] = [
     status: "requested",
     requestedAt: "2025-12-15T08:30:00Z",
   },
+
+  {
+    id: "dlv-3",
+    orderId: "ord-3321",
+
+    routeId: null,
+    customerName: "Coffee Shop Kenangan",
+    customerPhone: "+62 811-2233-4455",
+    address: "Jl. Pattimura No. 10 (Staff Entrance)",
+    status: "requested",
+    requestedAt: "2025-12-15T10:00:00Z",
+  },
+
+  {
+    id: "dlv-5",
+    orderId: "ord-5543",
+
+    routeId: null,
+    customerName: "Rina Wati",
+    customerPhone: "+62 877-1122-3344",
+    address: "Komplek Asia Mega Mas, Block DD",
+    status: "requested",
+    requestedAt: "2025-12-15T11:20:00Z",
+  },
   {
     id: "dlv-2",
     orderId: "ord-9921",
@@ -36,17 +60,6 @@ export const mockDeliveries: Delivery[] = [
     requestedAt: "2025-12-15T09:15:00Z",
   },
   {
-    id: "dlv-3",
-    orderId: "ord-3321",
-
-    routeId: null,
-    customerName: "Coffee Shop Kenangan",
-    customerPhone: "+62 811-2233-4455",
-    address: "Jl. Pattimura No. 10 (Staff Entrance)",
-    status: "requested",
-    requestedAt: "2025-12-15T10:00:00Z",
-  },
-  {
     id: "dlv-4",
     orderId: "ord-1102",
 
@@ -56,16 +69,5 @@ export const mockDeliveries: Delivery[] = [
     address: "Jl. Sudirman No. 5",
     status: "assigned",
     requestedAt: "2025-12-14T16:45:00Z",
-  },
-  {
-    id: "dlv-5",
-    orderId: "ord-5543",
-
-    routeId: null,
-    customerName: "Rina Wati",
-    customerPhone: "+62 877-1122-3344",
-    address: "Komplek Asia Mega Mas, Block DD",
-    status: "requested",
-    requestedAt: "2025-12-15T11:20:00Z",
   },
 ];

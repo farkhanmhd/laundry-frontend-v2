@@ -1,10 +1,29 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
-import { addressSchema, updateProfileSchema } from "./schema";
+import {
+  addressSchema,
+  updateAdminSchema,
+  updatePasswordSchema,
+  updateProfileSchema,
+} from "./schema";
 
 export const updateProfileAction = actionClient
   .inputSchema(updateProfileSchema)
+  .action(async ({ parsedInput }) => {
+    // SIMULATE SERVER DELAY
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    console.log("Updating user:", parsedInput);
+
+    return {
+      status: "success",
+      message: "Profile updated successfully",
+    };
+  });
+
+export const updateAdminAction = actionClient
+  .inputSchema(updateAdminSchema)
   .action(async ({ parsedInput }) => {
     // SIMULATE SERVER DELAY
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -33,5 +52,21 @@ export const addAddressAction = actionClient
       status: "success",
       message: "Address saved successfully",
       data: newAddress,
+    };
+  });
+
+export const updatePasswordAction = actionClient
+  .inputSchema(updatePasswordSchema)
+  .action(async ({ parsedInput }) => {
+    // SIMULATE SERVER DELAY
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // HERE: You would typically verify the old password matches the DB
+    // and then hash and save the new password.
+    console.log("Updating password...", "Old:", parsedInput.oldPassword);
+
+    return {
+      status: "success",
+      message: "Password changed successfully",
     };
   });

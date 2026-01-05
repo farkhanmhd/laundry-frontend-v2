@@ -3,12 +3,9 @@ import {
   AlertCircle,
   ArrowDownCircle,
   ArrowUpCircle,
-  Clock,
   ExternalLink,
-  Hash,
   Info,
   MapPin,
-  Package,
   Truck,
 } from "lucide-react";
 import Link from "next/link";
@@ -152,8 +149,7 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                   Delivery ID
                 </span>
                 <div className="flex items-center gap-2">
-                  <Package className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium text-foreground uppercase">
+                  <span className="font-medium text-foreground text-sm uppercase">
                     {delivery.id}
                   </span>
                 </div>
@@ -170,7 +166,7 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                   ) : (
                     <ArrowUpCircle className="h-5 w-5 text-primary" />
                   )}
-                  <span className="font-medium text-foreground capitalize">
+                  <span className="font-medium text-foreground text-sm capitalize">
                     {isPickup ? "Pick Up" : "Drop Off"}
                   </span>
                 </div>
@@ -185,8 +181,7 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                   className="group flex w-fit items-center gap-2 uppercase"
                   href={`/customer-orders/${delivery.orderId}`}
                 >
-                  <Hash className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
-                  <span className="font-medium text-foreground underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 transition-colors group-hover:text-primary">
+                  <span className="font-medium text-foreground text-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 transition-colors group-hover:text-primary">
                     {delivery.orderId}
                   </span>
                   <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
@@ -199,7 +194,6 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                   Requested Time
                 </span>
                 <div className="flex items-center gap-2 text-foreground">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
                   <span className="font-medium text-sm">
                     {format(
                       new Date(delivery.requestedAt),

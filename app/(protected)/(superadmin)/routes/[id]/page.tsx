@@ -202,7 +202,7 @@ export default function RouteDetailPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               {/* Start Navigation Button */}
               <Button
-                className="flex-1 gap-2 bg-blue-600 text-white shadow-sm hover:bg-blue-700"
+                className="w-full"
                 disabled={isRouteFinished}
                 onClick={() =>
                   window.open(generateGoogleMapsLink(route.items), "_blank")

@@ -30,35 +30,35 @@ export const mockCustomerOrders = [
     total: 210_000,
     status: "completed",
   },
-  {
-    id: "o-k2n6v",
-    createdAt: "2025-11-20T10:10:00",
-    total: 60_000,
-    status: "completed",
-  },
-  {
-    id: "o-w8s4z",
-    createdAt: "2025-11-15T13:45:00",
-    total: 115_000,
-    status: "completed",
-  },
-  // The items you manually added (November) are now here
-  {
-    id: "o-12348",
-    createdAt: "2025-11-13T11:00:00",
-    total: 95_000,
-    status: "completed", // Kept original status
-  },
-  {
-    id: "o-12347",
-    createdAt: "2025-11-12T08:15:00",
-    total: 150_000,
-    status: "completed", // Kept original status
-  },
-  {
-    id: "o-12346",
-    createdAt: "2025-11-11T10:30:00",
-    total: 85_000,
-    status: "completed", // Kept original status
-  },
+  // {
+  //   id: "o-k2n6v",
+  //   createdAt: "2025-11-20T10:10:00",
+  //   total: 60_000,
+  //   status: "completed",
+  // },
+  // {
+  //   id: "o-w8s4z",
+  //   createdAt: "2025-11-15T13:45:00",
+  //   total: 115_000,
+  //   status: "completed",
+  // },
+  // // The items you manually added (November) are now here
+  // {
+  //   id: "o-12348",
+  //   createdAt: "2025-11-13T11:00:00",
+  //   total: 95_000,
+  //   status: "completed", // Kept original status
+  // },
+  // {
+  //   id: "o-12347",
+  //   createdAt: "2025-11-12T08:15:00",
+  //   total: 150_000,
+  //   status: "completed", // Kept original status
+  // },
+  // {
+  //   id: "o-12346",
+  //   createdAt: "2025-11-11T10:30:00",
+  //   total: 85_000,
+  //   status: "completed", // Kept original status
+  // },
 ];

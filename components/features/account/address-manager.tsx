@@ -100,25 +100,26 @@ export default function AddressManager({
       {!isAdding && (
         <Card style={cardShadowStyle}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-            <div className="space-y-1.5">
-              <CardTitle className="font-semibold text-2xl">
-                Saved Addresses
-              </CardTitle>
+            <div className="w-full space-y-1.5">
+              <div className="flex justify-between gap-3">
+                <CardTitle className="font-semibold text-lg">
+                  Saved Addresses
+                </CardTitle>
+                {addresses.length < 3 && (
+                  <Button
+                    className="gap-2"
+                    onClick={() => setIsAdding(true)}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add New
+                  </Button>
+                )}
+              </div>
               <CardDescription>
                 Manage your shipping locations (Max 3).
               </CardDescription>
             </div>
-
-            {addresses.length < 3 && (
-              <Button
-                className="gap-2"
-                onClick={() => setIsAdding(true)}
-                size="sm"
-              >
-                <Plus className="h-4 w-4" />
-                Add New
-              </Button>
-            )}
           </CardHeader>
 
           <CardContent className="grid gap-4">
@@ -169,7 +170,7 @@ export default function AddressManager({
         >
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="space-y-1.5">
-              <CardTitle className="font-semibold text-2xl">
+              <CardTitle className="font-semibold text-lg">
                 New Address
               </CardTitle>
               <CardDescription>

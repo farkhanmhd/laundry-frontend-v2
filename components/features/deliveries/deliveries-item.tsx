@@ -55,7 +55,7 @@ export function DeliveriesItem({ delivery, shadow = false }: Props) {
             }),
             "px-0 text-sm uppercase"
           )}
-          href={`/customer/orders/${delivery.orderId}`}
+          href={`/customer-orders/${delivery.orderId}`}
         >
           {delivery.orderId}
         </Link>

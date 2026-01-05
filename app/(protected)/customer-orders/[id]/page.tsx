@@ -63,7 +63,7 @@ async function getOrder(id: string): Promise<OrderData> {
 
   return {
     id,
-    status: "pending", // Try 'processing', 'ready', 'completed' to see changes
+    status: "processing", // Try 'processing', 'ready', 'completed' to see changes
     createdAt: new Date().toISOString(),
     customerName: "Budi Santoso",
     member: { name: "Budi Santoso", phone: "08123456789", points: 150 },
@@ -161,7 +161,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
   );
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 p-6">
+    <div className="mx-auto max-w-3xl space-y-8 p-4 md:p-6">
       {/* Header Section */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
@@ -183,7 +183,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-card-foreground">
                 <Package className="h-5 w-5 text-muted-foreground" />
-                Order Details
+                Order Items
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -291,7 +291,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                   className={cn(buttonVariants(), "w-full")}
                   href={`/customer-orders/${order.id}/payment`}
                 >
-                  Pay Now
+                  Pay with QRIS
                 </Link>
               )}
             </CardContent>

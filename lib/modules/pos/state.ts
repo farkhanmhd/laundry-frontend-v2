@@ -8,7 +8,7 @@ export interface PosOrderItem extends OrderItem {
   image: string;
   name: string;
   price: number;
-  stock: number;
+  stock?: number | null;
 }
 
 export interface PosItemState {

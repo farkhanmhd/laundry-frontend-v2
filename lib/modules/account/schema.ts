@@ -7,7 +7,12 @@ export const updateProfileSchema = z.object({
   phone: positiveIntNoLeadingZero,
 });
 
+export const updateAdminSchema = updateProfileSchema.extend({
+  email: z.email().min(3, "Email must be at least 3 characters"),
+});
+
 export type UpdateProfileSchema = z.infer<typeof updateProfileSchema>;
+export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
 
 export const addressSchema = z.object({
   label: z.string().min(2, "Label must be at least 2 characters"),
@@ -22,3 +27,16 @@ export const addressSchema = z.object({
 });
 
 export type AddressSchema = z.infer<typeof addressSchema>;
+
+export const updatePasswordSchema = z
+  .object({
+    oldPassword: z.string().min(1, "Current password is required"),
+    newPassword: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;

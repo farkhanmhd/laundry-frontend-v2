@@ -5,7 +5,7 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-const page = async ({ params }: Props) => {
+const VoucherDetailPage = async ({ params }: Props) => {
   const { id } = await params;
   const voucher = (await getVoucherById(id)) as Voucher;
   return (
@@ -20,4 +20,4 @@ const page = async ({ params }: Props) => {
   );
 };
 
-export default page;
+export default VoucherDetailPage;

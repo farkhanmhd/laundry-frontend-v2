@@ -30,12 +30,12 @@ export function PosItemCard({ item }: Props) {
         ),
       }));
     } else {
-      const dynamicIdKey = `${item.itemType}id`;
+      const dynamicIdKey = `${item.itemType}Id`;
+      const { stock, ...otherItemProps } = item;
 
       const newItem = {
-        ...item,
-        image: item.image ?? "",
-        stock: item.stock ?? 0,
+        ...otherItemProps,
+        image: item.image ?? "/placeholder.svg",
         note: "",
         quantity: 1,
         itemType: item.itemType as
@@ -44,6 +44,7 @@ export function PosItemCard({ item }: Props) {
           | "bundling"
           | "voucher",
         [dynamicIdKey]: item.id,
+        ...(item.itemType === "inventory" && { stock }),
       };
 
       setPosItem((prev) => ({

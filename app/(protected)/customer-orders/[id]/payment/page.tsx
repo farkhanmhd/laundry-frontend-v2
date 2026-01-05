@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
 import { cardShadowStyle, formatDate } from "@/lib/utils"; // Assuming utils exist
+import QRCode from "@/public/qrcode.png";
 
 // Helper for currency formatting
 const formatToIDR = (amount: number) =>
@@ -115,7 +116,7 @@ export default function PaymentPage() {
 
   // --- VIEW 2: PENDING / QRIS SCAN STATE ---
   return (
-    <div className="p-6">
+    <div className="min-h-[calc(100dvh-128px)] p-6 md:min-h-[calc(100dvh-64px)]">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Order Summary */}
         <Card style={cardShadowStyle}>
@@ -135,15 +136,23 @@ export default function PaymentPage() {
               <Separator />
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>{formatToIDR(order.subtotal)}</span>
+                <Client>
+                  <span>{formatToIDR(order.subtotal)}</span>
+                </Client>
               </div>
               <div className="flex justify-between text-green-600 text-sm">
                 <span className="text-muted-foreground">Discount</span>
-                <span>-{formatToIDR(order.discount)}</span>
+                <Client>
+                  <span>-{formatToIDR(order.discount)}</span>
+                </Client>
               </div>
               <div className="flex items-center justify-between border-t border-dashed pt-3 font-bold text-lg">
                 <span>Total Amount</span>
-                <span className="text-primary">{formatToIDR(order.total)}</span>
+                <Client>
+                  <span className="text-primary">
+                    {formatToIDR(order.total)}
+                  </span>
+                </Client>
               </div>
             </div>
           </CardContent>
@@ -168,8 +177,8 @@ export default function PaymentPage() {
                 alt="QRIS Code"
                 className="h-50 w-50 rounded-md object-contain"
                 height={200}
-                priority // Replace with real QR data
-                src="/placeholder.svg"
+                priority
+                src={QRCode}
                 width={200}
               />
             </div>

@@ -4,7 +4,7 @@ import { MapPin, Ticket, Truck, Wallet } from "lucide-react";
 import Link from "next/link";
 import { DeliveriesItem } from "@/components/features/deliveries/deliveries-item";
 import { OrderListItem } from "@/components/features/orders/order-list-item";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -99,7 +99,7 @@ const availableRewards = [
 
 export default function CustomerDashboard() {
   return (
-    <div className="p-6">
+    <div className="p-4 md:p-6">
       <div className="mx-auto max-w-5xl space-y-6">
         {/* HERO SECTION: Welcome & Points */}
         <Card
@@ -191,13 +191,16 @@ export default function CustomerDashboard() {
               </CardHeader>
               <CardContent className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    className="flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
-                    variant="outline"
+                  <Link
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
+                    )}
+                    href="/customer-orders/new"
                   >
                     <Truck className="h-6 w-6" />
                     <span className="font-semibold text-xs">New Order</span>
-                  </Button>
+                  </Link>
                   <Link
                     className={cn(
                       buttonVariants({ variant: "outline" }),

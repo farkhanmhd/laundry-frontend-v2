@@ -49,5 +49,5 @@ export const formatDate = (dateString: string) =>
   });
 
 export const cardShadowStyle = {
-  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+  boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
 };

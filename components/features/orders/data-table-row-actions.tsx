@@ -29,7 +29,6 @@ export function DataTableRowActions<TData>({
     toast.success("Order Updated", {
       description: `Order ${order.id} updated to ${newStatus}.`,
     });
-    console.log(`Update order ${order.id} to ${newStatus}`);
   };
 
   return (

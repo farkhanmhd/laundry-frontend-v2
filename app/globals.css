@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
+/* :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(1 0 0);
@@ -162,9 +162,9 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
-}
+} */
 
-/* :root {
+:root {
   --background: #ffffff;
   --foreground: #0f1419;
   --card: #ffffff;
@@ -326,7 +326,7 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
   --shadow-card-shadow: var(--card-shadow);
-} */
+}
 
 body {
   letter-spacing: var(--tracking-normal);

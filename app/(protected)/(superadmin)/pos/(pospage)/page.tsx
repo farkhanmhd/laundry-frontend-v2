@@ -8,7 +8,11 @@ const PosPage = async () => {
   return (
     <MapItems
       of={data || []}
-      render={(item) => <PosItemCard item={item} key={item.id} />}
+      render={(item) => (
+        <li key={item.id}>
+          <PosItemCard item={item}  />
+        </li>
+      )}
     />
   );
 };

@@ -2,11 +2,9 @@
 
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
-import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { PosItemData } from "@/lib/modules/pos/data";
 import { usePosOrderItem } from "@/lib/modules/pos/state";
 import { formatToIDR } from "@/lib/utils";
@@ -16,52 +14,7 @@ interface Props {
 }
 
 export function PosItemCard({ item }: Props) {
-  const { posItem, setPosItem } = usePosOrderItem();
-  const isLarge = useBreakpoint(1024);
-
-  const handleAddToCart = () => {
-    const existingItem = posItem.items.find((i) => i.id === item.id);
-
-    if (existingItem) {
-      setPosItem((prev) => ({
-        ...prev,
-        items: posItem.items.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-        ),
-      }));
-    } else {
-      const dynamicIdKey = `${item.itemType}Id`;
-      const { stock, ...otherItemProps } = item;
-
-      const newItem = {
-        ...otherItemProps,
-        image: item.image ?? "/placeholder.svg",
-        note: "",
-        quantity: 1,
-        itemType: item.itemType as
-          | "service"
-          | "inventory"
-          | "bundling"
-          | "voucher",
-        [dynamicIdKey]: item.id,
-        ...(item.itemType === "inventory" && { stock }),
-      };
-
-      setPosItem((prev) => ({
-        ...prev,
-        items: [...prev.items, newItem],
-      }));
-    }
-
-    if (!isLarge) {
-      toast("1 Item added to cart", {
-        action: {
-          label: "View Cart",
-          onClick: () => setPosItem((prev) => ({ ...prev, open: true })),
-        },
-      });
-    }
-  };
+  const { handleAddToCart } = usePosOrderItem();
 
   return (
     <Card
@@ -95,7 +48,7 @@ export function PosItemCard({ item }: Props) {
             </Client>
             <Button
               className="rounded-full text-sm"
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart(item)}
               size="icon"
               type="button"
             >

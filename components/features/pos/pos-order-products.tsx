@@ -1,44 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import NumberInput from "@/components/forms/number-input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { type PosOrderItem, usePosOrderItem } from "@/lib/modules/pos/state";
-import { formatToIDR, MapItems } from "@/lib/utils";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { cn, formatToIDR, MapItems } from "@/lib/utils";
 
 export function PosOrderProducts() {
-  const { posItem, setPosItem } = usePosOrderItem();
-
-  const total = posItem.items.reduce(
-    (acc, curr) => acc + curr.quantity * curr.price,
-    0
-  );
-
-  const handleIncrementQuantity = (itemId: string) => {
-    setPosItem({
-      ...posItem,
-      items: posItem.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-      ),
-    });
-  };
-
-  const handleDecrementQuantity = (itemId: string) => {
-    setPosItem((currentProducts) => ({
-      ...posItem,
-      items: currentProducts.items.reduce((newArray, item) => {
-        if (item.id === itemId) {
-          if (item.quantity > 1) {
-            newArray.push({ ...item, quantity: item.quantity - 1 });
-          }
-        } else {
-          newArray.push(item);
-        }
-        return newArray;
-      }, [] as PosOrderItem[]),
-    }));
-  };
+  const {
+    posItem,
+    totalAmount,
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+    totalItems
+  } = usePosOrderItem();
 
   return (
     <>
@@ -94,10 +71,18 @@ export function PosOrderProducts() {
       <footer className="flex flex-col gap-4 p-4">
         <div className="flex items-center justify-between font-semibold text-lg">
           <span>Total</span>
-          <span>{formatToIDR(total)}</span>
+          <span>{formatToIDR(totalAmount)}</span>
         </div>
         <div>
-          <Button className="h-12 w-full text-lg">Order Summary</Button>
+          <Button className="w-full h-12 items-center px-0" disabled={totalItems === 0}>
+            <Link
+              href="/pos/summary"
+              className="h-12 w-full text-lg flex items-center justify-center"
+            >
+              Order Summary
+            </Link>
+
+          </Button>
         </div>
       </footer>
     </>

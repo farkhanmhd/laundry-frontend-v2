@@ -8,13 +8,15 @@ const PosLayout = ({ children }: { children: ReactNode }) => {
   const isLarge = useBreakpoint(1024);
 
   return (
-    <div className="flex">
+    <div className="flex min-h-[calc(100dvh-128px)] md:min-h-[calc(100dvh-64px)]">
       <section className="w-full space-y-4 p-4">
         <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4 md:grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
           {children}
         </ul>
       </section>
-      {isLarge && <PosOrder />}
+      {isLarge && (
+        <PosOrder />
+      )}
     </div>
   );
 };

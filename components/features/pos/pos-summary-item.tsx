@@ -4,7 +4,7 @@ import { NotepadText } from "lucide-react";
 import Image from "next/image";
 import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
-import { usePosOrderItem  } from "@/lib/modules/pos/state";
+import { usePosOrderItem } from "@/lib/modules/pos/state";
 
 // Define the data type as requested
 export interface PosOrderItem {
@@ -49,7 +49,7 @@ export function PosSummaryItem({ item }: OrderSummaryItemProps) {
           )}
 
           <p className="font-medium text-muted-foreground text-sm">
-            {formatPrice(item.price)}
+            {formatPrice(item.price * item.quantity)}
           </p>
         </div>
 

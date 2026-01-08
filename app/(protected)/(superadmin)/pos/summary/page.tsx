@@ -2,8 +2,10 @@
 
 import { Plus, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { PosSummaryItem } from "@/components/features/pos/pos-summary-item";
 import { OrderSummaryVoucher } from "@/components/features/orders/order-summary-voucher";
+import { PosCustomerSelection } from "@/components/features/pos/pos-customer-selection";
+import { PosPaymentMethod } from "@/components/features/pos/pos-payment-method";
+import { PosSummaryItem } from "@/components/features/pos/pos-summary-item";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Empty,
@@ -14,12 +16,13 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { usePosOrderItem } from "@/lib/modules/pos/state";
-import { cardShadowStyle, formatToIDR } from "@/lib/utils";
+import { cardShadowStyle } from "@/lib/utils";
 
 export default function PosSummaryPage() {
-  const { posItem, totalAmount } = usePosOrderItem();
+  const { posItem, totalItems } = usePosOrderItem();
   return (
     <div className="mx-auto min-h-[calc(100dvh-128px)] max-w-3xl space-y-4 p-4 md:min-h-[calc(100dvh-64px)]">
+      <PosCustomerSelection />
       <div className="rounded-xl bg-card" style={cardShadowStyle}>
         <ul className="flex flex-col divide-y divide-solid divide-accent p-4">
           {posItem.items.length > 0 ? (
@@ -72,7 +75,10 @@ export default function PosSummaryPage() {
         )}
       </div>
       <OrderSummaryVoucher />
-      <Button className="w-full">Place Order {formatToIDR(totalAmount)}</Button>
+      <PosPaymentMethod />
+      <Button className="w-full" disabled={totalItems === 0}>
+        Process Payment
+      </Button>
     </div>
   );
 }

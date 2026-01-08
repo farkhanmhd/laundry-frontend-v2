@@ -49,8 +49,14 @@
       }
     }
   },
-  "extends": ["ultracite/core", "ultracite/react", "ultracite/next"],
+  "extends": [
+    "ultracite/core",
+    "ultracite/react",
+    "ultracite/next"
+  ],
   "javascript": {
-    "globals": ["bun"]
+    "globals": [
+      "bun"
+    ]
   }
 }

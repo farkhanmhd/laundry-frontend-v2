@@ -30,7 +30,7 @@ export default function EmployeeLayout({
       </AppSidebar>
       <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0.5 md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
         <SiteHeader />
-        <SidebarContent className="overflow-hidden">
+        <SidebarContent className="relative overflow-hidden">
           <ScrollArea className="max-h-[calc(100dvh-128px)] max-w-svw md:max-h-[calc(100dvh-64px)] md:max-w-[calc(100svw-80px)] [&>div>div]:h-full">
             {children}
           </ScrollArea>

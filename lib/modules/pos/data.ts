@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import type { NewOrderSchema } from "./schema";
 
 export const getPosItems = async () => {
   const { data } = await elysia.pos.get({
@@ -15,3 +16,13 @@ export const getPosItems = async () => {
 export type PosItemData = NonNullable<
   Awaited<ReturnType<typeof getPosItems>>
 >[0];
+
+export const createNewPosOrder = async (body: NewOrderSchema) => {
+  const response = await elysia.pos.new.post(body, {
+    fetch: {
+      headers: await headers(),
+    },
+  });
+
+  return response;
+};

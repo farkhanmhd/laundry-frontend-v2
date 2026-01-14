@@ -1,7 +1,7 @@
 "use client";
 
-import { Banknote, QrCode, Receipt, Trash } from "lucide-react"; // Assuming lucide-react is available
-import { useMemo, useState } from "react";
+import { Banknote, QrCode, Trash } from "lucide-react"; // Assuming lucide-react is available
+import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,23 +15,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Client } from "@/components/utils/client";
-import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle, formatToIDR } from "@/lib/utils";
 
 const bankNotes = [1000, 2000, 5000, 10_000, 20_000, 50_000, 100_000];
 
 export function PosPaymentMethod() {
-  const [paymentMethod, setPaymentMethod] = useState("cash");
-  const [cashReceived, setCashReceived] = useState<number>(0);
-  const { totalAmount } = usePosOrderItem();
+  const {
+    posData,
+    totalAmount,
+    handlePaymentMethodChange,
+    handleAmountPaidChange,
+  } = usePOS();
 
   const changeAmount = useMemo(
-    () => Math.max(0, cashReceived - totalAmount),
-    [cashReceived, totalAmount]
+    () => Math.max(0, posData.amountPaid - totalAmount),
+    [posData.amountPaid, totalAmount]
   );
 
   const handleNoteClick = (amount: number) => {
-    setCashReceived(cashReceived + amount);
+    handleAmountPaidChange(posData.amountPaid + amount);
   };
 
   return (
@@ -47,8 +50,8 @@ export function PosPaymentMethod() {
         <CardContent>
           <RadioGroup
             className="grid grid-cols-2 gap-4"
-            onValueChange={setPaymentMethod}
-            value={paymentMethod}
+            onValueChange={handlePaymentMethodChange}
+            value={posData.paymentMethod}
           >
             <Label className="cursor-pointer" htmlFor="cash">
               <RadioGroupItem className="peer sr-only" id="cash" value="cash" />
@@ -67,7 +70,7 @@ export function PosPaymentMethod() {
             </Label>
           </RadioGroup>
         </CardContent>
-        {paymentMethod === "cash" && (
+        {posData.paymentMethod === "cash" && (
           <CardFooter className="flex-col gap-4">
             <div className="flex w-full flex-col gap-3">
               <Label className="font-semibold text-sm" htmlFor="cash-amount">
@@ -80,9 +83,11 @@ export function PosPaymentMethod() {
                 <Input
                   className="pl-10"
                   id="cash-amount"
-                  onChange={(e) => setCashReceived(Number(e.target.value))}
+                  onChange={(e) =>
+                    handleAmountPaidChange(Number(e.target.value))
+                  }
                   placeholder="0"
-                  value={cashReceived}
+                  value={posData.amountPaid}
                 />
               </div>
             </div>
@@ -101,7 +106,7 @@ export function PosPaymentMethod() {
               <li>
                 <Button
                   className="border border-destructive bg-background text-destructive hover:bg-destructive/25 dark:bg-transparent dark:hover:bg-destructive/25"
-                  onClick={() => setCashReceived(0)}
+                  onClick={() => handleAmountPaidChange(0)}
                   variant="destructive"
                 >
                   <Trash />
@@ -117,7 +122,6 @@ export function PosPaymentMethod() {
       <Card className="overflow-hidden" style={cardShadowStyle}>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Receipt className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg">Payment Summary</CardTitle>
           </div>
         </CardHeader>
@@ -125,7 +129,7 @@ export function PosPaymentMethod() {
           <div className="flex justify-between text-muted-foreground text-sm">
             <span>Payment Method</span>
             <span className="font-medium text-foreground uppercase">
-              {paymentMethod}
+              {posData.paymentMethod}
             </span>
           </div>
 
@@ -138,12 +142,12 @@ export function PosPaymentMethod() {
             </Client>
           </div>
 
-          {paymentMethod === "cash" && (
+          {posData.paymentMethod === "cash" && (
             <>
               <div className="flex justify-between text-muted-foreground text-sm">
                 <span>Cash Received</span>
                 <Client>
-                  <span>{formatToIDR(cashReceived)}</span>
+                  <span>{formatToIDR(posData.amountPaid)}</span>
                 </Client>
               </div>
               <div className="flex justify-between border-t border-dashed pt-3">

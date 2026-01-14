@@ -29,7 +29,7 @@ export const getStatusColor = (
       return "destructive";
     case "processing":
     case "in progress":
-      return "outline";
+      return "secondary";
     case "ready":
     case "assigned":
       return "secondary";
@@ -46,6 +46,7 @@ export const formatDate = (dateString: string) =>
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Asia/Jakarta",
   });
 
 export const cardShadowStyle = {

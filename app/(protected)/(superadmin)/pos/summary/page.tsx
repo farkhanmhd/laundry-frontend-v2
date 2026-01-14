@@ -2,6 +2,9 @@
 
 import { Plus, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 import { OrderSummaryVoucher } from "@/components/features/orders/order-summary-voucher";
 import { PosCustomerSelection } from "@/components/features/pos/pos-customer-selection";
 import { PosPaymentMethod } from "@/components/features/pos/pos-payment-method";
@@ -15,18 +18,64 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { createPosOrderAction } from "@/lib/modules/pos/actions";
+import type { NewOrderSchema } from "@/lib/modules/pos/schema";
+import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 export default function PosSummaryPage() {
-  const { posItem, totalItems } = usePosOrderItem();
+  const { posData, totalItems, clearPosData } = usePOS();
+  const { push } = useRouter();
+  const { execute, isPending } = useAction(createPosOrderAction, {
+    onSuccess: ({ data: result }) => {
+      if (result && result.status === "success") {
+        toast.success(result.message);
+        push(`/orders/${result.data?.orderId}/payment`);
+        clearPosData();
+      } else {
+        toast.error("Failed to create new Order");
+      }
+    },
+  });
+
+  const handleSubmit = () => {
+    const baseData = {
+      customerName: posData.customerName,
+      items: posData.items.map((item) => ({
+        itemType: item.itemType,
+        quantity: item.quantity,
+        serviceId: item.serviceId || null,
+        inventoryId: item.inventoryId || null,
+        bundlingId: item.bundlingId || null,
+        voucherId: item.voucherId || null,
+        note: item.note,
+      })),
+    };
+
+    let payload: NewOrderSchema;
+
+    if (posData.paymentMethod === "cash") {
+      payload = {
+        ...baseData,
+        paymentType: "cash",
+        amountPaid: posData.amountPaid,
+      };
+    } else {
+      payload = {
+        ...baseData,
+        paymentType: "qris",
+      };
+    }
+
+    execute(payload);
+  };
   return (
-    <div className="mx-auto min-h-[calc(100dvh-128px)] max-w-3xl space-y-4 p-4 md:min-h-[calc(100dvh-64px)]">
+    <div className="relative mx-auto max-w-3xl space-y-4 p-4">
       <PosCustomerSelection />
       <div className="rounded-xl bg-card" style={cardShadowStyle}>
         <ul className="flex flex-col divide-y divide-solid divide-accent p-4">
-          {posItem.items.length > 0 ? (
-            posItem.items.map((item) => (
+          {posData.items.length > 0 ? (
+            posData.items.map((item) => (
               <li className="py-4 first:pt-0" key={item.id}>
                 <PosSummaryItem item={item} />
               </li>
@@ -57,7 +106,7 @@ export default function PosSummaryPage() {
             </li>
           )}
         </ul>
-        {posItem.items.length > 0 && (
+        {posData.items.length > 0 && (
           <div className="flex items-center justify-between border-t p-4">
             <div className="space-y-1">
               <p className="font-semibold text-sm">Need anything else?</p>
@@ -76,7 +125,11 @@ export default function PosSummaryPage() {
       </div>
       <OrderSummaryVoucher />
       <PosPaymentMethod />
-      <Button className="w-full" disabled={totalItems === 0}>
+      <Button
+        className="w-full"
+        disabled={totalItems === 0 || isPending}
+        onClick={handleSubmit}
+      >
         Process Payment
       </Button>
     </div>

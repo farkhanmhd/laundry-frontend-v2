@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { type CustomerType, usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 interface Customer {
@@ -42,7 +43,6 @@ const MOCK_CUSTOMERS: Customer[] = [
 ];
 
 export function PosCustomerSelection() {
-  const [customerType, setCustomerType] = useState("guest");
   const [searchInput, setSearchInput] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -51,9 +51,11 @@ export function PosCustomerSelection() {
   );
   const [manualConfirmation, setManualConfirmation] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(true);
+  const { posData, handleCustomerTypeChange, handleCustomerNameChange } =
+    usePOS();
 
-  const handleMembershipChange = (value: string) => {
-    setCustomerType(value);
+  const handleMembershipChange = (value: CustomerType) => {
+    handleCustomerTypeChange(value);
     setSearchInput("");
     setCustomerName("");
     setSelectedFromSearch(null);
@@ -105,7 +107,7 @@ export function PosCustomerSelection() {
           <RadioGroup
             className="grid grid-cols-2 gap-2"
             onValueChange={handleMembershipChange}
-            value={customerType}
+            value={posData.customerType}
           >
             <Label className="cursor-pointer" htmlFor="guest">
               <RadioGroupItem
@@ -113,7 +115,7 @@ export function PosCustomerSelection() {
                 id="guest"
                 value="guest"
               />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/5">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/20">
                 <span>Guest</span>
               </div>
             </Label>
@@ -124,7 +126,7 @@ export function PosCustomerSelection() {
                 id="member"
                 value="member"
               />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/5">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/20">
                 <span>Member</span>
               </div>
             </Label>
@@ -133,7 +135,7 @@ export function PosCustomerSelection() {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {customerType === "member" ? (
+        {posData.customerType === "member" ? (
           // Member Mode: Search for customer
           <div className="space-y-3">
             {showSearchInput && (
@@ -291,12 +293,13 @@ export function PosCustomerSelection() {
             </div>
 
             <Input
+              autoComplete="off"
               id="customer-name"
               onChange={(e) => {
-                setCustomerName(e.target.value);
+                handleCustomerNameChange(e.target.value);
               }}
               placeholder="Enter customer name"
-              value={customerName}
+              value={posData.customerName}
             />
 
             {customerName && (

@@ -1,6 +1,17 @@
 {
   "formatter": "language_server",
   "format_on_save": "on",
+  "lsp": {
+    "typescript-language-server": {
+      "settings": {
+        "typescript": {
+          "preferences": {
+            "includePackageJsonAutoImports": "on"
+          }
+        }
+      }
+    }
+  },
   "languages": {
     "JavaScript": {
       "formatter": {
@@ -33,17 +44,6 @@
       "code_actions_on_format": {
         "source.fixAll.biome": true,
         "source.organizeImports.biome": true
-      }
-    }
-  },
-  "lsp": {
-    "typescript-language-server": {
-      "settings": {
-        "typescript": {
-          "preferences": {
-            "includePackageJsonAutoImports": "on"
-          }
-        }
       }
     }
   }

@@ -4,8 +4,8 @@ import {
   ChartNoAxesCombined,
   HandPlatter,
   ListTodo,
-  Logs,
   type LucideIcon,
+  Monitor,
   Motorbike,
   ShieldUser,
   Ticket,
@@ -29,7 +29,7 @@ export const adminNavData: NavItem[] = [
   {
     title: "POS",
     url: "/pos",
-    icon: Logs,
+    icon: Monitor,
   },
   {
     title: "Orders",

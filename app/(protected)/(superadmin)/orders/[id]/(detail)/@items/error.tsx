@@ -1,0 +1,13 @@
+"use client";
+
+import { OrderItemsError } from "@/components/features/orders/order-error-cards";
+
+export default function PaymentError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  return <OrderItemsError error={error} reset={reset} />;
+}

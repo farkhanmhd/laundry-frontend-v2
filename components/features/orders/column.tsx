@@ -5,16 +5,17 @@ import Link from "next/link";
 import { DataTableRowActions } from "@/components/features/orders/data-table-row-actions"; // Adjust path as needed
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatToIDR } from "@/lib/utils";
+import { Client } from "@/components/utils/client";
 
 export interface Order {
   id: string;
   customerName: string;
-  memberId: string;
+  memberId?: string | null | undefined;
   total: number;
   status: "pending" | "processing" | "ready" | "completed";
   createdAt: string;
-  items: number;
+  totalItems: number;
 }
 
 export const ordersColumns: ColumnDef<Order>[] = [
@@ -40,25 +41,31 @@ export const ordersColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "memberId",
     header: "Member ID",
-    cell: ({ row }) => (
-      <div className="text-sm uppercase">{row.getValue("memberId")}</div>
-    ),
+    cell: ({ row }) => {
+      const memberId: string = row.getValue('memberId') ? row.getValue('memberId') : '-'
+
+      return (
+        <div className="text-sm capitalize">{memberId}</div>
+      )
+    },
   },
   {
-    accessorKey: "items",
+    accessorKey: "totalItems",
     header: "Total Items",
     cell: ({ row }) => (
-      <div className="text-sm">{row.getValue("items")} items</div>
+      <div className="text-sm">{row.getValue('totalItems')} items</div>
     ),
   },
   {
     accessorKey: "total",
     header: "Total",
     cell: ({ row }) => {
-      const amount = row.getValue("total") as number;
+      const amount = formatToIDR(row.getValue("total"));
       return (
         <div className="font-medium">
-          Rp {new Intl.NumberFormat("id-ID").format(amount)}
+          <Client>
+            {amount}
+          </Client>
         </div>
       );
     },

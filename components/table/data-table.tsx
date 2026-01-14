@@ -29,7 +29,7 @@ const DataTable = <TData, TValue>({
 }: Props<TData, TValue>) => (
   <ScrollArea
     className={cn(
-      "h-[calc(100dvh-200px)] max-w-svw border-y md:h-[calc(100dvh-136px)]",
+      "h-[calc(100dvh-200px)] max-w-svw overflow-hidden border-y md:h-[calc(100dvh-136px)] md:max-w-[calc(100svw-80px)]",
       className
     )}
   >

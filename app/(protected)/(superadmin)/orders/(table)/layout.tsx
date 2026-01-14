@@ -1,14 +1,13 @@
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableToolbar } from "@/components/table/table-toolbar";
-import { TableView } from "@/components/table/table-view";
-import { ordersColumns } from "./column";
-import { mockOrders } from "./data";
+import { ordersColumns } from "@/components/features/orders/column";
+import { ReactNode } from "react";
 
-const OrdersPage = () => (
+const OrdersPage = ({ children }: { children: ReactNode}) => (
   <TableProvider columns={ordersColumns}>
     <TableToolbar />
-    <TableView data={mockOrders} />
+            {children}
     <TablePagination />
   </TableProvider>
 );

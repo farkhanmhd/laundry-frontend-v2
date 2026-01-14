@@ -9,11 +9,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { usePOS } from "@/lib/modules/pos/state";
 import { PosOrderProducts } from "./pos-order-products";
 
 const OrderProductsSheet = () => {
-  const { posItem } = usePosOrderItem();
+  const { posData } = usePOS();
 
   return (
     <Sheet modal={false}>
@@ -23,9 +23,9 @@ const OrderProductsSheet = () => {
             className="text-primary"
             style={{ width: "26px", height: "26px" }}
           />
-          {posItem.items.length > 0 && (
+          {posData.items.length > 0 && (
             <Badge className="-top-1 -right-1 absolute rounded-full">
-              {posItem.items.length}
+              {posData.items.length}
             </Badge>
           )}
         </Button>

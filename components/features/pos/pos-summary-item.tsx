@@ -4,7 +4,7 @@ import { NotepadText } from "lucide-react";
 import Image from "next/image";
 import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
-import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { usePOS } from "@/lib/modules/pos/state";
 
 // Define the data type as requested
 export interface PosOrderItem {
@@ -27,8 +27,7 @@ interface OrderSummaryItemProps {
 }
 
 export function PosSummaryItem({ item }: OrderSummaryItemProps) {
-  const { handleIncrementQuantity, handleDecrementQuantity } =
-    usePosOrderItem();
+  const { handleIncrementQuantity, handleDecrementQuantity } = usePOS();
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("id-ID").format(price);

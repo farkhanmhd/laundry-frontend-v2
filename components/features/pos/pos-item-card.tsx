@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
 import type { PosItemData } from "@/lib/modules/pos/data";
-import { usePosOrderItem } from "@/lib/modules/pos/state";
+import { usePOS } from "@/lib/modules/pos/state";
 import { formatToIDR } from "@/lib/utils";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function PosItemCard({ item }: Props) {
-  const { handleAddToCart } = usePosOrderItem();
+  const { handleAddToCart } = usePOS();
 
   return (
     <Card

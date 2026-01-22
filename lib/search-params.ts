@@ -1,33 +1,22 @@
-import {
-  parseAsIndex,
-  parseAsInteger,
-  parseAsString,
-  useQueryState,
-  useQueryStates,
-} from "nuqs";
+export type SearchQuery =
+  | {
+      page?: number;
+      search?: string;
+      rows?: number;
+    }
+  | undefined;
 
-const paginationParsers = {
-  pageIndex: parseAsIndex.withDefault(0),
-  pageSize: parseAsInteger.withDefault(50),
+export type SearchQueryProps = {
+  searchParams: Promise<SearchQuery>;
 };
 
-const paginationUrlKeys = {
-  pageIndex: "page",
-  pageSize: "rows",
-};
+export const getSearchQuery = async (props: SearchQueryProps) => {
+  const searchParams = await props.searchParams;
+  const query: Required<SearchQuery> = {
+    rows: Number(searchParams?.rows) || 50,
+    search: searchParams?.search || "",
+    page: Number(searchParams?.page) || 1,
+  };
 
-export function useTablePaginationSearchParams() {
-  return useQueryStates(paginationParsers, {
-    urlKeys: paginationUrlKeys,
-  });
-}
-
-export function useSearchQueryParams() {
-  return useQueryState("search", parseAsString.withDefault(""));
-}
-
-export type SearchQuery = {
-  page?: number;
-  search?: string;
-  rows?: number;
+  return query;
 };

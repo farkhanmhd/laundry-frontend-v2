@@ -2,6 +2,7 @@
 
 import type { Row } from "@tanstack/react-table";
 import { CheckCircle2, MoreHorizontal, Package } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import type { Order } from "@/app/(protected)/admin/orders/columns";
 import { Button } from "@/components/ui/button";
@@ -53,9 +54,9 @@ export function DataTableRowActions<TData>({
         >
           Copy Order ID
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => console.log("View details", order.id)}>
-          View Details
-        </DropdownMenuItem>
+        <Link href={`/orders/${order.id}`}>
+          <DropdownMenuItem>View Details</DropdownMenuItem>
+        </Link>
 
         {order.status !== "completed" && (
           <>

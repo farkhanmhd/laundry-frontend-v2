@@ -1,23 +1,15 @@
 "use client";
 
-import { Plus, ShoppingCart } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { OrderSummaryVoucher } from "@/components/features/orders/order-summary-voucher";
 import { PosCustomerSelection } from "@/components/features/pos/pos-customer-selection";
+import { PosEmptySummaryItem } from "@/components/features/pos/pos-empty-summary-item";
 import { PosPaymentMethod } from "@/components/features/pos/pos-payment-method";
+import { PosSummaryAddMoreItem } from "@/components/features/pos/pos-summary-add-more-item";
 import { PosSummaryItem } from "@/components/features/pos/pos-summary-item";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
 import { createPosOrderAction } from "@/lib/modules/pos/actions";
 import type { NewOrderSchema } from "@/lib/modules/pos/schema";
 import { usePOS } from "@/lib/modules/pos/state";
@@ -69,6 +61,7 @@ export default function PosSummaryPage() {
 
     execute(payload);
   };
+
   return (
     <div className="relative mx-auto max-w-3xl space-y-4 p-4">
       <PosCustomerSelection />
@@ -83,45 +76,11 @@ export default function PosSummaryPage() {
           ) : (
             /* Empty State */
             <li>
-              <Empty>
-                <EmptyHeader>
-                  <EmptyMedia variant="icon">
-                    <ShoppingCart />
-                  </EmptyMedia>
-                  <EmptyTitle>No items added</EmptyTitle>
-                  <EmptyDescription>
-                    Your cart is currently empty.
-                  </EmptyDescription>
-                </EmptyHeader>
-                <EmptyContent>
-                  <Link
-                    className={buttonVariants({ variant: "secondary" })}
-                    href="/pos"
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Item
-                  </Link>
-                </EmptyContent>
-              </Empty>
+              <PosEmptySummaryItem />
             </li>
           )}
         </ul>
-        {posData.items.length > 0 && (
-          <div className="flex items-center justify-between border-t p-4">
-            <div className="space-y-1">
-              <p className="font-semibold text-sm">Need anything else?</p>
-              <p className="text-muted-foreground text-xs">
-                Add other items, if you want.
-              </p>
-            </div>
-            <Link
-              className={buttonVariants({ variant: "outline", size: "sm" })}
-              href="/pos"
-            >
-              Add More
-            </Link>
-          </div>
-        )}
+        {posData.items.length > 0 && <PosSummaryAddMoreItem />}
       </div>
       <OrderSummaryVoucher />
       <PosPaymentMethod />

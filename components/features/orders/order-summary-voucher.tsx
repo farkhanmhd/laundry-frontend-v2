@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 interface OrderSummaryPromoProps {
@@ -17,6 +18,12 @@ export function OrderSummaryVoucher({
   onCheckMore,
   isApplied = false,
 }: OrderSummaryPromoProps) {
+  const { posData } = usePOS();
+
+  if (posData.customerType === "guest") {
+    return null;
+  }
+
   return (
     <div
       className="w-full overflow-hidden rounded-xl bg-card"

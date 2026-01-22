@@ -115,7 +115,7 @@ export function PosCustomerSelection() {
                 id="guest"
                 value="guest"
               />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/20">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <span>Guest</span>
               </div>
             </Label>
@@ -126,7 +126,7 @@ export function PosCustomerSelection() {
                 id="member"
                 value="member"
               />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/20">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <span>Member</span>
               </div>
             </Label>

@@ -11,9 +11,9 @@ export const getMembers = async (query: SearchQuery) => {
     query,
   });
 
-  const members = response?.data;
+  const data = response?.data;
 
-  return members;
+  return data;
 };
 
 export type Member = NonNullable<

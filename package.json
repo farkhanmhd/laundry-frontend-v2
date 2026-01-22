@@ -38,7 +38,7 @@
     "date-fns": "^4.1.0",
     "jotai": "^2.15.1",
     "leaflet": "^1.9.4",
-    "lucide-react": "^0.556.0",
+    "lucide-react": "^0.562.0",
     "next": "15.5.9",
     "next-safe-action": "^8.0.11",
     "next-themes": "^0.4.6",
@@ -51,7 +51,7 @@
     "react-leaflet": "^5.0.0",
     "recharts": "2.15.4",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.3.1",
+    "tailwind-merge": "^3.4.0",
     "use-debounce": "^10.0.6"
   },
   "devDependencies": {

@@ -16,7 +16,7 @@ import { useState } from "react";
 import {
   useSearchQueryParams,
   useTablePaginationSearchParams,
-} from "@/lib/search-params";
+} from "@/hooks/nuqs";
 
 interface UseTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

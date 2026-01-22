@@ -55,7 +55,7 @@ export function PosPaymentMethod() {
           >
             <Label className="cursor-pointer" htmlFor="cash">
               <RadioGroupItem className="peer sr-only" id="cash" value="cash" />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/5">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <Banknote className="h-6 w-6" />
                 <span className="font-medium">Cash</span>
               </div>
@@ -63,7 +63,7 @@ export function PosPaymentMethod() {
 
             <Label className="cursor-pointer" htmlFor="qris">
               <RadioGroupItem className="peer sr-only" id="qris" value="qris" />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary/50 hover:bg-primary/5 peer-aria-checked:border-primary peer-aria-checked:bg-primary/5">
+              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <QrCode className="h-6 w-6" />
                 <span className="font-medium">QRIS</span>
               </div>

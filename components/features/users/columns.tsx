@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import type { User } from "./data";
+import type { User } from "@/lib/modules/users/data";
 
 export const userColumns: ColumnDef<User>[] = [
   // 2. User Info (Avatar + Name + Email)
@@ -154,7 +154,7 @@ export const userColumns: ColumnDef<User>[] = [
 
             {user.role === "user" ? (
               <DropdownMenuItem
-                className="text-blue-600 focus:text-blue-600"
+                className="text-primary"
                 onClick={() => console.log(`Promote ${user.id} to admin`)}
               >
                 <Shield className="mr-2 h-4 w-4" />

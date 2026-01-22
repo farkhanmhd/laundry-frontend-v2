@@ -1,27 +1,11 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import {
-  MoreHorizontal,
-  Phone,
-  Shield,
-  ShieldAlert,
-  User as UserIcon,
-} from "lucide-react";
-
+import { Phone } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import type { User } from "@/lib/modules/users/data";
+import { UpdateUserRoleDialog } from "./update-user-role-dialog";
 
 export const userColumns: ColumnDef<User>[] = [
   // 2. User Info (Avatar + Name + Email)
@@ -123,59 +107,7 @@ export const userColumns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const user = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="h-8 w-8 p-0" variant="ghost">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
-            >
-              Copy User ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {/*
-            <DropdownMenuItem asChild>
-              <Link
-                className="flex cursor-pointer items-center"
-                href={`/users/${user.id}`}
-              >
-                <Eye className="mr-2 h-4 w-4" />
-                View Details
-              </Link>
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator /> */}
-
-            {user.role === "user" ? (
-              <DropdownMenuItem
-                className="text-primary"
-                onClick={() => console.log(`Promote ${user.id} to admin`)}
-              >
-                <Shield className="mr-2 h-4 w-4" />
-                Set as Admin
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem
-                onClick={() => console.log(`Demote ${user.id} to user`)}
-              >
-                <UserIcon className="mr-2 h-4 w-4" />
-                Set as User
-              </DropdownMenuItem>
-            )}
-
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
-              <ShieldAlert className="mr-2 h-4 w-4" />
-              Ban User
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <UpdateUserRoleDialog user={user} />;
     },
   },
 ];

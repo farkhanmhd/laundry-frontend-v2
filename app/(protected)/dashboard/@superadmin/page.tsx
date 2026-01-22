@@ -445,7 +445,7 @@ export default function SuperAdminDashboard() {
                     !date && "text-muted-foreground"
                   )}
                   id="date"
-                  variant={"outline"}
+                  variant="outline"
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {dateDisplay[dateState()]}

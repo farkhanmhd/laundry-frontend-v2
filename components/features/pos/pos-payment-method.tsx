@@ -25,6 +25,7 @@ export function PosPaymentMethod() {
     posData,
     totalAmount,
     handlePaymentMethodChange,
+    amountPaidValidation,
     handleAmountPaidChange,
   } = usePOS();
 
@@ -81,14 +82,19 @@ export function PosPaymentMethod() {
                   Rp
                 </span>
                 <Input
-                  className="pl-10"
+                  aria-invalid={amountPaidValidation}
+                  autoComplete="off"
+                  className="mb-1 pl-10"
                   id="cash-amount"
-                  onChange={(e) =>
-                    handleAmountPaidChange(Number(e.target.value))
-                  }
+                  onChange={(e) => handleAmountPaidChange(e.target.value)}
                   placeholder="0"
                   value={posData.amountPaid}
                 />
+                {amountPaidValidation && (
+                  <span className="text-destructive text-sm">
+                    Amount Paid Must be Equal or More than Total Amount
+                  </span>
+                )}
               </div>
             </div>
             <ul className="grid w-full grid-cols-2 gap-2 md:grid-cols-4 [&>li>button]:w-full [&>li]:w-full">
@@ -106,7 +112,7 @@ export function PosPaymentMethod() {
               <li>
                 <Button
                   className="border border-destructive bg-background text-destructive hover:bg-destructive/25 dark:bg-transparent dark:hover:bg-destructive/25"
-                  onClick={() => handleAmountPaidChange(0)}
+                  onClick={() => handleAmountPaidChange(String(0))}
                   variant="destructive"
                 >
                   <Trash />

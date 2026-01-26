@@ -14,9 +14,7 @@ const PosLayout = ({ children }: { children: ReactNode }) => {
           {children}
         </ul>
       </section>
-      {isLarge && (
-        <PosOrder />
-      )}
+      {isLarge && <PosOrder />}
     </div>
   );
 };

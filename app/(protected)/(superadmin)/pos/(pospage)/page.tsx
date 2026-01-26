@@ -10,7 +10,7 @@ const PosPage = async () => {
       of={data || []}
       render={(item) => (
         <li key={item.id}>
-          <PosItemCard item={item}  />
+          <PosItemCard item={item} />
         </li>
       )}
     />

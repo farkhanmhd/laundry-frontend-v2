@@ -63,7 +63,6 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
               </Link>
             ) : (
               <Badge
-                className="px-2 py-0.5 text-[10px] uppercase shadow-none"
                 variant={
                   data.transactionStatus === "settlement"
                     ? "default"

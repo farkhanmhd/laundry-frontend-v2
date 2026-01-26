@@ -4,8 +4,7 @@ import { getSearchQuery, type SearchQueryProps } from "@/lib/search-params";
 
 const Page = async (props: SearchQueryProps) => {
   const query = await getSearchQuery(props);
-  console.log(query);
-  const orders = await getOrders();
+  const orders = await getOrders(query);
   return <TableView data={orders} />;
 };
 

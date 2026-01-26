@@ -5,7 +5,7 @@ import { Phone } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import type { User } from "@/lib/modules/users/data";
-import { UpdateUserRoleDialog } from "./update-user-role-dialog";
+import { UserActionsMenu } from "./user-actions-menu";
 
 export const userColumns: ColumnDef<User>[] = [
   // 2. User Info (Avatar + Name + Email)
@@ -30,7 +30,7 @@ export const userColumns: ColumnDef<User>[] = [
           </Avatar>
           <div className="flex flex-col">
             <span className="truncate font-medium text-sm">{user.name}</span>
-            <span className="max-w-[200px] truncate text-muted-foreground text-xs">
+            <span className="max-w-50 truncate text-muted-foreground text-xs">
               {user.email}
             </span>
           </div>
@@ -107,7 +107,7 @@ export const userColumns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const user = row.original;
 
-      return <UpdateUserRoleDialog user={user} />;
+      return <UserActionsMenu user={user} />;
     },
   },
 ];

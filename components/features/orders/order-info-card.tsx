@@ -1,4 +1,7 @@
+"use client";
+
 import { LayoutDashboard } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,12 +12,27 @@ import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
 interface OrderInfoProps {
   id: string;
   data: {
-    status: string;
+    status: "pending" | "processing" | "ready" | "completed";
     createdAt: string;
   };
 }
 
 export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
+  const orderStatus = {
+    pending: <Badge variant="destructive">Waiting for Payment</Badge>,
+    processing: (
+      <Button onClick={() => toast("Never gonna give you up")}>
+        Mark as Ready
+      </Button>
+    ),
+    ready: (
+      <Button onClick={() => toast("Never gonna give you up")}>
+        Mark as Completed
+      </Button>
+    ),
+    completed: <Badge>Completed</Badge>,
+  };
+
   return (
     <Card className="w-full" style={cardShadowStyle}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -22,9 +40,7 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
           <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
           Order Information
         </CardTitle>
-        <Button className="h-8 text-xs" size="sm">
-          Mark as Ready
-        </Button>
+        {orderStatus[data.status as keyof typeof orderStatus]}
       </CardHeader>
 
       <Separator className="mb-4" />

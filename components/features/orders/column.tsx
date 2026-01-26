@@ -5,18 +5,9 @@ import Link from "next/link";
 import { DataTableRowActions } from "@/components/features/orders/data-table-row-actions"; // Adjust path as needed
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { cn, formatToIDR } from "@/lib/utils";
 import { Client } from "@/components/utils/client";
-
-export interface Order {
-  id: string;
-  customerName: string;
-  memberId?: string | null | undefined;
-  total: number;
-  status: "pending" | "processing" | "ready" | "completed";
-  createdAt: string;
-  totalItems: number;
-}
+import type { Order } from "@/lib/modules/orders/data";
+import { cn, formatToIDR } from "@/lib/utils";
 
 export const ordersColumns: ColumnDef<Order>[] = [
   {
@@ -39,21 +30,19 @@ export const ordersColumns: ColumnDef<Order>[] = [
     ),
   },
   {
-    accessorKey: "memberId",
-    header: "Member ID",
+    accessorKey: "phone",
+    header: "Phone",
     cell: ({ row }) => {
-      const memberId: string = row.getValue('memberId') ? row.getValue('memberId') : '-'
+      const phone: string = row.getValue("phone") ? row.getValue("phone") : "-";
 
-      return (
-        <div className="text-sm capitalize">{memberId}</div>
-      )
+      return <div className="text-sm capitalize">{phone}</div>;
     },
   },
   {
     accessorKey: "totalItems",
     header: "Total Items",
     cell: ({ row }) => (
-      <div className="text-sm">{row.getValue('totalItems')} items</div>
+      <div className="text-sm">{row.getValue("totalItems")} items</div>
     ),
   },
   {
@@ -63,9 +52,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const amount = formatToIDR(row.getValue("total"));
       return (
         <div className="font-medium">
-          <Client>
-            {amount}
-          </Client>
+          <Client>{amount}</Client>
         </div>
       );
     },
@@ -77,10 +64,10 @@ export const ordersColumns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       const variants = {
-        pending: "secondary",
+        pending: "destructive",
         processing: "outline", // Or generic 'outline'
-        ready: "default", // Perhaps blue or green
-        completed: "secondary", // Often greyed out when done
+        ready: "secondary", // Perhaps blue or green
+        completed: "default", // Often greyed out when done
       } as const;
 
       // Safety check for variant

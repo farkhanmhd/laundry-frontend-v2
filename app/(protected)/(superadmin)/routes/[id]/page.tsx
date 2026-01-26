@@ -249,7 +249,7 @@ export default function RouteDetailPage() {
         {/* TIMELINE ITEMS */}
         <div className="relative space-y-4">
           {/* Vertical Connector Line */}
-          <div className="-z-10 absolute top-6 bottom-6 left-8 w-0.5 bg-muted-foreground/20" />
+          <div className="absolute top-6 bottom-6 left-8 -z-10 w-0.5 bg-muted-foreground/20" />
 
           {route.items.map((item) => {
             const isCompleted =

@@ -24,7 +24,7 @@ const OrderProductsSheet = () => {
             style={{ width: "26px", height: "26px" }}
           />
           {posData.items.length > 0 && (
-            <Badge className="-top-1 -right-1 absolute rounded-full">
+            <Badge className="absolute -top-1 -right-1 rounded-full">
               {posData.items.length}
             </Badge>
           )}

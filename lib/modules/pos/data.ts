@@ -26,3 +26,7 @@ export const createNewPosOrder = async (body: NewOrderSchema) => {
 
   return response;
 };
+
+export type PosCustomer = NonNullable<
+  Awaited<ReturnType<typeof getPosMembers>>
+>[number];

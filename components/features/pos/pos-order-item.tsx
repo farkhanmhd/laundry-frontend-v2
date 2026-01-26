@@ -1,14 +1,17 @@
-import NumberInput from "@/components/forms/number-input";
-import  { type PosOrderItem as PosOrderItemType, usePOS } from "@/lib/modules/pos/state";
-import { formatToIDR } from "@/lib/utils";
 import Image from "next/image";
+import NumberInput from "@/components/forms/number-input";
+import {
+  type PosOrderItem as PosOrderItemType,
+  usePOS,
+} from "@/lib/modules/pos/state";
+import { formatToIDR } from "@/lib/utils";
 
 type Props = {
-  item: PosOrderItemType
-}
+  item: PosOrderItemType;
+};
 
 export function PosOrderItem({ item }: Props) {
-  const { handleIncrementQuantity, handleDecrementQuantity } = usePOS()
+  const { handleIncrementQuantity, handleDecrementQuantity } = usePOS();
   return (
     <div className="flex w-full items-end gap-6 py-4">
       <Image
@@ -38,5 +41,5 @@ export function PosOrderItem({ item }: Props) {
         </div>
       </div>
     </div>
-  )
+  );
 }

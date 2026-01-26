@@ -18,7 +18,7 @@ export function PosEmptySummaryItem() {
           <ShoppingCart />
         </EmptyMedia>
         <EmptyTitle>No items added</EmptyTitle>
-        <EmptyDescription>Your cart is currently empty.</EmptyDescription>
+        <EmptyDescription>Cart is currently empty.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Link className={buttonVariants({ variant: "secondary" })} href="/pos">

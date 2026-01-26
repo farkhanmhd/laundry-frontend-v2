@@ -1,11 +1,15 @@
 "use server";
 
+import { flattenValidationErrors } from "next-safe-action";
 import { actionClient } from "@/lib/safe-action";
 import { createNewPosOrder } from "./data";
 import { newPosOrderSchema } from "./schema";
 
 export const createPosOrderAction = actionClient
-  .inputSchema(newPosOrderSchema)
+  .inputSchema(newPosOrderSchema, {
+    handleValidationErrorsShape: async (ve) =>
+      flattenValidationErrors(ve).fieldErrors,
+  })
   .action(async ({ parsedInput }) => {
     const response = await createNewPosOrder(parsedInput);
     if (!response) {

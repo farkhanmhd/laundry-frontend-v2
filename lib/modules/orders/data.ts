@@ -1,16 +1,20 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import type { SearchQuery } from "@/lib/search-params";
 
-export const getOrders = async () => {
+export const getOrders = async (query: SearchQuery) => {
   const { data: response } = await elysia.orders.get({
     fetch: {
       headers: await headers(),
     },
+    query,
   });
 
   const data = response?.data;
   return data;
 };
+
+export type Order = NonNullable<Awaited<ReturnType<typeof getOrders>>>[number];
 
 export const getOrderStatus = async (id: string) => {
   const { data: response } = await elysia.orders({ id }).status.get({

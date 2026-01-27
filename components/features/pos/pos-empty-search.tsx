@@ -7,6 +7,7 @@ interface Props {
 }
 
 export const PosEmptySearch = ({ searchInput, onClick }: Props) => {
+  if (searchInput.length > 0) {
   return (
     <div className="fade-in slide-in-from-top-2 animate-in space-y-2 duration-300">
       <Alert>
@@ -24,4 +25,8 @@ export const PosEmptySearch = ({ searchInput, onClick }: Props) => {
       </Button>
     </div>
   );
+
+  }
+
+  return null
 };

@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { usePOS } from "@/lib/modules/pos/state";
 
-const customerTypeOptions = ["guest", "member"] as const;
+const customerTypeOptions = ["guest", "member"];
 
 export const PosCustomerTypeSelection = () => {
   const { customerType, handleCustomerTypeChange } = usePOS();

@@ -27,6 +27,13 @@ export const createNewPosOrder = async (body: NewOrderSchema) => {
   return response;
 };
 
-export type PosCustomer = NonNullable<
-  Awaited<ReturnType<typeof getPosMembers>>
->[number];
+export const getPosVouchers = async () => {
+  const { data: response } = await elysia.pos.vouchers.get({
+    fetch: {
+      headers: await headers(),
+    },
+  });
+  const vouchers = response?.data;
+
+  return vouchers;
+};

@@ -26,9 +26,5 @@ export function useSearchQueryParams() {
   return useQueryState("search", {
     defaultValue: '',
     shallow: false,
-    limitUrlUpdates: {
-      method: 'throttle',
-      timeMs: 120
-    },
   });
 }

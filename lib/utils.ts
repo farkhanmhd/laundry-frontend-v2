@@ -54,3 +54,4 @@ export const cardShadowStyle = {
 };
 
 export const positiveIntRegex = /[^0-9]/g;
+export const phoneNumberRegex = /(?!^\+)[^0-9]/g;

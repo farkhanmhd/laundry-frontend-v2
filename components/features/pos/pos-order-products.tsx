@@ -18,7 +18,7 @@ export function PosOrderProducts() {
       <ScrollArea className="h-[calc(100dvh-72px-200px)] flex-1">
         <ul className="flex flex-col divide-y divide-dashed divide-primary/20 px-4">
           {posData.items.length === 0 ? (
-            <li className="flex h-[133px] items-center justify-center border-b border-dashed text-secondary-foreground/70">
+            <li className="flex h-33.25 items-center justify-center border-b border-dashed text-secondary-foreground/70">
               No Item Selected
             </li>
           ) : (

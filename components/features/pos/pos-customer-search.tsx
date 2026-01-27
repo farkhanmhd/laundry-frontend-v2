@@ -21,14 +21,13 @@ export const PosCustomerSearch = () => {
     handleSelectMember,
     clearSelectedCustomer,
     debouncedSearch,
+    toggleNewMember,
   } = usePOS();
   const showSuggestions =
-    !posData.member &&
-    debouncedSearch.length > 0 &&
-    members &&
-    members.length > 0;
+    !posData.member && phone.length > 0 && members && members.length > 0;
 
-  const showEmptyResult = members && members.length === 0;
+  const showEmptyResult =
+    members && members.length === 0 && debouncedSearch.length > 0;
 
   return (
     <div className="space-y-3">
@@ -53,13 +52,19 @@ export const PosCustomerSearch = () => {
 
           <Popover open={showSuggestions}>
             <PopoverAnchor asChild>
-              <Input
-                autoComplete="off"
-                id="customer-search"
-                onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="e.g 628123456789"
-                value={phone}
-              />
+              <div className="relative">
+                <Input
+                  autoComplete="off"
+                  className="pl-9"
+                  id="customer-search"
+                  onChange={(e) => handlePhoneChange(e.target.value)}
+                  placeholder="81234567890"
+                  value={phone}
+                />
+                <span className="absolute top-2 left-2 text-muted-foreground text-sm">
+                  +62
+                </span>
+              </div>
             </PopoverAnchor>
             <PopoverContent
               align="start"
@@ -86,7 +91,7 @@ export const PosCustomerSearch = () => {
         </div>
       )}
       {showEmptyResult && (
-        <PosEmptySearch onClick={() => console.log("")} searchInput={phone} />
+        <PosEmptySearch onClick={toggleNewMember} searchInput={phone} />
       )}
     </div>
   );

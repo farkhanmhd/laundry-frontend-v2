@@ -9,7 +9,7 @@ import { useDebounce } from "use-debounce";
 import { elysia } from "@/elysia";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { SearchQuery } from "@/lib/search-params";
-import { positiveIntRegex } from "@/lib/utils";
+import { phoneNumberRegex, positiveIntRegex } from "@/lib/utils";
 import { createPosOrderAction } from "./actions";
 import type { PosItemData } from "./data";
 import type { NewOrderSchema, OrderItem } from "./schema";
@@ -50,6 +50,7 @@ export interface PosDataState {
   customerType: CustomerType;
   phone: string;
   member?: PosCustomer | null;
+  newMember: boolean;
 }
 
 const initialData: PosDataState = {
@@ -60,6 +61,7 @@ const initialData: PosDataState = {
   paymentMethod: "cash",
   customerType: "guest",
   phone: "",
+  newMember: false,
 };
 
 const posDataAtom = atomWithStorage<PosDataState>("pos-data", initialData);
@@ -79,6 +81,7 @@ export const usePOS = () => {
       }
     },
   });
+
   const [debouncedSearch] = useDebounce(posData.phone, 300);
 
   const {
@@ -123,13 +126,22 @@ export const usePOS = () => {
       };
     }
 
+    if (posData.member) {
+      payload.customerName = posData.member.name;
+      payload.memberId = posData.member.id;
+    }
+
+    if (posData.newMember && !posData.member) {
+      payload.newMember = true;
+      payload.phone = posData.phone;
+    }
     execute(payload);
   };
 
   const handlePhoneChange = (value: string) => {
     setPosData((prev) => ({
       ...prev,
-      phone: value.replace(positiveIntRegex, ""),
+      phone: value.replace(phoneNumberRegex, ""),
     }));
   };
 
@@ -220,6 +232,8 @@ export const usePOS = () => {
   const handleCustomerTypeChange = (value: CustomerType) => {
     setPosData((prev) => ({
       ...prev,
+      customerName: "",
+      newMember: false,
       customerType: value,
     }));
   };
@@ -266,8 +280,8 @@ export const usePOS = () => {
   const clearSelectedCustomer = () => {
     setPosData((prev) => ({
       ...prev,
-      phone: "",
       member: null,
+      phone: "",
       customerName: "",
     }));
   };
@@ -276,9 +290,21 @@ export const usePOS = () => {
     setPosData(initialData);
   }
 
+  const toggleNewMember = () => {
+    setPosData((prev) => ({
+      ...prev,
+      newMember: !prev.newMember,
+    }));
+  };
+
   const customerNameValidation = posData.customerName.length <= 2;
   const amountPaidValidation = posData.amountPaid < totalAmount;
-  const { items: orderItems, customerType, phone } = posData;
+  const phoneNumberValidation = posData.phone.length < 7;
+  const { customerType, phone } = posData;
+
+  const orderItems = posData.items.filter(
+    (item) => item.itemType !== "voucher"
+  );
 
   return {
     amountPaidValidation,
@@ -308,5 +334,7 @@ export const usePOS = () => {
     handleSelectMember,
     clearSelectedCustomer,
     debouncedSearch,
+    toggleNewMember,
+    phoneNumberValidation,
   };
 };

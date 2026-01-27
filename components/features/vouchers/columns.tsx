@@ -87,7 +87,7 @@ export const columns: ColumnDef<Voucher>[] = [
   {
     accessorKey: "pointsCost",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Discount" />
+      <DataTableColumnHeader column={column} title="Points Cost" />
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">

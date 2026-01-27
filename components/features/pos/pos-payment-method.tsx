@@ -56,7 +56,7 @@ export function PosPaymentMethod() {
           >
             <Label className="cursor-pointer" htmlFor="cash">
               <RadioGroupItem className="peer sr-only" id="cash" value="cash" />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
+              <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <Banknote className="h-6 w-6" />
                 <span className="font-medium">Cash</span>
               </div>
@@ -64,7 +64,7 @@ export function PosPaymentMethod() {
 
             <Label className="cursor-pointer" htmlFor="qris">
               <RadioGroupItem className="peer sr-only" id="qris" value="qris" />
-              <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 p-4 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
+              <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
                 <QrCode className="h-6 w-6" />
                 <span className="font-medium">QRIS</span>
               </div>
@@ -97,7 +97,7 @@ export function PosPaymentMethod() {
                 )}
               </div>
             </div>
-            <ul className="grid w-full grid-cols-2 gap-2 md:grid-cols-4 [&>li>button]:w-full [&>li]:w-full">
+            <ul className="grid w-full grid-cols-2 gap-2 md:grid-cols-3 [&>li>button]:w-full [&>li]:w-full">
               {bankNotes.map((note) => (
                 <li key={note}>
                   <Button

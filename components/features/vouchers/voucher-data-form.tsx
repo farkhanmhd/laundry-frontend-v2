@@ -1,97 +1,114 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { useRouter } from "next/navigation";
-import { Controller } from "react-hook-form";
-import { toast } from "sonner";
+import type { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useState } from "react";
+import { Controller, useWatch } from "react-hook-form";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
+  FieldContent,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldTitle,
 } from "@/components/ui/field";
-import { updateVoucherAction } from "@/lib/modules/vouchers/actions";
+import { Label } from "@/components/ui/label";
 import {
-  type UpdateVoucherSchema,
-  updateVoucherSchema,
-} from "@/lib/modules/vouchers/schema";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
+type UseHookFormActionResult = ReturnType<typeof useHookFormAction>;
+
+const voucherTypes = ["fixed", "percentage"];
+
+type Props = {
+  submitLabel: string;
+  formData: UseHookFormActionResult;
+  onSubmitVoucherAction: (e: React.FormEvent) => void;
+};
 
 export const VoucherDataForm = ({
-  id,
-  name,
-  code,
-  discountAmount,
-  pointsCost,
-  expiresAt,
-}: UpdateVoucherSchema) => {
-  const { push } = useRouter();
-  const { form, action } = useHookFormAction(
-    updateVoucherAction,
-    zodResolver(updateVoucherSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        values: {
-          id,
-          name: name ?? "",
-          code: code ?? "",
-          discountAmount: discountAmount ?? 0,
-          pointsCost: pointsCost ?? 0,
-          expiresAt: expiresAt ?? new Date(),
-        },
-      },
-      actionProps: {
-        onSettled: ({ result: { data } }) => {
-          if (data?.status === "success") {
-            toast.success(data.message);
-            push("/vouchers");
-          }
-        },
-      },
-    }
+  submitLabel = "",
+  onSubmitVoucherAction,
+  formData,
+}: Props) => {
+  const { action, form } = formData;
+  const discountPercentage: number = useWatch({
+    control: form.control,
+    name: "discountPercentage",
+  });
+  const [voucherType, setVoucherType] = useState(
+    Number(discountPercentage) > 0 ? "percentage" : "fixed"
   );
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData: UpdateVoucherSchema = {
-      id,
-      name: form.getValues("name") as string,
-      code: form.getValues("code") as string,
-      discountAmount: form.getValues("discountAmount") as number,
-      pointsCost: form.getValues("pointsCost") as number,
-      expiresAt: form.getValues("expiresAt") as Date,
-    };
-
-    action.execute(formData);
+  const handleVoucherTypeChange = (value: string) => {
+    setVoucherType(value);
+    if (value === "percentage") {
+      form.setValue("discountAmount", null);
+    } else if (value === "fixed") {
+      form.setValue("discountPercentage", null);
+      form.setValue("maxDiscountAmount", null);
+    }
   };
 
   return (
-    <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">
-      <div>
-        <h1 className="font-semibold text-2xl">Voucher</h1>
-        <p className="text-muted-foreground text-sm">
-          Enter details below to modify voucher.
-        </p>
+    <form className="flex flex-col gap-6" onSubmit={onSubmitVoucherAction}>
+      <FormInput
+        disabled={action.isPending}
+        form={form}
+        label="Voucher Code"
+        name="code"
+        placeholder="Voucher Code"
+      />
+
+      <FormInput
+        as={Textarea}
+        disabled={action.isPending}
+        form={form}
+        label="Voucher Description"
+        name="description"
+        placeholder="Voucher Description"
+      />
+
+      <FormInput
+        disabled={action.isPending}
+        form={form}
+        label="Minimum Spend"
+        name="minSpend"
+        placeholder="Minimum Spend"
+      />
+
+      <div className="space-y-3">
+        <Label className="text-base">Voucher Type</Label>
+        <Select onValueChange={handleVoucherTypeChange} value={voucherType}>
+          <SelectTrigger className="mb-0 w-full capitalize">
+            <SelectValue placeholder="Select Voucher Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Voucher Type</SelectLabel>
+              {voucherTypes.map((type) => (
+                <SelectItem className="capitalize" key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
-      <form className="flex flex-col gap-6" onSubmit={onSubmit}>
-        <FormInput
-          disabled={action.isPending}
-          form={form}
-          label="Voucher Name"
-          name="name"
-          placeholder="Voucher Name"
-        />
-        <FormInput
-          disabled={action.isPending}
-          form={form}
-          label="Voucher Code"
-          name="code"
-          placeholder="Voucher Code"
-        />
+
+      {voucherType === "fixed" ? (
         <FormInput
           disabled={action.isPending}
           form={form}
@@ -99,36 +116,70 @@ export const VoucherDataForm = ({
           name="discountAmount"
           placeholder="Discount Amount"
         />
-        <FormInput
-          disabled={action.isPending}
-          form={form}
-          label="Points Cost"
-          name="pointsCost"
-          placeholder="Discount Amount"
-        />
-
-        <FieldGroup>
-          <Controller
-            control={form.control}
-            name="expiresAt"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className="text-base" htmlFor={field.name}>
-                  Expiry Date
-                </FieldLabel>
-                <DateTimePicker date={field.value} onChange={field.onChange} />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+      ) : (
+        <>
+          <FormInput
+            disabled={action.isPending}
+            form={form}
+            label="Discount Percentage (%) "
+            name="discountPercentage"
+            placeholder="Discount Percentage (%)"
           />
-        </FieldGroup>
+          <FormInput
+            disabled={action.isPending}
+            form={form}
+            label="Maximum Discount Amount"
+            name="maxDiscountAmount"
+            placeholder="Maximum Discount Amount"
+          />
+        </>
+      )}
 
-        <Button disabled={action.isPending} type="submit">
-          Update Voucher
-        </Button>
-      </form>
-    </div>
+      <FieldGroup>
+        <Controller
+          control={form.control}
+          name="expiresAt"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel className="text-base" htmlFor={field.name}>
+                Expiry Date
+              </FieldLabel>
+              <DateTimePicker date={field.value} onChange={field.onChange} />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </FieldGroup>
+
+      <FieldGroup>
+        <Controller
+          control={form.control}
+          name="isVisible"
+          render={({ field, fieldState }) => (
+            <FieldLabel>
+              <Field data-invalid={fieldState.invalid} orientation="horizontal">
+                <Checkbox
+                  checked={field.value}
+                  id={field.name}
+                  name={field.name}
+                  onCheckedChange={field.onChange}
+                />
+                <FieldContent>
+                  <FieldTitle>Show voucher to customers</FieldTitle>
+                  <FieldDescription>
+                    When enabled, this voucher will be visible in the customer
+                    side.
+                  </FieldDescription>
+                </FieldContent>
+              </Field>
+            </FieldLabel>
+          )}
+        />
+      </FieldGroup>
+
+      <Button disabled={action.isPending} type="submit">
+        {submitLabel}
+      </Button>
+    </form>
   );
 };

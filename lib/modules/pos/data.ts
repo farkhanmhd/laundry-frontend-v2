@@ -37,3 +37,7 @@ export const getPosVouchers = async () => {
 
   return vouchers;
 };
+
+export type PosVoucher = NonNullable<
+  Awaited<ReturnType<typeof getPosVouchers>>
+>[0];

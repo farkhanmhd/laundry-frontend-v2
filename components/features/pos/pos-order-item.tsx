@@ -16,7 +16,7 @@ export function PosOrderItem({ item }: Props) {
     <div className="flex w-full items-end gap-6 py-4">
       <Image
         alt="Cart item"
-        className="max-h-[100px] rounded-lg object-cover"
+        className="max-h-25 rounded-lg object-cover"
         height={100}
         src={item.image as string}
         width={150}

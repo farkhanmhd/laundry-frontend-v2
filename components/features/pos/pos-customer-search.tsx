@@ -71,9 +71,6 @@ export const PosCustomerSearch = () => {
               className="w-(--radix-popover-trigger-width) p-0"
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
-              {/*{(isLoadingMembers || isFetchingMembers) && (
-                <PosCustomerSearchSkeleton />
-              )}*/}
               {members && members.length > 0 && (
                 <ul>
                   {members.map((customer) => (

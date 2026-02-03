@@ -6,11 +6,21 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { adjustQuantityAction } from "@/lib/modules/inventories/actions";
 import {
   type AdjustQuantitySchema,
   adjustQuantitySchema,
+  allowedAdjustType,
 } from "@/lib/modules/inventories/schema";
 
 type Props = {
@@ -21,8 +31,13 @@ type Props = {
 export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  // ✅ current quantity is now stateful
-  const [currentQty, setCurrentQty] = useState(currentQuantity);
+  const defaultValues: AdjustQuantitySchema = {
+    id,
+    currentQuantity,
+    note: "",
+    type: "adjustment",
+    changeAmount: 0,
+  };
 
   const { form, action } = useHookFormAction(
     adjustQuantityAction,
@@ -30,24 +45,18 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
-          id,
-          currentQuantity: currentQty,
-          newQuantity: currentQty,
-          reason: "",
-        },
       },
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
             toast.success(data.message);
-            const newQty = Number(form.getValues("newQuantity"));
-            setCurrentQty(newQty); // ✅ update the state after successful save
+            const changeAmount = Number(form.getValues("changeAmount"));
+
             form.reset({
               id,
-              currentQuantity: newQty,
-              newQuantity: newQty,
-              reason: "",
+              currentQuantity: currentQuantity + changeAmount,
+              changeAmount: 0,
+              note: "",
             });
             setIsEditing(false);
           }
@@ -60,21 +69,21 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
     e.preventDefault();
     const formData: AdjustQuantitySchema = {
       id,
-      currentQuantity: Number(currentQty),
-      newQuantity: Number(form.getValues("newQuantity")),
-      reason: form.getValues("reason"),
+      currentQuantity,
+      changeAmount: Number(form.watch("changeAmount")),
+      note: form.watch("note"),
+      type: form.watch("type"),
     };
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({
-      id,
-      currentQuantity: currentQty,
-      newQuantity: currentQty,
-      reason: "",
-    });
+    form.reset(defaultValues);
     setIsEditing(false);
+  };
+
+  const handleTypeChange = (value: string) => {
+    form.setValue("type", value as AdjustQuantitySchema["type"]);
   };
 
   return (
@@ -89,29 +98,54 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
 
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
         {/* Current quantity is always disabled, but reactive */}
-        <FormInput
-          disabled
-          form={form}
-          label="Current Quantity"
-          name="currentQuantity"
-          placeholder="Current quantity in stock"
-          value={currentQty}
-        />
+        <div className="flex gap-6">
+          <FormInput
+            disabled
+            form={form}
+            label="Current Quantity"
+            name="currentQuantity"
+            placeholder="Current quantity in stock"
+            value={currentQuantity}
+          />
 
-        <FormInput
-          disabled={!isEditing || action.isPending}
-          form={form}
-          label="New Quantity"
-          name="newQuantity"
-          placeholder="Enter new quantity"
-        />
+          <FormInput
+            disabled={!isEditing || action.isPending}
+            form={form}
+            inputMode="numeric"
+            label="Change Amount"
+            name="changeAmount"
+            placeholder="Decrease (-1) or Increase (6)"
+          />
+        </div>
+
+        <div className="space-y-4">
+          <Label htmlFor="type">Adjustment Type</Label>
+          <Select onValueChange={handleTypeChange} value={form.watch("type")}>
+            <SelectTrigger
+              className="w-full capitalize"
+              disabled={!isEditing || action.isPending}
+              id="type"
+            >
+              <SelectValue placeholder="Select adjustment Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {allowedAdjustType.map((val) => (
+                  <SelectItem className="capitalize" key={val} value={val}>
+                    {val}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
         <FormInput
           as={Textarea}
           disabled={!isEditing || action.isPending}
           form={form}
           label="Reason for Adjustment"
-          name="reason"
+          name="note"
           placeholder="e.g. Damaged items removed, manual count correction, etc."
         />
 

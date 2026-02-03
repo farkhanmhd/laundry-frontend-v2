@@ -53,5 +53,6 @@ export const cardShadowStyle = {
   boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
 };
 
+export const intRegex = /^-?\d*$/;
 export const positiveIntRegex = /[^0-9]/g;
 export const phoneNumberRegex = /(?!^\+)[^0-9]/g;

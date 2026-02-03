@@ -93,8 +93,8 @@ export const updateInventoryAction = actionClient
 export const adjustQuantityAction = actionClient
   .inputSchema(adjustQuantitySchema)
   .action(async ({ parsedInput }) => {
-    const { id, newQuantity, reason } = parsedInput;
-    const result = await adjustQuantity(id, { newQuantity, reason });
+    const { id, changeAmount, note, type } = parsedInput;
+    const result = await adjustQuantity(id, { note, changeAmount, type });
 
     if (!result || result.error) {
       return errorResult;

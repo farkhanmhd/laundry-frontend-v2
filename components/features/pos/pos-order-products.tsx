@@ -8,7 +8,7 @@ import { formatToIDR, MapItems } from "@/lib/utils";
 import { PosOrderItem } from "./pos-order-item";
 
 export function PosOrderProducts() {
-  const { posData, totalAmount, totalItems } = usePOS();
+  const { orderItems, totalAmount, totalItems } = usePOS();
 
   return (
     <>
@@ -17,13 +17,13 @@ export function PosOrderProducts() {
       </header>
       <ScrollArea className="h-[calc(100dvh-72px-200px)] flex-1">
         <ul className="flex flex-col divide-y divide-dashed divide-primary/20 px-4">
-          {posData.items.length === 0 ? (
+          {orderItems.length === 0 ? (
             <li className="flex h-33.25 items-center justify-center border-b border-dashed text-secondary-foreground/70">
               No Item Selected
             </li>
           ) : (
             <MapItems
-              of={posData.items}
+              of={orderItems}
               render={(item, index) => (
                 <li className="w-full" key={`${item.id}-${index}`}>
                   <PosOrderItem item={item} />

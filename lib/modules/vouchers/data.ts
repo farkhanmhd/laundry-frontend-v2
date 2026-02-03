@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
 import { getHeadersWithoutContentType } from "@/lib/modules/auth/auth-helpers";
-import type { AddVoucherBody, UpdateVoucherBody } from "./actions";
 
 /**
  * Fetches all vouchers from the API.
@@ -30,12 +29,12 @@ export const getVoucherById = async (id: string) => {
 };
 
 export type Voucher = NonNullable<Awaited<ReturnType<typeof getVoucherById>>>;
-
+export type VoucherInsert = Parameters<typeof elysia.vouchers.post>[0];
 /**
  * Sends a request to create a new voucher.
  * @param body - The voucher data to be created.
  */
-export const addVoucher = async (body: AddVoucherBody) => {
+export const addVoucher = async (body: VoucherInsert) => {
   const result = await elysia.vouchers.post(body, {
     fetch: {
       headers: await headers(),
@@ -67,8 +66,8 @@ export const deleteVoucher = async (id: string) => {
  * @param id - The ID of the voucher to update.
  * @param body - The new data for the voucher.
  */
-export const updateVoucher = async (id: string, body: UpdateVoucherBody) => {
-  const result = await elysia.vouchers({ id }).patch(body, {
+export const updateVoucher = async (body: VoucherInsert) => {
+  const result = await elysia.vouchers({ id: body.id as string }).patch(body, {
     fetch: {
       headers: await getHeadersWithoutContentType(),
     },

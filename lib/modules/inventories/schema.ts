@@ -1,6 +1,10 @@
 import { z } from "zod";
 import type { SelectOption } from "@/components/forms/form-select";
-import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
+import {
+  imageSchema,
+  nonZeroIntegerSchema,
+  positiveIntNoLeadingZero,
+} from "@/lib/schema-utils";
 
 export const units: SelectOption[] = [
   {
@@ -62,6 +66,8 @@ export type UpdateInventoryBodySchema = z.infer<
   typeof updateInventoryBodySchema
 >;
 
+export const allowedAdjustType = ["adjustment", "waste", "restock"] as const;
+
 export const adjustQuantitySchema = z
   .object({
     id: z
@@ -69,16 +75,17 @@ export const adjustQuantitySchema = z
         error: "Inventory ID is required.",
       })
       .min(1, { error: "Inventory ID cannot be empty." }),
-    currentQuantity: positiveIntNoLeadingZero,
-    newQuantity: positiveIntNoLeadingZero,
-    reason: z
+    currentQuantity: z.int(),
+    changeAmount: nonZeroIntegerSchema,
+    type: z.union(allowedAdjustType.map((val) => z.literal(val))),
+    note: z
       .string({
         error: "A reason for the adjustment is required.",
       })
       .min(5, { error: "Please provide a reason (at least 5 characters)." })
       .max(500, { error: "The reason must be 500 characters or less." }),
   })
-  .refine((data) => data.newQuantity !== data.currentQuantity, {
+  .refine((data) => data.changeAmount !== data.currentQuantity, {
     error: "New quantity must be different from the current quantity.",
     path: ["newQuantity"], // Where to display this error
   });

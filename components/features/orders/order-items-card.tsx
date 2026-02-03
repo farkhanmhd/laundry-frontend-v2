@@ -1,4 +1,5 @@
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, TicketPercent } from "lucide-react";
+import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -18,33 +19,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Client } from "@/components/utils/client";
+import type { OrderDetailResponse } from "@/lib/modules/orders/data";
 import { cardShadowStyle, formatToIDR } from "@/lib/utils";
 
-// Define the shape based on your usage
-interface OrderItem {
-  id: string;
-  name: string;
-  note?: string | null;
-  itemtype: string;
-  price: number;
-  quantity: number;
-  subtotal: number;
-}
-
 interface OrderItemsCardProps {
-  items: OrderItem[];
+  data: OrderDetailResponse;
 }
 
-export const OrderItemsCard = ({ items }: OrderItemsCardProps) => {
-  // Logic: Calculate totals derived from items
-  const subTotal = items
-    .filter((item) => item.itemtype !== "voucher")
-    .reduce((acc, curr) => acc + curr.subtotal, 0);
+export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
+  const { orders, voucher } = data;
 
-  const discount =
-    items.find((item) => item.itemtype === "voucher")?.subtotal || 0;
+  // Memoize calculations for performance and clarity
+  const subTotal = useMemo(
+    () => orders.reduce((acc, curr) => acc + curr.subtotal, 0),
+    [orders]
+  );
 
-  const total = subTotal - discount;
+  const finalTotal = useMemo(() => {
+    const discount = voucher?.discountAmount ?? 0;
+    return Math.max(0, subTotal + discount);
+  }, [subTotal, voucher]);
 
   return (
     <Card className="w-full" style={cardShadowStyle}>
@@ -71,14 +65,13 @@ export const OrderItemsCard = ({ items }: OrderItemsCardProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
+              {orders.map((item) => (
                 <TableRow
                   className="align-top hover:bg-transparent"
                   key={item.id}
                 >
                   <TableCell className="pl-6">
                     <div className="font-medium text-base">{item.name}</div>
-                    {/* ITEM NOTE */}
                     {item.note && (
                       <div className="mt-2 flex items-start gap-2 rounded-md bg-muted p-2 text-muted-foreground">
                         <span className="font-medium text-xs italic leading-relaxed">
@@ -113,30 +106,42 @@ export const OrderItemsCard = ({ items }: OrderItemsCardProps) => {
       </CardContent>
 
       {/* Footer Summary */}
-      <div className="border-t px-6 pt-6">
-        <div className="space-y-2">
+      <div className="border-t px-6 py-6">
+        <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
             <Client>
               <span className="font-medium">{formatToIDR(subTotal)}</span>
             </Client>
           </div>
-          {discount > 0 && (
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Discount</span>
-              <Client>
-                <span className="font-medium text-destructive">
-                  -{formatToIDR(discount)}
+
+          {/* Voucher Section */}
+          {voucher && (
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between text-sm">
+                <span className="flex items-center gap-1 font-medium text-green-600">
+                  <TicketPercent className="h-4 w-4" />
+                  Voucher <span className="uppercase">{voucher.code}</span>
                 </span>
-              </Client>
+                <Client>
+                  <span className="font-medium text-green-600">
+                    {formatToIDR(voucher.discountAmount)}
+                  </span>
+                </Client>
+              </div>
+              <p className="text-[10px] text-muted-foreground italic">
+                {voucher.description}
+              </p>
             </div>
           )}
-          <Separator className="my-3" />
+
+          <Separator className="my-2" />
+
           <div className="flex items-center justify-between">
             <span className="font-bold text-lg">Total</span>
             <Client>
               <span className="font-bold text-2xl text-primary">
-                {formatToIDR(total)}
+                {formatToIDR(finalTotal)}
               </span>
             </Client>
           </div>

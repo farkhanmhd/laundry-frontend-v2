@@ -3,19 +3,27 @@
 import { z } from "zod";
 import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
-import { addVoucher, deleteVoucher, updateVoucher } from "./data";
-import { addVoucherSchema, updateVoucherSchema } from "./schema";
+import {
+  addVoucher,
+  deleteVoucher,
+  updateVoucher,
+  type VoucherInsert,
+} from "./data";
+import { voucherInsertSchema } from "./schema";
 
 // --- Type Inference ---
 // Infers the expected body type for adding a voucher directly from the Elysia client.
-export type AddVoucherBody = Parameters<typeof elysia.vouchers.post>[0];
 
 export const addVoucherAction = actionClient
-  .inputSchema(addVoucherSchema)
+  .inputSchema(voucherInsertSchema)
   .action(async ({ parsedInput }) => {
     // Convert date to ISO string for the API.
-    const apiInput = {
+    const apiInput: VoucherInsert = {
       ...parsedInput,
+      maxDiscountAmount:
+        parsedInput.discountAmount && parsedInput.discountAmount > 0
+          ? parsedInput.discountAmount
+          : parsedInput.maxDiscountAmount,
       expiresAt: parsedInput.expiresAt.toISOString(),
     };
 
@@ -64,16 +72,18 @@ export type UpdateVoucherBody = NonNullable<
 >;
 
 export const updateVoucherAction = actionClient
-  .inputSchema(updateVoucherSchema)
+  .inputSchema(voucherInsertSchema)
   .action(async ({ parsedInput }) => {
-    const { id, ...restVoucherData } = parsedInput;
-
-    const apiInput = {
-      ...restVoucherData,
-      expiresAt: restVoucherData.expiresAt?.toISOString(),
+    const apiInput: VoucherInsert = {
+      ...parsedInput,
+      maxDiscountAmount:
+        parsedInput.discountAmount && parsedInput.discountAmount > 0
+          ? parsedInput.discountAmount
+          : parsedInput.maxDiscountAmount,
+      expiresAt: parsedInput.expiresAt?.toISOString(),
     };
 
-    const result = await updateVoucher(id, apiInput);
+    const result = await updateVoucher(apiInput);
 
     if (result.error) {
       return {

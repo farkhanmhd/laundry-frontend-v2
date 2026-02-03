@@ -1,27 +1,15 @@
-import { PosVoucherCard } from "@/components/features/pos/pos-voucher";
+import { PosSummaryEmptyVouchers } from "@/components/features/pos/pos-summary-empty-vouchers";
+import { PosVoucherList } from "@/components/features/pos/pos-voucher-list";
 import { getPosVouchers } from "@/lib/modules/pos/data";
 
 const PosSummaryVoucherSlot = async () => {
   const vouchers = await getPosVouchers();
-  return (
-    <ul className="space-y-3">
-      {vouchers &&
-        vouchers.length > 0 &&
-        vouchers.map((voucher) => (
-          <li key={voucher.id}>
-            <PosVoucherCard
-              code={voucher.code}
-              description={voucher.description}
-              discountAmount={voucher.discountAmount}
-              expiryDate={voucher.expiryDate as string}
-              id={voucher.id}
-              pointsCost={voucher.pointsCost}
-              userBalance={10}
-            />
-          </li>
-        ))}
-    </ul>
-  );
+
+  if (!vouchers?.length) {
+    return <PosSummaryEmptyVouchers />;
+  }
+
+  return <PosVoucherList vouchers={vouchers} />;
 };
 
 export default PosSummaryVoucherSlot;

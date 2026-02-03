@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { elysia } from "@/elysia";
@@ -11,7 +11,7 @@ import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { SearchQuery } from "@/lib/search-params";
 import { phoneNumberRegex, positiveIntRegex } from "@/lib/utils";
 import { createPosOrderAction } from "./actions";
-import type { PosItemData } from "./data";
+import type { PosItemData, PosVoucher } from "./data";
 import type { NewOrderSchema, OrderItem } from "./schema";
 
 export const getPosMembers = async (query: SearchQuery) => {
@@ -26,13 +26,25 @@ export const getPosMembers = async (query: SearchQuery) => {
   return members;
 };
 
+export const getVoucherByCode = async (query: SearchQuery) => {
+  const { data: response } = await elysia.pos.voucher.get({
+    fetch: {
+      credentials: "include",
+    },
+    query,
+  });
+
+  const voucher = response?.data;
+  return voucher;
+};
+
 export type PosCustomer = NonNullable<
   Awaited<ReturnType<typeof getPosMembers>>
 >[number];
 
 export interface PosOrderItem extends OrderItem {
   id: string;
-  image: string;
+  image?: string;
   name: string;
   price: number;
   stock?: number | null;
@@ -51,6 +63,8 @@ export interface PosDataState {
   phone: string;
   member?: PosCustomer | null;
   newMember: boolean;
+  voucherList: PosVoucher[];
+  selectedVoucher: PosVoucher | null;
 }
 
 const initialData: PosDataState = {
@@ -62,9 +76,48 @@ const initialData: PosDataState = {
   customerType: "guest",
   phone: "",
   newMember: false,
+  voucherList: [],
+  selectedVoucher: null,
 };
 
 const posDataAtom = atomWithStorage<PosDataState>("pos-data", initialData);
+
+const getMaxDiscount = (voucher: PosVoucher, totalAmount: number) => {
+  const voucherType =
+    voucher.discountPercentage && voucher.discountPercentage !== null
+      ? "percentage"
+      : "fixed";
+
+  const percentageDiscount =
+    voucherType === "percentage" &&
+    voucher.discountPercentage &&
+    Number(voucher.discountPercentage) > 0
+      ? Number(voucher.discountPercentage)
+      : 0;
+
+  const fixedDiscount =
+    voucherType === "fixed" &&
+    voucher.discountAmount &&
+    voucher.discountAmount > 0
+      ? voucher.discountAmount
+      : 0;
+
+  const totalPercentageDiscount =
+    totalAmount - Math.floor(totalAmount * (percentageDiscount / 100));
+
+  const maxDiscountAmount = {
+    percentage:
+      totalPercentageDiscount >= voucher.maxDiscountAmount
+        ? voucher.maxDiscountAmount
+        : totalPercentageDiscount,
+    fixed:
+      fixedDiscount > voucher.maxDiscountAmount
+        ? voucher.maxDiscountAmount
+        : fixedDiscount,
+  };
+
+  return maxDiscountAmount[voucherType];
+};
 
 export const usePOS = () => {
   const [posData, setPosData] = useAtom(posDataAtom);
@@ -135,6 +188,15 @@ export const usePOS = () => {
       payload.newMember = true;
       payload.phone = posData.phone;
     }
+
+    if (posData.selectedVoucher) {
+      payload.items.push({
+        voucherId: posData.selectedVoucher.id,
+        itemType: "voucher",
+        quantity: 1,
+      });
+    }
+
     execute(payload);
   };
 
@@ -220,7 +282,9 @@ export const usePOS = () => {
 
   const totalAmount = useMemo(
     () =>
-      posData.items.reduce((acc, curr) => acc + curr.quantity * curr.price, 0),
+      posData.items
+        .filter((item) => item.itemType !== "voucher")
+        .reduce((acc, curr) => acc + curr.quantity * curr.price, 0),
     [posData.items]
   );
 
@@ -229,11 +293,63 @@ export const usePOS = () => {
     [posData.items]
   );
 
+  const pointsEarned =
+    posData.member && totalAmount >= 10_000 ? Math.ceil(totalAmount / 10) : 0;
+
+  const totalDiscount = useMemo(() => {
+    if (!posData.selectedVoucher) {
+      return 0;
+    }
+
+    return getMaxDiscount(posData.selectedVoucher, totalAmount);
+  }, [totalAmount, posData.selectedVoucher]);
+
+  const totalAmountToBePaid = useMemo(() => {
+    const amountTobePaid =
+      totalAmount - totalDiscount < 0 ? 0 : totalAmount - totalDiscount;
+    return amountTobePaid;
+  }, [totalAmount, totalDiscount]);
+
+  useEffect(() => {
+    if (posData.selectedVoucher) {
+      const minSpend = posData.selectedVoucher.minSpend || 0;
+      const isCartEmpty = totalAmount === 0;
+      const isBelowMinSpend = totalAmount < minSpend;
+
+      if (isCartEmpty || isBelowMinSpend || !posData.member) {
+        setPosData((prev) => ({ ...prev, selectedVoucher: null }));
+      }
+    }
+  }, [posData.member, totalAmount, posData.selectedVoucher, setPosData]);
+
+  const handleSelectVoucher = (voucher: PosVoucher) => {
+    setPosData((prev) => ({
+      ...prev,
+      selectedVoucher: voucher,
+    }));
+    toast.success(`Voucher ${voucher.description} applied!`);
+  };
+
+  const handleRemoveVoucher = () => {
+    setPosData((prev) => ({
+      ...prev,
+      selectedVoucher: null,
+    }));
+  };
+
+  const isSelectedVoucher = (voucherId: string) =>
+    voucherId === posData.selectedVoucher?.id;
+
   const handleCustomerTypeChange = (value: CustomerType) => {
     setPosData((prev) => ({
       ...prev,
       customerName: "",
       newMember: false,
+      member: null,
+      items:
+        value === "guest"
+          ? prev.items.filter((item) => item.itemType !== "voucher")
+          : prev.items,
       customerType: value,
     }));
   };
@@ -298,8 +414,9 @@ export const usePOS = () => {
   };
 
   const customerNameValidation = posData.customerName.length <= 2;
-  const amountPaidValidation = posData.amountPaid < totalAmount;
+  const amountPaidValidation = posData.amountPaid < totalAmountToBePaid;
   const phoneNumberValidation = posData.phone.length < 7;
+  const voucherList = posData.voucherList;
   const { customerType, phone } = posData;
 
   const orderItems = posData.items.filter(
@@ -336,5 +453,12 @@ export const usePOS = () => {
     debouncedSearch,
     toggleNewMember,
     phoneNumberValidation,
+    pointsEarned,
+    totalDiscount,
+    handleSelectVoucher,
+    isSelectedVoucher,
+    handleRemoveVoucher,
+    totalAmountToBePaid,
+    voucherList,
   };
 };

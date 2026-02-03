@@ -6,33 +6,12 @@ import Link from "next/link";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { Client } from "@/components/utils/client";
 import type { Voucher } from "@/lib/modules/vouchers/data";
 // import { Checkbox } from "@/components/ui/checkbox";
 import { cn, formatToIDR } from "@/lib/utils";
 
 export const columns: ColumnDef<Voucher>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       aria-label="Select all"
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       aria-label="Select row"
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: "id",
     header: ({ column }) => (
@@ -63,13 +42,15 @@ export const columns: ColumnDef<Voucher>[] = [
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "discountPercentage",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Percentage" />
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {row.getValue("name")}
+        {Number(row.getValue("discountPercentage")) > 0
+          ? `${row.getValue("discountPercentage")} %`
+          : "-"}
       </div>
     ),
   },
@@ -80,18 +61,31 @@ export const columns: ColumnDef<Voucher>[] = [
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {formatToIDR(row.getValue("discountAmount"))}
+        {Number(row.getValue("discountAmount")) > 0
+          ? formatToIDR(row.getValue("discountAmount"))
+          : "-"}
       </div>
     ),
   },
   {
-    accessorKey: "pointsCost",
+    accessorKey: "minSpend",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Points Cost" />
+      <DataTableColumnHeader column={column} title="Min Spend" />
     ),
     cell: ({ row }) => (
       <div className="line-clamp-1 min-w-max font-medium">
-        {row.getValue("pointsCost")}
+        <Client>{formatToIDR(row.getValue("minSpend"))}</Client>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "maxDiscountAmount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Max Discount" />
+    ),
+    cell: ({ row }) => (
+      <div className="line-clamp-1 min-w-max font-medium">
+        <Client>{formatToIDR(row.getValue("maxDiscountAmount"))}</Client>
       </div>
     ),
   },
@@ -121,20 +115,6 @@ export const columns: ColumnDef<Voucher>[] = [
       return (
         <div className="line-clamp-1 min-w-max font-medium">
           {formattedDate}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "isActive",
-    header: () => <div>Status</div>,
-    cell: ({ row }) => {
-      const active = row.original.isActive;
-      return (
-        <div className="min-w-max font-medium uppercase">
-          <Badge className="font-bold" variant={active ? "default" : "outline"}>
-            {active ? "Active" : "Expired"}
-          </Badge>
         </div>
       );
     },

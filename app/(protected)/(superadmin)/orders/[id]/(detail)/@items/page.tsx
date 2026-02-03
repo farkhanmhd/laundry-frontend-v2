@@ -14,7 +14,7 @@ const OrderItems = async ({ params }: Props) => {
     notFound();
   }
 
-  return <OrderItemsCard items={data} />;
+  return <OrderItemsCard data={data} />;
 };
 
 export default OrderItems;

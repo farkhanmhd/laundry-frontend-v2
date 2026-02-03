@@ -27,11 +27,14 @@ export function PosPaymentMethod() {
     handlePaymentMethodChange,
     amountPaidValidation,
     handleAmountPaidChange,
+    totalDiscount,
+    totalAmountToBePaid,
+    pointsEarned,
   } = usePOS();
 
   const changeAmount = useMemo(
-    () => Math.max(0, posData.amountPaid - totalAmount),
-    [posData.amountPaid, totalAmount]
+    () => Math.max(0, posData.amountPaid - totalAmountToBePaid),
+    [posData.amountPaid, totalAmountToBePaid]
   );
 
   const handleNoteClick = (amount: number) => {
@@ -140,17 +143,42 @@ export function PosPaymentMethod() {
           </div>
 
           <div className="flex justify-between border-t pt-3">
-            <span className="font-semibold text-base">Total Amount</span>
+            <span className="text-sm">Items Total Amount</span>
+            <Client>
+              <span className="text-primary">{formatToIDR(totalAmount)}</span>
+            </Client>
+          </div>
+          {totalDiscount > 0 && (
+            <div className="flex justify-between text-sm">
+              <span>Total Discount</span>
+              <Client>
+                <span className="text-green-600">
+                  {formatToIDR(totalDiscount)}
+                </span>
+              </Client>
+            </div>
+          )}
+          {pointsEarned > 0 && (
+            <div className="flex justify-between text-sm">
+              <span>Points Earned</span>
+              <Client>
+                <span className="text-green-600">{pointsEarned}</span>
+              </Client>
+            </div>
+          )}
+
+          <div className="flex justify-between text-sm">
+            <span>Total</span>
             <Client>
               <span className="font-bold text-primary text-xl">
-                {formatToIDR(totalAmount)}
+                {formatToIDR(totalAmountToBePaid)}
               </span>
             </Client>
           </div>
 
           {posData.paymentMethod === "cash" && (
             <>
-              <div className="flex justify-between text-muted-foreground text-sm">
+              <div className="flex justify-between text-sm">
                 <span>Cash Received</span>
                 <Client>
                   <span>{formatToIDR(posData.amountPaid)}</span>

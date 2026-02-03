@@ -38,6 +38,16 @@ export const getOrderItems = async (id: string) => {
   return data;
 };
 
+export type OrderDetailResponse = NonNullable<
+  Awaited<ReturnType<typeof getOrderItems>>
+>;
+export type OrderDetailItem = NonNullable<
+  Awaited<ReturnType<typeof getOrderItems>>
+>["orders"][number];
+export type OrderDetailVoucher = NonNullable<
+  Awaited<ReturnType<typeof getOrderItems>>
+>["voucher"];
+
 export const getOrderPayment = async (id: string) => {
   const { data: response } = await elysia.orders({ id }).payment.get({
     fetch: {

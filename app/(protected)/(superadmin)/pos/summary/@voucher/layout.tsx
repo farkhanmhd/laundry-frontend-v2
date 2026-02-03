@@ -1,9 +1,17 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { PosVoucherInput } from "@/components/features/pos/pos-voucher-input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 const PosSummaryVoucherSlot = ({ children }: { children: React.ReactNode }) => {
+  const { customerType, posData } = usePOS();
+
+  if (customerType === "guest" || !posData.member) {
+    return null;
+  }
+
   return (
     <Card style={cardShadowStyle}>
       <CardHeader className="border-b [.border-b]:pb-3.5">
@@ -12,11 +20,8 @@ const PosSummaryVoucherSlot = ({ children }: { children: React.ReactNode }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div className="flex gap-2">
-            <Input placeholder="Type Voucher Code" />
-            <Button>Apply</Button>
-          </div>
+        <div className="space-y-6">
+          <PosVoucherInput />
           {children}
         </div>
       </CardContent>

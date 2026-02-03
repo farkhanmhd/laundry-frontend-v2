@@ -9,7 +9,7 @@ interface Props {
 export const PosSelectedCustomer = ({ customer, onClick }: Props) => {
   return (
     <div className="fade-in slide-in-from-top-2 flex animate-in items-start justify-between gap-3 rounded-lg border border-primary p-4 duration-300">
-      <div className="flex min-w-0 flex-1 items-start gap-3">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground text-sm">
           {customer.name.charAt(0)}
         </div>
@@ -17,9 +17,8 @@ export const PosSelectedCustomer = ({ customer, onClick }: Props) => {
           <p className="font-semibold text-card-foreground text-sm">
             {customer.name}
           </p>
-          <p className="mt-0.5 text-muted-foreground text-xs">
-            {customer.phone}
-          </p>
+          <p className="text-muted-foreground text-sm">{customer.phone}</p>
+          <p className="text-sm">{customer.points} Points</p>
         </div>
       </div>
       <button

@@ -27,7 +27,7 @@ export const newPosOrderSchema = z
   .discriminatedUnion("paymentType", [
     z.object({
       paymentType: z.literal("cash"),
-      amountPaid: positiveIntNoLeadingZero,
+      amountPaid: z.number(),
       ...newPosOrderBaseSchema,
     }),
     z.object({

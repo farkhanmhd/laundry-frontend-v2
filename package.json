@@ -10,7 +10,7 @@
     "format": "bun ultracite fix"
   },
   "dependencies": {
-    "@elysiajs/eden": "^1.4.5",
+    "@elysiajs/eden": "^1.4.6",
     "@hookform/resolvers": "^5.2.2",
     "@next-safe-action/adapter-react-hook-form": "^2.0.0",
     "@radix-ui/react-alert-dialog": "^1.1.15",

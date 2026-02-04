@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
-import { useEffect, useMemo } from "react";
+import { type ChangeEvent, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { elysia } from "@/elysia";
@@ -65,6 +65,7 @@ export interface PosDataState {
   newMember: boolean;
   voucherList: PosVoucher[];
   selectedVoucher: PosVoucher | null;
+  points?: number | null;
 }
 
 const initialData: PosDataState = {
@@ -197,6 +198,10 @@ export const usePOS = () => {
       });
     }
 
+    if (posData.points) {
+      payload.points = -1 * posData.points;
+    }
+
     execute(payload);
   };
 
@@ -280,6 +285,13 @@ export const usePOS = () => {
     }
   };
 
+  const togglePoint = () => {
+    setPosData((prev) => ({
+      ...prev,
+      points: posData.points !== null ? null : 0,
+    }));
+  };
+
   const totalAmount = useMemo(
     () =>
       posData.items
@@ -304,11 +316,16 @@ export const usePOS = () => {
     return getMaxDiscount(posData.selectedVoucher, totalAmount);
   }, [totalAmount, posData.selectedVoucher]);
 
+  const amountBeforePoints = useMemo(
+    () => Math.max(0, totalAmount - totalDiscount),
+    [totalAmount, totalDiscount]
+  );
+
   const totalAmountToBePaid = useMemo(() => {
-    const amountTobePaid =
-      totalAmount - totalDiscount < 0 ? 0 : totalAmount - totalDiscount;
-    return amountTobePaid;
-  }, [totalAmount, totalDiscount]);
+    const finalValue = totalAmount - totalDiscount - (posData.points ?? 0);
+
+    return finalValue < 0 ? 0 : finalValue;
+  }, [totalAmount, totalDiscount, posData.points]);
 
   useEffect(() => {
     if (posData.selectedVoucher) {
@@ -368,6 +385,43 @@ export const usePOS = () => {
     }));
   };
 
+  const handlePointChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // 1. Get the raw number the user is trying to type
+    const rawValue = Number(e.target.value.replace(positiveIntRegex, ""));
+
+    // 2. Determine the strict upper limit
+    const maxAllowed = Math.min(
+      posData.member?.points ?? 0, // Limit 1: Their wallet balance
+      amountBeforePoints // Limit 2: The current bill
+    );
+
+    // 3. Cap the input
+    const value = Math.min(rawValue, maxAllowed);
+
+    setPosData((prev) => ({
+      ...prev,
+      points: value,
+    }));
+  };
+
+  useEffect(() => {
+    // If we have points applied...
+    if (posData.points && posData.points > 0) {
+      const maxAllowed = Math.min(
+        posData.member?.points ?? 0,
+        amountBeforePoints
+      );
+
+      // ...and the current points exceed the new limit (e.g. after removing an item)
+      if (posData.points > maxAllowed) {
+        setPosData((prev) => ({
+          ...prev,
+          points: maxAllowed, // Auto-reduce to the new max
+        }));
+      }
+    }
+  }, [amountBeforePoints, posData.points, posData.member?.points, setPosData]);
+
   const handleAmountPaidChange = (value: string | number) => {
     if (typeof value === "string") {
       setPosData((prev) => ({
@@ -413,10 +467,16 @@ export const usePOS = () => {
     }));
   };
 
+  const changeAmount = useMemo(
+    () => Math.max(0, posData.amountPaid - totalAmountToBePaid),
+    [posData.amountPaid, totalAmountToBePaid]
+  );
+
   const customerNameValidation = posData.customerName.length <= 2;
   const amountPaidValidation = posData.amountPaid < totalAmountToBePaid;
   const phoneNumberValidation = posData.phone.length < 7;
   const voucherList = posData.voucherList;
+  const points = posData.points;
   const { customerType, phone } = posData;
 
   const orderItems = posData.items.filter(
@@ -460,5 +520,9 @@ export const usePOS = () => {
     handleRemoveVoucher,
     totalAmountToBePaid,
     voucherList,
+    togglePoint,
+    changeAmount,
+    handlePointChange,
+    points,
   };
 };

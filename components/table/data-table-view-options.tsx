@@ -25,10 +25,10 @@ export function DataTableViewOptions<TData>({
       <DropdownMenuTrigger asChild>
         <Button className="flex rounded-none border-l" variant="ghost">
           <Settings2 />
-          <span className="hidden md:block">Column</span>
+          <span className="hidden md:block">View</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
+      <DropdownMenuContent align="end" className="w-37.5">
         <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table

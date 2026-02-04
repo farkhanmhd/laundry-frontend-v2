@@ -14,7 +14,9 @@ export const getOrders = async (query: SearchQuery) => {
   return data;
 };
 
-export type Order = NonNullable<Awaited<ReturnType<typeof getOrders>>>[number];
+export type Order = NonNullable<
+  Awaited<ReturnType<typeof getOrders>>
+>["orders"][number];
 
 export const getOrderStatus = async (id: string) => {
   const { data: response } = await elysia.orders({ id }).status.get({

@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { History, Plus } from "lucide-react";
 import Link from "next/link";
 import { columns } from "@/components/features/inventories/columns";
 import { TableProvider } from "@/components/table/context";
@@ -16,6 +16,13 @@ const InventoryLayout = ({ children }: { children: React.ReactNode }) => (
       >
         <Plus />
         Inventory
+      </Link>
+      <Link
+        className={cn(buttonVariants({ variant: "ghost" }), "rounded-none")}
+        href="/inventories/history"
+      >
+        <History />
+        History
       </Link>
     </TableToolbar>
     {children}

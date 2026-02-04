@@ -56,3 +56,9 @@ export const cardShadowStyle = {
 export const intRegex = /^-?\d*$/;
 export const positiveIntRegex = /[^0-9]/g;
 export const phoneNumberRegex = /(?!^\+)[^0-9]/g;
+
+export type SelectOption = {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+};

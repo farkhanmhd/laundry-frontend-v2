@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { usePOS } from "@/lib/modules/pos/state";
 import { formatToIDR, MapItems } from "@/lib/utils";
 import { PosOrderItem } from "./pos-order-item";
 
 export function PosOrderProducts() {
-  const { orderItems, totalAmount, totalItems } = usePOS();
+  const { orderItems, totalAmount, totalItems, toggleCart } = usePOS();
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -42,6 +44,11 @@ export function PosOrderProducts() {
           <Button
             className="h-12 w-full items-center px-0"
             disabled={totalItems === 0}
+            onClick={() => {
+              if (isMobile) {
+                toggleCart();
+              }
+            }}
           >
             <Link
               className="flex h-12 w-full items-center justify-center text-lg"

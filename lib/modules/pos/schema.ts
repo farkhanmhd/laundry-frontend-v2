@@ -21,6 +21,7 @@ const newPosOrderBaseSchema = {
   memberId: z.string().optional(),
   newMember: z.boolean().optional(),
   phone: z.string().optional(),
+  points: z.optional(z.nullable(z.number())),
 };
 
 export const newPosOrderSchema = z

@@ -1,4 +1,4 @@
-import { ShoppingBag, TicketPercent } from "lucide-react";
+import { Coins, ShoppingBag, TicketPercent } from "lucide-react"; // Added Coins icon
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -27,18 +27,20 @@ interface OrderItemsCardProps {
 }
 
 export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
-  const { orders, voucher } = data;
+  const { items, voucher, points } = data;
 
-  // Memoize calculations for performance and clarity
   const subTotal = useMemo(
-    () => orders.reduce((acc, curr) => acc + curr.subtotal, 0),
-    [orders]
+    () => items.reduce((acc, curr) => acc + curr.subtotal, 0),
+    [items]
   );
 
   const finalTotal = useMemo(() => {
     const discount = voucher?.discountAmount ?? 0;
-    return Math.max(0, subTotal + discount);
-  }, [subTotal, voucher]);
+    const pointsUsed = points?.points ?? 0; // points is negative
+
+    // Since points is negative, we add it to reduce the total
+    return Math.max(0, subTotal + discount + pointsUsed);
+  }, [subTotal, voucher, points]);
 
   return (
     <Card className="w-full" style={cardShadowStyle}>
@@ -65,7 +67,7 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {orders.map((item) => (
+              {items.map((item) => (
                 <TableRow
                   className="align-top hover:bg-transparent"
                   key={item.id}
@@ -132,6 +134,21 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
               <p className="text-[10px] text-muted-foreground italic">
                 {voucher.description}
               </p>
+            </div>
+          )}
+
+          {/* Points Section */}
+          {points && (
+            <div className="flex justify-between text-sm">
+              <span className="flex items-center gap-1 font-medium text-green-600">
+                <Coins className="h-4 w-4" />
+                Points Redeemed
+              </span>
+              <Client>
+                <span className="font-medium text-green-600">
+                  {formatToIDR(points.points)}
+                </span>
+              </Client>
             </div>
           )}
 

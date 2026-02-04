@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
 import { getHeadersWithoutContentType } from "@/lib/modules/auth/auth-helpers";
+// import type { InventoryHistoryQuery } from "@/lib/search-params";
 
 export const getInventories = async () => {
   const { data: response } = await elysia.inventories.get({
@@ -11,6 +12,22 @@ export const getInventories = async () => {
 
   const data = response?.data;
 
+  return data;
+};
+
+export type InventoryHistoryQuery = NonNullable<
+  Parameters<typeof elysia.inventories.history.get>[0]
+>["query"];
+
+export const getInventoryHistory = async (query: InventoryHistoryQuery) => {
+  const { data: response } = await elysia.inventories.history.get({
+    fetch: {
+      headers: await headers(),
+    },
+    query,
+  });
+
+  const data = response?.data;
   return data;
 };
 
@@ -26,9 +43,28 @@ export const getInventoryById = async (id: string) => {
   return data;
 };
 
+export const getInventoryOptions = async () => {
+  const { data: response } = await elysia.inventories.options.get({
+    fetch: {
+      headers: await headers(),
+    },
+  });
+
+  const data = response?.data;
+
+  if (!data) {
+    return [];
+  }
+
+  return data;
+};
+
 export type Inventory = NonNullable<
   Awaited<ReturnType<typeof getInventoryById>>
 >;
+export type InventoryHistory = NonNullable<
+  Awaited<ReturnType<typeof getInventoryHistory>>
+>["inventoryHistory"][number];
 
 type AddInventoryBody = Parameters<typeof elysia.inventories.post>[0];
 

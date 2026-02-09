@@ -15,14 +15,14 @@ const InventoryLayout = ({ children }: { children: React.ReactNode }) => (
         href="/inventories/new"
       >
         <Plus />
-        Inventory
+        <span className="hidden md:inline">Inventory</span>
       </Link>
       <Link
         className={cn(buttonVariants({ variant: "ghost" }), "rounded-none")}
-        href="/inventories/history"
+        href="/inventories/logs"
       >
         <History />
-        History
+        <span className="hidden md:inline">Logs</span>
       </Link>
     </TableToolbar>
     {children}

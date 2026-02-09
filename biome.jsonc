@@ -28,6 +28,9 @@
       "suspicious": {
         "noUnknownAtRules": "off"
       },
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
       "style": {
         "noMagicNumbers": "off",
         "useConsistentTypeDefinitions": "off"
@@ -57,6 +60,8 @@
     "ultracite/biome/next"
   ],
   "javascript": {
-    "globals": ["bun"]
+    "globals": [
+      "bun"
+    ]
   }
 }

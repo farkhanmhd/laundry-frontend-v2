@@ -1,16 +1,23 @@
 "use client";
 
-import { Button } from "../ui/button";
-import { useSidebar } from "../ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
 export function SidebarErrorFallback({
   error,
   resetErrorBoundary,
 }: {
-  error: Error;
+  error: unknown;
   resetErrorBoundary: () => void;
 }) {
   const { open } = useSidebar();
+  let errorMessage = "An unknown Error occured";
+
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (typeof error === "string") {
+    errorMessage = error;
+  }
 
   return (
     <div
@@ -20,7 +27,7 @@ export function SidebarErrorFallback({
       {open && (
         <>
           <p className="text-center text-muted-foreground text-sm">
-            Something went wrong: {error.message}
+            Something went wrong {errorMessage}
           </p>
           {/* <pre style={{ color: "red" }}>{error.message}</pre> */}
           <Button onClick={resetErrorBoundary} variant="secondary">

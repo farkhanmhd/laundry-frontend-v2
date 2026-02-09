@@ -1,6 +1,7 @@
 import {
   Archive,
   Blocks,
+  ChartColumnIncreasing,
   ChartNoAxesCombined,
   HandPlatter,
   ListTodo,
@@ -50,6 +51,11 @@ export const adminNavData: NavItem[] = [
     title: "Members",
     url: "/members",
     icon: Users,
+  },
+  {
+    title: "Sales",
+    url: "/sales",
+    icon: ChartColumnIncreasing,
   },
   {
     title: "Inventories",

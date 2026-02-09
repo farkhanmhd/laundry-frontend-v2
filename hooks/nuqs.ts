@@ -1,7 +1,6 @@
 import {
   parseAsIndex,
   parseAsInteger,
-  parseAsString,
   useQueryState,
   useQueryStates,
 } from "nuqs";

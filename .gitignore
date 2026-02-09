@@ -40,6 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-cli.txt
 server.ts
 tsconfig.tsbuildinfo

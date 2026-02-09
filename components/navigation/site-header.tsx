@@ -40,6 +40,7 @@ export function SiteHeader() {
               )}
             </Button>
           )}
+          <ThemeToggle />
           {session?.user.role === "user" ? (
             <Link
               className={cn(
@@ -63,7 +64,6 @@ export function SiteHeader() {
               <User />
             </Link>
           )}
-          <ThemeToggle />
         </div>
       </Client>
     </header>

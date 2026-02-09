@@ -1,0 +1,1 @@
+fetch new types from elysia: curl -o server.ts http://localhost:3001/types.d.ts

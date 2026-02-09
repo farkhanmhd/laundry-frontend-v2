@@ -1,6 +1,14 @@
-export const useQueryParams = (params: URLSearchParams) => {
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+
+export const useQuerySearchParams = () => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
+  const params = new URLSearchParams(searchParams)
+
   const setQuery = (key: string, value: string) => {
     params.set(key, value);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const toggleQuery = (key: string, value: string) => {
@@ -13,13 +21,15 @@ export const useQueryParams = (params: URLSearchParams) => {
     } else {
       params.append(key, value)
     }
+    replace(`${pathname}?${params.toString()}`);
   }
 
   const getSelectedValues = (key: string) => params.getAll(key)
 
   const removeQuery = (key: string) => {
     params.delete(key);
+    replace(`${pathname}?${params.toString()}`);
   };
 
-  return { params, setQuery, toggleQuery, removeQuery, getSelectedValues };
+  return { setQuery, toggleQuery, removeQuery, getSelectedValues };
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useQueryParams } from "@/hooks/use-query-params";
+import { useQuerySearchParam } from "@/hooks/use-query-search-param";
 import type { SelectOption } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +26,7 @@ interface Props {
   options: SelectOption[];
   icon?: React.ReactNode;
   placeholder?: string;
+  children?: React.ReactNode;
 }
 
 export const QueryFacetedFilter = ({
@@ -35,28 +35,23 @@ export const QueryFacetedFilter = ({
   queryKey,
   icon,
   placeholder,
+  children,
 }: Props) => {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-  const { toggleQuery, removeQuery, getSelectedValues } =
-    useQueryParams(params);
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const selectedValues = new Set(getSelectedValues(queryKey));
-
-  const handleSelect = (value: string) => {
-    toggleQuery(queryKey, value);
-    replace(`${pathname}?${params.toString()}`);
-  };
+  const { selectedValues, toggleQuery, removeQuery } =
+    useQuerySearchParam(queryKey);
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="rounded-none border-l" variant="ghost">
-          {icon && (
-            <span className="mr-2 flex h-4 w-4 items-center">{icon}</span>
-          )}
-          <span>{title}</span>
-        </Button>
+        {children ? (
+          children
+        ) : (
+          <Button className="rounded-none border-l" variant="ghost">
+            {icon && (
+              <span className="mr-2 flex h-4 w-4 items-center">{icon}</span>
+            )}
+            <span>{title}</span>
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent align="start" className="w-auto p-0">
         <Command>
@@ -70,7 +65,7 @@ export const QueryFacetedFilter = ({
                   <CommandItem
                     className="cursor-pointer"
                     key={option.value}
-                    onSelect={() => handleSelect(option.value)}
+                    onSelect={() => toggleQuery(option.value)}
                   >
                     <div
                       className={cn(
@@ -96,7 +91,11 @@ export const QueryFacetedFilter = ({
               <>
                 <CommandSeparator />
                 <CommandGroup>
-                  <CommandItem onSelect={() => removeQuery(queryKey)}>
+                  <CommandItem
+                    onSelect={() => {
+                      removeQuery();
+                    }}
+                  >
                     Clear Filters
                   </CommandItem>
                 </CommandGroup>

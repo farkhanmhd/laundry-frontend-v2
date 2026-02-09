@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Client } from "@/components/utils/client";
 import { usePOS } from "@/lib/modules/pos/state";
+import { cardShadowStyle } from "@/lib/utils";
 
 export const PosCustomerPoints = () => {
   const { posData, togglePoint, handlePointChange } = usePOS();
@@ -20,7 +21,11 @@ export const PosCustomerPoints = () => {
   }
 
   return (
-    <FieldLabel className="gap-0" htmlFor="points">
+    <FieldLabel
+      className="gap-0 bg-card"
+      htmlFor="points"
+      style={cardShadowStyle}
+    >
       <Field orientation="horizontal">
         <FieldContent>
           <FieldTitle>Redeem Loyalty Points</FieldTitle>

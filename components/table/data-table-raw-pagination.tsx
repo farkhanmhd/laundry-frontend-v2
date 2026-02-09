@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/select";
 import { useQuerySearchParam } from "@/hooks/use-query-search-param";
 
-interface DataTablePaginationProps<TData> {
+interface DataTableRawPaginationProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTablePagination<TData>({
+export function DataTableRawPagination<TData>({
   table,
-}: DataTablePaginationProps<TData>) {
+}: DataTableRawPaginationProps<TData>) {
   const {
     value: currentPage,
     setQuery,
@@ -41,7 +41,7 @@ export function DataTablePagination<TData>({
   };
 
   const handleNextPage = () => {
-    const targetPage = currentPage[0] ? Number(currentPage[0]) + 1 : 2;
+    const targetPage = currentPage.length > 0 ? Number(currentPage[0]) + 1 : 2;
     setQuery(String(targetPage));
     table.nextPage();
   };
@@ -68,7 +68,7 @@ export function DataTablePagination<TData>({
   };
 
   return (
-    <div className="flex items-center justify-between px-2">
+    <div className="flex items-center justify-between border-t p-2">
       <div className="hidden flex-1 text-muted-foreground text-sm md:block">
         {table.getFilteredSelectedRowModel().rows.length > 0 ? (
           <span>
@@ -87,7 +87,7 @@ export function DataTablePagination<TData>({
             onValueChange={handleRowsChange}
             value={`${table.getState().pagination.pageSize}`}
           >
-            <SelectTrigger className="w-17.5 rounded-none border-y-0 dark:bg-background">
+            <SelectTrigger className="w-17.5 dark:bg-background">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
@@ -103,39 +103,41 @@ export function DataTablePagination<TData>({
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Button
-            className="hidden rounded-none p-0 lg:flex"
+            className="hidden lg:flex"
             disabled={!table.getCanPreviousPage()}
             onClick={handleFirstPage}
-            variant="ghost"
+            size="icon"
+            variant="outline"
           >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
           </Button>
           <Button
-            className="rounded-none p-0"
             disabled={!table.getCanPreviousPage()}
             onClick={handlePreviousPage}
-            variant="ghost"
+            size="icon"
+            variant="outline"
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft />
           </Button>
           <Button
-            className="rounded-none p-0"
             disabled={!table.getCanNextPage()}
             onClick={handleNextPage}
-            variant="ghost"
+            size="icon"
+            variant="outline"
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRight />
           </Button>
           <Button
-            className="hidden rounded-none p-0 lg:flex"
+            className="p-0 lg:flex"
             disabled={!table.getCanNextPage()}
             onClick={handleLastPage}
-            variant="ghost"
+            size="icon"
+            variant="outline"
           >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight />

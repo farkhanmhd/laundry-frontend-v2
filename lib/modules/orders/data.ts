@@ -45,7 +45,8 @@ export type OrderDetailResponse = NonNullable<
 >;
 export type OrderDetailItem = NonNullable<
   Awaited<ReturnType<typeof getOrderItems>>
->["orders"][number];
+>["items"][number];
+
 export type OrderDetailVoucher = NonNullable<
   Awaited<ReturnType<typeof getOrderItems>>
 >["voucher"];

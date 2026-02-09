@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
+import { parse, startOfMonth } from "date-fns";
 import { Children, type ReactNode } from "react";
+import type { DateRange } from "react-day-picker";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -62,3 +64,39 @@ export type SelectOption = {
   value: string;
   icon?: React.ReactNode;
 };
+
+export type DateRangeSearchParams = {
+  from: string;
+  to: string;
+};
+
+export const getDateRange = (searchParams: DateRangeSearchParams) => {
+  const DATE_FORMAT = "dd-MM-yyyy";
+  let dateRange: DateRange | undefined;
+
+  if (searchParams.from && searchParams.to) {
+    try {
+      dateRange = {
+        // parse(dateString, formatString, referenceDate)
+        from: parse(searchParams.from, DATE_FORMAT, new Date()),
+        to: parse(searchParams.to, DATE_FORMAT, new Date()),
+      };
+    } catch (error) {
+      console.error("Invalid date format in URL", error);
+      // Fallback to undefined so the picker uses default
+      dateRange = {
+        from: startOfMonth(new Date()),
+        to: new Date(),
+      };
+    }
+  } else {
+    dateRange = {
+      from: startOfMonth(new Date()),
+      to: new Date(),
+    };
+  }
+
+  return dateRange;
+};
+
+export const salesTabLists = ["overview", "orders", "items"] as const;

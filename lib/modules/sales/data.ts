@@ -14,6 +14,13 @@ export type SalesByOrderQuery = SearchQuery &
     payment_type?: string[] | undefined;
   };
 
+export type SalesQuery = SearchQuery &
+  DateRangeSearchParams & {
+    item_id?: string[] | undefined;
+    item_type?: string[] | undefined;
+    payment_type?: string[] | undefined;
+  };
+
 export abstract class SalesApi {
   /**
    * Helper to get common fetch headers (Authorization, etc.)

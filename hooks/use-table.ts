@@ -8,6 +8,7 @@ import {
   type ColumnDef,
   useReactTable,
 } from "@tanstack/react-table"
+import { useQueryState } from "nuqs"
 import { useState } from "react"
 
 export function useTable<T extends { id: string }>({
@@ -16,7 +17,15 @@ export function useTable<T extends { id: string }>({
   columns: ColumnDef<T, unknown>[]
 }) {
   const [data, setData] = useState<T[]>([])
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [globalFilter, setGlobalFilter] = useQueryState("search", {
+    shallow: false,
+    defaultValue: "",
+    history: 'replace',
+    limitUrlUpdates: {
+      method: 'debounce',
+      timeMs: 300
+    }
+  })
 
   const table = useReactTable({
     data,

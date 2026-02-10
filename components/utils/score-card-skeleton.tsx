@@ -7,7 +7,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { cardShadowStyle } from "@/lib/utils";
 
-export const SalesCardSkeleton = () => {
+export const ScoreCardSkeleton = () => {
   return (
     <Card style={cardShadowStyle}>
       <CardHeader>

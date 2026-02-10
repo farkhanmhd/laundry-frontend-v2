@@ -3,6 +3,7 @@ import {
   Blocks,
   ChartColumnIncreasing,
   ChartNoAxesCombined,
+  FileUser,
   HandPlatter,
   ListTodo,
   type LucideIcon,
@@ -56,6 +57,11 @@ export const adminNavData: NavItem[] = [
     title: "Sales",
     url: "/sales",
     icon: ChartColumnIncreasing,
+  },
+  {
+    title: "Member Reports",
+    url: "/member-reports",
+    icon: FileUser,
   },
   {
     title: "Inventories",

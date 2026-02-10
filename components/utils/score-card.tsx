@@ -8,19 +8,19 @@ import {
 } from "@/components/ui/card";
 import { cardShadowStyle } from "@/lib/utils";
 
-export interface SalesCardProps {
+export interface ScoreCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
   value: number | string;
 }
 
-export const SalesCard = ({
+export const ScoreCard = ({
   title,
   description,
   icon,
   value,
-}: SalesCardProps) => {
+}: ScoreCardProps) => {
   return (
     <Card style={cardShadowStyle}>
       <CardHeader>

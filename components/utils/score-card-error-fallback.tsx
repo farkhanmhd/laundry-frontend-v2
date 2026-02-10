@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { cardShadowStyle } from "@/lib/utils";
 
-export const SalesCardErrorFallback = ({
+export const ScoreCardErrorFallback = ({
   error,
   resetErrorBoundary,
 }: FallbackProps) => {

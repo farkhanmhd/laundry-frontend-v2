@@ -217,14 +217,20 @@ export const salesItemLogsColumns: ColumnDef<SalesItemLog>[] = [
     header: "Order Item ID",
     cell: ({ row }) => (
       <div className="flex flex-col gap-1">
-        <span>{row.original.id}</span>
-        <Link
-          className="font-mono text-primary text-sm uppercase"
-          href={`/orders/${row.original.orderId}`}
-        >
-          {row.original.orderId}
-        </Link>
+        <span className="uppercase">{row.original.id}</span>
       </div>
+    ),
+  },
+  {
+    accessorKey: "orderId",
+    header: "Order ID",
+    cell: ({ row }) => (
+      <Link
+        className="font-mono text-primary text-sm uppercase"
+        href={`/orders/${row.original.orderId}`}
+      >
+        {row.original.orderId}
+      </Link>
     ),
   },
   {
@@ -255,18 +261,6 @@ export const salesItemLogsColumns: ColumnDef<SalesItemLog>[] = [
   {
     accessorKey: "quantity",
     header: "Quantity",
-  },
-  {
-    accessorKey: "subtotal",
-    header: "Subtotal",
-    cell: ({ row }) => {
-      const amount = formatToIDR(row.getValue("subtotal"));
-      return (
-        <div className="font-medium text-accent-foreground">
-          <Client>{amount}</Client>
-        </div>
-      );
-    },
   },
   {
     accessorKey: "createdAt",

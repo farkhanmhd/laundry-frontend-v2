@@ -59,7 +59,16 @@ export function NavMain({ type }: { type: string }) {
                     >
                       <Link href={item.url}>
                         {item.icon && <item.icon />}
-                        <span className="text-[10px]">{item.title}</span>
+                        {item.title.length > 8 &&
+                        item.title.split(" ").length > 1 ? (
+                          <span className="text-[10px]">
+                            {item.title.split(" ")[0]}
+                            <br />
+                            {item.title.split(" ")[1]}{" "}
+                          </span>
+                        ) : (
+                          <span className="text-[10px]">{item.title}</span>
+                        )}
                       </Link>
                     </SidebarMenuButton>
                   )}

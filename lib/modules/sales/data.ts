@@ -152,6 +152,19 @@ export abstract class SalesApi {
 
     return response?.data;
   }
+
+  static async getItemLogs(query: BestSellersQuery) {
+    const { data: response, error } = await elysia.sales["item-logs"].get({
+      query,
+      ...(await SalesApi.getConfig()),
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return response?.data;
+  }
 }
 
 type SalesApiType = typeof SalesApi;
@@ -162,4 +175,8 @@ export type BestSellerItem = Awaited<
 
 export type SalesByOrder = Awaited<
   ReturnType<SalesApiType["getSalesByOrders"]>
+>["items"][number];
+
+export type SalesItemLog = Awaited<
+  ReturnType<SalesApiType["getItemLogs"]>
 >["items"][number];

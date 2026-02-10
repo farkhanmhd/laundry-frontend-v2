@@ -99,4 +99,17 @@ export const getDateRange = (searchParams: DateRangeSearchParams) => {
   return dateRange;
 };
 
-export const salesTabLists = ["overview", "orders", "items"] as const;
+export const salesTabLists: SelectOption[] = [
+  {
+    label: "Overview",
+    value: "overview",
+  },
+  {
+    label: "Orders",
+    value: "orders",
+  },
+  {
+    label: "Item Logs",
+    value: "items",
+  },
+];

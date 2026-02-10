@@ -16,8 +16,9 @@ const SalesTablesLayout = ({
   orders,
 }: SalesTablesLayoutProps) => {
   const [selectedTab, setSelectedTab] = useState<
-    (typeof salesTabLists)[number] | (string & {})
+    (typeof salesTabLists)[number]["value"] | (string & {})
   >("overview");
+
   const toolbar = {
     overview,
     orders,
@@ -38,8 +39,12 @@ const SalesTablesLayout = ({
       <div className="flex items-center justify-between">
         <TabsList style={cardShadowStyle}>
           {salesTabLists.map((tab) => (
-            <TabsTrigger className="capitalize" key={tab} value={tab}>
-              {tab}
+            <TabsTrigger
+              className="capitalize"
+              key={tab.value}
+              value={tab.value}
+            >
+              {tab.label}
             </TabsTrigger>
           ))}
         </TabsList>

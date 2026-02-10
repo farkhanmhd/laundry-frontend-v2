@@ -4,7 +4,11 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Client } from "@/components/utils/client";
-import type { BestSellerItem, SalesByOrder } from "@/lib/modules/sales/data";
+import type {
+  BestSellerItem,
+  SalesByOrder,
+  SalesItemLog,
+} from "@/lib/modules/sales/data";
 import { formatDate, formatToIDR } from "@/lib/utils";
 
 export const bestSellersColumns: ColumnDef<BestSellerItem>[] = [
@@ -188,6 +192,77 @@ export const salesByOrderColumns: ColumnDef<SalesByOrder>[] = [
       const amount = formatToIDR(value as number);
       return (
         <div className="text-muted-foreground text-sm">
+          <Client>{amount}</Client>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Date",
+    cell: ({ row }) => {
+      const date = formatDate(row.getValue("createdAt"));
+      return (
+        <div className="text-muted-foreground text-sm">
+          <Client>{date}</Client>
+        </div>
+      );
+    },
+  },
+];
+
+export const salesItemLogsColumns: ColumnDef<SalesItemLog>[] = [
+  {
+    accessorKey: "id",
+    header: "Order Item ID",
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-1">
+        <span>{row.original.id}</span>
+        <Link
+          className="font-mono text-primary text-sm uppercase"
+          href={`/orders/${row.original.orderId}`}
+        >
+          {row.original.orderId}
+        </Link>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "itemName",
+    header: "Item Name",
+  },
+  {
+    accessorKey: "itemType",
+    header: "Type",
+    cell: ({ row }) => {
+      const type = row.getValue("itemType") as string;
+      const variants: Record<
+        string,
+        "default" | "secondary" | "outline" | "destructive"
+      > = {
+        bundling: "default",
+        service: "secondary",
+        inventory: "outline",
+      };
+      const variant = variants[type] || "outline";
+      return (
+        <Badge className="capitalize" variant={variant}>
+          {type}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "quantity",
+    header: "Quantity",
+  },
+  {
+    accessorKey: "subtotal",
+    header: "Subtotal",
+    cell: ({ row }) => {
+      const amount = formatToIDR(row.getValue("subtotal"));
+      return (
+        <div className="font-medium text-accent-foreground">
           <Client>{amount}</Client>
         </div>
       );

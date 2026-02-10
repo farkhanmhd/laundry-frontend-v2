@@ -10,11 +10,13 @@ import { DataTableRawPagination } from "./data-table-raw-pagination";
 interface ProductsTableProps<TData extends { id: string }> {
   data: TData[] | undefined;
   total?: number;
+  withPagination?: boolean;
 }
 
 export const TableViewProvider = <TData extends { id: string }>({
   data,
   total,
+  withPagination = true,
 }: ProductsTableProps<TData>) => {
   const { table, setInternalData, columns, setTotalRow } = useTableContext();
 
@@ -38,7 +40,7 @@ export const TableViewProvider = <TData extends { id: string }>({
         <DataTableRaw columns={columns} selectableRows={false} table={table} />
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      <DataTableRawPagination table={table} />
+      {withPagination && <DataTableRawPagination table={table} />}
     </div>
   );
 };

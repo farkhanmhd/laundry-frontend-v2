@@ -36,7 +36,6 @@ export const addInventorySchema = z.object({
   price: positiveIntNoLeadingZero,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
-  supplierPrice: positiveIntNoLeadingZero,
 });
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
@@ -51,7 +50,6 @@ export const updateInventorySchema = z.object({
   description: z.string().min(1, "Inventory description is required"),
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
-  supplierPrice: positiveIntNoLeadingZero,
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({

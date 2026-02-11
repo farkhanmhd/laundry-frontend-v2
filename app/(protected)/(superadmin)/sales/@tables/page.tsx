@@ -23,7 +23,7 @@ const TablePage = async (props: Props) => {
     from: format(dateRange.from || startOfMonth(new Date()), "dd-MM-yyyy"),
     to: format(dateRange.to || new Date(), "dd-MM-yyyy"),
     page: searchParams.page ?? 1,
-    rows: searchParams.rows ?? 50,
+    rows: searchParams.rows ?? 10,
     item_id: searchParams.item_id || undefined,
     item_type: searchParams.item_type || undefined,
   };
@@ -32,7 +32,7 @@ const TablePage = async (props: Props) => {
     from: format(dateRange.from || startOfMonth(new Date()), "dd-MM-yyyy"),
     to: format(dateRange.to || new Date(), "dd-MM-yyyy"),
     page: searchParams.page ?? 1,
-    rows: searchParams.rows ?? 50,
+    rows: searchParams.rows ?? 10,
     payment_type: searchParams.payment_type || undefined,
   };
 

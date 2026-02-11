@@ -103,17 +103,6 @@ export const columns: ColumnDef<Inventory>[] = [
     ),
   },
   {
-    accessorKey: "supplierPrice",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Supplier Price" />
-    ),
-    cell: ({ row }) => (
-      <div className="line-clamp-1 min-w-max font-medium">
-        {formatToIDR(row.getValue("supplierPrice"))}
-      </div>
-    ),
-  },
-  {
     accessorKey: "stock",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Quantity" />

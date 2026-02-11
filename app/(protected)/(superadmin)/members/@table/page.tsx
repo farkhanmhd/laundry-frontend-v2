@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import MemberSpendingTable from "@/components/features/member-reports/member-spending-table";
+import MemberSpendingTable from "@/components/features/members/member-spending-table";
 import { getSearchQuery, type SearchQuery } from "@/lib/search-params";
 import type { DateRangeSearchParams } from "@/lib/utils";
 

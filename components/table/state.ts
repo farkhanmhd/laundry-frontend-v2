@@ -39,7 +39,7 @@ export const useTable = <TData extends { id: string }, TValue>({
   const [manualPaginationState, setManualPaginationState] =
     useState<PaginationState>({
       pageIndex: 0,
-      pageSize: 50,
+      pageSize: 10,
     });
 
   const searchParams = useSearchParams();

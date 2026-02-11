@@ -24,7 +24,7 @@ export const InventoryLowStockAlert = async () => {
 
   return (
     <Alert
-      className="border-destructive text-destructive dark:border-destructive dark:text-destructive"
+      className="border-destructive text-destructive dark:border-destructive dark:bg-background dark:text-destructive"
       style={cardShadowStyle}
       variant="destructive"
     >

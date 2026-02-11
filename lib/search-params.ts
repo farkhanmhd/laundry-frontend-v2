@@ -34,7 +34,7 @@ export const getInventoryReportsQuery = async (
 export const getSearchQuery = async (props: SearchQueryProps) => {
   const searchParams = await props.searchParams;
   const query: Required<SearchQuery> = {
-    rows: Number(searchParams?.rows) || 50,
+    rows: Number(searchParams?.rows) || 10,
     search: searchParams?.search || "",
     page: Number(searchParams?.page) || 1,
   };
@@ -47,7 +47,7 @@ export const getInventoryHistoryQuery = async (
 ) => {
   const searchParams = await props.searchParams;
   const query: Required<InventoryHistoryQuery> = {
-    rows: Number(searchParams?.rows) || 50,
+    rows: Number(searchParams?.rows) || 10,
     search: searchParams?.search || "",
     page: Number(searchParams?.page) || 1,
     category: searchParams?.category || [],

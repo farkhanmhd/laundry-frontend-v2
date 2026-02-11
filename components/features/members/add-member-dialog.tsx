@@ -67,7 +67,7 @@ export function AddMemberDialog() {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <Button className="rounded-none" type="button">
+        <Button className="rounded-[10px]" type="button">
           <Plus />
           <span>Member</span>
         </Button>

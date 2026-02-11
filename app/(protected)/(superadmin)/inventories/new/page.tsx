@@ -81,13 +81,6 @@ const NewInventoryPage = () => {
           />
         </div>
         <FormInput
-          disabled={action.isPending}
-          form={form}
-          label="Supplier Price"
-          name="supplierPrice"
-          placeholder="Supplier Price (IDR)"
-        />
-        <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"
           form={form}
           label="Image"

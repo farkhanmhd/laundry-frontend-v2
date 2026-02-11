@@ -59,7 +59,7 @@ export function DataTableRawPagination<TData>({
   const handleRowsChange = (value: string) => {
     table.setPageSize(Number(value));
     table.setPageIndex(0);
-    if (value === "50") {
+    if (value === "10") {
       removeRows();
     } else {
       setRows(value);

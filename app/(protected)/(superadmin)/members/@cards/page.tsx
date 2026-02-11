@@ -4,7 +4,7 @@ import {
   AverageOrderValueCard,
   TotalCustomersCard,
   TotalMemberOrdersCard,
-} from "@/components/features/member-reports/member-reports-cards-data";
+} from "@/components/features/members/member-reports-cards-data";
 import type { MemberReportsQuery } from "@/lib/modules/member-reports/data";
 import type { SearchQuery } from "@/lib/search-params";
 import { type DateRangeSearchParams, getDateRange } from "@/lib/utils";

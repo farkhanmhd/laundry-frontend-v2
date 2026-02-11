@@ -21,14 +21,7 @@ const InventoryDetailPage = async ({ params }: Props) => {
         forceMount
         value="inventory"
       >
-        <InventoryDataForm
-          description={inventory.description}
-          id={id}
-          name={inventory.name}
-          price={inventory.price}
-          safetyStock={inventory.safetyStock}
-          unit={inventory.unit}
-        />
+        <InventoryDataForm {...inventory} />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"

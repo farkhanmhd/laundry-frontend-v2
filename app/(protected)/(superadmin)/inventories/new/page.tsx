@@ -3,24 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
-import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
-import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { addInventoryAction } from "@/lib/modules/inventories/actions";
-import { addInventorySchema, units } from "@/lib/modules/inventories/schema";
+import { addInventorySchema } from "@/lib/modules/inventories/schema";
 
 const NewInventoryPage = () => {
   const { push } = useRouter();
-  const { form, handleSubmitWithAction, action } = useHookFormAction(
+  const { form, action, handleSubmitWithAction } = useHookFormAction(
     addInventoryAction,
     zodResolver(addInventorySchema),
     {
@@ -71,29 +63,6 @@ const NewInventoryPage = () => {
             name="price"
             placeholder="10000"
           />
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="unit"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className="text-base" htmlFor={field.name}>
-                    Unit
-                  </FieldLabel>
-                  <FormSelect
-                    aria-invalid={fieldState.invalid}
-                    id={field.name}
-                    onValueChange={field.onChange}
-                    options={units}
-                    value={field.value}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
         </div>
         <div className="flex w-full flex-col gap-6 md:flex-row">
           <FormInput
@@ -106,11 +75,18 @@ const NewInventoryPage = () => {
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Safety Stock Quantity of Inventory"
+            label="Safety Stock Quantity"
             name="safetyStock"
             placeholder="Safety Stock Quantity"
           />
         </div>
+        <FormInput
+          disabled={action.isPending}
+          form={form}
+          label="Supplier Price"
+          name="supplierPrice"
+          placeholder="Supplier Price (IDR)"
+        />
         <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"
           form={form}

@@ -29,18 +29,14 @@ export const units: SelectOption[] = [
   },
 ];
 
-const unitEnum = z.enum(["kilogram", "gram", "litre", "milliliter", "pieces"], {
-  error: "Invalid option",
-});
-
 export const addInventorySchema = z.object({
   name: z.string().min(1, "Inventory name is required"),
   image: imageSchema,
   description: z.string().min(1, "Inventory name is required"),
   price: positiveIntNoLeadingZero,
-  unit: unitEnum,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
+  supplierPrice: positiveIntNoLeadingZero,
 });
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
@@ -53,9 +49,9 @@ export const updateInventorySchema = z.object({
   id: z.string().min(1, "Inventory id cannot be empty"),
   name: z.string().min(1, "Inventory name cannot be empty"),
   description: z.string().min(1, "Inventory description is required"),
-  unit: unitEnum,
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
+  supplierPrice: positiveIntNoLeadingZero,
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({

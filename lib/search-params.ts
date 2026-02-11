@@ -1,4 +1,5 @@
 import type { InventoryHistoryQuery } from "./modules/inventories/data";
+import type { InventoryReportsQuery } from "./modules/inventory-reports/data";
 
 export type SearchQuery = {
   page?: number | undefined;
@@ -12,6 +13,22 @@ export type SearchQueryProps = {
 
 export type InventoryHistoryQueryProps = {
   searchParams: Promise<InventoryHistoryQuery | undefined>;
+};
+
+export type InventoryReportsQueryProps = {
+  searchParams: Promise<InventoryReportsQuery | undefined>;
+};
+
+export const getInventoryReportsQuery = async (
+  props: InventoryReportsQueryProps
+) => {
+  const searchParams = await props.searchParams;
+  const query: Required<InventoryReportsQuery> = {
+    from: searchParams?.from || "",
+    to: searchParams?.to || "",
+  };
+
+  return query;
 };
 
 export const getSearchQuery = async (props: SearchQueryProps) => {

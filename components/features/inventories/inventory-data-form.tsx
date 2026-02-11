@@ -3,22 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
-import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { updateInventoryAction } from "@/lib/modules/inventories/actions";
 import {
   type UpdateInventorySchema,
-  units,
   updateInventorySchema,
 } from "@/lib/modules/inventories/schema";
 
@@ -27,8 +18,8 @@ export const InventoryDataForm = ({
   name,
   description,
   price,
-  unit,
   safetyStock,
+  supplierPrice,
 }: UpdateInventorySchema) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,7 +34,7 @@ export const InventoryDataForm = ({
           description,
           price,
           safetyStock,
-          unit,
+          supplierPrice,
           id,
         },
       },
@@ -64,16 +55,22 @@ export const InventoryDataForm = ({
       id,
       name: form.getValues("name"),
       description: form.getValues("description"),
-      unit: form.getValues("unit"),
       price: Number(form.getValues("price")),
       safetyStock: Number(form.getValues("safetyStock")),
+      supplierPrice: Number(form.getValues("supplierPrice")),
     };
 
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({ name, description, price, safetyStock });
+    form.reset({
+      name,
+      description,
+      price,
+      safetyStock,
+      supplierPrice,
+    });
     setIsEditing(false);
   };
 
@@ -122,30 +119,6 @@ export const InventoryDataForm = ({
             name="safetyStock"
             placeholder="Safety Stock"
           />
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="unit"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel className="text-base" htmlFor={field.name}>
-                    Unit
-                  </FieldLabel>
-                  <FormSelect
-                    aria-invalid={fieldState.invalid}
-                    disabled={!isEditing || action.isPending}
-                    id={field.name}
-                    onValueChange={field.onChange}
-                    options={units}
-                    value={field.value}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
         </div>
 
         <div className="flex justify-end gap-3">

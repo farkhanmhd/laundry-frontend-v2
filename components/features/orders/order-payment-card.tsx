@@ -88,13 +88,13 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
         </div>
 
         {/* Change (Optional Row) */}
-        {data.change && data.change > 0 && (
+        {data.change !== null && data.change > 0 && (
           <div className="mt-2 flex flex-col gap-1 border-border/50 border-t pt-4 sm:col-span-3">
             <span className="text-muted-foreground text-sm">
               Change Returned
             </span>
             <span className="font-medium text-foreground text-sm">
-              <Client>{formatToIDR(data.change)}</Client>
+              <Client>{formatToIDR(data?.change)}</Client>
             </span>
           </div>
         )}

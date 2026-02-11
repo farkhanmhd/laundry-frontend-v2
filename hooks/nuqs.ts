@@ -25,5 +25,10 @@ export function useSearchQueryParams() {
   return useQueryState("search", {
     defaultValue: '',
     shallow: false,
+    history: 'replace',
+    limitUrlUpdates: {
+      timeMs: 300,
+      method: 'debounce'
+    }
   });
 }

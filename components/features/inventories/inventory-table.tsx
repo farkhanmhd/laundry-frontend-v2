@@ -1,38 +1,29 @@
-import { memberSpendingColumns } from "@/components/features/member-reports/columns";
 import { TableProvider } from "@/components/table/context";
 import { DataTableQuerySearch } from "@/components/table/data-table-query-search";
 import { TableViewProvider } from "@/components/table/table-view-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MemberReportsApi } from "@/lib/modules/member-reports/data";
-import type { SearchQuery } from "@/lib/search-params";
+import { getInventories } from "@/lib/modules/inventories/data";
 import { cardShadowStyle } from "@/lib/utils";
+import { columns } from "./columns";
 
-interface MemberSpendingTableProps {
-  query: SearchQuery;
-}
-
-const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
-  const data = await MemberReportsApi.getMembersWithSpending(query);
+const InventoryTable = async () => {
+  const data = await getInventories();
   return (
-    <TableProvider columns={memberSpendingColumns} manualPagination>
+    <TableProvider columns={columns}>
       <Card
         className="gap-0 overflow-hidden p-0 dark:bg-background"
         style={cardShadowStyle}
       >
         <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
-          <CardTitle className="hidden md:block">Member Spending</CardTitle>
+          <CardTitle className="hidden md:block">Inventories</CardTitle>
           <DataTableQuerySearch className="w-80 max-w-80" />
         </CardHeader>
         <CardContent className="p-0 dark:bg-background">
-          <TableViewProvider
-            data={data.members}
-            total={data.total}
-            withPagination
-          />
+          <TableViewProvider data={data} withPagination={false} />
         </CardContent>
       </Card>
     </TableProvider>
   );
 };
 
-export default MemberSpendingTable;
+export default InventoryTable;

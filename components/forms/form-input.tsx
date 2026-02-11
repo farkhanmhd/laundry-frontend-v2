@@ -15,6 +15,7 @@ export type FormInputProps<
   name: Path<TFieldValues>;
   as?: InputType;
   defaultValue?: TFieldValues[Path<TFieldValues>];
+  showErrors?: boolean;
 } & Omit<React.ComponentProps<InputType>, "form" | "name" | "defaultValue">;
 
 export function FormInput<
@@ -25,6 +26,7 @@ export function FormInput<
   label,
   name,
   as,
+  showErrors = true,
   ...props
 }: FormInputProps<TFieldValues, InputType>) {
   const Component = as ?? Input;
@@ -49,7 +51,9 @@ export function FormInput<
               {...props}
               {...form.register(name)}
             />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            {showErrors && fieldState.invalid && (
+              <FieldError errors={[fieldState.error]} />
+            )}
           </Field>
         )}
       />

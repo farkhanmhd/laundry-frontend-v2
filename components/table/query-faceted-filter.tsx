@@ -53,7 +53,7 @@ export const QueryFacetedFilter = ({
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-auto p-0">
+      <PopoverContent align="end" className="w-auto p-0">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandList>

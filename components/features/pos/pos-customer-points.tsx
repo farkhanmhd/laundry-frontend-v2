@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Field,
   FieldContent,
@@ -22,7 +23,7 @@ export const PosCustomerPoints = () => {
 
   return (
     <FieldLabel
-      className="gap-0 bg-card"
+      className="gap-0 bg-background has-data-[state=checked]:border-primary has-data-[state=checked]:bg-background"
       htmlFor="points"
       style={cardShadowStyle}
     >
@@ -49,20 +50,34 @@ export const PosCustomerPoints = () => {
           onCheckedChange={togglePoint}
         />
       </Field>
-      {posData.points !== null && (
-        <Client>
-          <div className="fade-in slide-in-from-top-2 w-full animate-in px-4 pb-4 duration-300">
-            <Input
-              autoComplete="off"
-              autoFocus
-              inputMode="numeric"
-              onChange={(e) => handlePointChange(e)}
-              placeholder="Amount of points"
-              value={posData.points}
-            />
-          </div>
-        </Client>
-      )}
+
+      <AnimatePresence initial={false}>
+        {posData.points !== null && (
+          <motion.div
+            animate={{ height: "auto", opacity: 1 }}
+            className="w-full overflow-hidden"
+            exit={{ height: 0, opacity: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            key="points-input-wrapper"
+            transition={{ duration: 0.2, ease: "easeInOut" }} // Prevents content pop during height collapse
+          >
+            <div className="w-full px-4 pb-4">
+              <Client>
+                <Input
+                  autoComplete="off"
+                  autoFocus
+                  className="w-full"
+                  id="points-input"
+                  inputMode="numeric"
+                  onChange={(e) => handlePointChange(e)}
+                  placeholder="Amount of points"
+                  value={posData.points}
+                />
+              </Client>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </FieldLabel>
   );
 };

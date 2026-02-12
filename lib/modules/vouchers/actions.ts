@@ -23,7 +23,7 @@ export const addVoucherAction = actionClient
       maxDiscountAmount:
         parsedInput.discountAmount && parsedInput.discountAmount > 0
           ? parsedInput.discountAmount
-          : parsedInput.maxDiscountAmount,
+          : (parsedInput.maxDiscountAmount as number),
       expiresAt: parsedInput.expiresAt.toISOString(),
     };
 
@@ -79,7 +79,7 @@ export const updateVoucherAction = actionClient
       maxDiscountAmount:
         parsedInput.discountAmount && parsedInput.discountAmount > 0
           ? parsedInput.discountAmount
-          : parsedInput.maxDiscountAmount,
+          : (parsedInput.maxDiscountAmount as number),
       expiresAt: parsedInput.expiresAt?.toISOString(),
     };
 

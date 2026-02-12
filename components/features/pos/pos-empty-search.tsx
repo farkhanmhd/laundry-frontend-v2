@@ -8,25 +8,24 @@ interface Props {
 
 export const PosEmptySearch = ({ searchInput, onClick }: Props) => {
   if (searchInput.length > 0) {
-  return (
-    <div className="fade-in slide-in-from-top-2 animate-in space-y-2 duration-300">
-      <Alert>
-        <AlertTitle>No member found</AlertTitle>
-        <AlertDescription>
-          Confirm to add '{searchInput}' as a new member
-        </AlertDescription>
-      </Alert>
-      <Button
-        className="w-full border-primary bg-transparent text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
-        onClick={onClick}
-        variant="outline"
-      >
-        Add as New Member
-      </Button>
-    </div>
-  );
-
+    return (
+      <div className="fade-in slide-in-from-top-2 animate-in space-y-2 duration-300">
+        <Alert>
+          <AlertTitle>No member found</AlertTitle>
+          <AlertDescription>
+            Confirm to add '{searchInput}' as a new member
+          </AlertDescription>
+        </Alert>
+        <Button
+          className="w-full border-primary bg-transparent text-primary transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+          onClick={onClick}
+          variant="outline"
+        >
+          Add as New Member
+        </Button>
+      </div>
+    );
   }
 
-  return null
+  return null;
 };

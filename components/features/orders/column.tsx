@@ -2,7 +2,6 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { DataTableRowActions } from "@/components/features/orders/data-table-row-actions"; // Adjust path as needed
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
@@ -88,9 +87,5 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const date = new Date(row.getValue("createdAt") as string);
       return <div className="text-sm">{date.toLocaleDateString("id-ID")}</div>;
     },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

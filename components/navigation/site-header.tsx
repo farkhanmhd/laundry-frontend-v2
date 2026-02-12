@@ -12,6 +12,7 @@ import { Button, buttonVariants } from "../ui/button";
 import { Client } from "../utils/client";
 import { BreadcrumbNav } from "./breadcrumb-nav";
 import { ThemeToggle } from "./theme-toggle";
+import { TranslatorToggle } from "../providers/translator";
 
 export function SiteHeader() {
   const { posData, toggleCart, totalItems } = usePOS();
@@ -41,6 +42,7 @@ export function SiteHeader() {
             </Button>
           )}
           <ThemeToggle />
+          <TranslatorToggle />
           {session?.user.role === "user" ? (
             <Link
               className={cn(
@@ -57,12 +59,30 @@ export function SiteHeader() {
               )}
             </Link>
           ) : (
-            <Link
-              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
-              href="/account"
-            >
-              <User />
-            </Link>
+            <>
+              <Link
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" }),
+                  "relative w-9"
+                )}
+                href="/pos/summary"
+              >
+                <ShoppingCart />
+                {totalItems > 0 && (
+                  <Badge className="absolute top-0.5 right-[-0.5px] h-4 w-4 rounded-full p-0 text-[10px]">
+                    {totalItems}
+                  </Badge>
+                )}
+              </Link>
+              <Link
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" })
+                )}
+                href="/account"
+              >
+                <User />
+              </Link>
+            </>
           )}
         </div>
       </Client>

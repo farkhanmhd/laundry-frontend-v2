@@ -194,7 +194,7 @@ export default function CustomerDashboard() {
                   <Link
                     className={cn(
                       buttonVariants({ variant: "outline" }),
-                      "flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
+                      "flex h-24 flex-col items-center justify-center gap-2 border-2 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
                     )}
                     href="/customer-orders/new"
                   >
@@ -204,7 +204,7 @@ export default function CustomerDashboard() {
                   <Link
                     className={cn(
                       buttonVariants({ variant: "outline" }),
-                      "flex h-24 flex-col items-center justify-center gap-2 border-2 border-primary/10 bg-primary/5 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
+                      "flex h-24 flex-col items-center justify-center gap-2 border-2 text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
                     )}
                     href="/account#address"
                   >

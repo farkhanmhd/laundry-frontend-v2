@@ -70,9 +70,9 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
     <div
       className={cn(
         "group relative flex flex-col justify-between overflow-hidden rounded-xl border p-4 transition-all duration-200",
-        "bg-card hover:shadow-md",
+        "hover:shadow-md",
         isSelected
-          ? "border-primary bg-primary/5 ring-1 ring-primary"
+          ? "border-primary ring-1 ring-primary"
           : "border-border shadow-sm"
       )}
     >

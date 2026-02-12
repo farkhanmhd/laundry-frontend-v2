@@ -21,7 +21,7 @@ const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
         style={cardShadowStyle}
       >
         <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
-          <CardTitle className="hidden md:block">Member Spending</CardTitle>
+          <CardTitle className="hidden md:block">List of Members</CardTitle>
           <div className="flex gap-3">
             <DataTableQuerySearch className="w-80 max-w-80" />
             <AddMemberDialog />

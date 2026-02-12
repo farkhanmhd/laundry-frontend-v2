@@ -11,13 +11,14 @@ import {
   getInventoryHistoryQuery,
   type InventoryHistoryQueryProps,
 } from "@/lib/search-params";
+import { Suspense } from "react";
 
 const Page = async (props: InventoryHistoryQueryProps) => {
   const query = await getInventoryHistoryQuery(props);
   const data = await getInventoryHistory(query);
   const inventoryOptions = await getInventoryOptions();
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <TableToolbar searchPlaceholder="Search by Product name or Order ID">
         <QueryFacetedFilter
           icon={<Archive className="h-4 w-4" />}
@@ -35,7 +36,7 @@ const Page = async (props: InventoryHistoryQueryProps) => {
         />
       </TableToolbar>
       <TableView data={data?.inventoryHistory} total={data?.total} />
-    </>
+    </Suspense>
   );
 };
 

@@ -4,6 +4,7 @@ import {
   ChartColumnIncreasing,
   ChartNoAxesCombined,
   HandPlatter,
+  Home,
   ListTodo,
   type LucideIcon,
   Monitor,
@@ -92,7 +93,7 @@ export const customerNavData: NavItem[] = [
   {
     title: "Home",
     url: "/dashboard",
-    icon: ChartNoAxesCombined,
+    icon: Home,
   },
   {
     title: "Orders", // Based on the 'orders' table

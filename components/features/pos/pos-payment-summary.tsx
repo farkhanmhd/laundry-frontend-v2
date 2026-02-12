@@ -45,7 +45,7 @@ export const PosPaymentSummary = () => {
         )}
 
         {/* ✅ NEW: Points Redemption Section */}
-        {actualPointsUsed && actualPointsUsed > 0 && (
+        {actualPointsUsed && actualPointsUsed > 0 ? (
           <div className="flex justify-between text-sm">
             <span>Points Redeemed</span>
             <Client>
@@ -54,7 +54,7 @@ export const PosPaymentSummary = () => {
               </span>
             </Client>
           </div>
-        )}
+        ) : null}
 
         {pointsEarned > 0 && (
           <div className="flex justify-between text-sm">

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { FieldDescription } from "@/components/ui/field";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { cn } from "@/lib/utils";
+import { Translator } from "@/components/providers/translator";
 
 export function LoginForm({
   className,
@@ -65,7 +66,10 @@ export function LoginForm({
             <span className="sr-only">Acme Inc.</span>
           </div>
           <h1 className="font-bold text-xl">
-            Welcome to Beringin Coin Laundry.
+            <Translator
+            en="Welcome to Beringin Coin Laundry."
+            id="Selamat datang di Laundry Beringin Coin."
+            />
           </h1>
         </div>
         <FormInput
@@ -84,13 +88,23 @@ export function LoginForm({
           type="password"
         />
         <Button disabled={form.formState.isSubmitting} type="submit">
-          Sign In
+          <Translator en="Sign In" id="Masuk" />
         </Button>
       </form>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our{" "}
-        <Link href="#">Terms of Service</Link> and{" "}
-        <Link href="#">Privacy Policy</Link>.
+        <Translator
+          en="By clicking continue, you agree to our Terms of Service and Privacy Policy."
+          id="Dengan mengklik lanjut, Anda setuju dengan Kebijakan Privasi dan Syarat dan Ketentuan kami."
+        />
+        <Link href="#">
+          <Translator en=" Terms of Service" id=" Syarat & Ketentuan" />
+        </Link>
+        <span>
+          <Translator en=" and " id=" dan "  />
+        </span>
+        <Link href="#">
+          <Translator en="Privacy Policy" id="Kebijakan Privasi" />
+        </Link>.
       </FieldDescription>
     </div>
   );

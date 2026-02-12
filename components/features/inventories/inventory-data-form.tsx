@@ -19,7 +19,6 @@ export const InventoryDataForm = ({
   description,
   price,
   safetyStock,
-  supplierPrice,
 }: UpdateInventorySchema) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -34,7 +33,6 @@ export const InventoryDataForm = ({
           description,
           price,
           safetyStock,
-          supplierPrice,
           id,
         },
       },
@@ -57,7 +55,6 @@ export const InventoryDataForm = ({
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
       safetyStock: Number(form.getValues("safetyStock")),
-      supplierPrice: Number(form.getValues("supplierPrice")),
     };
 
     action.execute(formData);
@@ -69,7 +66,6 @@ export const InventoryDataForm = ({
       description,
       price,
       safetyStock,
-      supplierPrice,
     });
     setIsEditing(false);
   };

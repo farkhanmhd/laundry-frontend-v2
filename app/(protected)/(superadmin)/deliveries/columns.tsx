@@ -51,7 +51,7 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     header: "Customer",
     cell: ({ row }) => (
       <div className="flex flex-col">
-        <span className="max-w-[150px] truncate font-medium text-sm">
+        <span className="max-w-37.5 truncate font-medium text-sm">
           {row.getValue("customerName")}
         </span>
         <span className="text-muted-foreground text-xs">
@@ -67,7 +67,7 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     header: "Address",
     cell: ({ row }) => (
       <div
-        className="max-w-[250px] truncate text-sm"
+        className="max-w-62.5 truncate text-sm"
         title={row.getValue("address")}
       >
         {row.getValue("address")}

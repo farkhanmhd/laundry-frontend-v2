@@ -1,4 +1,3 @@
-import { sleep } from "bun";
 import { headers } from "next/headers";
 import { elysia } from "@/elysia";
 import type { SearchQuery } from "@/lib/search-params";
@@ -27,7 +26,6 @@ export abstract class MemberReportsApi {
    * Helper to get common fetch headers (Authorization, etc.)
    */
   private static async getConfig() {
-    await sleep(2000);
     return {
       fetch: {
         headers: await headers(),

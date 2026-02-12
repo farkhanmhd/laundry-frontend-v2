@@ -142,8 +142,6 @@ const OrderStatusBadge = ({ status }: { status: OrderData["status"] }) => {
 };
 
 // --- Main Page Component ---
-
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <will be fixed later>
 export default async function OrderDetailPage({ params }: OrderDetailProps) {
   const { id } = await params;
   const order = await getOrder(id);

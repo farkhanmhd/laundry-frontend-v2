@@ -1,6 +1,7 @@
 "use client";
 
-import { Banknote, QrCode, Trash } from "lucide-react"; // Assuming lucide-react is available
+import { Banknote, QrCode, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ import { cardShadowStyle, formatToIDR } from "@/lib/utils";
 const bankNotes = [1000, 2000, 5000, 10_000, 20_000, 50_000, 100_000];
 
 export function PosPaymentMethod() {
+  const t = useTranslations("POS.paymentMethod");
   const {
     posData,
     handlePaymentMethodChange,
@@ -36,7 +38,7 @@ export function PosPaymentMethod() {
             <RadioGroupItem className="peer sr-only" id="cash" value="cash" />
             <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
               <Banknote className="h-6 w-6" />
-              <span className="font-medium">Cash</span>
+              <span className="font-medium">{t("cash")}</span>
             </div>
           </Label>
 
@@ -44,7 +46,7 @@ export function PosPaymentMethod() {
             <RadioGroupItem className="peer sr-only" id="qris" value="qris" />
             <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
               <QrCode className="h-6 w-6" />
-              <span className="font-medium">QRIS</span>
+              <span className="font-medium">{t("qris")}</span>
             </div>
           </Label>
         </RadioGroup>
@@ -53,7 +55,7 @@ export function PosPaymentMethod() {
         <CardFooter className="flex-col gap-4">
           <div className="flex w-full flex-col gap-3">
             <Label className="font-semibold text-sm" htmlFor="cash-amount">
-              Cash Amount Received
+              {t("cashAmountReceived")}
             </Label>
             <div className="relative">
               <span className="absolute top-2 left-3 text-muted-foreground text-sm">
@@ -70,7 +72,7 @@ export function PosPaymentMethod() {
               />
               {amountPaidValidation && (
                 <span className="text-destructive text-sm">
-                  Amount Paid Must be Equal or More than Total Amount
+                  {t("amountPaidMustBeEqual")}
                 </span>
               )}
             </div>
@@ -94,7 +96,7 @@ export function PosPaymentMethod() {
                 variant="destructive"
               >
                 <Trash />
-                <span>Clear</span>
+                <span>{t("clear")}</span>
               </Button>
             </li>
           </ul>

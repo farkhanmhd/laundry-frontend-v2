@@ -1,10 +1,9 @@
 import { PosItemCard } from "@/components/features/pos/pos-item-card";
-import { getPosItems } from "@/lib/modules/pos/data";
+import { PosApi, type PosItemData } from "@/lib/modules/pos/data";
 import { MapItems } from "@/lib/utils";
 
 const PosPage = async () => {
-  const data = await getPosItems();
-
+  const data = (await PosApi.getPosItems()) as PosItemData[] | undefined;
   return (
     <MapItems
       of={data || []}

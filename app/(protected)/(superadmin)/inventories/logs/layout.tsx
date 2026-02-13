@@ -1,11 +1,15 @@
+"use client";
+
 import type { ReactNode } from "react";
-import { inventoryHistoryColumns } from "@/components/features/inventories/columns";
+import { useInventoryHistoryColumns } from "@/components/features/inventories/columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 
 const InventoryHistoryLayout = ({ children }: { children: ReactNode }) => {
+  const columns = useInventoryHistoryColumns();
+
   return (
-    <TableProvider columns={inventoryHistoryColumns} manualPagination>
+    <TableProvider columns={columns} manualPagination>
       {children}
       <TablePagination />
     </TableProvider>

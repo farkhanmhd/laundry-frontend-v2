@@ -1,5 +1,5 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 import type { DateRangeSearchParams } from "@/lib/utils";
 
@@ -21,17 +21,10 @@ export type SalesQuery = SearchQuery &
     payment_type?: string[] | undefined;
   };
 
-export abstract class SalesApi {
+export abstract class SalesApi extends BaseApi {
   /**
-   * Helper to get common fetch headers (Authorization, etc.)
+   * getConfig method is inherited from BaseApi
    */
-  private static async getConfig() {
-    return {
-      fetch: {
-        headers: await headers(),
-      },
-    };
-  }
 
   /**
    * GET /sales/net-revenue
@@ -175,6 +168,18 @@ export abstract class SalesApi {
 }
 
 type SalesApiType = typeof SalesApi;
+
+export type BestSellerResponse = Awaited<
+  ReturnType<SalesApiType["getBestSellers"]>
+>;
+
+export type SalesByOrderResponse = Awaited<
+  ReturnType<SalesApiType["getSalesByOrders"]>
+>;
+
+export type SalesByItemsResponse = Awaited<
+  ReturnType<SalesApiType["getItemLogs"]>
+>;
 
 export type BestSellerItem = Awaited<
   ReturnType<SalesApiType["getBestSellers"]>

@@ -1,5 +1,6 @@
 import { Plus, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Empty,
@@ -11,19 +12,21 @@ import {
 } from "@/components/ui/empty";
 
 export function PosEmptySummaryItem() {
+  const t = useTranslations("POS.emptySummaryItem");
+
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <ShoppingCart />
         </EmptyMedia>
-        <EmptyTitle>No items added</EmptyTitle>
-        <EmptyDescription>Cart is currently empty.</EmptyDescription>
+        <EmptyTitle>{t("noItemsAdded")}</EmptyTitle>
+        <EmptyDescription>{t("cartIsEmpty")}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Link className={buttonVariants({ variant: "secondary" })} href="/pos">
           <Plus className="mr-2 h-4 w-4" />
-          Add Item
+          {t("addItem")}
         </Link>
       </EmptyContent>
     </Empty>

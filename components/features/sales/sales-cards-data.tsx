@@ -1,4 +1,5 @@
 import { CircleDollarSign, CreditCard, Receipt, Wallet } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { type ReactNode, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ScoreCard } from "@/components/utils/score-card";
@@ -34,12 +35,13 @@ interface MetricProps {
 
 // Internal Async Component (Fetcher)
 const NetRevenueContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("Sales");
   const data = await SalesApi.getNetRevenue(query);
   return (
     <ScoreCard
-      description="Actual money received"
+      description={t("cards.netRevenueDescription")}
       icon={<Wallet className="h-6 w-6 text-primary" />}
-      title="Net Revenue"
+      title={t("cards.netRevenue")}
       value={formatToIDR(data?.value ?? 0)}
     />
   );
@@ -59,12 +61,13 @@ export const NetRevenueCard = ({ query }: MetricProps) => {
 // ----------------------------------------------------------------------
 
 const GrossRevenueContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("Sales");
   const data = await SalesApi.getGrossRevenue(query);
   return (
     <ScoreCard
-      description="Total value before discounts"
+      description={t("cards.grossRevenueDescription")}
       icon={<CircleDollarSign className="h-6 w-6 text-primary" />}
-      title="Gross Revenue"
+      title={t("cards.grossRevenue")}
       value={formatToIDR(data?.value ?? 0)}
     />
   );
@@ -83,12 +86,13 @@ export const GrossRevenueCard = ({ query }: MetricProps) => {
 // ----------------------------------------------------------------------
 
 const TransactionCountContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("Sales");
   const data = await SalesApi.getTotalTransactions(query);
   return (
     <ScoreCard
-      description="Completed orders"
+      description={t("cards.totalTransactionsDescription")}
       icon={<Receipt className="h-6 w-6 text-primary" />}
-      title="Total Transactions"
+      title={t("cards.totalTransactions")}
       value={data?.count ?? 0}
     />
   );
@@ -107,12 +111,13 @@ export const TransactionCountCard = ({ query }: MetricProps) => {
 // ----------------------------------------------------------------------
 
 const AverageValueContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("Sales");
   const data = await SalesApi.getAverageOrderValue(query);
   return (
     <ScoreCard
-      description="Average per transaction"
+      description={t("cards.averageOrderValueDescription")}
       icon={<CreditCard className="h-6 w-6 text-primary" />}
-      title="Avg. Order Value"
+      title={t("cards.averageOrderValue")}
       value={formatToIDR(data?.value ?? 0)}
     />
   );

@@ -2,7 +2,7 @@
 
 import { flattenValidationErrors } from "next-safe-action";
 import { actionClient } from "@/lib/safe-action";
-import { createNewPosOrder } from "./data";
+import { PosApi } from "./data";
 import { newPosOrderSchema } from "./schema";
 
 export const createPosOrderAction = actionClient
@@ -11,7 +11,7 @@ export const createPosOrderAction = actionClient
       flattenValidationErrors(ve).fieldErrors,
   })
   .action(async ({ parsedInput }) => {
-    const response = await createNewPosOrder(parsedInput);
+    const response = await PosApi.createNewPosOrder(parsedInput);
     if (!response) {
       return {
         status: "error",

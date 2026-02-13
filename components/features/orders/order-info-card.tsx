@@ -1,6 +1,7 @@
 "use client";
 
 import { LayoutDashboard } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,19 +19,21 @@ interface OrderInfoProps {
 }
 
 export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
+  const t = useTranslations("Orders.orderInfo");
+
   const orderStatus = {
-    pending: <Badge variant="destructive">Waiting for Payment</Badge>,
+    pending: <Badge variant="destructive">{t("waitingForPayment")}</Badge>,
     processing: (
       <Button onClick={() => toast("Never gonna give you up")}>
-        Mark as Ready
+        {t("markAsReady")}
       </Button>
     ),
     ready: (
       <Button onClick={() => toast("Never gonna give you up")}>
-        Mark as Completed
+        {t("markAsCompleted")}
       </Button>
     ),
-    completed: <Badge>Completed</Badge>,
+    completed: <Badge>{t("completed")}</Badge>,
   };
 
   return (
@@ -38,7 +41,7 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="flex items-center gap-2 font-semibold text-base">
           <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
-          Order Information
+          {t("orderInformation")}
         </CardTitle>
         {orderStatus[data.status as keyof typeof orderStatus]}
       </CardHeader>
@@ -47,14 +50,14 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
 
       <CardContent className="grid gap-6 sm:grid-cols-3">
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">Order ID</span>
+          <span className="text-muted-foreground text-sm">{t("orderId")}</span>
           <span className="font-medium font-mono text-foreground text-sm">
             #{id.toUpperCase()}
           </span>
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">Status</span>
+          <span className="text-muted-foreground text-sm">{t("status")}</span>
           <div>
             <Badge
               className={cn(
@@ -69,7 +72,9 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">Created At</span>
+          <span className="text-muted-foreground text-sm">
+            {t("createdAt")}
+          </span>
           <span className="font-medium text-foreground text-sm">
             <Client>{formatDate(data.createdAt)}</Client>
           </span>

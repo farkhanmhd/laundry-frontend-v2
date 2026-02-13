@@ -1,5 +1,5 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import { BaseApi } from "@/lib/modules/base-api";
 
 // ----------------------------------------------------------------------
 // Response Types
@@ -42,18 +42,10 @@ export interface InventoryReportsQuery {
 // API Class
 // ----------------------------------------------------------------------
 
-export abstract class InventoryReportsApi {
-  // ----------------------------------------------------------------------
-  // Helper Methods
-  // ----------------------------------------------------------------------
-
-  private static async getConfig() {
-    return {
-      fetch: {
-        headers: await headers(),
-      },
-    };
-  }
+export abstract class InventoryReportsApi extends BaseApi {
+  /**
+   * getConfig method is inherited from BaseApi
+   */
 
   // ----------------------------------------------------------------------
   // 1. Total Items (No date range needed)

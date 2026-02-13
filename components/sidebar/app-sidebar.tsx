@@ -2,6 +2,7 @@
 
 import { Triangle } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type * as React from "react";
 import {
   Sidebar,
@@ -17,6 +18,8 @@ import { ScrollArea } from "../ui/scroll-area";
 type Props = React.ComponentPropsWithoutRef<typeof Sidebar>;
 
 export function AppSidebar({ children, ...props }: Props) {
+  const t = useTranslations("Navigation");
+
   return (
     <Sidebar
       className="z-50 overflow-hidden *:data-[sidebar=sidebar]:flex-row"
@@ -34,7 +37,7 @@ export function AppSidebar({ children, ...props }: Props) {
               >
                 <Link href="#">
                   <Triangle />
-                  <span className="md:hidden">Laundry App</span>
+                  <span className="md:hidden">{t("appTitle")}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

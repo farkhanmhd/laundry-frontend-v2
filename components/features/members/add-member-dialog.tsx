@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ import {
 export function AddMemberDialog() {
   const [open, setOpen] = useState(false);
   const { refresh } = useRouter();
+  const t = useTranslations("Members.addMember");
   const { form, action } = useHookFormAction(
     addMemberAction,
     zodResolver(addMemberSchema),
@@ -69,12 +71,12 @@ export function AddMemberDialog() {
       <AlertDialogTrigger asChild>
         <Button className="rounded-[10px]" type="button">
           <Plus />
-          <span>Member</span>
+          <span>{t("button")}</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Add New Member</AlertDialogTitle>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
         </AlertDialogHeader>
         <form
           className="flex flex-col gap-6"
@@ -83,9 +85,9 @@ export function AddMemberDialog() {
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Name"
+            label={t("name")}
             name="name"
-            placeholder="New Member Name"
+            placeholder={t("namePlaceholder")}
           />
           <FieldGroup>
             <Controller
@@ -94,7 +96,7 @@ export function AddMemberDialog() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel className="text-base" htmlFor={field.name}>
-                    Phone Number
+                    {t("phone")}
                   </FieldLabel>
                   <div className="relative">
                     <span className="absolute top-2 left-3 text-muted-foreground text-sm">
@@ -124,10 +126,10 @@ export function AddMemberDialog() {
               type="button"
               variant="ghost"
             >
-              Cancel
+              {t("cancel")}
             </Button>
             <Button disabled={action.isPending} type="submit">
-              Add Member
+              {t("submit")}
             </Button>
           </div>
         </form>

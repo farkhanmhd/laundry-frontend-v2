@@ -1,12 +1,7 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
-import {
-  addBundling,
-  updateBundlingData,
-  updateBundlingImage,
-  updateBundlingItems,
-} from "./data";
+import { BundlingsApi } from "./data";
 import {
   addBundlingSchema,
   updateBundlingImageSchema,
@@ -17,7 +12,7 @@ import {
 export const addBundlingAction = actionClient
   .inputSchema(addBundlingSchema)
   .action(async ({ parsedInput }) => {
-    const result = await addBundling(parsedInput);
+    const result = await BundlingsApi.addBundling(parsedInput);
 
     if (!result) {
       return {
@@ -49,7 +44,7 @@ export const updateBundlingAction = actionClient
   .action(async ({ parsedInput }) => {
     const { id, ...data } = parsedInput;
 
-    const result = await updateBundlingData(id, data);
+    const result = await BundlingsApi.updateBundlingData(id, data);
 
     if (!result || result.error) {
       return errorResult;
@@ -65,7 +60,7 @@ export const updateBundlingItemsAction = actionClient
   .inputSchema(updateBundlingItemsSchema)
   .action(async ({ parsedInput }) => {
     const { id, items } = parsedInput;
-    const result = await updateBundlingItems(id, items);
+    const result = await BundlingsApi.updateBundlingItems(id, items);
 
     if (!result || result.error) {
       return errorResult;
@@ -81,7 +76,7 @@ export const updateBundlingImageAction = actionClient
   .inputSchema(updateBundlingImageSchema)
   .action(async ({ parsedInput }) => {
     const { id, ...body } = parsedInput;
-    const result = await updateBundlingImage(id, body);
+    const result = await BundlingsApi.updateBundlingImage(id, body);
     if (!result || result.error) {
       return errorResult;
     }

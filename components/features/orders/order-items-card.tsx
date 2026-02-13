@@ -1,4 +1,5 @@
-import { Coins, ShoppingBag, TicketPercent } from "lucide-react"; // Added Coins icon
+import { Coins, ShoppingBag, TicketPercent } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -27,6 +28,7 @@ interface OrderItemsCardProps {
 }
 
 export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
+  const t = useTranslations("Orders.items");
   const { items, voucher, points } = data;
 
   const subTotal = useMemo(
@@ -36,9 +38,7 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
 
   const finalTotal = useMemo(() => {
     const discount = voucher?.discountAmount ?? 0;
-    const pointsUsed = points?.points ?? 0; // points is negative
-
-    // Since points is negative, we add it to reduce the total
+    const pointsUsed = points?.points ?? 0;
     return Math.max(0, subTotal + discount + pointsUsed);
   }, [subTotal, voucher, points]);
 
@@ -47,11 +47,9 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl">
           <ShoppingBag className="h-5 w-5 text-muted-foreground" />
-          Order Items
+          {t("orderItems")}
         </CardTitle>
-        <CardDescription>
-          Services and products included in this order
-        </CardDescription>
+        <CardDescription>{t("itemDescription")}</CardDescription>
       </CardHeader>
 
       <CardContent className="p-0">
@@ -59,11 +57,15 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[40%] pl-6">Item Details</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead className="text-right">Price</TableHead>
-                <TableHead className="text-right">Qty</TableHead>
-                <TableHead className="pr-6 text-right">Subtotal</TableHead>
+                <TableHead className="w-[40%] pl-6">
+                  {t("itemDetails")}
+                </TableHead>
+                <TableHead>{t("type")}</TableHead>
+                <TableHead className="text-right">{t("price")}</TableHead>
+                <TableHead className="text-right">{t("quantity")}</TableHead>
+                <TableHead className="pr-6 text-right">
+                  {t("subtotal")}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -77,7 +79,7 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
                     {item.note && (
                       <div className="mt-2 flex items-start gap-2 rounded-md bg-muted p-2 text-muted-foreground">
                         <span className="font-medium text-xs italic leading-relaxed">
-                          "{item.note}"
+                          &quot;{item.note}&quot;
                         </span>
                       </div>
                     )}
@@ -107,23 +109,22 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
         </ScrollArea>
       </CardContent>
 
-      {/* Footer Summary */}
       <div className="border-t px-6 py-6">
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Subtotal</span>
+            <span className="text-muted-foreground">{t("subtotal")}</span>
             <Client>
               <span className="font-medium">{formatToIDR(subTotal)}</span>
             </Client>
           </div>
 
-          {/* Voucher Section */}
           {voucher && (
             <div className="flex flex-col gap-1">
               <div className="flex justify-between text-sm">
                 <span className="flex items-center gap-1 font-medium text-green-600">
                   <TicketPercent className="h-4 w-4" />
-                  Voucher <span className="uppercase">{voucher.code}</span>
+                  {t("voucher")}{" "}
+                  <span className="uppercase">{voucher.code}</span>
                 </span>
                 <Client>
                   <span className="font-medium text-green-600">
@@ -137,12 +138,11 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
             </div>
           )}
 
-          {/* Points Section */}
           {points && (
             <div className="flex justify-between text-sm">
               <span className="flex items-center gap-1 font-medium text-green-600">
                 <Coins className="h-4 w-4" />
-                Points Redeemed
+                {t("pointsRedeemed")}
               </span>
               <Client>
                 <span className="font-medium text-green-600">
@@ -155,7 +155,7 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
           <Separator className="my-2" />
 
           <div className="flex items-center justify-between">
-            <span className="font-bold text-lg">Total</span>
+            <span className="font-bold text-lg">{t("total")}</span>
             <Client>
               <span className="font-bold text-2xl text-primary">
                 {formatToIDR(finalTotal)}

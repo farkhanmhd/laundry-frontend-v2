@@ -3,7 +3,7 @@
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import type { Table } from "@tanstack/react-table";
 import { Settings2 } from "lucide-react";
-
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,16 +20,18 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const t = useTranslations("Table.viewOptions");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="flex rounded-none border-l" variant="ghost">
           <Settings2 />
-          <span className="hidden md:block">View</span>
+          <span className="hidden md:block">{t("view")}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-37.5">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("toggleColumns")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()

@@ -1,6 +1,8 @@
-import { atomWithStorage } from "jotai/utils";
-import { useAtom } from "jotai";
-import { Globe } from "lucide-react";
+"use client";
+
+import { CheckIcon, Globe } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,49 +10,51 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { setUserLocale } from "@/i18n/locale";
 
-const languageAtom = atomWithStorage<"en" | "id">("language", "en");
-
-export const useTranslation = () => {
-  const [language, setLanguage] = useAtom(languageAtom);
-
-  return { language, setLanguage }
-}
-
-interface TranslateProps {
-  en: string,
-  id: string,
-}
-
-export function Translator({ en, id}: TranslateProps) {
-  const { language } = useTranslation();
-
-  return language === "en" ? en : id;
-}
+const languages = [
+  {
+    label: "English",
+    value: "en",
+  },
+  {
+    label: "Bahasa Indonesia",
+    value: "id",
+  },
+];
 
 export function TranslatorToggle() {
-  const { setLanguage } = useTranslation();
+  const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
 
-  const handleLanguageChange = (language: "en" | "id") => {
-    setLanguage(language);
+  const handleLanguageChange = (language: string) => {
     document.documentElement.lang = language;
+    startTransition(async () => {
+      await setUserLocale(language);
+    });
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="ghost">
+        <Button disabled={isPending} size="icon" variant="ghost">
           <Globe className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Toggle Language</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => handleLanguageChange("en")}>
-          English
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleLanguageChange("id")}>
-          Bahasa Indonesia
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end" className="w-44">
+        {languages.map((language) => (
+          <DropdownMenuItem
+            className="flex w-full justify-between gap-2"
+            key={language.value}
+            onClick={() => handleLanguageChange(language.value)}
+          >
+            <div className="w-full">{language.label}</div>
+            {locale === language.value ? (
+              <CheckIcon className="h-4 w-4" />
+            ) : null}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

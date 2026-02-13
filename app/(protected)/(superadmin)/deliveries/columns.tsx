@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,16 +10,16 @@ import { cn } from "@/lib/utils";
 import type { Delivery } from "./data";
 
 export const deliveriesColumns: ColumnDef<Delivery>[] = [
-  // 1. Select Checkbox (Crucial for Batching/Routing)
   {
     id: "select",
     cell: ({ row }) => {
+      const t = useTranslations("Deliveries.table");
       if (row.getValue("status") === "cancelled" || row.getValue("routeId")) {
         return null;
       }
       return (
         <Checkbox
-          aria-label="Select row"
+          aria-label={t("selectRow")}
           checked={row.getIsSelected()}
           className="translate-y-0.5"
           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -29,10 +30,12 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     enableHiding: false,
   },
 
-  // 3. Order ID Reference
   {
     accessorKey: "orderId",
-    header: "Order ID",
+    header: () => {
+      const t = useTranslations("Deliveries.table");
+      return t("orderId");
+    },
     cell: ({ row }) => (
       <Link
         className={cn(buttonVariants({ variant: "link" }), "pl-0 uppercase")}
@@ -43,12 +46,12 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     ),
   },
 
-  // 4. Type (Pickup/Dropoff)
-
-  // 5. Customer (Name + Phone)
   {
     accessorKey: "customerName",
-    header: "Customer",
+    header: () => {
+      const t = useTranslations("Deliveries.table");
+      return t("customer");
+    },
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="max-w-37.5 truncate font-medium text-sm">
@@ -61,10 +64,12 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     ),
   },
 
-  // 6. Address
   {
     accessorKey: "address",
-    header: "Address",
+    header: () => {
+      const t = useTranslations("Deliveries.table");
+      return t("address");
+    },
     cell: ({ row }) => (
       <div
         className="max-w-62.5 truncate text-sm"
@@ -75,16 +80,19 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     ),
   },
 
-  // 7. Route ID (Assignment Status)
   {
     accessorKey: "routeId",
-    header: "Route",
+    header: () => {
+      const t = useTranslations("Deliveries.table");
+      return t("route");
+    },
     cell: ({ row }) => {
+      const t = useTranslations("Deliveries.table");
       const routeId = row.getValue("routeId");
       if (!routeId) {
         return (
           <span className="text-muted-foreground text-sm italic">
-            Unassigned
+            {t("unassigned")}
           </span>
         );
       }
@@ -96,31 +104,33 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
           )}
           href={`/routes/${row.getValue("routeId")}`}
         >
-          View Route
+          {t("viewRoute")}
         </Link>
       );
     },
   },
 
-  // 8. Status
   {
     accessorKey: "status",
-    header: "Status",
+    header: () => {
+      const t = useTranslations("Orders.table");
+      return t("status");
+    },
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
 
       const getVariant = (s: string) => {
         switch (s) {
           case "requested":
-            return "secondary"; // Gray
+            return "secondary";
           case "assigned":
-            return "outline"; // White/Border
+            return "outline";
           case "in_progress":
-            return "default"; // Blue/Primary
+            return "default";
           case "completed":
-            return "outline"; // Needs custom class for green usually, outline is safe fallback
+            return "outline";
           case "cancelled":
-            return "destructive"; // Red
+            return "destructive";
           default:
             return "secondary";
         }
@@ -137,10 +147,12 @@ export const deliveriesColumns: ColumnDef<Delivery>[] = [
     },
   },
 
-  // 9. Requested At
   {
     accessorKey: "requestedAt",
-    header: "Request Time",
+    header: () => {
+      const t = useTranslations("Deliveries.table");
+      return t("requestTime");
+    },
     cell: ({ row }) => {
       const date = new Date(row.getValue("requestedAt"));
       return (

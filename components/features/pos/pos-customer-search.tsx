@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,6 +14,7 @@ import { PosEmptySearch } from "./pos-empty-search";
 import { PosSelectedCustomer } from "./pos-selected-customer";
 
 export const PosCustomerSearch = () => {
+  const t = useTranslations("POS.customerSearch");
   const {
     handlePhoneChange,
     phone,
@@ -43,11 +45,9 @@ export const PosCustomerSearch = () => {
               className="block font-medium text-card-foreground"
               htmlFor="customer-search"
             >
-              Search Member
+              {t("searchMember")}
             </Label>
-            <p className="text-muted-foreground text-sm">
-              Find a customer by phone number
-            </p>
+            <p className="text-muted-foreground text-sm">{t("description")}</p>
           </div>
 
           <Popover open={showSuggestions}>
@@ -58,7 +58,7 @@ export const PosCustomerSearch = () => {
                   className="pl-9"
                   id="customer-search"
                   onChange={(e) => handlePhoneChange(e.target.value)}
-                  placeholder="81234567890"
+                  placeholder={t("phonePlaceholder")}
                   value={phone}
                 />
                 <span className="absolute top-2 left-2 text-muted-foreground text-sm">

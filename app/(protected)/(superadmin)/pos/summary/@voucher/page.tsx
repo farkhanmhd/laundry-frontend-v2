@@ -1,9 +1,9 @@
 import { PosSummaryEmptyVouchers } from "@/components/features/pos/pos-summary-empty-vouchers";
 import { PosVoucherList } from "@/components/features/pos/pos-voucher-list";
-import { getPosVouchers } from "@/lib/modules/pos/data";
+import { PosApi } from "@/lib/modules/pos/data";
 
 const PosSummaryVoucherSlot = async () => {
-  const vouchers = await getPosVouchers();
+  const vouchers = await PosApi.getPosVouchers();
 
   if (!vouchers?.length) {
     return <PosSummaryEmptyVouchers />;

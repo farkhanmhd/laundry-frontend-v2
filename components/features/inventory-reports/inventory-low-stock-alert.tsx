@@ -1,9 +1,11 @@
 import { AlertCircle, CheckCircle } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InventoryReportsApi } from "@/lib/modules/inventory-reports/data";
 import { cardShadowStyle } from "@/lib/utils";
 
 export const InventoryLowStockAlert = async () => {
+  const t = await getTranslations("InventoryReports.lowStockAlert");
   const data = await InventoryReportsApi.getLowStockItems();
   const lowStockCount = data?.length || 0;
 
@@ -14,10 +16,8 @@ export const InventoryLowStockAlert = async () => {
         style={cardShadowStyle}
       >
         <CheckCircle />
-        <AlertTitle>All stock levels are healthy</AlertTitle>
-        <AlertDescription>
-          No items are currently below safety stock levels.
-        </AlertDescription>
+        <AlertTitle>{t("healthy")}</AlertTitle>
+        <AlertDescription>{t("healthyDescription")}</AlertDescription>
       </Alert>
     );
   }
@@ -29,13 +29,11 @@ export const InventoryLowStockAlert = async () => {
       variant="destructive"
     >
       <AlertCircle />
-      <AlertTitle>
-        Low stock warning: {lowStockCount} item{lowStockCount > 1 ? "s" : ""}{" "}
-        need restocking
-      </AlertTitle>
+      <AlertTitle>{t("warning", { count: lowStockCount })}</AlertTitle>
       <AlertDescription>
-        The following items are below safety stock levels:{" "}
-        {data?.map((item) => item.name).join(", ")}
+        {t("description", {
+          items: data?.map((item) => item.name).join(", ") ?? "",
+        })}
       </AlertDescription>
     </Alert>
   );

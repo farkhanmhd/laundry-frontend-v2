@@ -10,6 +10,8 @@ import {
   Phone,
 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -143,6 +145,7 @@ const generateGoogleMapsLink = (items: typeof routeDetail.items) => {
 };
 
 export default function RouteDetailPage() {
+  const t = useTranslations("Routes");
   const route = routeDetail;
 
   // Logic: "picked_up" means the driver has done their part.
@@ -165,7 +168,7 @@ export default function RouteDetailPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-lg">Route Progress</CardTitle>
+                <CardTitle className="text-lg">{t("routeProgress")}</CardTitle>
                 <span className="font-mono text-muted-foreground text-sm uppercase">
                   {route.id}
                 </span>
@@ -188,14 +191,10 @@ export default function RouteDetailPage() {
               <Progress value={progressPercentage} />
 
               <p className="text-right text-muted-foreground text-sm">
-                {
-                  route.items.filter(
-                    (i) =>
-                      i.delivery.status === "picked_up" ||
-                      i.delivery.status === "completed"
-                  ).length
-                }{" "}
-                of {route.totalStops} stops visited
+                {t("stopsVisited", {
+                  completed: completedCount,
+                  total: route.totalStops,
+                })}
               </p>
             </div>
 
@@ -209,7 +208,7 @@ export default function RouteDetailPage() {
                 }
               >
                 <Navigation className="h-4 w-4" />
-                {isRouteFinished ? "Route Finished" : "Start Navigation"}
+                {isRouteFinished ? t("routeFinished") : t("startNavigation")}
               </Button>
 
               {/* Complete Route Action (Only visible when 100%) */}
@@ -218,25 +217,22 @@ export default function RouteDetailPage() {
                   <AlertDialogTrigger asChild>
                     <Button className="flex-1 gap-2 bg-green-600 text-white shadow-sm hover:bg-green-700">
                       <CheckCircle2 className="h-4 w-4" />
-                      Finish Route at HQ
+                      {t("finishRouteAtHq")}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Process Route Completion
+                        {t("processRouteCompletion")}
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        All items have been picked up/delivered. Confirming this
-                        will mark all items as <strong>Completed</strong>,
-                        indicating they have been received at HQ or successfully
-                        delivered to the customer.
+                        {t("processRouteCompletionDescription")}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction className="bg-green-600 hover:bg-green-700">
-                        Confirm Completion
+                        {t("confirmCompletion")}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -271,7 +267,9 @@ export default function RouteDetailPage() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <Badge className="uppercase">
-                          {item.delivery.type}
+                          {item.delivery.type === "delivery"
+                            ? t("delivery")
+                            : t("pickup")}
                         </Badge>
                         <span className="hidden text-muted-foreground text-sm sm:inline">
                           {item.delivery.id.toUpperCase()}
@@ -288,18 +286,18 @@ export default function RouteDetailPage() {
                         <AlertDialogTrigger asChild>
                           <Button size="sm" variant="outline">
                             <Check className="h-4 w-4" />
-                            Mark Picked Up
+                            {t("markPickedUp")}
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Confirm Pickup</AlertDialogTitle>
+                            <AlertDialogTitle>
+                              {t("confirmPickup")}
+                            </AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you have collected/delivered the
-                              items for{" "}
-                              <strong>{item.delivery.customer.name}</strong>?
-                              This will update the status to{" "}
-                              <strong>Picked Up</strong>.
+                              {t("confirmPickupDescription", {
+                                customerName: item.delivery.customer.name,
+                              })}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -310,7 +308,9 @@ export default function RouteDetailPage() {
                       </AlertDialog>
                     ) : (
                       <Badge className={cn("uppercase")}>
-                        {item.delivery.status.replace("_", " ")}
+                        {item.delivery.status === "picked_up"
+                          ? t("pickedUp")
+                          : t("completed")}
                       </Badge>
                     )}
                   </CardHeader>
@@ -347,13 +347,13 @@ export default function RouteDetailPage() {
                         className={cn(buttonVariants({ variant: "outline" }))}
                         href={`/orders/${item.delivery.id.replace("dlv-", "o-")}`}
                       >
-                        View Order
+                        {t("viewOrder")}
                       </Link>
                       <div className="flex gap-2">
                         <Button asChild size="sm" variant="outline">
                           <a href={`tel:${item.delivery.customer.phone}`}>
                             <Phone className="h-3.5 w-3.5" />
-                            Call
+                            {t("call")}
                           </a>
                         </Button>
                         <Button asChild size="sm" variant="outline">
@@ -363,7 +363,7 @@ export default function RouteDetailPage() {
                             target="_blank"
                           >
                             <MapIcon className="h-3.5 w-3.5" />
-                            Map
+                            {t("map")}
                           </a>
                         </Button>
                       </div>

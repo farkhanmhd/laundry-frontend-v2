@@ -1,0 +1,626 @@
+{
+  "Members": {
+    "title": "Member Reports",
+    "totalMembers": {
+      "title": "Total Members",
+      "description": "All registered members"
+    },
+    "averageOrderValue": {
+      "title": "Avg. Order Value",
+      "description": "Average spent per order"
+    },
+    "activeMembers": {
+      "title": "Active Members",
+      "description": "Members with recent activity"
+    },
+    "totalMemberOrders": {
+      "title": "Total Member Orders",
+      "description": "Orders placed by members"
+    },
+    "table": {
+      "placeholder": "Search member"
+    },
+    "membersListTitle": "Members List",
+    "columns": {
+      "memberName": "Member Name",
+      "phone": "Phone",
+      "joinDate": "Join Date",
+      "orders": "Orders",
+      "totalSpending": "Total Spending",
+      "averageSpending": "Avg. Spending"
+    },
+    "addMember": {
+      "button": "Member",
+      "title": "Add New Member",
+      "name": "Name",
+      "namePlaceholder": "New Member Name",
+      "phone": "Phone Number",
+      "cancel": "Cancel",
+      "submit": "Add Member"
+    },
+    "pagination": {
+      "selectedRows": "{selected} of {total} row(s) selected.",
+      "showingRows": "Showing {count} row(s).",
+      "page": "Page {current} of {total}",
+      "goToFirstPage": "Go to first page",
+      "goToPreviousPage": "Go to previous page",
+      "goToNextPage": "Go to next page",
+      "goToLastPage": "Go to last page"
+    }
+  },
+  "LoginPage": {
+    "greeting": "Welcome to Beringin Coin Laundry.",
+    "signIn": "Sign In",
+    "username": "Username",
+    "usernamePlaceholder": "Username",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "termsDescription": "By clicking continue, you agree to our Terms of Service and Privacy Policy.",
+    "termsOfService": " Terms of Service",
+    "and": " and ",
+    "privacyPolicy": "Privacy Policy",
+    "welcomeBack": "Welcome back, {name}!",
+    "errorMessage": "Oops! Something went wrong on our end. Please try again in a moment."
+  },
+  "POS": {
+    "customerInformation": "Customer Information",
+    "guest": "Guest",
+    "member": "Member",
+    "clearSelection": "Clear selection",
+    "clearInput": "Clear input",
+    "newMember": {
+      "title": "New Member",
+      "description": "Fill customer name and phone number below to add new member",
+      "customerName": "Customer Name",
+      "customerNamePlaceholder": "New Member Name",
+      "customerNameValidation": "Please input customer name",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "81234567890",
+      "phoneNumberValidation": "Phone number must be at least 7 characters"
+    },
+    "guestCustomer": {
+      "customerName": "Customer Name",
+      "customerNameDescription": "Enter the customer's name",
+      "customerNamePlaceholder": "Enter customer name",
+      "customerNameValidation": "Please input customer name",
+      "guestType": "Guest customer"
+    },
+    "customerSearch": {
+      "searchMember": "Search Member",
+      "description": "Find a customer by phone number",
+      "phonePlaceholder": "81234567890",
+      "emptySearch": {
+        "noMemberFound": "No member found",
+        "confirmAdd": "Confirm to add \"{phone}\" as a new member",
+        "addAsNewMember": "Add as New Member"
+      }
+    },
+    "selectedCustomer": {
+      "points": "Points"
+    },
+    "customerPoints": {
+      "redeemLoyaltyPoints": "Redeem Loyalty Points",
+      "balance": "Balance:",
+      "enterAmountDescription": ". Enter amount to deduct from total.",
+      "selectMemberToEnable": "Select a member to enable point redemption.",
+      "amountOfPoints": "Amount of points"
+    },
+    "orderProducts": {
+      "title": "Products",
+      "total": "Total",
+      "noItems": "No Item Selected",
+      "orderSummary": "Order Summary"
+    },
+    "emptySummaryItem": {
+      "noItemsAdded": "No items added",
+      "cartIsEmpty": "Cart is currently empty.",
+      "addItem": "Add Item"
+    },
+    "summaryAddMoreItem": {
+      "needAnythingElse": "Need anything else?",
+      "addOtherItems": "Add other items, if you want.",
+      "addMore": "Add More"
+    },
+    "summaryItem": {
+      "notes": "Notes :",
+      "notesPlaceholder": "Notes"
+    },
+    "summaryEmptyVouchers": {
+      "noVouchersAvailable": "No Vouchers Available",
+      "noVouchersDescription": "There are currently no vouchers available for this member."
+    },
+    "paymentMethod": {
+      "cash": "Cash",
+      "qris": "QRIS",
+      "cashAmountReceived": "Cash Amount Received",
+      "amountPaidMustBeEqual": "Amount Paid Must be Equal or More than Total Amount",
+      "clear": "Clear"
+    },
+    "paymentSummary": {
+      "paymentMethod": "Payment Method",
+      "itemsTotalAmount": "Items Total Amount",
+      "totalDiscount": "Total Discount",
+      "pointsRedeemed": "Points Redeemed",
+      "pointsEarned": "Points Earned",
+      "total": "Total",
+      "cashReceived": "Cash Received",
+      "changeToReturn": "Change to Return",
+      "cash": "Cash",
+      "qris": "QRIS"
+    },
+    "voucher": {
+      "off": "% OFF",
+      "upTo": "Up to",
+      "exp": "Exp:",
+      "noExpiry": "No Expiry",
+      "minTransaction": "Min. Transaction",
+      "noLimit": "No Limit",
+      "remove": "Remove",
+      "addMoreToUse": "Add {amount} more to use this voucher",
+      "apply": "Apply"
+    },
+    "voucherInput": {
+      "minimumSpendNotMet": "Voucher Minimum Spend is Not Met",
+      "voucherDoesNotExist": "Voucher {code} does not exist",
+      "voucherNotExist": "Voucher does not exist",
+      "pleaseInputCode": "Please input voucher code",
+      "enterVoucherCode": "Enter Voucher Code",
+      "apply": "Apply"
+    },
+    "summarySubmitButton": {
+      "processPayment": "Process Payment"
+    },
+    "cart": "Cart",
+    "noItems": "No Item Selected",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "checkout": "Checkout"
+  },
+  "Navigation": {
+    "back": "Back",
+    "appTitle": "Laundry App",
+    "theme": {
+      "toggleTheme": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "sidebarError": {
+      "unknownError": "An unknown error occurred",
+      "somethingWentWrong": "Something went wrong",
+      "tryAgain": "Try Again"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "pos": "POS",
+      "orders": "Orders",
+      "deliveries": "Deliveries",
+      "pickUps": "Pick Ups",
+      "members": "Members",
+      "sales": "Sales",
+      "inventories": "Inventories",
+      "services": "Services",
+      "vouchers": "Vouchers",
+      "bundlings": "Bundlings",
+      "users": "Users",
+      "home": "Home",
+      "account": "Account"
+    }
+  },
+  "Table": {
+    "facetedFilter": {
+      "noResults": "No results found.",
+      "selected": "selected",
+      "clearFilters": "Clear Filters"
+    },
+    "pagination": {
+      "selectedRows": "{selected} of {total} row(s) selected.",
+      "showingRows": "Showing {count} row(s).",
+      "page": "Page {current} of {total}",
+      "goToFirstPage": "Go to first page",
+      "goToPreviousPage": "Go to previous page",
+      "goToNextPage": "Go to next page",
+      "goToLastPage": "Go to last page"
+    },
+    "search": {
+      "placeholder": "Search all columns...",
+      "searchPlaceholder": "Search..."
+    },
+    "viewOptions": {
+      "view": "View",
+      "toggleColumns": "Toggle columns"
+    }
+  },
+  "Orders": {
+    "orderInfo": {
+      "orderInformation": "Order Information",
+      "orderId": "Order ID",
+      "status": "Status",
+      "createdAt": "Created At",
+      "waitingForPayment": "Waiting for Payment",
+      "markAsReady": "Mark as Ready",
+      "markAsCompleted": "Mark as Completed",
+      "completed": "Completed"
+    },
+    "customer": {
+      "customerDetails": "Customer Details",
+      "customerName": "Customer Name",
+      "phoneNumber": "Phone Number",
+      "member": "MEMBER"
+    },
+    "items": {
+      "orderItems": "Order Items",
+      "itemDetails": "Item Details",
+      "type": "Type",
+      "price": "Price",
+      "quantity": "Qty",
+      "subtotal": "Subtotal",
+      "voucher": "Voucher",
+      "pointsRedeemed": "Points Redeemed",
+      "total": "Total",
+      "itemDescription": "Services and products included in this order"
+    },
+    "payment": {
+      "paymentInformation": "Payment Information",
+      "paymentMethod": "Payment Method",
+      "status": "Status",
+      "amountPaid": "Amount Paid",
+      "amountDue": "Amount Due",
+      "changeReturned": "Change Returned",
+      "payNow": "Pay Now",
+      "paid": "PAID"
+    },
+    "delivery": {
+      "logistics": "Logistics",
+      "legs": "{count} / 2 Legs",
+      "noDeliveryInfo": "No delivery information",
+      "noDeliveryDescription": "This order does not have any pickup or delivery request yet.",
+      "locationLabel": "Location Label",
+      "address": "Address",
+      "note": "Note"
+    },
+    "newOrder": {
+      "createNewOrder": "Create New Order",
+      "backToOrders": "Back to Orders",
+      "addServices": "Add Services",
+      "service": "Service",
+      "selectService": "Select a service...",
+      "quantity": "Quantity",
+      "addToOrder": "Add to Order",
+      "orderItems": "Order Items",
+      "specialInstructions": "Special Instructions",
+      "notesOptional": "Notes (Optional)",
+      "notesPlaceholder": "Any special requests or instructions...",
+      "orderSummary": "Order Summary",
+      "subtotal": "Subtotal:",
+      "total": "Total:",
+      "cancel": "Cancel",
+      "creating": "Creating...",
+      "createOrder": "Create Order"
+    },
+    "table": {
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "phone": "Phone",
+      "totalItems": "Total Items",
+      "total": "Total",
+      "status": "Status",
+      "date": "Date",
+      "items": "items"
+    }
+  },
+  "Deliveries": {
+    "table": {
+      "selectRow": "Select row",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "address": "Address",
+      "route": "Route",
+      "unassigned": "Unassigned",
+      "viewRoute": "View Route",
+      "requestTime": "Request Time"
+    },
+    "selectedRows": "Deliver {count} Order(s)"
+  },
+  "Pickups": {
+    "table": {
+      "selectRow": "Select row",
+      "orderId": "Order ID",
+      "customer": "Customer",
+      "address": "Address",
+      "route": "Route",
+      "unassigned": "Unassigned",
+      "viewRoute": "View Route",
+      "requestTime": "Request Time",
+      "status": "Status"
+    },
+    "selectedRows": "Pick Up {count} Order(s)"
+  },
+  "Routes": {
+    "routeProgress": "Route Progress",
+    "stopsVisited": "{completed} of {total} stops visited",
+    "startNavigation": "Start Navigation",
+    "routeFinished": "Route Finished",
+    "finishRouteAtHq": "Finish Route at HQ",
+    "processRouteCompletion": "Process Route Completion",
+    "processRouteCompletionDescription": "All items have been picked up/delivered. Confirming this will mark all items as Completed, indicating they have been received at HQ or successfully delivered to the customer.",
+    "confirmCompletion": "Confirm Completion",
+    "markPickedUp": "Mark Picked Up",
+    "confirmPickup": "Confirm Pickup",
+    "confirmPickupDescription": "Are you sure you have collected/delivered the items for {customerName}? This will update the status to Picked Up.",
+    "viewOrder": "View Order",
+    "call": "Call",
+    "map": "Map",
+    "pickedUp": "Picked Up",
+    "completed": "Completed",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "noNote": null
+  },
+  "Sales": {
+    "title": "Sales Report",
+    "cards": {
+      "netRevenue": "Net Revenue",
+      "netRevenueDescription": "Actual money received",
+      "grossRevenue": "Gross Revenue",
+      "grossRevenueDescription": "Total value before discounts",
+      "totalTransactions": "Total Transactions",
+      "totalTransactionsDescription": "Completed orders",
+      "averageOrderValue": "Avg. Order Value",
+      "averageOrderValueDescription": "Average per transaction"
+    },
+    "columns": {
+      "bestSellers": {
+        "itemName": "Item Name",
+        "type": "Type",
+        "unitPrice": "Unit Price",
+        "unitsSold": "Units Sold",
+        "orders": "Orders",
+        "totalRevenue": "Total Revenue"
+      },
+      "salesByOrder": {
+        "orderId": "Order ID",
+        "items": "Items",
+        "payment": "Payment",
+        "itemsTotal": "Items Total",
+        "discount": "Discount",
+        "total": "Total",
+        "paid": "Paid",
+        "change": "Change",
+        "date": "Date"
+      },
+      "salesItemLogs": {
+        "orderItemId": "Order Item ID",
+        "orderId": "Order ID",
+        "itemName": "Item Name",
+        "type": "Type",
+        "quantity": "Quantity",
+        "date": "Date"
+      }
+    },
+    "tabs": {
+      "overview": "Overview",
+      "orders": "Orders",
+      "items": "Items"
+    }
+  },
+  "Inventories": {
+    "title": "Inventories",
+    "table": {
+      "searchPlaceholder": "Search inventories...",
+      "image": "Image",
+      "id": "ID",
+      "name": "Name",
+      "price": "Price",
+      "quantity": "Quantity",
+      "safetyStock": "Safety Stock",
+      "status": "Status",
+      "dateAdded": "Date Added",
+      "lastUpdate": "Last Update",
+      "inStock": "In Stock",
+      "shortage": "Shortage",
+      "unknown": "Unknown"
+    },
+    "categories": {
+      "product": "Product",
+      "waste": "Waste",
+      "adjustment": "Adjustment",
+      "restock": "Restock",
+      "order": "Order"
+    },
+    "form": {
+      "inventoryData": "Inventory Data",
+      "inventoryDataDescription": "Review and modify key inventory details...",
+      "inventoryName": "Inventory Name",
+      "inventoryDescription": "Inventory Description",
+      "inventoryPrice": "Inventory Price (IDR)",
+      "safetyStockLabel": "Safety Stock of Inventory",
+      "category": "Category",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "edit": "Edit",
+      "createNew": "Create New Inventory",
+      "createDescription": "Enter details below to add new inventory."
+    },
+    "imageForm": {
+      "title": "Inventory Image",
+      "description": "Manage and update the inventory image...",
+      "uploadNew": "Upload New Image",
+      "noFileChosen": "No file chosen",
+      "fileTypeError": "Only JPEG or PNG images are allowed",
+      "save": "Save"
+    },
+    "stockForm": {
+      "title": "Stock Adjustment",
+      "description": "Adjust the stock quantity...",
+      "currentQuantity": "Current Quantity",
+      "changeAmount": "Change Amount",
+      "adjustmentType": "Adjustment Type",
+      "selectType": "Select adjustment Type",
+      "reasonLabel": "Reason for Adjustment"
+    },
+    "logs": {
+      "title": "Inventory Logs",
+      "searchByProduct": "Search by Product name or Order ID",
+      "searchProduct": "Search Product",
+      "searchCategory": "Search Category",
+      "product": "Product",
+      "category": "Category",
+      "change": "Change",
+      "remaining": "Remaining",
+      "orderRef": "Order Ref",
+      "user": "User",
+      "time": "Time"
+    }
+  },
+  "Services": {
+    "title": "Services",
+    "table": {
+      "searchPlaceholder": "Search services...",
+      "image": "Image",
+      "id": "ID",
+      "name": "Name",
+      "price": "Price",
+      "dateAdded": "Date Added",
+      "lastUpdate": "Last Update"
+    },
+    "form": {
+      "serviceData": "Service Data",
+      "serviceDataDescription": "Review and modify key Service details...",
+      "serviceName": "Service Name",
+      "serviceDescription": "Service Description",
+      "servicePrice": "Service Price (IDR)",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "edit": "Edit",
+      "createNew": "Create New Service",
+      "createDescription": "Enter details below to add new service."
+    },
+    "imageForm": {
+      "title": "Service Image",
+      "description": "Manage and update the service image...",
+      "uploadNew": "Upload New Image",
+      "noFileChosen": "No file chosen",
+      "fileTypeError": "Only JPEG or PNG images are allowed",
+      "save": "Save"
+    }
+  },
+  "Bundlings": {
+    "title": "Bundlings",
+    "table": {
+      "searchPlaceholder": "Search bundlings...",
+      "image": "Image",
+      "id": "ID",
+      "name": "Name",
+      "price": "Price",
+      "dateAdded": "Date Added"
+    },
+    "form": {
+      "bundlingData": "Bundling Data",
+      "bundlingDataDescription": "Review and modify key bundling details...",
+      "bundlingName": "Bundling Name",
+      "bundlingDescription": "Bundling Description",
+      "bundlingPrice": "Bundling Price (IDR)",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "edit": "Edit",
+      "createNew": "Create New Bundling",
+      "createDescription": "Enter details below to add new bundling."
+    },
+    "imageForm": {
+      "title": "Bundling Image",
+      "description": "Manage and update the bundling image...",
+      "uploadNew": "Upload New Image",
+      "noFileChosen": "No file chosen",
+      "fileTypeError": "Only JPEG or PNG images are allowed",
+      "save": "Save"
+    },
+    "itemsForm": {
+      "title": "Bundling Items",
+      "addItem": "Add Item",
+      "selectItemType": "Select Item Type",
+      "inventory": "Inventory",
+      "service": "Service",
+      "selectItem": "Select an item",
+      "quantity": "Quantity",
+      "cancel": "Cancel",
+      "updateBundling": "Update Bundling"
+    }
+  },
+  "Users": {
+    "title": "Users",
+    "table": {
+      "searchPlaceholder": "Search users...",
+      "user": "User",
+      "username": "Username",
+      "phone": "Phone",
+      "role": "Role",
+      "noUsername": "No username"
+    },
+    "actions": {
+      "openMenu": "Open menu",
+      "actions": "Actions",
+      "copyUserId": "Copy User ID",
+      "viewDetails": "View Details",
+      "setAsUser": "Set as User",
+      "setAsAdmin": "Set as Admin",
+      "banUser": "Ban User"
+    },
+    "roleDialog": {
+      "failedUpdate": "Failed to update role",
+      "demotedToUser": "demoted to User",
+      "promotedToAdmin": "promoted to Admin",
+      "unexpectedError": "An unexpected error occurred",
+      "revokeAdminTitle": "Revoke admin access?",
+      "grantAdminTitle": "Grant admin access?",
+      "revokeDescription": "They will lose dashboard access",
+      "grantDescription": "full administrative privileges",
+      "cancel": "Cancel",
+      "revokeAccess": "Revoke Access",
+      "confirmAdmin": "Confirm Admin"
+    }
+  },
+  "Account": {
+    "title": "Account",
+    "userData": {
+      "title": "User Data",
+      "description": "Review and modify your account details...",
+      "name": "Name",
+      "username": "Username",
+      "phone": "Phone",
+      "email": "Email",
+      "role": "Role",
+      "saveChanges": "Save Changes"
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password to keep your account secure...",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "saveChanges": "Save Changes"
+    }
+  },
+  "InventoryReports": {
+    "totalItems": {
+      "title": "Total Items",
+      "description": "All inventory items in stock"
+    },
+    "totalUsage": {
+      "title": "Total Usage",
+      "description": "Total items used in selected period"
+    },
+    "averageUsage": {
+      "title": "Avg. Usage per Order",
+      "description": "Average items used per order"
+    },
+    "lowStockAlert": {
+      "healthy": "All stock levels are healthy",
+      "healthyDescription": "No items are currently below safety stock levels.",
+      "warning": "Low stock warning: {count} item{count, plural, one {} other {s}} need restocking",
+      "description": "The following items are below safety stock levels: {items}"
+    }
+  }
+}

@@ -2,11 +2,11 @@
 
 import { NotepadText } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
 import { usePOS } from "@/lib/modules/pos/state";
 
-// Define the data type as requested
 export interface PosOrderItem {
   id: string;
   image: string;
@@ -27,6 +27,7 @@ interface OrderSummaryItemProps {
 }
 
 export function PosSummaryItem({ item }: OrderSummaryItemProps) {
+  const t = useTranslations("POS.summaryItem");
   const { handleIncrementQuantity, handleDecrementQuantity } = usePOS();
 
   const formatPrice = (price: number) =>
@@ -35,14 +36,14 @@ export function PosSummaryItem({ item }: OrderSummaryItemProps) {
   return (
     <div className="w-full">
       <div className="flex items-start justify-between gap-4">
-        {/* Left Column: Text Details */}
         <div className="flex flex-1 flex-col gap-1">
           <h3 className="font-medium text-sm">{item.name}</h3>
 
-          {/* Conditional Note Rendering */}
           {item.note && (
             <div className="text-muted-foreground text-sm">
-              <span className="font-semibold text-foreground">Notes :</span>{" "}
+              <span className="font-semibold text-foreground">
+                {t("notes")}
+              </span>{" "}
               {item.note}
             </div>
           )}
@@ -52,7 +53,6 @@ export function PosSummaryItem({ item }: OrderSummaryItemProps) {
           </p>
         </div>
 
-        {/* Right Column: Image */}
         <div className="shrink-0">
           <Image
             alt={item.name}
@@ -64,16 +64,10 @@ export function PosSummaryItem({ item }: OrderSummaryItemProps) {
         </div>
       </div>
 
-      {/* Bottom Row: Actions */}
       <div className="mt-4 flex items-center justify-between">
-        <Button
-          className="h-8"
-          // onClick={onNoteClick}
-          size="sm"
-          variant="outline"
-        >
+        <Button className="h-8" size="sm" variant="outline">
           <NotepadText />
-          Notes
+          {t("notesPlaceholder")}
         </Button>
 
         <div className="flex items-center">

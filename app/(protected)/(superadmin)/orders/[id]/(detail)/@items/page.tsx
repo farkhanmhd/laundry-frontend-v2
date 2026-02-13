@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { OrderItemsCard } from "@/components/features/orders/order-items-card";
-import { getOrderItems } from "@/lib/modules/orders/data";
+import { OrdersApi } from "@/lib/modules/orders/data";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -8,7 +8,7 @@ interface Props {
 
 const OrderItems = async ({ params }: Props) => {
   const { id } = await params;
-  const data = await getOrderItems(id);
+  const data = await OrdersApi.getOrderItems(id);
 
   if (!data) {
     notFound();

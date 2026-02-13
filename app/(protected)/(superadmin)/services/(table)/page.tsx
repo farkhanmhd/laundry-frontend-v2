@@ -1,11 +1,12 @@
-import { TableView } from "@/components/table/table-view";
-import { getServices } from "@/lib/modules/services/data";
 import { Suspense } from "react";
+import { TableSkeleton } from "@/components/table/table-skeleton";
+import { TableView } from "@/components/table/table-view";
+import { ServicesApi } from "@/lib/modules/services/data";
 
 const ProductsPage = async () => {
-  const services = await getServices();
+  const services = await ServicesApi.getServices();
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<TableSkeleton />}>
       <TableView data={services} />
     </Suspense>
   );

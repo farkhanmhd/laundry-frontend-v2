@@ -1,7 +1,7 @@
 import { ServiceDataForm } from "@/components/features/services/service-data-form";
 import { ServiceImageForm } from "@/components/features/services/service-image-form";
 import { TabsContent } from "@/components/ui/tabs";
-import { getServiceById, type Service } from "@/lib/modules/services/data";
+import { type Service, ServicesApi } from "@/lib/modules/services/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -9,7 +9,7 @@ type Props = {
 
 const ServiceDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const service = (await getServiceById(id)) as Service;
+  const service = (await ServicesApi.getServiceById(id)) as Service;
   return (
     <>
       <TabsContent

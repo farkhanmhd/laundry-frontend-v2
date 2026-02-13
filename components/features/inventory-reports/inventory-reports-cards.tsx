@@ -1,4 +1,5 @@
 import { BarChart3, Package, Target } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { type ReactNode, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ScoreCard } from "@/components/utils/score-card";
@@ -37,12 +38,13 @@ interface MetricProps {
 // ----------------------------------------------------------------------
 
 const TotalItemsContent = async () => {
+  const t = await getTranslations("InventoryReports.totalItems");
   const data = await InventoryReportsApi.getTotalItems();
   return (
     <ScoreCard
-      description="All inventory items in stock"
+      description={t("description")}
       icon={<Package className="h-6 w-6 text-primary" />}
-      title="Total Items"
+      title={t("title")}
       value={data?.totalItems ?? 0}
     />
   );
@@ -61,12 +63,13 @@ export const TotalItemsCard = () => {
 // ----------------------------------------------------------------------
 
 const TotalUsageContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("InventoryReports.totalUsage");
   const data = await InventoryReportsApi.getTotalUsage(query);
   return (
     <ScoreCard
-      description="Total items used in selected period"
+      description={t("description")}
       icon={<BarChart3 className="h-6 w-6 text-primary" />}
-      title="Total Usage"
+      title={t("title")}
       value={data?.totalUsage ?? 0}
     />
   );
@@ -85,12 +88,13 @@ export const TotalUsageCard = ({ query }: MetricProps) => {
 // ----------------------------------------------------------------------
 
 const AverageUsageContent = async ({ query }: MetricProps) => {
+  const t = await getTranslations("InventoryReports.averageUsage");
   const data = await InventoryReportsApi.getAverageUsage(query);
   return (
     <ScoreCard
-      description="Average items used per order"
+      description={t("description")}
       icon={<Target className="h-6 w-6 text-primary" />}
-      title="Avg. Usage per Order"
+      title={t("title")}
       value={data?.averageUsagePerOrder ?? 0}
     />
   );

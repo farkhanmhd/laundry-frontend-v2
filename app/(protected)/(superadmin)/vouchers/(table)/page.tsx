@@ -1,8 +1,8 @@
 import { TableView } from "@/components/table/table-view";
-import { getVouchers } from "@/lib/modules/vouchers/data";
+import { VouchersApi } from "@/lib/modules/vouchers/data";
 
 const ProductsPage = async () => {
-  const vouchers = await getVouchers();
+  const vouchers = await VouchersApi.getVouchers();
   return <TableView data={vouchers} />;
 };
 

@@ -441,7 +441,7 @@ export default function SuperAdminDashboard() {
               <PopoverTrigger asChild>
                 <Button
                   className={cn(
-                    "w-[300px] justify-start text-left font-normal",
+                    "w-75 justify-start text-left font-normal",
                     !date && "text-muted-foreground"
                   )}
                   id="date"
@@ -502,7 +502,7 @@ export default function SuperAdminDashboard() {
             </CardHeader>
             <CardContent className="flex-1 pb-0">
               <ChartContainer
-                className="mx-auto aspect-square max-h-[300px]"
+                className="mx-auto aspect-square max-h-75"
                 config={orderStatusConfig}
               >
                 <PieChart>

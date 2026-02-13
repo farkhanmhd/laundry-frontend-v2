@@ -1,5 +1,5 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 import type { DateRangeSearchParams } from "@/lib/utils";
 
@@ -21,17 +21,10 @@ export type TotalMemberOrdersResponse = {
   totalMemberOrders: number;
 };
 
-export abstract class MemberReportsApi {
+export abstract class MemberReportsApi extends BaseApi {
   /**
-   * Helper to get common fetch headers (Authorization, etc.)
+   * getConfig method is inherited from BaseApi
    */
-  private static async getConfig() {
-    return {
-      fetch: {
-        headers: await headers(),
-      },
-    };
-  }
 
   /**
    * GET /members/reports/total-customers

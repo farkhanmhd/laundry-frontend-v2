@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { OrderPaymentCard } from "@/components/features/orders/order-payment-card";
-import { getOrderPayment } from "@/lib/modules/orders/data";
+import { OrdersApi } from "@/lib/modules/orders/data";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -8,7 +8,7 @@ interface Props {
 
 const OrderPayment = async ({ params }: Props) => {
   const { id } = await params;
-  const data = await getOrderPayment(id);
+  const data = await OrdersApi.getOrderPayment(id);
 
   if (!data) {
     notFound();

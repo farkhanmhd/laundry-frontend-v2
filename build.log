@@ -1,0 +1,83 @@
+
+> laundry-frontend-v2@0.1.0 build
+> export NODE_ENV=production && bun run --bun next build --turbopack
+
+   ▲ Next.js 15.5.9 (Turbopack)
+   - Environments: .env.production
+   - Experiments (use with caution):
+     ✓ typedEnv
+     · serverActions
+
+   Creating an optimized production build ...
+ ✓ Finished writing to disk in 180ms
+ ✓ Compiled successfully in 8.9s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/37) ...
+   Generating static pages (9/37) 
+   Generating static pages (18/37) 
+   Generating static pages (27/37) 
+ ✓ Generating static pages (37/37)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                Size  First Load JS
+┌ ƒ /                                       0 B         157 kB
+├ ƒ /_not-found                             0 B         157 kB
+├ ƒ /account                                0 B         354 kB
+├ ƒ /bundlings                          6.05 kB         356 kB
+├ ƒ /bundlings/[id]                     5.42 kB         358 kB
+├ ƒ /bundlings/new                      4.32 kB         355 kB
+├ ƒ /customer-deliveries                    0 B         323 kB
+├ ƒ /customer-deliveries/[id]               0 B         323 kB
+├ ƒ /customer-orders                        0 B         323 kB
+├ ƒ /customer-orders/[id]                   0 B         323 kB
+├ ƒ /customer-orders/[id]/payment        2.6 kB         325 kB
+├ ƒ /customer-orders/new                1.05 kB         324 kB
+├ ƒ /customer-orders/new/order-summary  2.55 kB         325 kB
+├ ƒ /customer/loyalty                   3.13 kB         326 kB
+├ ƒ /customer/menu                       3.2 kB         326 kB
+├ ƒ /customer/my-addresses                  0 B         323 kB
+├ ƒ /customer/my-addresses/new          1.88 kB         325 kB
+├ ƒ /customer/my-deliveries             4.12 kB         353 kB
+├ ƒ /customer/my-deliveries/new         3.88 kB         327 kB
+├ ƒ /customer/profile                    2.1 kB         325 kB
+├ ƒ /dashboard                              0 B         465 kB
+├ ƒ /deliveries                         5.86 kB         355 kB
+├ ƒ /inventories                            0 B         386 kB
+├ ƒ /inventories/[id]                   4.99 kB         358 kB
+├ ƒ /inventories/logs                   16.9 kB         366 kB
+├ ƒ /inventories/new                    3.57 kB         346 kB
+├ ƒ /login                              30.1 kB         306 kB
+├ ƒ /members                                0 B         403 kB
+├ ƒ /orders                             2.54 kB         353 kB
+├ ƒ /orders/[id]                            0 B         336 kB
+├ ƒ /orders/[id]/payment                2.54 kB         325 kB
+├ ƒ /orders/new                         2.37 kB         325 kB
+├ ƒ /pickups                            6.05 kB         355 kB
+├ ƒ /pos                                 1.6 kB         324 kB
+├ ƒ /pos/summary                            0 B         388 kB
+├ ƒ /routes/[id]                        4.71 kB         328 kB
+├ ƒ /sales                                  0 B         395 kB
+├ ƒ /services                           6.07 kB         357 kB
+├ ƒ /services/[id]                      4.08 kB         348 kB
+├ ƒ /services/new                       3.21 kB         346 kB
+├ ƒ /users                              7.24 kB         356 kB
+├ ƒ /vouchers                           6.17 kB         357 kB
+├ ƒ /vouchers/[id]                        11 kB         379 kB
+└ ƒ /vouchers/new                         11 kB         379 kB
++ First Load JS shared by all            180 kB
+  ├ chunks/41a36dddeb01a20e.js          12.5 kB
+  ├ chunks/77047b3968b74b89.js          13.1 kB
+  ├ chunks/8c4ace78822479db.js          16.4 kB
+  ├ chunks/bbf89c5280eb1f0c.js          17.3 kB
+  ├ chunks/be57dbca87d47ad8.js          59.2 kB
+  ├ chunks/cb33b5a4c0fd6d1c.js            13 kB
+  ├ chunks/2824c6c53463b87b.css         22.1 kB
+  └ other shared chunks (total)         26.5 kB
+
+
+ƒ Middleware                            71.1 kB
+
+ƒ  (Dynamic)  server-rendered on demand
+

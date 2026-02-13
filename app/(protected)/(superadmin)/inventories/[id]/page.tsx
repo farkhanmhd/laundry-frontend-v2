@@ -2,10 +2,7 @@ import { InventoryDataForm } from "@/components/features/inventories/inventory-d
 import { InventoryImageForm } from "@/components/features/inventories/inventory-image-form";
 import { StockAdjustmentForm } from "@/components/features/inventories/stock-adjustment-form";
 import { TabsContent } from "@/components/ui/tabs";
-import {
-  getInventoryById,
-  type Inventory,
-} from "@/lib/modules/inventories/data";
+import { InventoriesApi, type Inventory } from "@/lib/modules/inventories/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -13,7 +10,7 @@ type Props = {
 
 const InventoryDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const inventory = (await getInventoryById(id)) as Inventory;
+  const inventory = (await InventoriesApi.getInventoryById(id)) as Inventory;
   return (
     <>
       <TabsContent

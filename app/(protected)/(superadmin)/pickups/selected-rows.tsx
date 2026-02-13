@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useTableContext } from "@/components/table/context";
 import { Button } from "@/components/ui/button";
 
 export const SelectedRows = () => {
+  const t = useTranslations("Pickups");
   const { table } = useTableContext();
   const selectedRows = Object.keys(table.getSelectedRowModel().rowsById);
   if (!selectedRows.length) {
@@ -11,7 +13,7 @@ export const SelectedRows = () => {
   }
   return (
     <Button className="flex rounded-none border-l">
-      Pick Up {selectedRows.length} Order(s)
+      {t("selectedRows", { count: selectedRows.length })}
     </Button>
   );
 };

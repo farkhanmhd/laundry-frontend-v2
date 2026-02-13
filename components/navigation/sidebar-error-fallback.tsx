@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 
@@ -10,8 +11,9 @@ export function SidebarErrorFallback({
   error: unknown;
   resetErrorBoundary: () => void;
 }) {
+  const t = useTranslations("Navigation.sidebarError");
   const { open } = useSidebar();
-  let errorMessage = "An unknown Error occured";
+  let errorMessage = t("unknownError");
 
   if (error instanceof Error) {
     errorMessage = error.message;
@@ -27,11 +29,10 @@ export function SidebarErrorFallback({
       {open && (
         <>
           <p className="text-center text-muted-foreground text-sm">
-            Something went wrong {errorMessage}
+            {t("somethingWentWrong")} {errorMessage}
           </p>
-          {/* <pre style={{ color: "red" }}>{error.message}</pre> */}
           <Button onClick={resetErrorBoundary} variant="secondary">
-            Try Again
+            {t("tryAgain")}
           </Button>
         </>
       )}

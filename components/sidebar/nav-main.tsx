@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -15,9 +16,30 @@ import {
   customerNavData,
   superAdminNavData,
 } from "@/lib/constants";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import { SheetClose } from "../ui/sheet";
 
-export function NavMain({ type }: { type: string }) {
+const navTitleToKey: Record<string, string> = {
+  Dashboard: "dashboard",
+  POS: "pos",
+  Orders: "orders",
+  Deliveries: "deliveries",
+  "Pick Ups": "pickUps",
+  Members: "members",
+  Sales: "sales",
+  Inventories: "inventories",
+  Services: "services",
+  Vouchers: "vouchers",
+  Bundlings: "bundlings",
+  Users: "users",
+  Home: "home",
+  Account: "account",
+};
+
+export function NavMain() {
+  const t = useTranslations("Navigation.nav");
+  const { data } = authClient.useSession();
+  const type = data?.user?.role;
   const selectedMenu = {
     superadmin: superAdminNavData,
     admin: adminNavData,
@@ -25,6 +47,11 @@ export function NavMain({ type }: { type: string }) {
   };
   const isMobile = useIsMobile();
   const pathname = usePathname();
+
+  const translateTitle = (title: string) => {
+    const key = navTitleToKey[title];
+    return key ? t(key) : title;
+  };
 
   return (
     <SidebarGroup>
@@ -42,11 +69,11 @@ export function NavMain({ type }: { type: string }) {
                       <SidebarMenuButton
                         asChild
                         isActive={isActive}
-                        tooltip={item.title}
+                        tooltip={translateTitle(item.title)}
                       >
                         <Link href={item.url}>
                           {item.icon && <item.icon />}
-                          <span>{item.title}</span>
+                          <span>{translateTitle(item.title)}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SheetClose>
@@ -62,12 +89,14 @@ export function NavMain({ type }: { type: string }) {
                         {item.title.length > 8 &&
                         item.title.split(" ").length > 1 ? (
                           <span className="text-[10px]">
-                            {item.title.split(" ")[0]}
+                            {translateTitle(item.title).split(" ")[0]}
                             <br />
-                            {item.title.split(" ")[1]}{" "}
+                            {translateTitle(item.title).split(" ")[1]}{" "}
                           </span>
                         ) : (
-                          <span className="text-[10px]">{item.title}</span>
+                          <span className="text-[10px]">
+                            {translateTitle(item.title)}
+                          </span>
                         )}
                       </Link>
                     </SidebarMenuButton>

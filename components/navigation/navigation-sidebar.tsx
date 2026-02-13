@@ -1,10 +1,12 @@
 import { NavMain } from "@/components/sidebar/nav-main";
-import { getSession } from "@/lib/modules/auth/session";
+import { Client } from "../utils/client";
 
-const NavigationSidebar = async () => {
-  const session = await getSession();
-
-  return <NavMain type={session?.user.role as string} />;
+const NavigationSidebar = () => {
+  return (
+    <Client>
+      <NavMain />
+    </Client>
+  );
 };
 
 export default NavigationSidebar;

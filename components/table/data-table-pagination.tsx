@@ -5,6 +5,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -22,6 +23,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
+  const t = useTranslations("Table.pagination");
   const {
     value: currentPage,
     setQuery,
@@ -72,12 +74,14 @@ export function DataTablePagination<TData>({
       <div className="hidden flex-1 text-muted-foreground text-sm md:block">
         {table.getFilteredSelectedRowModel().rows.length > 0 ? (
           <span>
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {t("selectedRows", {
+              selected: table.getFilteredSelectedRowModel().rows.length,
+              total: table.getFilteredRowModel().rows.length,
+            })}
           </span>
         ) : (
           <span className="line-clamp-1">
-            Showing {table.getRowModel().rows.length} row(s).
+            {t("showingRows", { count: table.getRowModel().rows.length })}
           </span>
         )}
       </div>
@@ -99,9 +103,11 @@ export function DataTablePagination<TData>({
             </SelectContent>
           </Select>
         </div>
-        <div className="hidden w-25 items-center justify-center font-medium text-sm md:flex">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+        <div className="hidden items-center justify-center font-medium text-sm md:flex">
+          {t("page", {
+            current: table.getState().pagination.pageIndex + 1,
+            total: table.getPageCount(),
+          })}
         </div>
         <div className="flex items-center">
           <Button
@@ -110,7 +116,7 @@ export function DataTablePagination<TData>({
             onClick={handleFirstPage}
             variant="ghost"
           >
-            <span className="sr-only">Go to first page</span>
+            <span className="sr-only">{t("goToFirstPage")}</span>
             <ChevronsLeft />
           </Button>
           <Button
@@ -119,7 +125,7 @@ export function DataTablePagination<TData>({
             onClick={handlePreviousPage}
             variant="ghost"
           >
-            <span className="sr-only">Go to previous page</span>
+            <span className="sr-only">{t("goToPreviousPage")}</span>
             <ChevronLeft />
           </Button>
           <Button
@@ -128,7 +134,7 @@ export function DataTablePagination<TData>({
             onClick={handleNextPage}
             variant="ghost"
           >
-            <span className="sr-only">Go to next page</span>
+            <span className="sr-only">{t("goToNextPage")}</span>
             <ChevronRight />
           </Button>
           <Button
@@ -137,7 +143,7 @@ export function DataTablePagination<TData>({
             onClick={handleLastPage}
             variant="ghost"
           >
-            <span className="sr-only">Go to last page</span>
+            <span className="sr-only">{t("goToLastPage")}</span>
             <ChevronsRight />
           </Button>
         </div>

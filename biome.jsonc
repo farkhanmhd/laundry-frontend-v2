@@ -13,7 +13,8 @@
       "!dist",
       "!build",
       "!components/ui",
-      "!hooks"
+      "!hooks",
+      "!bun.lock"
     ]
   },
   "formatter": {
@@ -60,8 +61,6 @@
     "ultracite/biome/next"
   ],
   "javascript": {
-    "globals": [
-      "bun"
-    ]
+    "globals": ["bun"]
   }
 }

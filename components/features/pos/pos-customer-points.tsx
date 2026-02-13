@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Field,
   FieldContent,
@@ -15,6 +16,7 @@ import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 export const PosCustomerPoints = () => {
+  const t = useTranslations("POS.customerPoints");
   const { posData, togglePoint, handlePointChange } = usePOS();
 
   if (!posData.member) {
@@ -29,18 +31,18 @@ export const PosCustomerPoints = () => {
     >
       <Field orientation="horizontal">
         <FieldContent>
-          <FieldTitle>Redeem Loyalty Points</FieldTitle>
+          <FieldTitle>{t("redeemLoyaltyPoints")}</FieldTitle>
           <FieldDescription>
             {posData.member ? (
               <span>
-                Balance:{" "}
+                {t("balance")}{" "}
                 <span className="text-foreground">
                   {posData.member.points.toLocaleString("id-ID")}
                 </span>
-                . Enter amount to deduct from total.
+                {t("enterAmountDescription")}
               </span>
             ) : (
-              "Select a member to enable point redemption."
+              t("selectMemberToEnable")
             )}
           </FieldDescription>
         </FieldContent>
@@ -59,7 +61,7 @@ export const PosCustomerPoints = () => {
             exit={{ height: 0, opacity: 0 }}
             initial={{ height: 0, opacity: 0 }}
             key="points-input-wrapper"
-            transition={{ duration: 0.2, ease: "easeInOut" }} // Prevents content pop during height collapse
+            transition={{ duration: 0.2, ease: "easeInOut" }}
           >
             <div className="w-full px-4 pb-4">
               <Client>
@@ -70,7 +72,7 @@ export const PosCustomerPoints = () => {
                   id="points-input"
                   inputMode="numeric"
                   onChange={(e) => handlePointChange(e)}
-                  placeholder="Amount of points"
+                  placeholder={t("amountOfPoints")}
                   value={posData.points}
                 />
               </Client>

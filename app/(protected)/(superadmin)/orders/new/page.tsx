@@ -5,6 +5,7 @@
 import { ArrowLeft, Plus, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ const serviceOptions = [
 ];
 
 export default function NewOrderPage() {
+  const t = useTranslations("Orders.newOrder");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [items, setItems] = useState<OrderItem[]>([]);
@@ -84,7 +86,6 @@ export default function NewOrderPage() {
     e.preventDefault();
     if (items.length === 0) return;
     setIsSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     router.push("/customer/my-orders");
   };
@@ -92,34 +93,32 @@ export default function NewOrderPage() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="mx-auto max-w-3xl">
-        {/* Header */}
         <div className="mb-8">
           <Link href="/customer/my-orders">
             <Button className="mb-4" size="sm" variant="ghost">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Orders
+              {t("backToOrders")}
             </Button>
           </Link>
-          <h1 className="font-bold text-3xl">Create New Order</h1>
+          <h1 className="font-bold text-3xl">{t("createNewOrder")}</h1>
         </div>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Service Selection */}
           <Card>
             <CardHeader>
-              <CardTitle>Add Services</CardTitle>
+              <CardTitle>{t("addServices")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <Label htmlFor="service">Service</Label>
+                  <Label htmlFor="service">{t("service")}</Label>
                   <select
                     className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground"
                     id="service"
                     onChange={(e) => setSelectedService(e.target.value)}
                     value={selectedService}
                   >
-                    <option value="">Select a service...</option>
+                    <option value="">{t("selectService")}</option>
                     {serviceOptions.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.name} - Rp{" "}
@@ -129,7 +128,7 @@ export default function NewOrderPage() {
                   </select>
                 </div>
                 <div>
-                  <Label htmlFor="quantity">Quantity</Label>
+                  <Label htmlFor="quantity">{t("quantity")}</Label>
                   <Input
                     className="mt-2"
                     id="quantity"
@@ -149,16 +148,15 @@ export default function NewOrderPage() {
                 type="button"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Add to Order
+                {t("addToOrder")}
               </Button>
             </CardContent>
           </Card>
 
-          {/* Order Items */}
           {items.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Order Items</CardTitle>
+                <CardTitle>{t("orderItems")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -170,7 +168,7 @@ export default function NewOrderPage() {
                       <div className="flex-1">
                         <p className="font-medium">{item.serviceName}</p>
                         <p className="text-muted-foreground text-sm">
-                          Qty: {item.quantity} × Rp{" "}
+                          {t("quantity")}: {item.quantity} × Rp{" "}
                           {new Intl.NumberFormat("id-ID").format(item.price)}
                         </p>
                       </div>
@@ -197,39 +195,37 @@ export default function NewOrderPage() {
             </Card>
           )}
 
-          {/* Order Notes */}
           <Card>
             <CardHeader>
-              <CardTitle>Special Instructions</CardTitle>
+              <CardTitle>{t("specialInstructions")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Label htmlFor="notes">Notes (Optional)</Label>
+              <Label htmlFor="notes">{t("notesOptional")}</Label>
               <Textarea
                 className="mt-2"
                 id="notes"
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Any special requests or instructions..."
+                placeholder={t("notesPlaceholder")}
                 rows={3}
                 value={notes}
               />
             </CardContent>
           </Card>
 
-          {/* Order Summary */}
           {items.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle>{t("orderSummary")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal:</span>
+                  <span className="text-muted-foreground">{t("subtotal")}</span>
                   <span>
                     Rp {new Intl.NumberFormat("id-ID").format(subtotal)}
                   </span>
                 </div>
                 <div className="flex justify-between border-t pt-3 font-bold text-lg">
-                  <span>Total:</span>
+                  <span>{t("total")}</span>
                   <span>
                     Rp {new Intl.NumberFormat("id-ID").format(subtotal)}
                   </span>
@@ -238,11 +234,10 @@ export default function NewOrderPage() {
             </Card>
           )}
 
-          {/* Actions */}
           <div className="flex gap-3">
             <Link className="flex-1" href="/customer/my-orders">
               <Button className="w-full bg-transparent" variant="outline">
-                Cancel
+                {t("cancel")}
               </Button>
             </Link>
             <Button
@@ -250,7 +245,7 @@ export default function NewOrderPage() {
               disabled={items.length === 0 || isSubmitting}
               type="submit"
             >
-              {isSubmitting ? "Creating..." : "Create Order"}
+              {isSubmitting ? t("creating") : t("createOrder")}
             </Button>
           </div>
         </form>

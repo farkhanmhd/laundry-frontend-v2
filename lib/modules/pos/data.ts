@@ -1,43 +1,39 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
+import { BaseApi } from "@/lib/modules/base-api";
 import type { NewOrderSchema } from "./schema";
 
-export const getPosItems = async () => {
-  const { data } = await elysia.pos.get({
-    fetch: {
-      headers: await headers(),
-    },
-  });
+export abstract class PosApi extends BaseApi {
+  static async getPosItems() {
+    const { data } = await elysia.pos.get({
+      ...(await PosApi.getConfig()),
+    });
 
-  const items = data?.data;
-  return items;
-};
+    const items = data?.data;
+    return items;
+  }
+
+  static async createNewPosOrder(body: NewOrderSchema) {
+    const response = await elysia.pos.new.post(body, {
+      ...(await PosApi.getConfig()),
+    });
+
+    return response;
+  }
+
+  static async getPosVouchers() {
+    const { data: response } = await elysia.pos.vouchers.get({
+      ...(await PosApi.getConfig()),
+    });
+    const vouchers = response?.data;
+
+    return vouchers;
+  }
+}
 
 export type PosItemData = NonNullable<
-  Awaited<ReturnType<typeof getPosItems>>
+  Awaited<ReturnType<typeof PosApi.getPosItems>>
 >[0];
 
-export const createNewPosOrder = async (body: NewOrderSchema) => {
-  const response = await elysia.pos.new.post(body, {
-    fetch: {
-      headers: await headers(),
-    },
-  });
-
-  return response;
-};
-
-export const getPosVouchers = async () => {
-  const { data: response } = await elysia.pos.vouchers.get({
-    fetch: {
-      headers: await headers(),
-    },
-  });
-  const vouchers = response?.data;
-
-  return vouchers;
-};
-
 export type PosVoucher = NonNullable<
-  Awaited<ReturnType<typeof getPosVouchers>>
+  Awaited<ReturnType<typeof PosApi.getPosVouchers>>
 >[0];

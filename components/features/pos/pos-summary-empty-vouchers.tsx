@@ -1,4 +1,5 @@
 import { Ticket } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Empty,
   EmptyDescription,
@@ -8,16 +9,16 @@ import {
 } from "@/components/ui/empty";
 
 export const PosSummaryEmptyVouchers = () => {
+  const t = useTranslations("POS.summaryEmptyVouchers");
+
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <Ticket className="size-8 text-muted-foreground" />
         </EmptyMedia>
-        <EmptyTitle>No Vouchers Available</EmptyTitle>
-        <EmptyDescription>
-          There are currently no vouchers available for this member.
-        </EmptyDescription>
+        <EmptyTitle>{t("noVouchersAvailable")}</EmptyTitle>
+        <EmptyDescription>{t("noVouchersDescription")}</EmptyDescription>
       </EmptyHeader>
     </Empty>
   );

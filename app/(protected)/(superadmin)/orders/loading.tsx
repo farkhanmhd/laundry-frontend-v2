@@ -1,9 +1,7 @@
-import React from 'react'
+import { TableSkeleton } from "@/components/table/table-skeleton";
 
 const Loading = () => {
-  return (
-    <div>loading...</div>
-  )
-}
+  return <TableSkeleton />;
+};
 
-export default Loading
+export default Loading;

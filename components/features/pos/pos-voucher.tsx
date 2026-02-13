@@ -2,6 +2,7 @@
 
 import { format } from "date-fns";
 import { Coins, Percent, Ticket } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
@@ -18,18 +19,15 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
   isSelected,
 }) => {
+  const t = useTranslations("POS.voucher");
   const { handleRemoveVoucher, handleSelectVoucher, totalAmount } = usePOS();
 
-  // Logic: Schema 'one_discount_type_only' check
   const isPercentage = voucher.discountPercentage !== null;
   const amountToMinSpend =
     totalAmount < voucher.minSpend ? voucher.minSpend - totalAmount : 0;
 
-  // Logic: Schema 'percentage_requires_cap' check
-  // If it's a percentage, we MUST show the cap (maxDiscountAmount) per schema rules
   const renderMainValue = () => {
     if (isPercentage) {
-      // Clean up "20.00" to "20" for display
       const formattedPercent = voucher.discountPercentage
         ? Number.parseFloat(voucher.discountPercentage).toString()
         : "";
@@ -38,26 +36,25 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
           <div className="flex items-center gap-1.5 text-primary">
             <Percent className="h-5 w-5" />
             <span className="font-bold text-2xl tracking-tight">
-              {formattedPercent}% OFF
+              {formattedPercent}
+              {t("off")}
             </span>
           </div>
-          {/* CRITICAL: Schema enforces this exists for percentages */}
           {voucher.maxDiscountAmount && (
             <span className="font-medium text-muted-foreground text-xs">
-              Up to {formatToIDR(voucher.maxDiscountAmount)}
+              {t("upTo")} {formatToIDR(voucher.maxDiscountAmount)}
             </span>
           )}
         </div>
       );
     }
 
-    // Fallback: Fixed Amount
     if (voucher.discountAmount) {
       return (
         <div className="flex items-center gap-1.5 text-primary">
           <Coins className="h-5 w-5" />
           <span className="font-bold text-2xl tracking-tight">
-            {formatToIDR(voucher.discountAmount)} OFF
+            {formatToIDR(voucher.discountAmount)} {t("off")}
           </span>
         </div>
       );
@@ -76,7 +73,6 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
           : "border-border shadow-sm"
       )}
     >
-      {/* 1. Header: Code & Expiry */}
       <div className="mb-3 flex items-start justify-between">
         <div className="flex items-center gap-1.5 rounded bg-muted/50 px-2 py-1 ring-1 ring-foreground/10 ring-inset">
           <Ticket className="h-3.5 w-3.5 text-muted-foreground" />
@@ -87,36 +83,33 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
 
         {voucher.expiresAt ? (
           <span className="font-medium text-muted-foreground text-xs">
-            Exp: {format(new Date(voucher.expiresAt), "dd MMM yyyy")}
+            {t("exp")} {format(new Date(voucher.expiresAt), "dd MMM yyyy")}
           </span>
         ) : (
           <span className="font-medium text-[10px] text-emerald-600">
-            No Expiry
+            {t("noExpiry")}
           </span>
         )}
       </div>
 
-      {/* 2. Main Value Area */}
       <div className="mb-2">{renderMainValue()}</div>
 
-      {/* 3. Description */}
       <p className="mb-4 line-clamp-2 text-muted-foreground text-xs leading-relaxed">
         {voucher.description}
       </p>
 
-      {/* 4. Footer: Constraints & Actions */}
       <div className="mt-auto flex items-end justify-between border-t border-dashed pt-3">
-        {/* Min Spend Constraint */}
         <div className="flex flex-col gap-0.5">
           <span className="font-semibold text-[10px] text-muted-foreground uppercase">
-            Min. Transaction
+            {t("minTransaction")}
           </span>
           <span className="font-medium text-foreground text-xs">
-            {voucher.minSpend > 0 ? formatToIDR(voucher.minSpend) : "No Limit"}
+            {voucher.minSpend > 0
+              ? formatToIDR(voucher.minSpend)
+              : t("noLimit")}
           </span>
         </div>
 
-        {/* Action Button */}
         {isSelected ? (
           <Button
             className="h-8 px-3 font-medium text-destructive hover:bg-destructive/10 hover:text-destructive"
@@ -127,14 +120,14 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
             size="sm"
             variant="ghost"
           >
-            Remove
+            {t("remove")}
           </Button>
         ) : (
           <div>
             {amountToMinSpend > 0 ? (
               <Client>
                 <p className="text-muted-foreground text-sm">
-                  Add {formatToIDR(amountToMinSpend)} more to use this voucher
+                  {t("addMoreToUse", { amount: formatToIDR(amountToMinSpend) })}
                 </p>
               </Client>
             ) : (
@@ -145,7 +138,7 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
                 size="sm"
                 variant="default"
               >
-                Apply
+                {t("apply")}
               </Button>
             )}
           </div>

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
@@ -7,13 +8,15 @@ interface Props {
 }
 
 export const PosEmptySearch = ({ searchInput, onClick }: Props) => {
+  const t = useTranslations("POS.customerSearch.emptySearch");
+
   if (searchInput.length > 0) {
     return (
       <div className="fade-in slide-in-from-top-2 animate-in space-y-2 duration-300">
         <Alert>
-          <AlertTitle>No member found</AlertTitle>
+          <AlertTitle>{t("noMemberFound")}</AlertTitle>
           <AlertDescription>
-            Confirm to add '{searchInput}' as a new member
+            {t("confirmAdd", { phone: searchInput })}
           </AlertDescription>
         </Alert>
         <Button
@@ -21,7 +24,7 @@ export const PosEmptySearch = ({ searchInput, onClick }: Props) => {
           onClick={onClick}
           variant="outline"
         >
-          Add as New Member
+          {t("addAsNewMember")}
         </Button>
       </div>
     );

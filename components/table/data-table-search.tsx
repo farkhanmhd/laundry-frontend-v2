@@ -1,5 +1,6 @@
 import type { Table } from "@tanstack/react-table";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { useSearchQuery } from "@/hooks/use-search-query";
 import { cn } from "@/lib/utils";
@@ -16,12 +17,14 @@ type Props<TData> = {
 export const DataTableSearch = <TData,>({
   value,
   onChange,
-  placeholder = "Search all columns...",
+  placeholder,
   table,
   className,
 }: Props<TData>) => {
+  const t = useTranslations("Table.search");
   const { updateSearchQuery } = useSearchQuery();
   const { setGlobalFilter, isManualPagination } = useTableContext();
+  const searchPlaceholder = placeholder || t("placeholder");
 
   const handleTableSearchChange = (searchQuery: string) => {
     if (isManualPagination) {
@@ -38,7 +41,7 @@ export const DataTableSearch = <TData,>({
       <Input
         className={cn("bg-background", className)}
         onChange={(e) => handleTableSearchChange(e.target.value)}
-        placeholder={placeholder}
+        placeholder={searchPlaceholder}
         value={value ?? ""}
       />
     </div>

@@ -1,5 +1,5 @@
 import { UpdateVoucher } from "@/components/features/vouchers/update-voucher";
-import { getVoucherById, type Voucher } from "@/lib/modules/vouchers/data";
+import { type Voucher, VouchersApi } from "@/lib/modules/vouchers/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -7,7 +7,7 @@ type Props = {
 
 const VoucherDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const voucher = (await getVoucherById(id)) as Voucher;
+  const voucher = (await VouchersApi.getVoucherById(id)) as Voucher;
   return (
     <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">
       <div>

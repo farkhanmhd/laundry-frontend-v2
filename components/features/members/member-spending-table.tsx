@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { memberSpendingColumns } from "@/components/features/members/columns";
 import { TableProvider } from "@/components/table/context";
 import { DataTableQuerySearch } from "@/components/table/data-table-query-search";
@@ -14,6 +15,7 @@ interface MemberSpendingTableProps {
 
 const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
   const data = await MemberReportsApi.getMembersWithSpending(query);
+  const t = await getTranslations("Members");
   return (
     <TableProvider columns={memberSpendingColumns} manualPagination>
       <Card
@@ -21,9 +23,14 @@ const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
         style={cardShadowStyle}
       >
         <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
-          <CardTitle className="hidden md:block">List of Members</CardTitle>
+          <CardTitle className="hidden md:block">
+            {t("membersListTitle")}
+          </CardTitle>
           <div className="flex gap-3">
-            <DataTableQuerySearch className="w-80 max-w-80" />
+            <DataTableQuerySearch
+              className="w-80 max-w-80"
+              placeholder={t("table.placeholder")}
+            />
             <AddMemberDialog />
           </div>
         </CardHeader>

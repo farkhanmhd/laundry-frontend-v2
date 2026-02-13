@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { getVoucherByCode, usePOS } from "@/lib/modules/pos/state";
 
 export const PosVoucherInput = () => {
+  const t = useTranslations("POS.voucherInput");
   const [inputCode, setInputCode] = useState("");
   const { handleSelectVoucher, totalAmount, setPosData } = usePOS();
   const { mutate, isPending } = useMutation({
@@ -30,14 +32,14 @@ export const PosVoucherInput = () => {
           });
           handleSelectVoucher(data);
         } else {
-          toast.error("Voucher Minimum Spend is not Met");
+          toast.error(t("minimumSpendNotMet"));
         }
       } else {
-        toast.error(`Voucher ${inputCode} does not exist`);
+        toast.error(t("voucherDoesNotExist", { code: inputCode }));
       }
     },
     onError: () => {
-      toast.error("Voucher does not exist");
+      toast.error(t("voucherNotExist"));
     },
   });
 
@@ -45,7 +47,7 @@ export const PosVoucherInput = () => {
     e.preventDefault();
     const cleanCode = inputCode.trim();
     if (!cleanCode) {
-      toast.error("Please input voucher code");
+      toast.error(t("pleaseInputCode"));
       return;
     }
     mutate({ search: inputCode });
@@ -56,11 +58,11 @@ export const PosVoucherInput = () => {
       <Input
         disabled={isPending}
         onChange={(e) => setInputCode(e.target.value)}
-        placeholder="Enter Voucher Code"
+        placeholder={t("enterVoucherCode")}
         value={inputCode}
       />
       <Button disabled={isPending} type="submit">
-        Apply
+        {t("apply")}
       </Button>
     </form>
   );

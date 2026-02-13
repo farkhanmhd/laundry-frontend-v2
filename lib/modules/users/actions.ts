@@ -1,7 +1,7 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
-import { updateUserRole } from "./data";
+import { UsersApi } from "./data";
 import { updateRoleSchema } from "./schema";
 
 const errorResponse = {
@@ -12,7 +12,7 @@ const errorResponse = {
 export const updateUserRoleAction = actionClient
   .inputSchema(updateRoleSchema)
   .action(async ({ parsedInput }) => {
-    const { data, error } = await updateUserRole(parsedInput);
+    const { data, error } = await UsersApi.updateUserRole(parsedInput);
 
     if (error) {
       console.log(error);

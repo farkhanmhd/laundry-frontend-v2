@@ -7,12 +7,12 @@ import { authClient } from "@/lib/modules/auth/auth-client";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cn } from "@/lib/utils";
 import { useCustomerOrder } from "../features/orders/state";
+import { TranslatorToggle } from "../providers/translator";
 import { Badge } from "../ui/badge";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { Client } from "../utils/client";
 import { BreadcrumbNav } from "./breadcrumb-nav";
 import { ThemeToggle } from "./theme-toggle";
-import { TranslatorToggle } from "../providers/translator";
 
 export function SiteHeader() {
   const { posData, toggleCart, totalItems } = usePOS();
@@ -27,20 +27,6 @@ export function SiteHeader() {
       </div>
       <Client>
         <div className="flex items-center gap-2">
-          {session?.user.role !== "user" && !isLarge && (
-            <Button
-              className="relative w-9"
-              onClick={toggleCart}
-              variant="ghost"
-            >
-              <ShoppingCart />
-              {posData.items.length > 0 && (
-                <Badge className="absolute top-0.5 right-[-0.5px] h-4 w-4 rounded-full p-0 text-[10px]">
-                  {totalItems}
-                </Badge>
-              )}
-            </Button>
-          )}
           <ThemeToggle />
           <TranslatorToggle />
           {session?.user.role === "user" ? (

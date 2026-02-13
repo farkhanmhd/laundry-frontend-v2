@@ -3,9 +3,9 @@ import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
 export async function middleware(request: NextRequest) {
   try {
-    // const session = await getMiddlewareSession();
     const session = await getMiddlewareSession();
     const nextUrl = request.nextUrl.pathname;
+
     // Case 1: No session, and not on the login page -> redirect to login
     if (!session && nextUrl !== "/login") {
       const loginUrl = new URL("/login", request.nextUrl.origin);
@@ -13,7 +13,6 @@ export async function middleware(request: NextRequest) {
     }
 
     // Case 2: Session exists, but user is on login or root page -> redirect to POS
-
     if (
       session &&
       (nextUrl === "/login" || nextUrl === "/maintenance" || nextUrl === "/")

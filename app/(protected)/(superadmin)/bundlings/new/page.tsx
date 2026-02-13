@@ -1,12 +1,12 @@
 import type { SelectOption } from "@/components/forms/form-select";
-import { getInventories } from "@/lib/modules/inventories/data";
-import { getServices } from "@/lib/modules/services/data";
+import { InventoriesApi } from "@/lib/modules/inventories/data";
+import { ServicesApi } from "@/lib/modules/services/data";
 import { NewBundlingForm } from "../../../../../components/features/bundlings/new-bundling-form";
 
 const NewBundlingPage = async () => {
   const [services, inventories] = await Promise.all([
-    getServices(),
-    getInventories(),
+    ServicesApi.getServices(),
+    InventoriesApi.getInventories(),
   ]);
 
   const serviceOptions = services?.map((service) => ({

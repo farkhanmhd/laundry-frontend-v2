@@ -1,13 +1,7 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
-import {
-  addInventory,
-  adjustQuantity,
-  deleteInventory,
-  updateInventoryData,
-  updateInventoryImage,
-} from "./data";
+import { InventoriesApi } from "./data";
 import {
   addInventorySchema,
   adjustQuantitySchema,
@@ -19,7 +13,7 @@ import {
 export const addInventoryAction = actionClient
   .inputSchema(addInventorySchema)
   .action(async ({ parsedInput }) => {
-    const result = await addInventory(parsedInput);
+    const result = await InventoriesApi.addInventory(parsedInput);
 
     if (!result) {
       return {
@@ -46,7 +40,7 @@ export const addInventoryAction = actionClient
 export const deleteInventoryAction = actionClient
   .inputSchema(deleteInventorySchema)
   .action(async ({ parsedInput }) => {
-    const result = await deleteInventory(parsedInput.id);
+    const result = await InventoriesApi.deleteInventory(parsedInput.id);
 
     if (!result) {
       return {
@@ -78,7 +72,7 @@ export const updateInventoryAction = actionClient
   .action(async ({ parsedInput }) => {
     const { id, ...data } = parsedInput;
 
-    const result = await updateInventoryData(id, data);
+    const result = await InventoriesApi.updateInventoryData(id, data);
 
     if (!result || result.error) {
       return errorResult;
@@ -94,7 +88,11 @@ export const adjustQuantityAction = actionClient
   .inputSchema(adjustQuantitySchema)
   .action(async ({ parsedInput }) => {
     const { id, changeAmount, note, type } = parsedInput;
-    const result = await adjustQuantity(id, { note, changeAmount, type });
+    const result = await InventoriesApi.adjustQuantity(id, {
+      note,
+      changeAmount,
+      type,
+    });
 
     if (!result || result.error) {
       return errorResult;
@@ -110,7 +108,7 @@ export const updateInventoryImageAction = actionClient
   .inputSchema(updateInventoryImageSchema)
   .action(async ({ parsedInput }) => {
     const { id, ...body } = parsedInput;
-    const result = await updateInventoryImage(id, body);
+    const result = await InventoriesApi.updateInventoryImage(id, body);
     if (!result || result.error) {
       return errorResult;
     }

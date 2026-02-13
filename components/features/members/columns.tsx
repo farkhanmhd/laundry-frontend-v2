@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 import { Client } from "@/components/utils/client";
 import type { MemberWithSpending } from "@/lib/modules/member-reports/data";
 import { formatDate, formatToIDR } from "@/lib/utils";
@@ -8,7 +9,10 @@ import { formatDate, formatToIDR } from "@/lib/utils";
 export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
   {
     accessorKey: "name",
-    header: "Member Name",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("memberName");
+    },
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="font-medium">{row.getValue("name")}</span>
@@ -17,7 +21,10 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("phone");
+    },
     cell: ({ row }) => (
       <div className="text-muted-foreground text-sm">
         {row.getValue("phone")}
@@ -26,7 +33,10 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
   },
   {
     accessorKey: "joinDate",
-    header: "Join Date",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("joinDate");
+    },
     cell: ({ row }) => {
       const joinDate = row.getValue("joinDate") as string | null;
       return (
@@ -38,14 +48,20 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
   },
   {
     accessorKey: "orderCount",
-    header: "Orders",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("orders");
+    },
     cell: ({ row }) => (
       <div className="font-medium text-sm">{row.getValue("orderCount")}</div>
     ),
   },
   {
     accessorKey: "totalSpending",
-    header: "Total Spending",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("totalSpending");
+    },
     cell: ({ row }) => {
       const amount = formatToIDR(Number(row.getValue("totalSpending")));
       return (
@@ -57,7 +73,10 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
   },
   {
     accessorKey: "averageSpending",
-    header: "Avg. Spending",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return t("averageSpending");
+    },
     cell: ({ row }) => {
       const amount = formatToIDR(row.getValue("averageSpending"));
       return (

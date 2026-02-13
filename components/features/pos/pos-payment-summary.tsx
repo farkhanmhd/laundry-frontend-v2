@@ -1,11 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle, formatToIDR } from "@/lib/utils";
 
 export const PosPaymentSummary = () => {
+  const t = useTranslations("POS.paymentSummary");
   const {
     posData,
     totalAmount,
@@ -13,21 +15,21 @@ export const PosPaymentSummary = () => {
     totalDiscount,
     totalAmountToBePaid,
     changeAmount,
-    points: actualPointsUsed, // <--- Make sure this is destructured from your hook
+    points: actualPointsUsed,
   } = usePOS();
 
   return (
     <Card className="overflow-hidden" style={cardShadowStyle}>
       <CardContent className="space-y-3">
         <div className="flex justify-between text-muted-foreground text-sm">
-          <span>Payment Method</span>
+          <span>{t("paymentMethod")}</span>
           <span className="font-medium text-foreground uppercase">
-            {posData.paymentMethod}
+            {posData.paymentMethod === "cash" ? t("cash") : t("qris")}
           </span>
         </div>
 
         <div className="flex justify-between border-t pt-3">
-          <span className="text-sm">Items Total Amount</span>
+          <span className="text-sm">{t("itemsTotalAmount")}</span>
           <Client>
             <span className="text-primary">{formatToIDR(totalAmount)}</span>
           </Client>
@@ -35,7 +37,7 @@ export const PosPaymentSummary = () => {
 
         {totalDiscount > 0 && (
           <div className="flex justify-between text-sm">
-            <span>Total Discount</span>
+            <span>{t("totalDiscount")}</span>
             <Client>
               <span className="text-green-600">
                 - {formatToIDR(totalDiscount)}
@@ -44,10 +46,9 @@ export const PosPaymentSummary = () => {
           </div>
         )}
 
-        {/* ✅ NEW: Points Redemption Section */}
         {actualPointsUsed && actualPointsUsed > 0 ? (
           <div className="flex justify-between text-sm">
-            <span>Points Redeemed</span>
+            <span>{t("pointsRedeemed")}</span>
             <Client>
               <span className="text-green-600">
                 - {formatToIDR(actualPointsUsed)}
@@ -58,7 +59,7 @@ export const PosPaymentSummary = () => {
 
         {pointsEarned > 0 && (
           <div className="flex justify-between text-sm">
-            <span>Points Earned</span>
+            <span>{t("pointsEarned")}</span>
             <Client>
               <span className="text-green-600">+{pointsEarned} pts</span>
             </Client>
@@ -66,7 +67,7 @@ export const PosPaymentSummary = () => {
         )}
 
         <div className="flex justify-between text-sm">
-          <span>Total</span>
+          <span>{t("total")}</span>
           <Client>
             <span className="font-bold text-primary text-xl">
               {formatToIDR(totalAmountToBePaid)}
@@ -77,13 +78,13 @@ export const PosPaymentSummary = () => {
         {posData.paymentMethod === "cash" && (
           <>
             <div className="flex justify-between text-sm">
-              <span>Cash Received</span>
+              <span>{t("cashReceived")}</span>
               <Client>
                 <span>{formatToIDR(posData.amountPaid)}</span>
               </Client>
             </div>
             <div className="flex justify-between border-t border-dashed pt-3">
-              <span className="font-semibold">Change to Return</span>
+              <span className="font-semibold">{t("changeToReturn")}</span>
               <Client>
                 <span className="font-bold text-lg">
                   {formatToIDR(changeAmount)}

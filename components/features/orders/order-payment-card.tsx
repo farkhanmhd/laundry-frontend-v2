@@ -1,5 +1,6 @@
 import { Banknote, ExternalLink, QrCode, Wallet } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -17,6 +18,7 @@ interface OrderPaymentProps {
 }
 
 export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
+  const t = useTranslations("Orders.payment");
   const isPending = data.transactionStatus === "pending";
 
   return (
@@ -24,16 +26,17 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="flex items-center gap-2 font-semibold text-base">
           <Wallet className="h-4 w-4 text-muted-foreground" />
-          Payment Information
+          {t("paymentInformation")}
         </CardTitle>
       </CardHeader>
 
       <Separator className="mb-4" />
 
       <CardContent className="grid gap-6 sm:grid-cols-3">
-        {/* Payment Method */}
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">Payment Method</span>
+          <span className="text-muted-foreground text-sm">
+            {t("paymentMethod")}
+          </span>
           <div className="flex items-center gap-2 font-medium text-foreground text-sm">
             {data.paymentType === "qris" ? (
               <QrCode className="h-4 w-4 text-primary" />
@@ -44,9 +47,8 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
           </div>
         </div>
 
-        {/* Status */}
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">Status</span>
+          <span className="text-muted-foreground text-sm">{t("status")}</span>
           <div>
             {isPending ? (
               <Link
@@ -57,7 +59,7 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
                   className="flex cursor-pointer items-center gap-1 px-2 py-0.5 text-[10px] uppercase transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
                   variant="secondary"
                 >
-                  Pay Now
+                  {t("payNow")}
                   <ExternalLink className="h-3 w-3" />
                 </Badge>
               </Link>
@@ -70,28 +72,26 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
                 }
               >
                 {data.transactionStatus === "settlement"
-                  ? "PAID"
+                  ? t("paid")
                   : data.transactionStatus}
               </Badge>
             )}
           </div>
         </div>
 
-        {/* Amount */}
         <div className="flex flex-col gap-1">
           <span className="text-muted-foreground text-sm">
-            {isPending ? "Amount Due" : "Amount Paid"}
+            {isPending ? t("amountDue") : t("amountPaid")}
           </span>
           <span className="font-medium text-foreground text-sm">
             <Client>{formatToIDR(data.amountPaid)}</Client>
           </span>
         </div>
 
-        {/* Change (Optional Row) */}
         {data.change !== null && data.change > 0 && (
           <div className="mt-2 flex flex-col gap-1 border-border/50 border-t pt-4 sm:col-span-3">
             <span className="text-muted-foreground text-sm">
-              Change Returned
+              {t("changeReturned")}
             </span>
             <span className="font-medium text-foreground text-sm">
               <Client>{formatToIDR(data?.change)}</Client>

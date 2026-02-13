@@ -1,25 +1,24 @@
-import { Archive, Settings } from "lucide-react";
-import { inventoryCategoryOptions } from "@/components/features/inventories/columns";
+import { Archive } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { InventoryCategoryOptions } from "@/components/features/inventories/inventory-category-options";
 import { QueryFacetedFilter } from "@/components/table/query-faceted-filter";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { TableView } from "@/components/table/table-view";
-import {
-  getInventoryHistory,
-  getInventoryOptions,
-} from "@/lib/modules/inventories/data";
+import { InventoriesApi } from "@/lib/modules/inventories/data";
 import {
   getInventoryHistoryQuery,
   type InventoryHistoryQueryProps,
 } from "@/lib/search-params";
-import { Suspense } from "react";
 
 const Page = async (props: InventoryHistoryQueryProps) => {
   const query = await getInventoryHistoryQuery(props);
-  const data = await getInventoryHistory(query);
-  const inventoryOptions = await getInventoryOptions();
+  const data = await InventoriesApi.getInventoryHistory(query);
+  const inventoryOptions = await InventoriesApi.getInventoryOptions();
+  const t = await getTranslations("Inventories");
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <TableToolbar searchPlaceholder="Search by Product name or Order ID">
+    <>
+      <TableToolbar searchPlaceholder={t("logs.searchByProduct")}>
         <QueryFacetedFilter
           icon={<Archive className="h-4 w-4" />}
           options={inventoryOptions}
@@ -27,16 +26,10 @@ const Page = async (props: InventoryHistoryQueryProps) => {
           queryKey="inventoryIds"
           title="Product"
         />
-        <QueryFacetedFilter
-          icon={<Settings className="h-4 w-4" />}
-          options={inventoryCategoryOptions}
-          placeholder="Search Category"
-          queryKey="category"
-          title="Category"
-        />
+        <InventoryCategoryOptions />
       </TableToolbar>
       <TableView data={data?.inventoryHistory} total={data?.total} />
-    </Suspense>
+    </>
   );
 };
 

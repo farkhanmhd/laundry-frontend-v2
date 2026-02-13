@@ -1,11 +1,14 @@
 "use client";
 
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { usePOS } from "@/lib/modules/pos/state";
 
 export const PosCustomerGuest = () => {
+  const t = useTranslations("POS.guestCustomer");
+  const tPOS = useTranslations("POS");
   const { customerNameValidation, handleCustomerNameChange, posData } =
     usePOS();
   return (
@@ -15,10 +18,10 @@ export const PosCustomerGuest = () => {
           className="mb-2 block font-semibold text-card-foreground"
           htmlFor="customer-name"
         >
-          Customer Name
+          {t("customerName")}
         </Label>
         <p className="mb-3 text-muted-foreground text-sm">
-          Enter the customer's name
+          {t("customerNameDescription")}
         </p>
       </div>
 
@@ -30,12 +33,12 @@ export const PosCustomerGuest = () => {
         onChange={(e) => {
           handleCustomerNameChange(e.target.value);
         }}
-        placeholder="Enter customer name"
+        placeholder={t("customerNamePlaceholder")}
         value={posData.customerName}
       />
       {customerNameValidation && (
         <span className="text-destructive text-sm">
-          Please input customer name
+          {t("customerNameValidation")}
         </span>
       )}
 
@@ -49,11 +52,11 @@ export const PosCustomerGuest = () => {
               <p className="truncate font-semibold text-card-foreground text-sm">
                 {posData.customerName}
               </p>
-              <p className="text-muted-foreground text-xs">Guest customer</p>
+              <p className="text-muted-foreground text-xs">{t("guestType")}</p>
             </div>
           </div>
           <button
-            aria-label="Clear input"
+            aria-label={tPOS("clearInput")}
             className="ml-2 shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-accent/10 hover:text-card-foreground"
             onClick={() => handleCustomerNameChange("")}
             type="button"

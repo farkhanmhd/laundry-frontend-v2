@@ -1,4 +1,5 @@
 import { CreditCard, ShoppingCart, UserCheck, Users } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { type ReactNode, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ScoreCard } from "@/components/utils/score-card";
@@ -39,11 +40,12 @@ interface MetricProps {
 
 const TotalCustomersContent = async () => {
   const data = await MemberReportsApi.getTotalCustomers();
+  const t = await getTranslations("Members");
   return (
     <ScoreCard
-      description="All registered members"
+      description={t("totalMembers.description")}
       icon={<Users className="h-6 w-6 text-primary" />}
-      title="Total Members"
+      title={t("totalMembers.title")}
       value={data?.totalCustomers ?? 0}
     />
   );
@@ -63,11 +65,12 @@ export const TotalCustomersCard = () => {
 
 const AverageOrderValueContent = async ({ query }: MetricProps) => {
   const data = await MemberReportsApi.getAverageOrderValue(query);
+  const t = await getTranslations("Members");
   return (
     <ScoreCard
-      description="Average spent per order"
+      description={t("averageOrderValue.description")}
       icon={<CreditCard className="h-6 w-6 text-primary" />}
-      title="Avg. Order Value"
+      title={t("averageOrderValue.title")}
       value={formatToIDR(data?.averageOrderValue ?? 0)}
     />
   );
@@ -87,11 +90,12 @@ export const AverageOrderValueCard = ({ query }: MetricProps) => {
 
 const ActiveMembersContent = async ({ query }: MetricProps) => {
   const data = await MemberReportsApi.getActiveMember(query);
+  const t = await getTranslations("Members");
   return (
     <ScoreCard
-      description="Members with recent activity"
+      description={t("activeMembers.description")}
       icon={<UserCheck className="h-6 w-6 text-primary" />}
-      title="Active Members"
+      title={t("activeMembers.title")}
       value={data?.activeMembers ?? 0}
     />
   );
@@ -111,11 +115,12 @@ export const ActiveMembersCard = ({ query }: MetricProps) => {
 
 const TotalMemberOrdersContent = async ({ query }: MetricProps) => {
   const data = await MemberReportsApi.getTotalMemberOrders(query);
+  const t = await getTranslations("Members");
   return (
     <ScoreCard
-      description="Orders placed by members"
+      description={t("totalMemberOrders.description")}
       icon={<ShoppingCart className="h-6 w-6 text-primary" />}
-      title="Total Member Orders"
+      title={t("totalMemberOrders.title")}
       value={data?.totalMemberOrders ?? 0}
     />
   );

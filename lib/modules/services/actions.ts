@@ -2,20 +2,13 @@
 
 import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
-import {
-  addService,
-  deleteService,
-  updateServiceData,
-  updateServiceImage,
-} from "./data";
+import { ServicesApi } from "./data";
 import {
   type AddServiceSchema,
   addServiceSchema,
   deleteServiceSchema,
   updateServiceImageSchema,
   updateServiceSchema,
-  // type UpdateServiceBody,
-  // updateServiceSchema,
 } from "./schema";
 
 export type AddServiceBody = Parameters<typeof elysia.services.post>[0];
@@ -23,7 +16,9 @@ export type AddServiceBody = Parameters<typeof elysia.services.post>[0];
 export const addServiceAction = actionClient
   .inputSchema(addServiceSchema)
   .action(async ({ parsedInput }) => {
-    const result = await addService(parsedInput as AddServiceSchema);
+    const result = await ServicesApi.addService(
+      parsedInput as AddServiceSchema
+    );
 
     if (!result) {
       return {
@@ -50,7 +45,7 @@ export const addServiceAction = actionClient
 export const deleteServiceAction = actionClient
   .inputSchema(deleteServiceSchema)
   .action(async ({ parsedInput }) => {
-    const result = await deleteService(parsedInput.id);
+    const result = await ServicesApi.deleteService(parsedInput.id);
 
     if (!result) {
       return {
@@ -82,7 +77,7 @@ export const updateServiceAction = actionClient
   .action(async ({ parsedInput }) => {
     const { id, ...data } = parsedInput;
 
-    const result = await updateServiceData(id, data);
+    const result = await ServicesApi.updateServiceData(id, data);
 
     if (!result || result.error) {
       return errorResult;
@@ -98,7 +93,7 @@ export const updateServiceImageAction = actionClient
   .inputSchema(updateServiceImageSchema)
   .action(async ({ parsedInput }) => {
     const { id, ...body } = parsedInput;
-    const result = await updateServiceImage(id, body);
+    const result = await ServicesApi.updateServiceImage(id, body);
     if (!result || result.error) {
       return errorResult;
     }

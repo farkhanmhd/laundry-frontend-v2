@@ -1,57 +1,6 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
-import { getHeadersWithoutContentType } from "@/lib/modules/auth/auth-helpers";
+import { BaseApi } from "@/lib/modules/base-api";
 import type { AddServiceBody } from "./actions";
-
-export const getServices = async () => {
-  const { data: response } = await elysia.services.get({
-    fetch: {
-      headers: await headers(),
-    },
-  });
-
-  const data = response?.data;
-
-  return data;
-};
-
-export const getServiceById = async (id: string) => {
-  const { data: response } = await elysia.services({ id }).get({
-    fetch: {
-      headers: await headers(),
-    },
-  });
-
-  const data = response?.data;
-
-  return data;
-};
-
-export type ServicesArray = Awaited<ReturnType<typeof getServices>>;
-export type Service = NonNullable<ServicesArray>[number];
-
-export const addService = async (body: AddServiceBody) => {
-  const result = await elysia.services.post(body, {
-    fetch: {
-      headers: await getHeadersWithoutContentType(),
-    },
-  });
-
-  return result;
-};
-
-export const deleteService = async (id: string) => {
-  const result = await elysia.services({ id }).delete(
-    {},
-    {
-      fetch: {
-        headers: await headers(),
-      },
-    }
-  );
-
-  return result;
-};
 
 export type UpdateServiceData = Parameters<
   ReturnType<typeof elysia.services>["patch"]
@@ -61,32 +10,60 @@ export type UpdateServiceImage = Parameters<
   ReturnType<typeof elysia.services>["image"]["patch"]
 >[0];
 
-export const updateServiceImage = async (
-  id: string,
-  body: UpdateServiceImage
-) => {
-  const result = await elysia.services({ id }).image.patch(body, {
-    fetch: {
-      headers: await getHeadersWithoutContentType(),
-    },
-  });
+export abstract class ServicesApi extends BaseApi {
+  static async getServices() {
+    const { data: response } = await elysia.services.get({
+      ...(await ServicesApi.getConfig()),
+    });
 
-  return result;
-};
+    const data = response?.data;
+    return data;
+  }
 
-export type UpdateServiceBody = Parameters<
-  ReturnType<typeof elysia.services>["patch"]
->[0];
+  static async getServiceById(id: string) {
+    const { data: response } = await elysia.services({ id }).get({
+      ...(await ServicesApi.getConfig()),
+    });
 
-export const updateServiceData = async (
-  id: string,
-  body: UpdateServiceData
-) => {
-  const result = await elysia.services({ id }).patch(body, {
-    fetch: {
-      headers: await headers(),
-    },
-  });
+    const data = response?.data;
+    return data;
+  }
 
-  return result;
-};
+  static async addService(body: AddServiceBody) {
+    const result = await elysia.services.post(body, {
+      ...(await ServicesApi.getFormDataConfig()),
+    });
+
+    return result;
+  }
+
+  static async deleteService(id: string) {
+    const result = await elysia.services({ id }).delete(
+      {},
+      {
+        ...(await ServicesApi.getConfig()),
+      }
+    );
+
+    return result;
+  }
+
+  static async updateServiceImage(id: string, body: UpdateServiceImage) {
+    const result = await elysia.services({ id }).image.patch(body, {
+      ...(await ServicesApi.getFormDataConfig()),
+    });
+
+    return result;
+  }
+
+  static async updateServiceData(id: string, body: UpdateServiceData) {
+    const result = await elysia.services({ id }).patch(body, {
+      ...(await ServicesApi.getConfig()),
+    });
+
+    return result;
+  }
+}
+
+export type ServicesArray = Awaited<ReturnType<typeof ServicesApi.getServices>>;
+export type Service = NonNullable<ServicesArray>[number];

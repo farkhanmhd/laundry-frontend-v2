@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { usePOS } from "@/lib/modules/pos/state";
 
 export const PosSummarySubmitButton = () => {
+  const t = useTranslations("POS.summarySubmitButton");
   const { totalItems, isPending, submitPosOrder } = usePOS();
   return (
     <Button
@@ -11,7 +13,7 @@ export const PosSummarySubmitButton = () => {
       disabled={totalItems === 0 || isPending}
       onClick={submitPosOrder}
     >
-      Process Payment
+      {t("processPayment")}
     </Button>
   );
 };

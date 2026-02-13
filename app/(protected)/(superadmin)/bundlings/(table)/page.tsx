@@ -1,8 +1,8 @@
 import { TableView } from "@/components/table/table-view";
-import { getBundlings } from "@/lib/modules/bundlings/data";
+import { BundlingsApi } from "@/lib/modules/bundlings/data";
 
 const BundlingsPage = async () => {
-  const data = await getBundlings();
+  const data = await BundlingsApi.getBundlings();
 
   return <TableView data={data} />;
 };

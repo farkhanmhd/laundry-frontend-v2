@@ -2,6 +2,7 @@
 
 import { Plus, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { OrderSummaryAddress } from "@/components/features/orders/order-summary-address";
 import {
   OrderSummaryItem,
@@ -21,6 +22,7 @@ import {
 import { cardShadowStyle } from "@/lib/utils";
 
 export default function OrderSummaryPage() {
+  const t = useTranslations("CustomerOrders");
   const { customerCart } = useCustomerOrder();
   return (
     <div className="mx-auto min-h-[calc(100dvh-144px)] max-w-7xl p-4 md:min-h-[calc(100dvh-64px)]">
@@ -28,7 +30,7 @@ export default function OrderSummaryPage() {
         <div className="space-y-4 lg:col-span-8">
           <OrderSummaryAddress
             address="Jalan Adam Malik No. 1"
-            label="Pickup location"
+            label={t("orderSummary.pickupLocation")}
             name="Office"
             onChangeLocation={() => console.log("Change location clicked")}
             onEditAddress={() => console.log("Edit clicked")}
@@ -50,9 +52,9 @@ export default function OrderSummaryPage() {
                       <EmptyMedia variant="icon">
                         <ShoppingCart />
                       </EmptyMedia>
-                      <EmptyTitle>No items added</EmptyTitle>
+                      <EmptyTitle>{t("orderSummary.noItemsAdded")}</EmptyTitle>
                       <EmptyDescription>
-                        Your cart is currently empty.
+                        {t("orderSummary.cartEmpty")}
                       </EmptyDescription>
                     </EmptyHeader>
                     <EmptyContent>
@@ -61,7 +63,7 @@ export default function OrderSummaryPage() {
                         href="/customer-orders/new"
                       >
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Item
+                        {t("orderSummary.addItem")}
                       </Link>
                     </EmptyContent>
                   </Empty>
@@ -71,16 +73,18 @@ export default function OrderSummaryPage() {
             {customerCart.length > 0 && (
               <div className="flex items-center justify-between border-t p-4">
                 <div className="space-y-1">
-                  <p className="font-semibold text-sm">Need anything else?</p>
+                  <p className="font-semibold text-sm">
+                    {t("orderSummary.needAnythingElse")}
+                  </p>
                   <p className="text-muted-foreground text-xs">
-                    Add other items, if you want.
+                    {t("orderSummary.addOtherItems")}
                   </p>
                 </div>
                 <Link
                   className={buttonVariants({ variant: "outline", size: "sm" })}
                   href="/customer-orders/new"
                 >
-                  Add More
+                  {t("orderSummary.addMore")}
                 </Link>
               </div>
             )}
@@ -88,7 +92,7 @@ export default function OrderSummaryPage() {
           <OrderSummaryVoucher />
         </div>
         <div className="space-y-3 lg:sticky lg:top-4 lg:col-span-4">
-          <Button className="w-full">Request Pickup</Button>
+          <Button className="w-full">{t("orderSummary.requestPickup")}</Button>
         </div>
       </div>
     </div>

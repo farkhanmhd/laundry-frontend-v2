@@ -22,7 +22,7 @@ export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           <Image
-            alt="Bundling Image"
+            alt={t("table.image")}
             className="max-h-[60px] w-auto rounded-lg"
             height={60}
             src={row.getValue("image") || "/placeholder.svg"}

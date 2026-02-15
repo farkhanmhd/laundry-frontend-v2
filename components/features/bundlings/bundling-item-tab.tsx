@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,6 +30,7 @@ export const BundlingItemTab = ({
   services,
   items,
 }: Props) => {
+  const t = useTranslations("Bundlings");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -68,7 +70,7 @@ export const BundlingItemTab = ({
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="font-medium">Bundling Items</p>
+      <p className="font-medium">{t("itemsForm.bundlingItems")}</p>
       <form
         className="flex flex-col gap-6"
         onSubmit={form.handleSubmit(onSubmit)}
@@ -96,7 +98,7 @@ export const BundlingItemTab = ({
             variant="outline"
           >
             <Plus />
-            <span>Add Item</span>
+            <span>{t("itemsForm.addItem")}</span>
           </Button>
         )}
         {isEditing ? (
@@ -109,10 +111,10 @@ export const BundlingItemTab = ({
               type="button"
               variant="ghost"
             >
-              Cancel
+              {t("itemsForm.cancel")}
             </Button>
             <Button className="w-max" disabled={action.isPending} type="submit">
-              Update Bundlings
+              {t("itemsForm.updateBundling")}
             </Button>
           </div>
         ) : (
@@ -121,7 +123,7 @@ export const BundlingItemTab = ({
             onClick={() => setIsEditing(true)}
             type="button"
           >
-            Edit
+            {t("form.edit")}
           </Button>
         )}
       </form>

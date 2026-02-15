@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { updateVoucherAction } from "@/lib/modules/vouchers/actions";
 import type { Voucher } from "@/lib/modules/vouchers/data";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const UpdateVoucher = ({ voucher }: Props) => {
+  const t = useTranslations("Vouchers");
   const { push } = useRouter();
   const formData = useHookFormAction(
     updateVoucherAction,
@@ -42,7 +44,7 @@ export const UpdateVoucher = ({ voucher }: Props) => {
     <VoucherDataForm
       formData={formData}
       onSubmitVoucherAction={formData.handleSubmitWithAction}
-      submitLabel="Update Voucher"
+      submitLabel={t("form.updateVoucher")}
     />
   );
 };

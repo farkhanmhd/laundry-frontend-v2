@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { addInventoryAction } from "@/lib/modules/inventories/actions";
 import { addInventorySchema } from "@/lib/modules/inventories/schema";
 
 const NewInventoryPage = () => {
+  const t = useTranslations("Inventories");
   const { push } = useRouter();
   const { form, action, handleSubmitWithAction } = useHookFormAction(
     addInventoryAction,
@@ -33,16 +35,16 @@ const NewInventoryPage = () => {
   return (
     <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">
       <div>
-        <h1 className="font-semibold text-2xl">Create New Inventory</h1>
+        <h1 className="font-semibold text-2xl">{t("form.createNew")}</h1>
         <p className="text-muted-foreground text-sm">
-          Enter details below to add new inventory.
+          {t("form.createDescription")}
         </p>
       </div>
       <form className="flex flex-col gap-6" onSubmit={handleSubmitWithAction}>
         <FormInput
           disabled={action.isPending}
           form={form}
-          label="Inventory Name"
+          label={t("form.inventoryName")}
           name="name"
           placeholder="Sabun Cair"
         />
@@ -50,7 +52,7 @@ const NewInventoryPage = () => {
           as={Textarea}
           disabled={action.isPending}
           form={form}
-          label="Inventory Description"
+          label={t("form.inventoryDescription")}
           name="description"
           placeholder="Inventory description"
         />
@@ -59,7 +61,7 @@ const NewInventoryPage = () => {
             className="text-right"
             disabled={action.isPending}
             form={form}
-            label="Inventory Price (IDR)"
+            label={t("form.inventoryPrice")}
             name="price"
             placeholder="10000"
           />
@@ -68,14 +70,14 @@ const NewInventoryPage = () => {
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Quantity of Inventory"
+            label={t("form.stock")}
             name="stock"
             placeholder="Quantity"
           />
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Safety Stock Quantity"
+            label={t("form.safetyStock")}
             name="safetyStock"
             placeholder="Safety Stock Quantity"
           />
@@ -83,12 +85,12 @@ const NewInventoryPage = () => {
         <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"
           form={form}
-          label="Image"
+          label={t("form.image")}
           name="image"
           type="file"
         />
         <Button disabled={action.isPending} type="submit">
-          Add Inventory
+          {t("form.addInventory")}
         </Button>
       </form>
     </div>

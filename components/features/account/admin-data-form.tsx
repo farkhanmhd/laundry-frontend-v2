@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export function AdminDataForm({ account }: Props) {
+  const t = useTranslations("AccountSettings.accountSettings");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -66,9 +68,7 @@ export function AdminDataForm({ account }: Props) {
     <Card id="settings" style={cardShadowStyle}>
       <CardHeader className="space-y-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-semibold text-lg">
-            Account Settings
-          </CardTitle>
+          <CardTitle className="font-semibold text-lg">{t("title")}</CardTitle>
           {!isEditing && (
             <Button
               className="gap-2"
@@ -76,55 +76,53 @@ export function AdminDataForm({ account }: Props) {
               size="sm"
               variant="outline"
             >
-              Edit Profile
+              {t("editProfile")}
             </Button>
           )}
         </div>
 
         {/* Edit Button Toggle */}
-        <CardDescription>
-          Manage your personal information and contact details.
-        </CardDescription>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
 
       <CardContent>
         <form className="flex flex-col gap-6" onSubmit={handleSubmitWithAction}>
           {/* Username Field */}
           <FormInput
-            description="This is your unique display handle."
+            description={t("usernameDescription")}
             disabled={!isEditing || action.isPending}
             form={form}
-            label="Username"
+            label={t("username")}
             name="username"
-            placeholder="Enter your username"
+            placeholder={t("usernamePlaceholder")}
           />
 
           {/* Name Field */}
           <FormInput
             disabled={!isEditing || action.isPending}
             form={form}
-            label="Full Name"
+            label={t("fullName")}
             name="name"
-            placeholder="Enter your full name"
+            placeholder={t("fullNamePlaceholder")}
           />
 
           {/* Phone Number Field */}
           <FormInput
-            description="Used for delivery coordination and membership points."
+            description={t("phoneDescription")}
             disabled={!isEditing || action.isPending}
             form={form}
-            label="Phone Number"
+            label={t("phoneNumber")}
             name="phone"
-            placeholder="e.g. 08123456789"
+            placeholder={t("phoneNumberPlaceholder")}
             type="tel"
           />
           <FormInput
-            description="Used for user email."
+            description={t("emailDescription")}
             disabled={!isEditing || action.isPending}
             form={form}
-            label="Email"
+            label={t("email")}
             name="email"
-            placeholder="user@gmail.com"
+            placeholder={t("emailPlaceholder")}
             type="email"
           />
 
@@ -132,7 +130,7 @@ export function AdminDataForm({ account }: Props) {
           {isEditing && (
             <div className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 pt-2 duration-300">
               <Button disabled={action.isPending} type="submit">
-                {action.isPending ? "Saving..." : "Save Changes"}
+                {action.isPending ? t("saving") : t("saveChanges")}
               </Button>
 
               <Button
@@ -142,7 +140,7 @@ export function AdminDataForm({ account }: Props) {
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("cancel")}
               </Button>
             </div>
           )}

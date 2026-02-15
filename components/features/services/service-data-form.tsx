@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
@@ -19,6 +20,7 @@ export const ServiceDataForm = ({
   description,
   price,
 }: UpdateServiceSchema) => {
+  const t = useTranslations("Services");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -65,10 +67,9 @@ export const ServiceDataForm = ({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">Service Data</h2>
+        <h2 className="font-semibold text-xl">{t("form.serviceData")}</h2>
         <p className="text-muted-foreground text-sm">
-          Review and modify key Service details such as name, description, and
-          price.
+          {t("form.serviceDataDescription")}
         </p>
       </div>
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
@@ -76,7 +77,7 @@ export const ServiceDataForm = ({
           defaultValue={name}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Service Name"
+          label={t("form.serviceName")}
           name="name"
           placeholder="Setrika"
         />
@@ -85,16 +86,16 @@ export const ServiceDataForm = ({
           defaultValue={description}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Description"
+          label={t("form.serviceDescription")}
           name="description"
-          placeholder="Inventory description"
+          placeholder="Service description"
         />
         <FormInput
           className="text-right"
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Price (IDR)"
+          label={t("form.servicePrice")}
           name="price"
           placeholder="10000"
         />
@@ -108,18 +109,18 @@ export const ServiceDataForm = ({
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("form.cancel")}
               </Button>
               <Button
                 disabled={action.isPending || !form.formState.isDirty}
                 type="submit"
               >
-                Save Changes
+                {t("form.saveChanges")}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} type="button">
-              Edit
+              {t("form.edit")}
             </Button>
           )}
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
@@ -18,6 +19,7 @@ export function OrderSummaryVoucher({
   onCheckMore,
   isApplied = false,
 }: OrderSummaryPromoProps) {
+  const t = useTranslations("CustomerOrders");
   const { posData } = usePOS();
 
   if (posData.customerType === "guest") {
@@ -35,7 +37,7 @@ export function OrderSummaryVoucher({
           <h3 className="font-semibold text-sm tracking-tight">{title}</h3>
         </div>
         <Button className="rounded-full" onClick={onApply} size="sm">
-          {isApplied ? "Remove" : "Apply"}
+          {isApplied ? t("voucher.remove") : t("voucher.apply")}
         </Button>
       </div>
 
@@ -45,7 +47,7 @@ export function OrderSummaryVoucher({
         onClick={onCheckMore}
         variant="link"
       >
-        <span>Check more promos</span>
+        <span>{t("voucher.checkMore")}</span>
         <ArrowRight className="h-4 w-4" />
       </Button>
     </div>

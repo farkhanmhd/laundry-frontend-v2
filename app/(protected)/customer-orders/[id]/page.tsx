@@ -8,12 +8,13 @@ import {
   Package,
   Truck,
 } from "lucide-react";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
+import Link from "next/link";
 
 // --- Types based on your Drizzle Schema ---
 type OrderDetailProps = {
@@ -109,22 +110,28 @@ async function getOrder(id: string): Promise<OrderData> {
 }
 
 // --- Helper Component: Improved Order Status Badge ---
-const OrderStatusBadge = ({ status }: { status: OrderData["status"] }) => {
+const OrderStatusBadge = ({
+  status,
+  t,
+}: {
+  status: OrderData["status"];
+  t: (key: string) => string;
+}) => {
   const config = {
     pending: {
-      label: "Payment Required",
+      label: t("paymentRequired"),
       variant: "destructive",
     },
     processing: {
-      label: "Processing",
+      label: t("processing"),
       variant: "outline",
     },
     ready: {
-      label: "Ready",
+      label: t("ready"),
       variant: "secondary",
     },
     completed: {
-      label: "Completed",
+      label: t("completed"),
       variant: "default",
     },
   };
@@ -144,6 +151,7 @@ const OrderStatusBadge = ({ status }: { status: OrderData["status"] }) => {
 // --- Main Page Component ---
 export default async function OrderDetailPage({ params }: OrderDetailProps) {
   const { id } = await params;
+  const t = await getTranslations("CustomerOrders.orderDetail");
   const order = await getOrder(id);
 
   // Logic to determine if "Request Delivery" should be shown
@@ -164,9 +172,9 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <h1 className="font-bold text-foreground text-xl uppercase tracking-tight">
-            Order {order.id}
+            {t("orderItems")} {order.id}
           </h1>
-          <OrderStatusBadge status={order.status} />
+          <OrderStatusBadge status={order.status} t={t} />
         </div>
         <p className="mt-1 flex items-center gap-2 text-muted-foreground text-sm">
           <Calendar className="h-4 w-4" />
@@ -181,7 +189,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-card-foreground">
                 <Package className="h-5 w-5 text-muted-foreground" />
-                Order Items
+                {t("orderItems")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -214,7 +222,9 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
 
                       {/* SUBTOTAL (Mobile Only) */}
                       <div className="mt-3 flex items-center justify-between border-t pt-3">
-                        <span className="font-medium text-sm">Subtotal</span>
+                        <span className="font-medium text-sm">
+                          {t("subtotal")}
+                        </span>
                         <span className="font-bold text-primary">
                           {formatToIDR(item.subtotal)}
                         </span>
@@ -234,18 +244,18 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base text-sidebar-foreground">
                 <CreditCard className="h-4 w-4 text-muted-foreground" />
-                Payment Summary
+                {t("paymentSummary")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Method</span>
+                <span className="text-muted-foreground">{t("method")}</span>
                 <span className="font-medium text-sidebar-foreground uppercase">
                   {order.payment?.method || "-"}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Status</span>
+                <span className="text-muted-foreground">{t("status")}</span>
                 {order.payment?.status === "settlement" ? (
                   <Badge>PAID</Badge>
                 ) : (
@@ -256,14 +266,18 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
               {order.payment && (
                 <>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Amount Paid</span>
+                    <span className="text-muted-foreground">
+                      {t("amountPaid")}
+                    </span>
                     <span className="font-medium text-sidebar-foreground">
                       {formatToIDR(order.payment.amountPaid)}
                     </span>
                   </div>
                   {(order.payment.change ?? 0) > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Change</span>
+                      <span className="text-muted-foreground">
+                        {t("change")}
+                      </span>
                       <span className="font-medium text-sidebar-foreground">
                         {formatToIDR(order.payment.change || 0)}
                       </span>
@@ -276,7 +290,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
 
               <div className="flex items-center justify-between pt-2">
                 <span className="font-semibold text-sidebar-foreground">
-                  Total
+                  {t("total")}
                 </span>
                 <span className="font-bold text-lg text-primary">
                   {formatToIDR(order.payment?.total || 0)}
@@ -289,7 +303,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                   className={cn(buttonVariants(), "w-full")}
                   href={`/customer-orders/${order.id}/payment`}
                 >
-                  Pay with QRIS
+                  {t("payWithQris")}
                 </Link>
               )}
             </CardContent>
@@ -300,7 +314,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base text-card-foreground">
                 <Truck className="h-4 w-4 text-muted-foreground" />
-                Delivery Details
+                {t("deliveryDetails")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -321,8 +335,8 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                             )}
                             <span className="font-semibold text-foreground text-sm capitalize">
                               {delivery.type === "pickup"
-                                ? "Pick Up"
-                                : "Delivery"}
+                                ? t("pickUp")
+                                : t("delivery")}
                             </span>
                           </div>
                           <Badge
@@ -337,14 +351,14 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                           <MapPin className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
                           <div className="text-sm">
                             <p className="font-medium text-foreground">
-                              {delivery.label || "Address"}
+                              {delivery.label || t("address")}
                             </p>
                             <p className="text-muted-foreground leading-relaxed">
                               {delivery.address}
                             </p>
                             {delivery.notes && (
                               <p className="mt-1 text-muted-foreground text-xs italic">
-                                Note: "{delivery.notes}"
+                                {t("note")}: "{delivery.notes}"
                               </p>
                             )}
                           </div>
@@ -373,17 +387,17 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                     <div className="space-y-1">
                       <p className="font-medium text-foreground">
                         {order.status === "ready"
-                          ? "Ready for Delivery"
-                          : "Home Delivery"}
+                          ? t("readyForDelivery")
+                          : t("homeDelivery")}
                       </p>
                       <p className="mx-auto max-w-xs text-muted-foreground text-sm">
                         {order.status === "ready"
-                          ? "Your items are ready. Request a delivery driver now?"
-                          : "Request delivery now and we will assign a driver once your order is ready."}
+                          ? t("readyForDeliveryDescription")
+                          : t("homeDeliveryDescription")}
                       </p>
                     </div>
                     <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                      Request Delivery
+                      {t("requestDelivery")}
                     </Button>
                   </div>
                 </>
@@ -397,10 +411,10 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                   </div>
                   <div className="space-y-1">
                     <p className="font-medium text-foreground">
-                      No delivery details
+                      {t("noDeliveryDetails")}
                     </p>
                     <p className="mx-auto max-w-xs text-muted-foreground text-sm">
-                      This order was completed without delivery services.
+                      {t("noDeliveryServices")}
                     </p>
                   </div>
                 </div>

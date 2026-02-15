@@ -108,7 +108,8 @@ export abstract class MemberReportsApi extends BaseApi {
     if (error) {
       throw error;
     }
-    return response?.data;
+
+    return response.data;
   }
 }
 

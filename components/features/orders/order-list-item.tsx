@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
@@ -21,6 +22,8 @@ type Props = {
 };
 
 export function OrderListItem({ order, shadow = false }: Props) {
+  const t = useTranslations("CustomerOrders");
+
   return (
     <div
       className="space-y-3 rounded-md border p-3"
@@ -28,7 +31,9 @@ export function OrderListItem({ order, shadow = false }: Props) {
     >
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <p className="font-semibold uppercase">Order {order.id}</p>
+          <p className="font-semibold uppercase">
+            {t("order")} {order.id}
+          </p>
           <Badge
             className="font-semibold"
             variant={getStatusColor(order.status)}
@@ -50,14 +55,14 @@ export function OrderListItem({ order, shadow = false }: Props) {
             className={cn(buttonVariants({ variant: "secondary", size: "sm" }))}
             href={`/customer-orders/${order.id}`}
           >
-            Details
+            {t("details")}
           </Link>
           {order.status === "pending" && (
             <Link
               className={cn(buttonVariants({ size: "sm" }))}
               href={`/customer-orders/${order.id}/payment`}
             >
-              Pay Now
+              {t("payNow")}
             </Link>
           )}
         </div>

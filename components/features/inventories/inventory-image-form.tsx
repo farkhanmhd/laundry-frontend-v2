@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,11 +15,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { updateInventoryImageAction } from "@/lib/modules/inventories/actions"; // You can define this like updateInventoryAction
+import { updateInventoryImageAction } from "@/lib/modules/inventories/actions";
 import {
   type UpdateInventoryImageSchema,
   updateInventoryImageSchema,
-} from "@/lib/modules/inventories/schema"; // Example schema import
+} from "@/lib/modules/inventories/schema";
 
 type Props = {
   id: string;
@@ -26,7 +27,7 @@ type Props = {
 };
 
 export const InventoryImageForm = ({ id, src }: Props) => {
-  // 🔹 Edit mode
+  const t = useTranslations("Inventories");
   const [isEditing, setIsEditing] = useState(false);
 
   // 🔹 Track current image preview
@@ -46,7 +47,7 @@ export const InventoryImageForm = ({ id, src }: Props) => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success("Image updated successfully");
+            toast.success(t("imageForm.saveSuccess"));
             setIsEditing(false);
           }
         },
@@ -86,17 +87,16 @@ export const InventoryImageForm = ({ id, src }: Props) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-semibold text-xl">Inventory Image</h2>
+        <h2 className="font-semibold text-xl">{t("imageForm.title")}</h2>
         <p className="text-muted-foreground text-sm">
-          Manage and update the inventory image below. You can preview new
-          uploads before saving.
+          {t("imageForm.description")}
         </p>
       </div>
 
       {/* Image Preview */}
       <div className="flex justify-center">
         <Image
-          alt="Inventory Image"
+          alt={t("imageForm.title")}
           className="aspect-square max-h-64 max-w-64 rounded-md object-cover"
           height={500}
           src={imageSrc}
@@ -113,7 +113,7 @@ export const InventoryImageForm = ({ id, src }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel className="text-base" htmlFor={field.name}>
-                  Upload New Image
+                  {t("imageForm.uploadNew")}
                 </FieldLabel>
                 <Input
                   accept="image/jpeg,image/png,.jpg,.jpeg,.png"
@@ -123,14 +123,16 @@ export const InventoryImageForm = ({ id, src }: Props) => {
                     const file = e.target.files?.[0];
 
                     if (!file) {
-                      form.setError("image", { message: "No file chosen" });
+                      form.setError("image", {
+                        message: t("imageForm.noFileChosen"),
+                      });
                       return;
                     }
 
                     const validTypes = ["image/jpeg", "image/png"];
                     if (!validTypes.includes(file.type)) {
                       form.setError("image", {
-                        message: "Only JPEG or PNG images are allowed",
+                        message: t("imageForm.fileTypeError"),
                       });
                       e.target.value = ""; // clear input
                       return;
@@ -165,18 +167,18 @@ export const InventoryImageForm = ({ id, src }: Props) => {
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("form.cancel")}
               </Button>
               <Button
                 disabled={action.isPending || !form.formState.isDirty}
                 type="submit"
               >
-                Save
+                {t("imageForm.save")}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} type="button">
-              Edit
+              {t("form.edit")}
             </Button>
           )}
         </div>

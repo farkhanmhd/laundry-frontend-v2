@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
@@ -20,6 +21,7 @@ export const InventoryDataForm = ({
   price,
   safetyStock,
 }: UpdateInventorySchema) => {
+  const t = useTranslations("Inventories");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -73,10 +75,9 @@ export const InventoryDataForm = ({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">Inventory Data</h2>
+        <h2 className="font-semibold text-xl">{t("form.inventoryData")}</h2>
         <p className="text-muted-foreground text-sm">
-          Review and modify key Inventory details such as name, description,
-          price, and reorder point.
+          {t("form.inventoryDataDescription")}
         </p>
       </div>
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
@@ -84,7 +85,7 @@ export const InventoryDataForm = ({
           defaultValue={name}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Name"
+          label={t("form.inventoryName")}
           name="name"
           placeholder="Sabun Cair"
         />
@@ -93,7 +94,7 @@ export const InventoryDataForm = ({
           defaultValue={description}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Description"
+          label={t("form.inventoryDescription")}
           name="description"
           placeholder="Inventory description"
         />
@@ -102,7 +103,7 @@ export const InventoryDataForm = ({
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Inventory Price (IDR)"
+          label={t("form.inventoryPrice")}
           name="price"
           placeholder="10000"
         />
@@ -111,7 +112,7 @@ export const InventoryDataForm = ({
             defaultValue={safetyStock}
             disabled={!isEditing || action.isPending}
             form={form}
-            label="Safety Stock of Inventory"
+            label={t("form.safetyStockLabel")}
             name="safetyStock"
             placeholder="Safety Stock"
           />
@@ -126,18 +127,18 @@ export const InventoryDataForm = ({
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("form.cancel")}
               </Button>
               <Button
                 disabled={action.isPending || !form.formState.isDirty}
                 type="submit"
               >
-                Save Changes
+                {t("form.saveChanges")}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} type="button">
-              Edit
+              {t("form.edit")}
             </Button>
           )}
         </div>

@@ -2,6 +2,7 @@
 
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function OrderItemCard({ item }: Props) {
+  const t = useTranslations("CustomerOrders");
   const { handleAddToCart } = useCustomerOrder();
 
   return (

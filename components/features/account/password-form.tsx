@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { LockKeyhole } from "lucide-react"; // Optional icon
+import { LockKeyhole } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -20,6 +21,7 @@ import { updatePasswordSchema } from "@/lib/modules/account/schema";
 import { cardShadowStyle } from "@/lib/utils";
 
 export function PasswordForm() {
+  const t = useTranslations("AccountSettings.security");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, handleSubmitWithAction, action } = useHookFormAction(
@@ -57,7 +59,7 @@ export function PasswordForm() {
     <Card id="password" style={cardShadowStyle}>
       <CardHeader className="space-y-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-semibold text-lg">Security</CardTitle>
+          <CardTitle className="font-semibold text-lg">{t("title")}</CardTitle>
           {!isEditing && (
             <Button
               className="gap-2"
@@ -65,14 +67,12 @@ export function PasswordForm() {
               size="sm"
               variant="outline"
             >
-              Change Password
+              {t("changePassword")}
             </Button>
           )}
         </div>
 
-        <CardDescription>
-          Ensure your account is secure by using a strong password.
-        </CardDescription>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -85,9 +85,9 @@ export function PasswordForm() {
             <FormInput
               disabled={action.isPending}
               form={form}
-              label="Current Password"
+              label={t("currentPassword")}
               name="oldPassword"
-              placeholder="Enter current password"
+              placeholder={t("currentPasswordPlaceholder")}
               type="password"
             />
 
@@ -95,9 +95,9 @@ export function PasswordForm() {
             <FormInput
               disabled={action.isPending}
               form={form}
-              label="New Password"
+              label={t("newPassword")}
               name="newPassword"
-              placeholder="Enter new password"
+              placeholder={t("newPasswordPlaceholder")}
               type="password"
             />
 
@@ -105,16 +105,16 @@ export function PasswordForm() {
             <FormInput
               disabled={action.isPending}
               form={form}
-              label="Confirm New Password"
+              label={t("confirmNewPassword")}
               name="confirmPassword"
-              placeholder="Re-enter new password"
+              placeholder={t("confirmNewPasswordPlaceholder")}
               type="password"
             />
 
             {/* Action Buttons */}
             <div className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 pt-2 duration-300">
               <Button disabled={action.isPending} type="submit">
-                {action.isPending ? "Updating..." : "Update Password"}
+                {action.isPending ? t("updating") : t("updatePassword")}
               </Button>
 
               <Button
@@ -124,7 +124,7 @@ export function PasswordForm() {
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("cancel")}
               </Button>
             </div>
           </form>

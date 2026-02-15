@@ -3,6 +3,7 @@
 import { ArrowLeft, CheckCircle2, Download, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,6 +27,7 @@ const formatToIDR = (amount: number) =>
   }).format(amount);
 
 export default function PaymentPage() {
+  const t = useTranslations("CustomerOrders.payment");
   const params = useParams();
   const router = useRouter();
   const orderId = params.id as string;
@@ -59,22 +61,22 @@ export default function PaymentPage() {
 
             <div className="space-y-2">
               <h2 className="font-bold text-2xl tracking-tight">
-                Payment Successful!
+                {t("success")}
               </h2>
-              <p className="text-muted-foreground">
-                Thank you for your payment. Your order is now being processed.
-              </p>
+              <p className="text-muted-foreground">{t("thankYou")}</p>
             </div>
 
             <div className="space-y-3 rounded-lg border bg-muted/50 p-4 text-left">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Transaction ID</span>
+                <span className="text-muted-foreground">
+                  {t("transactionId")}
+                </span>
                 <span className="font-medium font-mono uppercase">
                   {orderId}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Date</span>
+                <span className="text-muted-foreground">{t("date")}</span>
                 <Client>
                   <span className="font-medium">
                     {formatDate(order.payment.paidAt)}
@@ -82,14 +84,16 @@ export default function PaymentPage() {
                 </Client>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Payment Method</span>
+                <span className="text-muted-foreground">
+                  {t("paymentMethod")}
+                </span>
                 <span className="font-medium uppercase">
                   {order.payment.method}
                 </span>
               </div>
               <Separator />
               <div className="flex items-center justify-between font-bold">
-                <span>Total Paid</span>
+                <span>{t("totalPaid")}</span>
                 <Client>
                   <span className="text-lg text-primary">
                     {formatToIDR(order.total)}
@@ -101,11 +105,11 @@ export default function PaymentPage() {
             <div className="pt-2">
               <Button
                 className="w-full gap-2"
-                onClick={() => router.push(`/orders/${orderId}`)}
-                size="lg" // Adjust route as needed
+                onClick={() => router.push(`/customer-orders/${orderId}`)}
+                size="lg"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Return to Order Details
+                {t("returnToOrderDetails")}
               </Button>
             </div>
           </CardContent>
@@ -121,12 +125,14 @@ export default function PaymentPage() {
         {/* Order Summary */}
         <Card style={cardShadowStyle}>
           <CardHeader className="pb-4">
-            <CardTitle>Order Summary</CardTitle>
+            <CardTitle>{t("orderSummary")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Order ID</span>
+                <span className="text-muted-foreground text-sm">
+                  {t("orderId")}
+                </span>
                 <div className="flex items-center gap-2">
                   <span className="font-medium font-mono text-sm uppercase">
                     {orderId}
@@ -135,19 +141,19 @@ export default function PaymentPage() {
               </div>
               <Separator />
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">{t("subtotal")}</span>
                 <Client>
                   <span>{formatToIDR(order.subtotal)}</span>
                 </Client>
               </div>
               <div className="flex justify-between text-green-600 text-sm">
-                <span className="text-muted-foreground">Discount</span>
+                <span className="text-muted-foreground">{t("discount")}</span>
                 <Client>
                   <span>-{formatToIDR(order.discount)}</span>
                 </Client>
               </div>
               <div className="flex items-center justify-between border-t border-dashed pt-3 font-bold text-lg">
-                <span>Total Amount</span>
+                <span>{t("totalAmount")}</span>
                 <Client>
                   <span className="text-primary">
                     {formatToIDR(order.total)}
@@ -164,10 +170,10 @@ export default function PaymentPage() {
           style={cardShadowStyle}
         >
           <CardHeader>
-            <CardTitle className="font-bold text-2xl">Scan to Pay</CardTitle>
-            <CardDescription>
-              Scan the QRIS code below with your preferred payment app.
-            </CardDescription>
+            <CardTitle className="font-bold text-2xl">
+              {t("scanToPay")}
+            </CardTitle>
+            <CardDescription>{t("scanDescription")}</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6 pt-4">
@@ -187,11 +193,11 @@ export default function PaymentPage() {
           <CardFooter className="flex-col gap-3 bg-muted/20 pt-6">
             <Button className="w-full gap-2" size="lg">
               <RefreshCw className="h-4 w-4" />
-              Check Payment Status
+              {t("checkPaymentStatus")}
             </Button>
             <Button className="w-full gap-2" variant="outline">
               <Download className="h-4 w-4" />
-              Save QR Image
+              {t("saveQrImage")}
             </Button>
           </CardFooter>
         </Card>

@@ -5,6 +5,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { MapPin, Plus, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
@@ -49,6 +50,7 @@ interface AddressManagerProps {
 export default function AddressManager({
   initialAddresses = [],
 }: AddressManagerProps) {
+  const t = useTranslations("AccountSettings.addresses");
   const { refresh } = useRouter();
   const [addresses, setAddresses] = useState<SavedAddress[]>(initialAddresses);
   const [isAdding, setIsAdding] = useState(false);
@@ -91,7 +93,7 @@ export default function AddressManager({
 
   const handleDelete = (id: string) => {
     setAddresses(addresses.filter((addr) => addr.id !== id));
-    toast.success("Address removed");
+    toast.success(t("addressRemoved"));
   };
 
   return (
@@ -103,7 +105,7 @@ export default function AddressManager({
             <div className="w-full space-y-1.5">
               <div className="flex justify-between gap-3">
                 <CardTitle className="font-semibold text-lg">
-                  Saved Addresses
+                  {t("title")}
                 </CardTitle>
                 {addresses.length < 3 && (
                   <Button
@@ -112,13 +114,11 @@ export default function AddressManager({
                     size="sm"
                   >
                     <Plus className="h-4 w-4" />
-                    Add New
+                    {t("addNew")}
                   </Button>
                 )}
               </div>
-              <CardDescription>
-                Manage your shipping locations (Max 3).
-              </CardDescription>
+              <CardDescription>{t("description")}</CardDescription>
             </div>
           </CardHeader>
 
@@ -129,7 +129,7 @@ export default function AddressManager({
                   <MapPin className="h-6 w-6 text-blue-600" />
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  No addresses saved yet.
+                  {t("noAddresses")}
                 </p>
               </div>
             ) : (
@@ -146,13 +146,13 @@ export default function AddressManager({
                       onClick={() => setViewingAddress(addr)}
                       variant="secondary"
                     >
-                      View Location
+                      {t("viewLocation")}
                     </Button>
                     <Button
                       onClick={() => handleDelete(addr.id)}
                       variant="destructive"
                     >
-                      Delete
+                      {t("delete")}
                     </Button>
                   </div>
                 </div>
@@ -171,11 +171,9 @@ export default function AddressManager({
           <CardHeader className="flex flex-row items-start justify-between space-y-0">
             <div className="space-y-1.5">
               <CardTitle className="font-semibold text-lg">
-                New Address
+                {t("newAddress")}
               </CardTitle>
-              <CardDescription>
-                Pin your location on the map and fill in the details.
-              </CardDescription>
+              <CardDescription>{t("newAddressDescription")}</CardDescription>
             </div>
             <Button onClick={handleCancel} size="icon" variant="ghost">
               <X className="h-4 w-4" />
@@ -190,16 +188,16 @@ export default function AddressManager({
               <FormInput
                 disabled={action.isExecuting}
                 form={form}
-                label="Address Label"
+                label={t("addressLabel")}
                 name="label"
-                placeholder="e.g. Home, Office"
+                placeholder={t("addressLabelPlaceholder")}
               />
               <FormInput
                 disabled={action.isExecuting}
                 form={form}
-                label="Full Address"
+                label={t("fullAddress")}
                 name="street"
-                placeholder="Street name..."
+                placeholder={t("fullAddressPlaceholder")}
               />
 
               <div className="space-y-3">
@@ -208,7 +206,7 @@ export default function AddressManager({
                     form.formState.errors.lat ? "text-destructive" : ""
                   }
                 >
-                  Pin Location *
+                  {t("pinLocation")}
                 </Label>
                 <div className="overflow-hidden rounded-md border">
                   <MapPicker
@@ -220,14 +218,14 @@ export default function AddressManager({
                 </div>
                 {(form.formState.errors.lat || form.formState.errors.lng) && (
                   <p className="font-medium text-[0.8rem] text-destructive">
-                    Please pin a location on the map.
+                    {t("pinLocationError")}
                   </p>
                 )}
               </div>
 
               <div className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 pt-2 duration-300">
                 <Button disabled={action.isExecuting} type="submit">
-                  {action.isExecuting ? "Saving..." : "Save Address"}
+                  {action.isExecuting ? t("saving") : t("saveAddress")}
                 </Button>
                 <Button
                   className="gap-2 text-muted-foreground hover:text-foreground"
@@ -236,7 +234,7 @@ export default function AddressManager({
                   type="button"
                   variant="ghost"
                 >
-                  Cancel
+                  {t("cancel")}
                 </Button>
               </div>
             </form>

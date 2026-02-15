@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useBundlingColumns } from "@/components/features/bundlings/columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
@@ -10,6 +11,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const BundlingLayout = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations("Bundlings");
   const columns = useBundlingColumns();
 
   return (
@@ -20,7 +22,7 @@ const BundlingLayout = ({ children }: { children: React.ReactNode }) => {
           href="/bundlings/new"
         >
           <Plus />
-          Bundling
+          {t("form.bundlingName")}
         </Link>
       </TableToolbar>
       {children}

@@ -27,7 +27,7 @@ export function useSearchQueryParams() {
     shallow: false,
     history: 'replace',
     limitUrlUpdates: {
-      timeMs: 300,
+      timeMs: 100,
       method: 'debounce'
     }
   });

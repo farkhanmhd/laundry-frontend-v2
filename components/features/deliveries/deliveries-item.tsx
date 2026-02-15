@@ -1,5 +1,6 @@
 import { Clock } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
@@ -17,6 +18,8 @@ type Props = {
   shadow?: boolean;
 };
 export function DeliveriesItem({ delivery, shadow = false }: Props) {
+  const t = useTranslations("CustomerDeliveries");
+
   return (
     <div
       className="grid gap-3 rounded-lg border p-4"
@@ -25,7 +28,9 @@ export function DeliveriesItem({ delivery, shadow = false }: Props) {
       <div className="flex items-start gap-4">
         <div className="flex w-full flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
-            <h4 className="font-semibold text-sm uppercase">{delivery.type}</h4>
+            <h4 className="font-semibold text-sm uppercase">
+              {t(delivery.type)}
+            </h4>
             <Badge
               className="font-semibold"
               variant={getStatusColor(delivery.status)}
@@ -63,7 +68,7 @@ export function DeliveriesItem({ delivery, shadow = false }: Props) {
           className={cn(buttonVariants({ variant: "secondary" }))}
           href={`/customer-deliveries/${delivery.id}`}
         >
-          View Delivery
+          {t("viewDelivery")}
         </Link>
       </div>
     </div>

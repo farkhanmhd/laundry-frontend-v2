@@ -270,7 +270,8 @@
       "amountDue": "Amount Due",
       "changeReturned": "Change Returned",
       "payNow": "Pay Now",
-      "paid": "PAID"
+      "paid": "PAID",
+      "unpaid": "UNPAID"
     },
     "delivery": {
       "logistics": "Logistics",
@@ -279,7 +280,12 @@
       "noDeliveryDescription": "This order does not have any pickup or delivery request yet.",
       "locationLabel": "Location Label",
       "address": "Address",
-      "note": "Note"
+      "note": "Note",
+      "pickUp": "Pick Up",
+      "delivery": "Delivery",
+      "readyForDelivery": "Ready for Delivery",
+      "homeDelivery": "Home Delivery",
+      "requestDelivery": "Request Delivery"
     },
     "newOrder": {
       "createNewOrder": "Create New Order",
@@ -431,6 +437,7 @@
       "order": "Order"
     },
     "form": {
+      "product": "Product",
       "inventoryData": "Inventory Data",
       "inventoryDataDescription": "Review and modify key inventory details...",
       "inventoryName": "Inventory Name",
@@ -442,7 +449,11 @@
       "saveChanges": "Save Changes",
       "edit": "Edit",
       "createNew": "Create New Inventory",
-      "createDescription": "Enter details below to add new inventory."
+      "createDescription": "Enter details below to add new inventory.",
+      "stock": "Quantity of Inventory",
+      "safetyStock": "Safety Stock Quantity",
+      "image": "Image",
+      "addInventory": "Add Inventory"
     },
     "imageForm": {
       "title": "Inventory Image",
@@ -450,7 +461,8 @@
       "uploadNew": "Upload New Image",
       "noFileChosen": "No file chosen",
       "fileTypeError": "Only JPEG or PNG images are allowed",
-      "save": "Save"
+      "save": "Save",
+      "saveSuccess": "Image updated successfully"
     },
     "stockForm": {
       "title": "Stock Adjustment",
@@ -496,7 +508,9 @@
       "saveChanges": "Save Changes",
       "edit": "Edit",
       "createNew": "Create New Service",
-      "createDescription": "Enter details below to add new service."
+      "createDescription": "Enter details below to add new service.",
+      "image": "Image",
+      "addService": "Add Service"
     },
     "imageForm": {
       "title": "Service Image",
@@ -504,7 +518,8 @@
       "uploadNew": "Upload New Image",
       "noFileChosen": "No file chosen",
       "fileTypeError": "Only JPEG or PNG images are allowed",
-      "save": "Save"
+      "save": "Save",
+      "saveSuccess": "Image updated successfully"
     }
   },
   "Bundlings": {
@@ -523,6 +538,7 @@
       "bundlingName": "Bundling Name",
       "bundlingDescription": "Bundling Description",
       "bundlingPrice": "Bundling Price (IDR)",
+      "image": "Image",
       "cancel": "Cancel",
       "saveChanges": "Save Changes",
       "edit": "Edit",
@@ -535,7 +551,8 @@
       "uploadNew": "Upload New Image",
       "noFileChosen": "No file chosen",
       "fileTypeError": "Only JPEG or PNG images are allowed",
-      "save": "Save"
+      "save": "Save",
+      "saveSuccess": "Image updated successfully"
     },
     "itemsForm": {
       "title": "Bundling Items",
@@ -546,7 +563,44 @@
       "selectItem": "Select an item",
       "quantity": "Quantity",
       "cancel": "Cancel",
-      "updateBundling": "Update Bundling"
+      "updateBundling": "Update Bundling",
+      "bundlingItems": "Bundling Items"
+    }
+  },
+  "Vouchers": {
+    "title": "Vouchers",
+    "table": {
+      "searchPlaceholder": "Search vouchers...",
+      "id": "ID",
+      "code": "Code",
+      "percentage": "Percentage",
+      "discount": "Discount",
+      "minSpend": "Min Spend",
+      "maxDiscount": "Max Discount",
+      "expiry": "Expiry",
+      "dateAdded": "Date Added",
+      "visibility": "Visibility"
+    },
+    "form": {
+      "voucherCode": "Voucher Code",
+      "voucherDescription": "Voucher Description",
+      "minSpend": "Minimum Spend",
+      "voucherType": "Voucher Type",
+      "selectVoucherType": "Select Voucher Type",
+      "discountAmount": "Discount Amount",
+      "discountPercentage": "Discount Percentage (%)",
+      "maxDiscountAmount": "Maximum Discount Amount",
+      "expiryDate": "Expiry Date",
+      "showVoucher": "Show voucher to customers",
+      "showVoucherDescription": "When enabled, this voucher will be visible in the customer side.",
+      "visible": "Visible",
+      "hidden": "Hidden",
+      "fixed": "Fixed",
+      "percentage": "Percentage",
+      "createNew": "Create New Voucher",
+      "createDescription": "Enter details below to add new voucher.",
+      "updateVoucher": "Update Voucher",
+      "updateDescription": "Enter details below to modify voucher."
     }
   },
   "Users": {
@@ -622,5 +676,168 @@
       "warning": "Low stock warning: {count} item{count, plural, one {} other {s}} need restocking",
       "description": "The following items are below safety stock levels: {items}"
     }
+  },
+  "CustomerOrders": {
+    "title": "My Orders",
+    "newOrder": "New Order",
+    "description": "View and manage your laundry orders",
+    "loadMore": "Load More",
+    "order": "Order",
+    "details": "Details",
+    "payNow": "Pay Now",
+    "orderSummary": {
+      "pickupLocation": "Pickup Location",
+      "noItemsAdded": "No Items Added",
+      "cartEmpty": "Your cart is empty. Add items to start an order.",
+      "addItem": "Add Item",
+      "needAnythingElse": "Need Anything Else?",
+      "addOtherItems": "Add other items to your order",
+      "addMore": "Add More",
+      "requestPickup": "Request Pickup"
+    },
+    "orderDetail": {
+      "orderItems": "Order Items",
+      "subtotal": "Subtotal",
+      "paymentSummary": "Payment Summary",
+      "method": "Method",
+      "status": "Status",
+      "amountPaid": "Amount Paid",
+      "change": "Change",
+      "total": "Total",
+      "payWithQris": "Pay with QRIS",
+      "deliveryDetails": "Delivery Details",
+      "pickUp": "Pick Up",
+      "delivery": "Delivery",
+      "address": "Address",
+      "note": "Note",
+      "readyForDelivery": "Ready for Delivery",
+      "homeDelivery": "Home Delivery",
+      "readyForDeliveryDescription": "Your items are ready. Request a delivery driver now?",
+      "homeDeliveryDescription": "Request delivery now and we will assign a driver once your order is ready.",
+      "requestDelivery": "Request Delivery",
+      "noDeliveryDetails": "No delivery details",
+      "noDeliveryServices": "This order was completed without delivery services.",
+      "paymentRequired": "Payment Required",
+      "processing": "Processing",
+      "ready": "Ready",
+      "completed": "Completed"
+    },
+    "payment": {
+      "success": "Payment Successful!",
+      "thankYou": "Thank you for your payment. Your order is now being processed.",
+      "transactionId": "Transaction ID",
+      "date": "Date",
+      "paymentMethod": "Payment Method",
+      "totalPaid": "Total Paid",
+      "returnToOrderDetails": "Return to Order Details",
+      "orderSummary": "Order Summary",
+      "orderId": "Order ID",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "totalAmount": "Total Amount",
+      "scanToPay": "Scan to Pay",
+      "scanDescription": "Scan the QRIS code below with your preferred payment app.",
+      "checkPaymentStatus": "Check Payment Status",
+      "saveQrImage": "Save QR Image"
+    }
+  },
+  "CustomerDeliveries": {
+    "title": "My Deliveries",
+    "description": "Track your active pickups and deliveries and browse your delivery history.",
+    "loadMore": "Load More",
+    "viewDelivery": "View Delivery",
+    "orderId": "Order ID",
+    "pickup": "Pickup",
+    "delivery": "Delivery",
+    "deliveryDetail": {
+      "title": "Delivery Details",
+      "description": "View information about your request.",
+      "deliveryInformation": "Delivery Information",
+      "deliveryId": "Delivery ID",
+      "type": "Type",
+      "orderId": "Order ID",
+      "requestedTime": "Requested Time",
+      "selectedAddress": "Selected Address",
+      "locationNote": "Location Note",
+      "instructionsForDriver": "Instructions for Driver:",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "status": {
+        "requested": "Looking for Driver",
+        "assigned": "Driver Assigned",
+        "in_progress": "On The Way",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "messageRequested": "We are currently looking for a driver nearby.",
+        "messageAssignedPickup": "Please wait for our driver to pickup your items.",
+        "messageAssignedDropoff": "Driver assigned. We are preparing to send your items.",
+        "messageInProgressPickup": "Driver is on the way to your location for pickup.",
+        "messageInProgressDropoff": "Driver is on the way to deliver your clean laundry.",
+        "messageCompleted": "This delivery has been completed successfully.",
+        "messageCancelled": "This delivery request was cancelled."
+      }
+    }
+  },
+  "AccountSettings": {
+    "accountSettings": {
+      "title": "Account Settings",
+      "description": "Manage your personal information and contact details.",
+      "editProfile": "Edit Profile",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "username": "Username",
+      "usernameDescription": "This is your unique display handle.",
+      "usernamePlaceholder": "Enter your username",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "e.g. 08123456789",
+      "phoneDescription": "Used for delivery coordination and membership points.",
+      "email": "Email",
+      "emailPlaceholder": "user@gmail.com",
+      "emailDescription": "Used for user email."
+    },
+    "security": {
+      "title": "Security",
+      "description": "Ensure your account is secure by using a strong password.",
+      "changePassword": "Change Password",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmNewPassword": "Confirm New Password",
+      "confirmNewPasswordPlaceholder": "Re-enter new password",
+      "updatePassword": "Update Password",
+      "updating": "Updating...",
+      "cancel": "Cancel"
+    },
+    "addresses": {
+      "title": "Saved Addresses",
+      "description": "Manage your shipping locations (Max 3).",
+      "loadingMap": "Loading Map...",
+      "addNew": "Add New",
+      "newAddress": "New Address",
+      "newAddressDescription": "Pin your location on the map and fill in the details.",
+      "addressLabel": "Address Label",
+      "addressLabelPlaceholder": "e.g. Home, Office",
+      "fullAddress": "Full Address",
+      "fullAddressPlaceholder": "Street name...",
+      "pinLocation": "Pin Location *",
+      "pinLocationError": "Please pin a location on the map.",
+      "saveAddress": "Save Address",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "noAddresses": "No addresses saved yet.",
+      "viewLocation": "View Location",
+      "delete": "Delete",
+      "addressRemoved": "Address removed"
+    }
+  },
+  "Auth": {
+    "signOut": "Sign Out",
+    "signOutTitle": "Sign out",
+    "signOutDescription": "Are you sure you want to sign out?",
+    "cancel": "Cancel"
   }
 }

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
@@ -29,6 +30,7 @@ type Props = {
 };
 
 export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
+  const t = useTranslations("Inventories");
   const [isEditing, setIsEditing] = useState(false);
 
   const defaultValues: AdjustQuantitySchema = {
@@ -89,10 +91,9 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">Stock Adjustment</h2>
+        <h2 className="font-semibold text-xl">{t("stockForm.title")}</h2>
         <p className="text-muted-foreground text-sm">
-          Adjust the stock quantity of the inventory when necessary. Use this
-          form to record inventory corrections or manual updates.
+          {t("stockForm.description")}
         </p>
       </div>
 
@@ -102,7 +103,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
           <FormInput
             disabled
             form={form}
-            label="Current Quantity"
+            label={t("stockForm.currentQuantity")}
             name="currentQuantity"
             placeholder="Current quantity in stock"
             value={currentQuantity}
@@ -112,21 +113,21 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
             disabled={!isEditing || action.isPending}
             form={form}
             inputMode="numeric"
-            label="Change Amount"
+            label={t("stockForm.changeAmount")}
             name="changeAmount"
             placeholder="Decrease (-1) or Increase (6)"
           />
         </div>
 
         <div className="space-y-4">
-          <Label htmlFor="type">Adjustment Type</Label>
+          <Label htmlFor="type">{t("stockForm.adjustmentType")}</Label>
           <Select onValueChange={handleTypeChange} value={form.watch("type")}>
             <SelectTrigger
               className="w-full capitalize"
               disabled={!isEditing || action.isPending}
               id="type"
             >
-              <SelectValue placeholder="Select adjustment Type" />
+              <SelectValue placeholder={t("stockForm.selectType")} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -144,7 +145,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
           as={Textarea}
           disabled={!isEditing || action.isPending}
           form={form}
-          label="Reason for Adjustment"
+          label={t("stockForm.reasonLabel")}
           name="note"
           placeholder="e.g. Damaged items removed, manual count correction, etc."
         />
@@ -158,18 +159,18 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("form.cancel")}
               </Button>
               <Button
                 disabled={action.isPending || !form.formState.isDirty}
                 type="submit"
               >
-                Save Changes
+                {t("form.saveChanges")}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} type="button">
-              Edit
+              {t("form.edit")}
             </Button>
           )}
         </div>

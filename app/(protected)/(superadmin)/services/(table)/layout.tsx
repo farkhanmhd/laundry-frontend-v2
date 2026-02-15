@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useServiceColumns } from "@/components/features/services/columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
@@ -10,6 +11,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const ServicesLayout = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations("Services");
   const columns = useServiceColumns();
   return (
     <TableProvider columns={columns}>
@@ -19,7 +21,7 @@ const ServicesLayout = ({ children }: { children: React.ReactNode }) => {
           href="/services/new"
         >
           <Plus />
-          Service
+          {t("form.serviceName")}
         </Link>
       </TableToolbar>
       {children}

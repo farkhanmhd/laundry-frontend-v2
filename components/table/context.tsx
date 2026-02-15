@@ -9,7 +9,8 @@ import {
   type SetStateAction,
   useContext,
 } from "react";
-import { useTable } from "./state"; // Your generic hook
+import { useTable } from "./state"; //
+import { cn } from "@/lib/utils";
 
 // 1. Define the shape of the context
 // We make it generic and use the precise types from your hook

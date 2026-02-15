@@ -270,16 +270,22 @@
       "amountDue": "Jumlah Ditagihkan",
       "changeReturned": "Kembalian",
       "payNow": "Bayar Sekarang",
-      "paid": "LUNAS"
+      "paid": "LUNAS",
+      "unpaid": "BELUM BAYAR"
     },
     "delivery": {
       "logistics": "Logistik",
-      "legs": "{count} / 2 Tahap",
+      "legs": "Perhentian",
       "noDeliveryInfo": "Tidak ada info pengiriman",
       "noDeliveryDescription": "Pesanan ini tidak memiliki permintaan penjemputan atau pengiriman.",
       "locationLabel": "Label Lokasi",
       "address": "Alamat",
-      "note": "Catatan"
+      "note": "Catatan",
+      "pickUp": "Jemput",
+      "delivery": "Kirim",
+      "readyForDelivery": "Siap Dikirim",
+      "homeDelivery": "Pengiriman ke Rumah",
+      "requestDelivery": "Minta Pengiriman"
     },
     "newOrder": {
       "createNewOrder": "Buat Pesanan Baru",
@@ -431,6 +437,7 @@
       "order": "Pesanan"
     },
     "form": {
+      "product": "Produk",
       "inventoryData": "Data Inventaris",
       "inventoryDataDescription": "Tinjau dan modifikasi detail inventaris utama...",
       "inventoryName": "Nama Inventaris",
@@ -442,7 +449,11 @@
       "saveChanges": "Simpan Perubahan",
       "edit": "Edit",
       "createNew": "Buat Inventaris Baru",
-      "createDescription": "Masukkan detail di bawah untuk menambahkan inventaris baru."
+      "createDescription": "Masukkan detail di bawah untuk menambahkan inventaris baru.",
+      "stock": "Jumlah Inventaris",
+      "safetyStock": "Jumlah Stok Aman",
+      "image": "Gambar",
+      "addInventory": "Tambah Inventaris"
     },
     "imageForm": {
       "title": "Gambar Inventaris",
@@ -450,7 +461,8 @@
       "uploadNew": "Unggah Gambar Baru",
       "noFileChosen": "Tidak ada file dipilih",
       "fileTypeError": "Hanya gambar JPEG atau PNG yang diperbolehkan",
-      "save": "Simpan"
+      "save": "Simpan",
+      "saveSuccess": "Gambar berhasil diperbarui"
     },
     "stockForm": {
       "title": "Penyesuaian Stok",
@@ -489,14 +501,16 @@
     "form": {
       "serviceData": "Data Layanan",
       "serviceDataDescription": "Tinjau dan modifikasi detail layanan utama...",
-      "serviceName": "Nama Layanan",
+      "serviceName": "Layanan",
       "serviceDescription": "Deskripsi Layanan",
       "servicePrice": "Harga Layanan (IDR)",
       "cancel": "Batal",
       "saveChanges": "Simpan Perubahan",
       "edit": "Edit",
       "createNew": "Buat Layanan Baru",
-      "createDescription": "Masukkan detail di bawah untuk menambahkan layanan baru."
+      "createDescription": "Masukkan detail di bawah untuk menambahkan layanan baru.",
+      "image": "Gambar",
+      "addService": "Tambah Layanan"
     },
     "imageForm": {
       "title": "Gambar Layanan",
@@ -504,7 +518,8 @@
       "uploadNew": "Unggah Gambar Baru",
       "noFileChosen": "Tidak ada file dipilih",
       "fileTypeError": "Hanya gambar JPEG atau PNG yang diperbolehkan",
-      "save": "Simpan"
+      "save": "Simpan",
+      "saveSuccess": "Gambar berhasil diperbarui"
     }
   },
   "Bundlings": {
@@ -520,9 +535,10 @@
     "form": {
       "bundlingData": "Data Paket",
       "bundlingDataDescription": "Tinjau dan modifikasi detail paket utama...",
-      "bundlingName": "Nama Paket",
+      "bundlingName": "Paket",
       "bundlingDescription": "Deskripsi Paket",
       "bundlingPrice": "Harga Paket (IDR)",
+      "image": "Gambar",
       "cancel": "Batal",
       "saveChanges": "Simpan Perubahan",
       "edit": "Edit",
@@ -535,7 +551,8 @@
       "uploadNew": "Unggah Gambar Baru",
       "noFileChosen": "Tidak ada file dipilih",
       "fileTypeError": "Hanya gambar JPEG atau PNG yang diperbolehkan",
-      "save": "Simpan"
+      "save": "Simpan",
+      "saveSuccess": "Gambar berhasil diperbarui"
     },
     "itemsForm": {
       "title": "Item Paket",
@@ -546,7 +563,44 @@
       "selectItem": "Pilih item",
       "quantity": "Jumlah",
       "cancel": "Batal",
-      "updateBundling": "Perbarui Paket"
+      "updateBundling": "Perbarui Paket",
+      "bundlingItems": "Item Paket"
+    }
+  },
+  "Vouchers": {
+    "title": "Voucher",
+    "table": {
+      "searchPlaceholder": "Cari voucher...",
+      "id": "ID",
+      "code": "Kode",
+      "percentage": "Persentase",
+      "discount": "Diskon",
+      "minSpend": "Min Belanja",
+      "maxDiscount": "Max Diskon",
+      "expiry": "Kedaluwarsa",
+      "dateAdded": "Tanggal Ditambahkan",
+      "visibility": "Visibilitas"
+    },
+    "form": {
+      "voucherCode": "Kode Voucher",
+      "voucherDescription": "Deskripsi Voucher",
+      "minSpend": "Minimum Belanja",
+      "voucherType": "Jenis Voucher",
+      "selectVoucherType": "Pilih Jenis Voucher",
+      "discountAmount": "Jumlah Diskon",
+      "discountPercentage": "Persentase Diskon (%)",
+      "maxDiscountAmount": "Jumlah Diskon Maksimum",
+      "expiryDate": "Tanggal Kedaluwarsa",
+      "showVoucher": "Tampilkan voucher kepada pelanggan",
+      "showVoucherDescription": "Ketika diaktifkan, voucher ini akan terlihat di sisi pelanggan.",
+      "visible": "Tampil",
+      "hidden": "Tersembunyi",
+      "fixed": "Tetap",
+      "percentage": "Persentase",
+      "createNew": "Buat Voucher Baru",
+      "createDescription": "Masukkan detail di bawah untuk menambahkan voucher baru.",
+      "updateVoucher": "Perbarui Voucher",
+      "updateDescription": "Masukkan detail di bawah untuk mengubah voucher."
     }
   },
   "Users": {
@@ -622,5 +676,168 @@
       "warning": "Peringatan stok menipis: {count} item{count, plural, one {} other {s}} perlu restok",
       "description": "Item berikut di bawah tingkat stok aman: {items}"
     }
+  },
+  "CustomerOrders": {
+    "title": "Pesanan Saya",
+    "newOrder": "Pesanan Baru",
+    "description": "Lihat dan kelola pesanan laundry Anda",
+    "loadMore": "Muat Lebih Banyak",
+    "order": "Pesanan",
+    "details": "Detail",
+    "payNow": "Bayar Sekarang",
+    "orderSummary": {
+      "pickupLocation": "Lokasi Penjemputan",
+      "noItemsAdded": "Tidak Ada Item Ditambahkan",
+      "cartEmpty": "Keranjang Anda kosong. Tambahkan item untuk memulai pesanan.",
+      "addItem": "Tambah Item",
+      "needAnythingElse": "Butuh yang Lain?",
+      "addOtherItems": "Tambahkan item lain ke pesanan Anda",
+      "addMore": "Tambah Lagi",
+      "requestPickup": "Minta Penjemputan"
+    },
+    "orderDetail": {
+      "orderItems": "Item Pesanan",
+      "subtotal": "Subtotal",
+      "paymentSummary": "Ringkasan Pembayaran",
+      "method": "Metode",
+      "status": "Status",
+      "amountPaid": "Jumlah Dibayar",
+      "change": "Kembalian",
+      "total": "Total",
+      "payWithQris": "Bayar dengan QRIS",
+      "deliveryDetails": "Detail Pengiriman",
+      "pickUp": "Jemput",
+      "delivery": "Kirim",
+      "address": "Alamat",
+      "note": "Catatan",
+      "readyForDelivery": "Siap Dikirim",
+      "homeDelivery": "Pengiriman ke Rumah",
+      "readyForDeliveryDescription": "Item Anda sudah siap. Minta driver sekarang?",
+      "homeDeliveryDescription": "Minta pengiriman sekarang dan kami akan menugaskan driver setelah pesanan Anda siap.",
+      "requestDelivery": "Minta Pengiriman",
+      "noDeliveryDetails": "Tidak ada detail pengiriman",
+      "noDeliveryServices": "Pesanan ini diselesaikan tanpa layanan pengiriman.",
+      "paymentRequired": "Menunggu Pembayaran",
+      "processing": "Diproses",
+      "ready": "Siap",
+      "completed": "Selesai"
+    },
+    "payment": {
+      "success": "Pembayaran Berhasil!",
+      "thankYou": "Terima kasih atas pembayaran Anda. Pesanan Anda sedang diproses.",
+      "transactionId": "ID Transaksi",
+      "date": "Tanggal",
+      "paymentMethod": "Metode Pembayaran",
+      "totalPaid": "Total Dibayar",
+      "returnToOrderDetails": "Kembali ke Detail Pesanan",
+      "orderSummary": "Ringkasan Pesanan",
+      "orderId": "ID Pesanan",
+      "subtotal": "Subtotal",
+      "discount": "Diskon",
+      "totalAmount": "Total Pembayaran",
+      "scanToPay": "Scan untuk Bayar",
+      "scanDescription": "Scan kode QRIS di bawah dengan aplikasi pembayaran pilihan Anda.",
+      "checkPaymentStatus": "Cek Status Pembayaran",
+      "saveQrImage": "Simpan Gambar QR"
+    }
+  },
+  "CustomerDeliveries": {
+    "title": "Pengiriman Saya",
+    "description": "Lacak penjemputan dan pengiriman aktif Anda dan lihat riwayat pengiriman.",
+    "loadMore": "Muat Lebih Banyak",
+    "viewDelivery": "Lihat Pengiriman",
+    "orderId": "ID Pesanan",
+    "pickup": "Penjemputan",
+    "delivery": "Pengiriman",
+    "deliveryDetail": {
+      "title": "Detail Pengiriman",
+      "description": "Lihat informasi tentang permintaan Anda.",
+      "deliveryInformation": "Informasi Pengiriman",
+      "deliveryId": "ID Pengiriman",
+      "type": "Tipe",
+      "orderId": "ID Pesanan",
+      "requestedTime": "Waktu Permintaan",
+      "selectedAddress": "Alamat Terpilih",
+      "locationNote": "Catatan Lokasi",
+      "instructionsForDriver": "Instruksi untuk Driver:",
+      "pickup": "Penjemputan",
+      "delivery": "Pengiriman",
+      "status": {
+        "requested": "Mencari Driver",
+        "assigned": "Driver Ditugaskan",
+        "in_progress": "Dalam Perjalanan",
+        "completed": "Selesai",
+        "cancelled": "Dibatalkan",
+        "messageRequested": "Kami saat ini sedang mencari driver di dekat Anda.",
+        "messageAssignedPickup": "Mohon tunggu driver kami untuk menjemput barang Anda.",
+        "messageAssignedDropoff": "Driver ditugaskan. Kami sedang menyiapkan untuk mengirim barang Anda.",
+        "messageInProgressPickup": "Driver sedang dalam perjalanan ke lokasi Anda untuk penjemputan.",
+        "messageInProgressDropoff": "Driver sedang dalam perjalanan untuk mengirim cucian bersih Anda.",
+        "messageCompleted": "Pengiriman ini telah berhasil diselesaikan.",
+        "messageCancelled": "Permintaan pengiriman ini dibatalkan."
+      }
+    }
+  },
+  "AccountSettings": {
+    "accountSettings": {
+      "title": "Pengaturan Akun",
+      "description": "Kelola informasi pribadi dan detail kontak Anda.",
+      "editProfile": "Edit Profil",
+      "saveChanges": "Simpan Perubahan",
+      "saving": "Menyimpan...",
+      "cancel": "Batal",
+      "username": "Nama Pengguna",
+      "usernameDescription": "Ini adalah nama tampilan unik Anda.",
+      "usernamePlaceholder": "Masukkan nama pengguna Anda",
+      "fullName": "Nama Lengkap",
+      "fullNamePlaceholder": "Masukkan nama lengkap Anda",
+      "phoneNumber": "Nomor Telepon",
+      "phoneNumberPlaceholder": "contoh. 08123456789",
+      "phoneDescription": "Digunakan untuk koordinasi pengiriman dan poin keanggotaan.",
+      "email": "Email",
+      "emailPlaceholder": "user@gmail.com",
+      "emailDescription": "Digunakan untuk email pengguna."
+    },
+    "security": {
+      "title": "Keamanan",
+      "description": "Pastikan akun Anda aman dengan menggunakan kata sandi yang kuat.",
+      "changePassword": "Ubah Kata Sandi",
+      "currentPassword": "Kata Sandi Saat Ini",
+      "currentPasswordPlaceholder": "Masukkan kata sandi saat ini",
+      "newPassword": "Kata Sandi Baru",
+      "newPasswordPlaceholder": "Masukkan kata sandi baru",
+      "confirmNewPassword": "Konfirmasi Kata Sandi Baru",
+      "confirmNewPasswordPlaceholder": "Masukkan kembali kata sandi baru",
+      "updatePassword": "Perbarui Kata Sandi",
+      "updating": "Memperbarui...",
+      "cancel": "Batal"
+    },
+    "addresses": {
+      "title": "Alamat Tersimpan",
+      "description": "Kelola lokasi pengiriman Anda (Maks 3).",
+      "loadingMap": "Memuat Peta...",
+      "addNew": "Tambah Baru",
+      "newAddress": "Alamat Baru",
+      "newAddressDescription": "Pin lokasi Anda di peta dan isi detailnya.",
+      "addressLabel": "Label Alamat",
+      "addressLabelPlaceholder": "contoh. Rumah, Kantor",
+      "fullAddress": "Alamat Lengkap",
+      "fullAddressPlaceholder": "Nama jalan...",
+      "pinLocation": "Pin Lokasi *",
+      "pinLocationError": "Silakan pin lokasi di peta.",
+      "saveAddress": "Simpan Alamat",
+      "saving": "Menyimpan...",
+      "cancel": "Batal",
+      "noAddresses": "Belum ada alamat tersimpan.",
+      "viewLocation": "Lihat Lokasi",
+      "delete": "Hapus",
+      "addressRemoved": "Alamat dihapus"
+    }
+  },
+  "Auth": {
+    "signOut": "Keluar",
+    "signOutTitle": "Keluar",
+    "signOutDescription": "Apakah Anda yakin ingin keluar?",
+    "cancel": "Batal"
   }
 }

@@ -1,4 +1,5 @@
 import { MinusIcon, Plus, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { FieldArrayWithId } from "react-hook-form";
 import type { SelectOption } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
@@ -11,21 +12,6 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import type { BundlingItem } from "@/lib/modules/bundlings/schema";
-
-const itemTypeOptions: SelectOption[] = [
-  {
-    label: "Select Item Type",
-    value: "select item type",
-  },
-  {
-    label: "Inventory",
-    value: "inventory",
-  },
-  {
-    label: "Services",
-    value: "service",
-  },
-];
 
 type BundlingFormValues = {
   items: BundlingItem[];
@@ -52,6 +38,23 @@ export function BundlingItemForm({
   update,
   disabled,
 }: Props) {
+  const t = useTranslations("Bundlings");
+
+  const itemTypeOptions: SelectOption[] = [
+    {
+      label: t("itemsForm.selectItemType"),
+      value: "select item type",
+    },
+    {
+      label: t("itemsForm.inventory"),
+      value: "inventory",
+    },
+    {
+      label: t("itemsForm.service"),
+      value: "service",
+    },
+  ];
+
   const itemType = field.itemType || "select item type";
   const currentId =
     itemType === "inventory" ? field.inventoryId : field.serviceId;
@@ -60,13 +63,19 @@ export function BundlingItemForm({
   const currentList = itemType === "inventory" ? inventories : services;
 
   const selectedItemOptions: SelectOption[] = [
-    { label: "Select an item", value: "select an item" },
+    { label: t("itemsForm.selectItem"), value: "select an item" },
     ...currentList,
   ];
 
   const selectedItemLabel =
     [...services, ...inventories].find((item) => item.value === selectedItem)
-      ?.label || "Select an Item";
+      ?.label || t("itemsForm.selectItem");
+
+  const getItemTypeLabel = (type: string) => {
+    if (type === "inventory") return t("itemsForm.inventory");
+    if (type === "service") return t("itemsForm.service");
+    return t("itemsForm.selectItemType");
+  };
 
   const handleItemTypeChange = (value: string) => {
     update(index, {
@@ -101,7 +110,9 @@ export function BundlingItemForm({
           onValueChange={handleItemTypeChange}
           value={itemType}
         >
-          <SelectTrigger className="capitalize">{itemType}</SelectTrigger>
+          <SelectTrigger className="capitalize">
+            {getItemTypeLabel(itemType)}
+          </SelectTrigger>
           <SelectContent>
             {itemTypeOptions.map((opt) => (
               <SelectItem key={opt.value} value={opt.value}>
@@ -130,7 +141,7 @@ export function BundlingItemForm({
           className="text-right"
           disabled={disabled}
           pattern="[0-9]*"
-          placeholder="Quantity"
+          placeholder={t("itemsForm.quantity")}
           readOnly
           value={field.quantity === 0 ? "" : field.quantity}
         />

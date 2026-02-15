@@ -3,12 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { addVoucherAction } from "@/lib/modules/vouchers/actions";
 import { voucherInsertSchema } from "@/lib/modules/vouchers/schema";
 import { VoucherDataForm } from "./voucher-data-form";
 
 export const CreateVoucher = () => {
+  const t = useTranslations("Vouchers");
   const { push } = useRouter();
   const formData = useHookFormAction(
     addVoucherAction,
@@ -39,7 +41,7 @@ export const CreateVoucher = () => {
     <VoucherDataForm
       formData={formData}
       onSubmitVoucherAction={formData.handleSubmitWithAction}
-      submitLabel="Create Voucher"
+      submitLabel={t("form.createNew")}
     />
   );
 };

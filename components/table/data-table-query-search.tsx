@@ -11,9 +11,9 @@ interface Props {
 }
 
 export const DataTableQuerySearch = ({ placeholder, className }: Props) => {
-  const t = useTranslations("Members.table");
+  const t = useTranslations("Table");
   const { setGlobalFilter, table, globalFilter } = useTableContext();
-  const searchPlaceholder = placeholder || t("placeholder");
+  const searchPlaceholder = placeholder || t("search.placeholder");
 
   const handleSearchChange = (searchQuery: string) => {
     setGlobalFilter(searchQuery);

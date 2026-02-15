@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export const ServiceImageForm = ({ id, src }: Props) => {
+  const t = useTranslations("Services");
   const [isEditing, setIsEditing] = useState(false);
 
   const [imageSrc, setImageSrc] = useState(src);
@@ -44,7 +46,7 @@ export const ServiceImageForm = ({ id, src }: Props) => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success("Image updated successfully");
+            toast.success(t("imageForm.saveSuccess"));
             setIsEditing(false);
           }
         },
@@ -82,16 +84,15 @@ export const ServiceImageForm = ({ id, src }: Props) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">Service Image</h2>
+        <h2 className="font-semibold text-xl">{t("imageForm.title")}</h2>
         <p className="text-muted-foreground text-sm">
-          Manage and update the Service image below. You can preview new uploads
-          before saving.
+          {t("imageForm.description")}
         </p>
       </div>
 
       <div className="flex justify-center">
         <Image
-          alt="Image"
+          alt={t("imageForm.title")}
           className="aspect-square max-h-64 max-w-64 rounded-md object-cover"
           height={500}
           src={imageSrc}
@@ -107,7 +108,7 @@ export const ServiceImageForm = ({ id, src }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel className="text-base" htmlFor={field.name}>
-                  Upload New Image
+                  {t("imageForm.uploadNew")}
                 </FieldLabel>
                 <Input
                   accept="image/jpeg,image/png,.jpg,.jpeg,.png"
@@ -117,14 +118,16 @@ export const ServiceImageForm = ({ id, src }: Props) => {
                     const file = e.target.files?.[0];
 
                     if (!file) {
-                      form.setError("image", { message: "No file chosen" });
+                      form.setError("image", {
+                        message: t("imageForm.noFileChosen"),
+                      });
                       return;
                     }
 
                     const validTypes = ["image/jpeg", "image/png"];
                     if (!validTypes.includes(file.type)) {
                       form.setError("image", {
-                        message: "Only JPEG or PNG images are allowed",
+                        message: t("imageForm.fileTypeError"),
                       });
                       e.target.value = "";
                       return;
@@ -157,18 +160,18 @@ export const ServiceImageForm = ({ id, src }: Props) => {
                 type="button"
                 variant="ghost"
               >
-                Cancel
+                {t("form.cancel")}
               </Button>
               <Button
                 disabled={action.isPending || !form.formState.isDirty}
                 type="submit"
               >
-                Save
+                {t("imageForm.save")}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} type="button">
-              Edit
+              {t("form.edit")}
             </Button>
           )}
         </div>

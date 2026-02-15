@@ -61,6 +61,8 @@
     "ultracite/biome/next"
   ],
   "javascript": {
-    "globals": ["bun"]
+    "globals": [
+      "bun"
+    ]
   }
 }

@@ -2,6 +2,7 @@
 
 import { Plus, TableOfContents } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { TableProvider } from "@/components/table/context";
 import { DataTableQuerySearch } from "@/components/table/data-table-query-search";
 import { TableViewProvider } from "@/components/table/table-view-provider";
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const InventoryTableClient = ({ data }: Props) => {
+  const t = useTranslations("Inventories");
   const columns = useInventoryColumns();
   return (
     <TableProvider columns={columns}>
@@ -24,7 +26,7 @@ export const InventoryTableClient = ({ data }: Props) => {
         style={cardShadowStyle}
       >
         <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
-          <CardTitle className="hidden md:block">Inventories</CardTitle>
+          <CardTitle className="hidden md:block">{t("title")}</CardTitle>
           <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
             <DataTableQuerySearch className="w-full md:w-80 md:max-w-80" />
             <div className="grid grid-cols-2 gap-3">
@@ -33,11 +35,11 @@ export const InventoryTableClient = ({ data }: Props) => {
                 href="/inventories/logs"
               >
                 <TableOfContents />
-                Logs
+                {t("logs.title")}
               </Link>
               <Link className={cn(buttonVariants())} href="/inventories/new">
                 <Plus />
-                Inventory
+                {t("form.product")}
               </Link>
             </div>
           </div>

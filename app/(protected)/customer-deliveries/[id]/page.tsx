@@ -9,16 +9,18 @@ import {
   Truck,
 } from "lucide-react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cardShadowStyle } from "@/lib/utils";
 
-// --- Types ---
 type PageProps = {
   params: Promise<{ id: string }>;
 };
+
+type Translator = Awaited<ReturnType<typeof getTranslations>>;
 
 type DeliveryDetail = {
   id: string;
@@ -38,14 +40,13 @@ type DeliveryDetail = {
   };
 };
 
-// --- Mock Data ---
 async function getDelivery(id: string): Promise<DeliveryDetail> {
   await new Promise((resolve) => setTimeout(resolve, 100));
 
   return {
     id,
     type: "pickup",
-    status: "assigned", // Tested status
+    status: "assigned",
     notes: "Please call when arriving at the security post.",
     requestedAt: new Date().toISOString(),
     completedAt: null,
@@ -61,92 +62,91 @@ async function getDelivery(id: string): Promise<DeliveryDetail> {
   };
 }
 
-// --- Helper: Status Badge ---
 const DeliveryStatusBadge = ({
   status,
+  t,
 }: {
   status: DeliveryDetail["status"];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: Translator;
 }) => {
-  const labels = {
-    requested: "Looking for Driver",
-    assigned: "Driver Assigned",
-    in_progress: "On The Way",
-    completed: "Completed",
-    cancelled: "Cancelled",
+  const labels: Record<DeliveryDetail["status"], string> = {
+    requested: t("status.requested"),
+    assigned: t("status.assigned"),
+    in_progress: t("status.in_progress"),
+    completed: t("status.completed"),
+    cancelled: t("status.cancelled"),
   };
 
   return <AlertTitle>{labels[status]}</AlertTitle>;
 };
 
-// --- Helper: Status Description Label ---
 const getStatusMessage = (
   status: DeliveryDetail["status"],
-  type: DeliveryDetail["type"]
+  type: DeliveryDetail["type"],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: Translator
 ) => {
   switch (status) {
     case "requested":
-      return "We are currently looking for a driver nearby.";
+      return t("status.messageRequested");
     case "assigned":
       return type === "pickup"
-        ? "Please wait for our driver to pickup your items."
-        : "Driver assigned. We are preparing to send your items.";
+        ? t("status.messageAssignedPickup")
+        : t("status.messageAssignedDropoff");
     case "in_progress":
       return type === "pickup"
-        ? "Driver is on the way to your location for pickup."
-        : "Driver is on the way to deliver your clean laundry.";
+        ? t("status.messageInProgressPickup")
+        : t("status.messageInProgressDropoff");
     case "completed":
-      return "This delivery has been completed successfully.";
+      return t("status.messageCompleted");
     case "cancelled":
-      return "This delivery request was cancelled.";
+      return t("status.messageCancelled");
     default:
       return "";
   }
 };
 
-// --- Main Component ---
 export default async function DeliveryDetailPage({ params }: PageProps) {
   const { id } = await params;
+  const t = await getTranslations("CustomerDeliveries.deliveryDetail");
   const delivery = await getDelivery(id);
 
   const isPickup = delivery.type === "pickup";
-  const statusMessage = getStatusMessage(delivery.status, delivery.type);
+  const statusMessage = getStatusMessage(delivery.status, delivery.type, t);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 bg-background p-6 text-foreground">
-      {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <h1 className="font-bold text-2xl text-foreground tracking-tight">
-            Delivery Details
+            {t("title")}
           </h1>
           <p className="mt-1 text-muted-foreground text-sm">
-            View information about your request.
+            {t("description")}
           </p>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-1" style={cardShadowStyle}>
-        {/* Main Information Card */}
         <Card className="border-border bg-card shadow-sm">
           <div className="flex items-center justify-between border-border/50 border-b px-4 pb-4">
             <CardTitle className="flex items-center gap-2 text-base text-card-foreground">
               <Truck className="h-4 w-4 text-muted-foreground" />
-              Delivery Information
+              {t("deliveryInformation")}
             </CardTitle>
           </div>
           <CardContent className="space-y-6">
             <Alert>
               <Info className="h-4 w-4 text-primary" />
-              <DeliveryStatusBadge status={delivery.status} />
+              <DeliveryStatusBadge status={delivery.status} t={t} />
               <AlertDescription>{statusMessage}</AlertDescription>
             </Alert>
 
-            {/* Top Grid: 2x2 Layout */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-6">
-              {/* 1. Delivery ID */}
               <div className="space-y-1.5">
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                  Delivery ID
+                  {t("deliveryId")}
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-foreground text-sm uppercase">
@@ -155,10 +155,9 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* 2. Type */}
               <div className="space-y-1.5">
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                  Type
+                  {t("type")}
                 </span>
                 <div className="flex items-center gap-2">
                   {isPickup ? (
@@ -167,15 +166,14 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                     <ArrowUpCircle className="h-5 w-5 text-primary" />
                   )}
                   <span className="font-medium text-foreground text-sm capitalize">
-                    {isPickup ? "Pick Up" : "Drop Off"}
+                    {isPickup ? t("pickup") : t("delivery")}
                   </span>
                 </div>
               </div>
 
-              {/* 3. Order ID */}
               <div className="space-y-1.5">
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                  Order ID
+                  {t("orderId")}
                 </span>
                 <Link
                   className="group flex w-fit items-center gap-2 uppercase"
@@ -188,10 +186,9 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                 </Link>
               </div>
 
-              {/* 4. Requested Time */}
               <div className="space-y-1.5">
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                  Requested Time
+                  {t("requestedTime")}
                 </span>
                 <div className="flex items-center gap-2 text-foreground">
                   <span className="font-medium text-sm">
@@ -206,11 +203,10 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
 
             <Separator />
 
-            {/* Address Details */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                  Selected Address
+                  {t("selectedAddress")}
                 </span>
                 {delivery.address.label && (
                   <Badge className="font-semibold uppercase" variant="default">
@@ -225,22 +221,20 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                   <p className="font-medium text-foreground text-sm leading-snug">
                     {delivery.address.address}
                   </p>
-                  {/* Address Notes (Permanent) */}
                   {delivery.address.notes && (
                     <p className="text-muted-foreground text-xs">
-                      Location Note: {delivery.address.notes}
+                      {t("locationNote")}: {delivery.address.notes}
                     </p>
                   )}
                 </div>
               </div>
 
-              {/* Delivery Specific Notes (One-time) */}
               {delivery.notes && (
                 <div className="rounded-md border border-border bg-secondary/50 p-3">
                   <div className="mb-1 flex items-center gap-2">
                     <AlertCircle className="h-3 w-3 text-primary" />
                     <p className="font-semibold text-foreground text-xs">
-                      Instructions for Driver:
+                      {t("instructionsForDriver")}
                     </p>
                   </div>
                   <p className="text-muted-foreground text-sm">

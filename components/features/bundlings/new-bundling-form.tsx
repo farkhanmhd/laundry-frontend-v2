@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import { BundlingItemForm } from "@/components/features/bundlings/bundling-item-form";
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export const NewBundlingForm = ({ services, inventories }: Props) => {
+  const t = useTranslations("Bundlings");
   const { push } = useRouter();
   const { form, action } = useHookFormAction(
     addBundlingAction,
@@ -72,7 +74,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       <FormInput
         disabled={action.isPending || !form.formState.isDirty}
         form={form}
-        label="Bundlings Name"
+        label={t("form.bundlingName")}
         name="name"
         placeholder="Paket Cuci"
       />
@@ -80,7 +82,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         as={Textarea}
         disabled={action.isPending || !form.formState.isDirty}
         form={form}
-        label="Bundlings Description"
+        label={t("form.bundlingDescription")}
         name="description"
         placeholder="Bundlings description"
       />
@@ -88,7 +90,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         className="text-right"
         disabled={action.isPending || !form.formState.isDirty}
         form={form}
-        label="Bundlings Price (IDR)"
+        label={t("form.bundlingPrice")}
         name="price"
         placeholder="10000"
       />
@@ -96,13 +98,13 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         accept="image/jpeg,image/png,.jpg,.jpeg,.png"
         disabled={action.isPending || !form.formState.isDirty}
         form={form}
-        label="Image"
+        label={t("form.image")}
         name="image"
         type="file"
       />
 
       <div className="flex flex-col gap-6">
-        <p className="font-medium">Bundling Items</p>
+        <p className="font-medium">{t("itemsForm.bundlingItems")}</p>
         <div className="flex flex-col gap-6">
           {fields.map((field, index) => (
             <BundlingItemForm
@@ -126,7 +128,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
             variant="outline"
           >
             <Plus />
-            <span>Add Item</span>
+            <span>{t("itemsForm.addItem")}</span>
           </Button>
         )}
       </div>
@@ -135,7 +137,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         disabled={action.isPending || !form.formState.isDirty}
         type="submit"
       >
-        Add Bundlings
+        {t("form.createNew")}
       </Button>
     </form>
   );

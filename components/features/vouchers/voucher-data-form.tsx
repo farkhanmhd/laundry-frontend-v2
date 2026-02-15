@@ -1,6 +1,7 @@
 "use client";
 
 import type { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
@@ -43,6 +44,7 @@ export const VoucherDataForm = ({
   onSubmitVoucherAction,
   formData,
 }: Props) => {
+  const t = useTranslations("Vouchers");
   const { action, form } = formData;
   const discountPercentage: number = useWatch({
     control: form.control,
@@ -67,7 +69,7 @@ export const VoucherDataForm = ({
       <FormInput
         disabled={action.isPending}
         form={form}
-        label="Voucher Code"
+        label={t("form.voucherCode")}
         name="code"
         placeholder="Voucher Code"
       />
@@ -76,7 +78,7 @@ export const VoucherDataForm = ({
         as={Textarea}
         disabled={action.isPending}
         form={form}
-        label="Voucher Description"
+        label={t("form.voucherDescription")}
         name="description"
         placeholder="Voucher Description"
       />
@@ -84,23 +86,23 @@ export const VoucherDataForm = ({
       <FormInput
         disabled={action.isPending}
         form={form}
-        label="Minimum Spend"
+        label={t("form.minSpend")}
         name="minSpend"
         placeholder="Minimum Spend"
       />
 
       <div className="space-y-3">
-        <Label className="text-base">Voucher Type</Label>
+        <Label className="text-base">{t("form.voucherType")}</Label>
         <Select onValueChange={handleVoucherTypeChange} value={voucherType}>
           <SelectTrigger className="mb-0 w-full capitalize">
-            <SelectValue placeholder="Select Voucher Type" />
+            <SelectValue placeholder={t("form.selectVoucherType")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Voucher Type</SelectLabel>
+              <SelectLabel>{t("form.voucherType")}</SelectLabel>
               {voucherTypes.map((type) => (
                 <SelectItem className="capitalize" key={type} value={type}>
-                  {type}
+                  {t(`form.${type}`)}
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -112,7 +114,7 @@ export const VoucherDataForm = ({
         <FormInput
           disabled={action.isPending}
           form={form}
-          label="Discount Amount"
+          label={t("form.discountAmount")}
           name="discountAmount"
           placeholder="Discount Amount"
         />
@@ -121,14 +123,14 @@ export const VoucherDataForm = ({
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Discount Percentage (%) "
+            label={t("form.discountPercentage")}
             name="discountPercentage"
             placeholder="Discount Percentage (%)"
           />
           <FormInput
             disabled={action.isPending}
             form={form}
-            label="Maximum Discount Amount"
+            label={t("form.maxDiscountAmount")}
             name="maxDiscountAmount"
             placeholder="Maximum Discount Amount"
           />
@@ -142,7 +144,7 @@ export const VoucherDataForm = ({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel className="text-base" htmlFor={field.name}>
-                Expiry Date
+                {t("form.expiryDate")}
               </FieldLabel>
               <DateTimePicker date={field.value} onChange={field.onChange} />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -165,10 +167,9 @@ export const VoucherDataForm = ({
                   onCheckedChange={field.onChange}
                 />
                 <FieldContent>
-                  <FieldTitle>Show voucher to customers</FieldTitle>
+                  <FieldTitle>{t("form.showVoucher")}</FieldTitle>
                   <FieldDescription>
-                    When enabled, this voucher will be visible in the customer
-                    side.
+                    {t("form.showVoucherDescription")}
                   </FieldDescription>
                 </FieldContent>
               </Field>

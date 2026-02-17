@@ -71,7 +71,7 @@ export const OrderDeliveryCard = ({ items }: OrderDeliveryCardProps) => {
           <div className="flex flex-col items-center justify-center space-y-2 py-6 text-center text-muted-foreground">
             <MapPinOff className="h-8 w-8 opacity-50" />
             <div className="font-medium text-sm">{t("noDeliveryInfo")}</div>
-            <p className="max-w-[200px] text-xs leading-snug opacity-70">
+            <p className="max-w-50 text-xs leading-snug opacity-70">
               {t("noDeliveryDescription")}
             </p>
           </div>

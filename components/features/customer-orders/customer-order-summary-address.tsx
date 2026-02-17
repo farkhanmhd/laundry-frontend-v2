@@ -1,6 +1,7 @@
 "use client";
 
 import { NotepadText, Pencil } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { cardShadowStyle } from "@/lib/utils";
 
@@ -31,20 +32,23 @@ interface OrderSummaryAddressProps {
   onNotes?: () => void;
 }
 
-export function OrderSummaryAddress({
-  label = "Pickup location",
+export function CustomerOrderSummaryAddress({
+  label,
   name,
   address,
   onChangeLocation,
   onEditAddress,
   onNotes,
 }: OrderSummaryAddressProps) {
+  const t = useTranslations("CustomerOrders");
   return (
     <div className="w-full rounded-xl bg-card p-6" style={cardShadowStyle}>
       <div className="flex items-start justify-between gap-4">
         {/* Address Info */}
         <div className="space-y-1">
-          <p className="font-medium text-muted-foreground text-xs">{label}</p>
+          <p className="font-medium text-muted-foreground text-xs">
+            {label || t("orderSummaryAddress.label")}
+          </p>
           <h3 className="font-semibold tracking-tight">{name}</h3>
           <p className="text-muted-foreground text-sm">{address}</p>
         </div>
@@ -55,7 +59,7 @@ export function OrderSummaryAddress({
           onClick={onChangeLocation}
           variant="outline"
         >
-          Change location
+          {t("orderSummaryAddress.changeLocation")}
         </Button>
       </div>
 
@@ -67,12 +71,12 @@ export function OrderSummaryAddress({
           variant="outline"
         >
           <Pencil className="h-4 w-4" />
-          Edit address details
+          {t("orderSummaryAddress.editAddressDetails")}
         </Button>
 
         <Button className="font-medium" onClick={onNotes} variant="outline">
           <NotepadText className="h-4 w-4" />
-          Notes
+          {t("orderSummaryAddress.notes")}
         </Button>
       </div>
     </div>

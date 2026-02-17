@@ -6,7 +6,6 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": true,
     "includes": [
       "!node_modules",
       "!.next",
@@ -61,8 +60,6 @@
     "ultracite/biome/next"
   ],
   "javascript": {
-    "globals": [
-      "bun"
-    ]
+    "globals": ["bun"]
   }
 }

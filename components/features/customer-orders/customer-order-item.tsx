@@ -6,7 +6,7 @@ import NumberInput from "@/components/forms/number-input";
 import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import { formatToIDR } from "@/lib/utils";
-import { useCustomerOrder } from "../customer-orders/state";
+import { useCustomerOrder } from "./state";
 
 // Define the data type as requested
 export interface PosOrderItem {
@@ -28,7 +28,7 @@ interface OrderSummaryItemProps {
   item: PosOrderItem;
 }
 
-export function OrderSummaryItem({ item }: OrderSummaryItemProps) {
+export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
   const { handleIncrementQuantity, handleDecrementQuantity } =
     useCustomerOrder();
 

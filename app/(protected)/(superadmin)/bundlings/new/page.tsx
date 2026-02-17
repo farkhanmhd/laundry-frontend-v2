@@ -1,16 +1,11 @@
 import { getTranslations } from "next-intl/server";
+import { NewBundlingForm } from "@/components/features/bundlings/new-bundling-form";
 import type { SelectOption } from "@/components/forms/form-select";
 import { InventoriesApi } from "@/lib/modules/inventories/data";
 import { ServicesApi } from "@/lib/modules/services/data";
-import { NewBundlingForm } from "../../../../../components/features/bundlings/new-bundling-form";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
-const NewBundlingPage = async ({ params }: Props) => {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Bundlings" });
+const NewBundlingPage = async () => {
+  const t = await getTranslations("Bundlings");
 
   const [services, inventories] = await Promise.all([
     ServicesApi.getServices(),

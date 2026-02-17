@@ -1,33 +1,40 @@
+"use client";
+
 import { Blocks } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { QueryFacetedFilter } from "@/components/table/query-faceted-filter";
 import { Button } from "@/components/ui/button";
 import { cardShadowStyle, type SelectOption } from "@/lib/utils";
 
-const itemTypeOptions: SelectOption[] = [
+const itemTypeOptions = (
+  t: ReturnType<typeof useTranslations<"Navigation.nav">>
+): SelectOption[] => [
   {
-    label: "Bundling",
+    label: t("bundlings"),
     value: "bundling",
   },
   {
-    label: "Inventory",
+    label: t("inventories"),
     value: "inventory",
   },
   {
-    label: "Service",
+    label: t("services"),
     value: "service",
   },
 ];
 
 export const SalesItemTypeFilter = () => {
+  const t = useTranslations("Sales.columns.bestSellers");
+  const nav = useTranslations("Navigation.nav");
   return (
     <QueryFacetedFilter
-      options={itemTypeOptions}
+      options={itemTypeOptions(nav)}
       queryKey="item_type"
-      title="Type"
+      title={t("type")}
     >
       <Button style={cardShadowStyle} variant="outline">
         <Blocks />
-        Type
+        {t("type")}
       </Button>
     </QueryFacetedFilter>
   );

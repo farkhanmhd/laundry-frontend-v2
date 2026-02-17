@@ -4,13 +4,8 @@ import { OrderListItem } from "@/components/features/orders/order-list-item";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { mockCustomerOrders } from "./data";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
-const MyOrdersPage = async ({ params }: Props) => {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "CustomerOrders" });
+const MyOrdersPage = async () => {
+  const t = await getTranslations("CustomerOrders");
 
   return (
     <div className="mx-auto max-w-3xl p-6">

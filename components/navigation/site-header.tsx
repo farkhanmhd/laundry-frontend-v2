@@ -2,11 +2,10 @@
 
 import { ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { useBreakpoint } from "@/hooks/use-breakpoints";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cn } from "@/lib/utils";
-import { useCustomerOrder } from "../features/orders/state";
+import { useCustomerOrder } from "../features/customer-orders/state";
 import { TranslatorToggle } from "../providers/translator";
 import { Badge } from "../ui/badge";
 import { buttonVariants } from "../ui/button";
@@ -15,13 +14,12 @@ import { BreadcrumbNav } from "./breadcrumb-nav";
 import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
-  const { posData, toggleCart, totalItems } = usePOS();
+  const { totalItems } = usePOS();
   const { totalItems: customerTotalItems } = useCustomerOrder();
   const { data: session } = authClient.useSession();
-  const isLarge = useBreakpoint(1024);
 
   return (
-    <header className="b flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
+    <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
       <div className="flex items-center gap-2">
         <BreadcrumbNav />
       </div>

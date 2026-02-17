@@ -407,9 +407,12 @@
       }
     },
     "tabs": {
-      "overview": "Overview",
+      "overview": "Best Selling",
+      "overviewTitle": "Sales By Best Selling Items",
       "orders": "Orders",
-      "items": "Items"
+      "ordersTitle": "Sales By Order",
+      "items": "Items",
+      "itemsTitle": "Sales By Order Item"
     }
   },
   "Inventories": {
@@ -695,6 +698,27 @@
       "addMore": "Add More",
       "requestPickup": "Request Pickup"
     },
+    "orderSummaryAddress": {
+      "label": "Pickup location",
+      "changeLocation": "Change location",
+      "editAddressDetails": "Edit address details",
+      "notes": "Notes"
+    },
+    "paymentSummary": {
+      "paymentMethod": "Payment Method",
+      "qris": "QRIS",
+      "itemsTotalAmount": "Items Total",
+      "totalDiscount": "Total Discount",
+      "pointsRedeemed": "Points Redeemed",
+      "pointsEarned": "Points Earned",
+      "total": "Total"
+    },
+    "customerPoints": {
+      "redeemLoyaltyPoints": "Redeem Loyalty Points",
+      "balance": "Balance",
+      "enterAmountDescription": "points. Enter amount to redeem:",
+      "amountOfPoints": "Amount of points"
+    },
     "orderDetail": {
       "orderItems": "Order Items",
       "subtotal": "Subtotal",
@@ -839,5 +863,11 @@
     "signOutTitle": "Sign out",
     "signOutDescription": "Are you sure you want to sign out?",
     "cancel": "Cancel"
+  },
+  "OrderSummaryAddress": {
+    "label": "Pickup location",
+    "changeLocation": "Change location",
+    "editAddressDetails": "Edit address details",
+    "notes": "Notes"
   }
 }

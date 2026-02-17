@@ -44,7 +44,7 @@ export type PosCustomer = NonNullable<
 
 export interface PosOrderItem extends OrderItem {
   id: string;
-  image?: string;
+  image: string;
   name: string;
   price: number;
   stock?: number | null;
@@ -83,7 +83,7 @@ const initialData: PosDataState = {
 
 const posDataAtom = atomWithStorage<PosDataState>("pos-data", initialData);
 
-const getMaxDiscount = (voucher: PosVoucher, totalAmount: number) => {
+export const getMaxDiscount = (voucher: PosVoucher, totalAmount: number) => {
   const voucherType =
     voucher.discountPercentage && voucher.discountPercentage !== null
       ? "percentage"
@@ -288,7 +288,7 @@ export const usePOS = () => {
   const togglePoint = () => {
     setPosData((prev) => ({
       ...prev,
-      points: posData.points !== null ? null : 0,
+      points: prev.points !== null ? null : 0,
     }));
   };
 

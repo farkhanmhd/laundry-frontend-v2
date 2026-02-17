@@ -72,8 +72,12 @@ export function BundlingItemForm({
       ?.label || t("itemsForm.selectItem");
 
   const getItemTypeLabel = (type: string) => {
-    if (type === "inventory") return t("itemsForm.inventory");
-    if (type === "service") return t("itemsForm.service");
+    if (type === "inventory") {
+      return t("itemsForm.inventory");
+    }
+    if (type === "service") {
+      return t("itemsForm.service");
+    }
     return t("itemsForm.selectItemType");
   };
 

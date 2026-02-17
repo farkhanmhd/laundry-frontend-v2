@@ -3,12 +3,12 @@ import { UpdateVoucher } from "@/components/features/vouchers/update-voucher";
 import { type Voucher, VouchersApi } from "@/lib/modules/vouchers/data";
 
 type Props = {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ id: string }>;
 };
 
 const VoucherDetailPage = async ({ params }: Props) => {
-  const { id, locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Vouchers" });
+  const { id } = await params;
+  const t = await getTranslations("Vouchers");
   const voucher = (await VouchersApi.getVoucherById(id)) as Voucher;
   return (
     <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">

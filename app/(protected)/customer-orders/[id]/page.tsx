@@ -8,13 +8,13 @@ import {
   Package,
   Truck,
 } from "lucide-react";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
-import Link from "next/link";
 
 // --- Types based on your Drizzle Schema ---
 type OrderDetailProps = {

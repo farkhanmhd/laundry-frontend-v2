@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import type React from "react";
 import { authClient } from "@/lib/modules/auth/auth-client";
@@ -10,17 +10,17 @@ interface Props {
 }
 
 const MemberReportsLayout = ({ header, table, cards }: Props) => {
-  const { data} = authClient.useSession()
+  const { data } = authClient.useSession();
 
   if (!data) {
-    return null
+    return null;
   }
 
-  const role = data.user.role
+  const role = data.user.role;
 
   return (
     <section className="min-h-[calc(100dvh-128px)] space-y-6 p-6 md:min-h-[calc(100dvh-64px)]">
-      {role === 'superadmin' && (
+      {role === "superadmin" && (
         <>
           {header}
           {cards}

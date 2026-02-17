@@ -407,9 +407,12 @@
       }
     },
     "tabs": {
-      "overview": "Ringkasan",
+      "overview": "Terlaris",
+      "overviewTitle": "Penjualan Berdasarkan Item Terlaris",
       "orders": "Pesanan",
-      "items": "Item"
+      "ordersTitle": "Penjualan Berdasarkan Pesanan",
+      "items": "Item",
+      "itemsTitle": "Penjualan Berdasarkan Item Pesanan"
     }
   },
   "Inventories": {
@@ -673,7 +676,7 @@
     "lowStockAlert": {
       "healthy": "Semua tingkat stok sehat",
       "healthyDescription": "Tidak ada item yang saat ini di bawah tingkat stok aman.",
-      "warning": "Peringatan stok menipis: {count} item{count, plural, one {} other {s}} perlu restok",
+      "warning": "Peringatan stok menipis: {count} item perlu restok",
       "description": "Item berikut di bawah tingkat stok aman: {items}"
     }
   },
@@ -694,6 +697,27 @@
       "addOtherItems": "Tambahkan item lain ke pesanan Anda",
       "addMore": "Tambah Lagi",
       "requestPickup": "Minta Penjemputan"
+    },
+    "orderSummaryAddress": {
+      "label": "Lokasi penjemputan",
+      "changeLocation": "Ubah lokasi",
+      "editAddressDetails": "Edit detail alamat",
+      "notes": "Catatan"
+    },
+    "paymentSummary": {
+      "paymentMethod": "Metode Pembayaran",
+      "qris": "QRIS",
+      "itemsTotalAmount": "Total Item",
+      "totalDiscount": "Total Diskon",
+      "pointsRedeemed": "Poin Ditukarkan",
+      "pointsEarned": "Poin Diperoleh",
+      "total": "Total"
+    },
+    "customerPoints": {
+      "redeemLoyaltyPoints": "Tukarkan Poin Loyalitas",
+      "balance": "Saldo",
+      "enterAmountDescription": "poin. Masukkan jumlah untuk menukarkan:",
+      "amountOfPoints": "Jumlah poin"
     },
     "orderDetail": {
       "orderItems": "Item Pesanan",
@@ -839,5 +863,11 @@
     "signOutTitle": "Keluar",
     "signOutDescription": "Apakah Anda yakin ingin keluar?",
     "cancel": "Batal"
+  },
+  "OrderSummaryAddress": {
+    "label": "Lokasi penjemputan",
+    "changeLocation": "Ubah lokasi",
+    "editAddressDetails": "Edit detail alamat",
+    "notes": "Catatan"
   }
 }

@@ -8,14 +8,14 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
 import type { PosItemData } from "@/lib/modules/pos/data";
 import { cardShadowStyle, formatToIDR } from "@/lib/utils";
-import { useCustomerOrder } from "./state";
+import { useCustomerOrder } from "../customer-orders/state";
 
 type Props = {
   item: PosItemData;
 };
 
 export function OrderItemCard({ item }: Props) {
-  const t = useTranslations("CustomerOrders");
+  const _t = useTranslations("CustomerOrders");
   const { handleAddToCart } = useCustomerOrder();
 
   return (

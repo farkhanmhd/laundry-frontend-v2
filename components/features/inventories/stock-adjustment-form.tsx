@@ -105,7 +105,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
             form={form}
             label={t("stockForm.currentQuantity")}
             name="currentQuantity"
-            placeholder="Current quantity in stock"
+            placeholder={t("stockForm.currentQuantityPlaceholder")}
             value={currentQuantity}
           />
 
@@ -115,7 +115,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
             inputMode="numeric"
             label={t("stockForm.changeAmount")}
             name="changeAmount"
-            placeholder="Decrease (-1) or Increase (6)"
+            placeholder={t("stockForm.changeAmountPlaceholder")}
           />
         </div>
 
@@ -147,7 +147,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
           form={form}
           label={t("stockForm.reasonLabel")}
           name="note"
-          placeholder="e.g. Damaged items removed, manual count correction, etc."
+          placeholder={t("stockForm.reasonPlaceholder")}
         />
 
         <div className="flex justify-end gap-3">

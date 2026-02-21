@@ -9,6 +9,7 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import { Client } from "@/components/utils/client";
 
 export default function EmployeeLayout({
   children,
@@ -18,7 +19,9 @@ export default function EmployeeLayout({
   return (
     <SidebarProvider open={false}>
       <AppSidebar>
-        <NavigationSidebar />
+        <Client>
+          <NavigationSidebar />
+        </Client>
       </AppSidebar>
       <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0.5 md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:rounded-none md:peer-data-[variant=inset]:shadow-none">
         <SiteHeader />

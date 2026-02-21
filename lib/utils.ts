@@ -108,8 +108,4 @@ export const salesTabLists: SelectOption[] = [
     label: "Orders",
     value: "orders",
   },
-  {
-    label: "Item Logs",
-    value: "items",
-  },
 ];

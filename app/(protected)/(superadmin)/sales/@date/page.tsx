@@ -1,4 +1,3 @@
-import { sleep } from "bun";
 import { DateRangePicker } from "@/components/date/date-range-picker";
 import { type DateRangeSearchParams, getDateRange } from "@/lib/utils";
 
@@ -7,7 +6,6 @@ interface Props {
 }
 
 const SalesHeader = async (props: Props) => {
-  await sleep(2000);
   const searchParams = await props.searchParams;
   const dateRange = getDateRange(searchParams);
   return (

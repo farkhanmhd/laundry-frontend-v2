@@ -223,6 +223,8 @@ export const useCustomerOrder = () => {
     }
   }, [amountBeforePoints, customerCart.points, userPoints, setCustomerCart]);
 
+  const { voucherList } = customerCart;
+
   return {
     customerCart,
     setCustomerCart,
@@ -234,6 +236,7 @@ export const useCustomerOrder = () => {
     pointsEarned,
     totalDiscount,
     amountBeforePoints,
+    voucherList,
     totalAmountToBePaid,
     isSelectedVoucher,
     handleSelectVoucher,

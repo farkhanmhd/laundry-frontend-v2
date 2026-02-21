@@ -4,7 +4,13 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Client } from "@/components/utils/client";
 import type { Order } from "@/lib/modules/orders/data";
 import { cn, formatToIDR } from "@/lib/utils";
@@ -110,6 +116,41 @@ export const ordersColumns: ColumnDef<Order>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt") as string);
       return <div className="text-sm">{date.toLocaleDateString("id-ID")}</div>;
+    },
+  },
+  {
+    header: () => {
+      const t = useTranslations("Orders.table");
+      return t("actions");
+    },
+    id: "actions",
+    cell: ({ row }) => {
+      const t = useTranslations("Orders.table");
+      const status = row.original.status;
+
+      const handleStatusUpdate = (newStatus: string) => {
+        console.log(`Updating order ${row.original.id} to ${newStatus}`);
+      };
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">⋯</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {status === "processing" && (
+              <DropdownMenuItem onClick={() => handleStatusUpdate("ready")}>
+                {t("markAsReady")}
+              </DropdownMenuItem>
+            )}
+            {status === "ready" && (
+              <DropdownMenuItem onClick={() => handleStatusUpdate("completed")}>
+                {t("markAsCompleted")}
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];

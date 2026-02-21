@@ -1,6 +1,5 @@
 import { format, startOfMonth } from "date-fns";
 import { SalesByOrder } from "@/components/features/sales/sales-by-order";
-import SalesItemLogs from "@/components/features/sales/sales-item-logs";
 import SalesOverview from "@/components/features/sales/sales-overview";
 import type {
   BestSellersQuery,
@@ -40,7 +39,6 @@ const TablePage = async (props: Props) => {
     <>
       <SalesOverview query={bestSellersQuery} />
       <SalesByOrder query={salesByOrderQuery} />
-      <SalesItemLogs query={bestSellersQuery} />
     </>
   );
 };

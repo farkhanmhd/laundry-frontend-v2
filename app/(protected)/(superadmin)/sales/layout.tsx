@@ -47,6 +47,7 @@ const SalesLayout = ({
               <TabsTrigger
                 className="capitalize"
                 key={tabItem.value}
+                style={cardShadowStyle}
                 value={tabItem.value}
               >
                 {t(tabItem.value)}

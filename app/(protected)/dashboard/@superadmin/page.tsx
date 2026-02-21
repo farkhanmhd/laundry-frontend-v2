@@ -436,7 +436,7 @@ export default function SuperAdminDashboard() {
           </div>
 
           {/* Date Range Picker */}
-          <div className="grid gap-2">
+          <div className="grid gap-2" style={cardShadowStyle}>
             <Popover>
               <PopoverTrigger asChild>
                 <Button

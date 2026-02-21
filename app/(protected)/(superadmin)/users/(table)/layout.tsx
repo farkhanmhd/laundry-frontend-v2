@@ -10,7 +10,7 @@ const UsersLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <TableProvider columns={userColumns} manualPagination>
-      <TableToolbar searchPlaceholder="Search by Username or Name..." />
+      <TableToolbar />
       {children}
       <TablePagination />
     </TableProvider>

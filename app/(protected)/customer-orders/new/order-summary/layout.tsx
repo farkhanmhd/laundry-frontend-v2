@@ -6,6 +6,7 @@ interface Props {
   points: React.ReactNode;
   paymentSummary: React.ReactNode;
   children: React.ReactNode;
+  vouchers: React.ReactNode;
 }
 
 const CustomerOrderSummaryLayout = ({
@@ -14,6 +15,7 @@ const CustomerOrderSummaryLayout = ({
   points,
   paymentSummary,
   children,
+  vouchers,
 }: Props) => {
   return (
     <div className="mx-auto min-h-[calc(100dvh-144px)] max-w-7xl p-4 md:min-h-[calc(100dvh-64px)]">
@@ -21,6 +23,7 @@ const CustomerOrderSummaryLayout = ({
         <div className="space-y-4 lg:col-span-8">
           {address}
           {items}
+          {vouchers}
         </div>
         <div className="space-y-3 lg:sticky lg:top-4 lg:col-span-4">
           {points}

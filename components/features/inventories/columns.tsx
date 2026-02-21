@@ -229,23 +229,6 @@ export const useInventoryHistoryColumns = (): ColumnDef<InventoryHistory>[] => {
 
   return [
     {
-      accessorKey: "image",
-      header: t.logs.product,
-      cell: ({ row }) => (
-        <div className="line-clamp-1 min-w-max font-medium uppercase">
-          <Image
-            alt="Product Image"
-            className="max-h-15 w-auto rounded-lg object-cover"
-            height={60}
-            src={row.getValue("image") || "/placeholder.svg"}
-            width={60}
-          />
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "name",
       header: t.table.name,
       cell: ({ row }) => {

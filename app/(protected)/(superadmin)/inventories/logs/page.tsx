@@ -1,9 +1,10 @@
-import { Archive } from "lucide-react";
+import { Archive, Download } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { InventoryCategoryOptions } from "@/components/features/inventories/inventory-category-options";
 import { QueryFacetedFilter } from "@/components/table/query-faceted-filter";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { TableView } from "@/components/table/table-view";
+import { Button } from "@/components/ui/button";
 import { InventoriesApi } from "@/lib/modules/inventories/data";
 import {
   getInventoryHistoryQuery,
@@ -19,6 +20,10 @@ const Page = async (props: InventoryHistoryQueryProps) => {
   return (
     <>
       <TableToolbar searchPlaceholder={t("logs.searchByProduct")}>
+        <Button className="rounded-none border-0 border-l" variant="outline">
+          <Download />
+          Export
+        </Button>
         <QueryFacetedFilter
           icon={<Archive className="h-4 w-4" />}
           options={inventoryOptions}

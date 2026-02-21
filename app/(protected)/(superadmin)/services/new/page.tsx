@@ -46,7 +46,7 @@ const NewServicePage = () => {
           form={form}
           label={t("form.serviceName")}
           name="name"
-          placeholder="Service Name"
+          placeholder={t("form.serviceNamePlaceholder")}
         />
         <FormInput
           as={Textarea}
@@ -54,14 +54,14 @@ const NewServicePage = () => {
           form={form}
           label={t("form.serviceDescription")}
           name="description"
-          placeholder="Service Description"
+          placeholder={t("form.serviceDescriptionPlaceholder")}
         />
         <FormInput
           disabled={action.isPending}
           form={form}
           label={t("form.servicePrice")}
           name="price"
-          placeholder="Service Price"
+          placeholder={t("form.servicePricePlaceholder")}
         />
         <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"

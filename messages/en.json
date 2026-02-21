@@ -314,7 +314,10 @@
       "total": "Total",
       "status": "Status",
       "date": "Date",
-      "items": "items"
+      "items": "items",
+      "actions": "Actions",
+      "markAsReady": "Mark as Ready",
+      "markAsCompleted": "Mark as Completed"
     }
   },
   "Deliveries": {
@@ -469,12 +472,15 @@
     },
     "stockForm": {
       "title": "Stock Adjustment",
-      "description": "Adjust the stock quantity...",
+      "description": "Adjust the stock quantity and track changes.",
       "currentQuantity": "Current Quantity",
+      "currentQuantityPlaceholder": "Current quantity in stock",
       "changeAmount": "Change Amount",
+      "changeAmountPlaceholder": "Decrease (-1) or Increase (6)",
       "adjustmentType": "Adjustment Type",
       "selectType": "Select adjustment Type",
-      "reasonLabel": "Reason for Adjustment"
+      "reasonLabel": "Reason for Adjustment",
+      "reasonPlaceholder": "e.g. Damaged items removed, manual count correction, etc."
     },
     "logs": {
       "title": "Inventory Logs",
@@ -505,8 +511,11 @@
       "serviceData": "Service Data",
       "serviceDataDescription": "Review and modify key Service details...",
       "serviceName": "Service Name",
+      "serviceNamePlaceholder": "Enter service name",
       "serviceDescription": "Service Description",
+      "serviceDescriptionPlaceholder": "Enter service description",
       "servicePrice": "Service Price (IDR)",
+      "servicePricePlaceholder": "Enter service price",
       "cancel": "Cancel",
       "saveChanges": "Save Changes",
       "edit": "Edit",
@@ -661,6 +670,7 @@
     }
   },
   "InventoryReports": {
+    "title": "Inventory Reports",
     "totalItems": {
       "title": "Total Items",
       "description": "All inventory items in stock"
@@ -763,6 +773,29 @@
       "scanDescription": "Scan the QRIS code below with your preferred payment app.",
       "checkPaymentStatus": "Check Payment Status",
       "saveQrImage": "Save QR Image"
+    },
+    "summaryEmptyVouchers": {
+      "noVouchersAvailable": "No Vouchers Available",
+      "noVouchersDescription": "There are no vouchers available for this order."
+    },
+    "voucher": {
+      "off": "OFF",
+      "upTo": "Up to",
+      "exp": "Exp",
+      "noExpiry": "No Expiry",
+      "minTransaction": "Min. Transaction",
+      "noLimit": "No Limit",
+      "remove": "Remove",
+      "addMoreToUse": "Add {amount} more to use",
+      "apply": "Apply"
+    },
+    "voucherInput": {
+      "minimumSpendNotMet": "Minimum spend not met",
+      "voucherDoesNotExist": "Voucher {code} does not exist",
+      "voucherNotExist": "Voucher does not exist",
+      "pleaseInputCode": "Please input voucher code",
+      "enterVoucherCode": "Enter voucher code",
+      "apply": "Apply"
     }
   },
   "CustomerDeliveries": {

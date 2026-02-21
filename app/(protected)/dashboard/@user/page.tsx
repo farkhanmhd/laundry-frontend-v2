@@ -12,6 +12,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Client } from "@/components/utils/client";
 import { cardShadowStyle, cn, formatDate } from "@/lib/utils";
 
@@ -74,7 +81,6 @@ const availableRewards = [
   {
     id: "v-001",
     name: "Free Delivery",
-    cost: 500,
     code: "FREEDEL2025",
     expiresAt: "2026-01-15T00:00:00Z",
     icon: Truck,
@@ -82,7 +88,6 @@ const availableRewards = [
   {
     id: "v-002",
     name: "10% Off Dry Clean",
-    cost: 350,
     code: "DRYCLEAN10",
     expiresAt: "2025-12-25T00:00:00Z",
     icon: MapPin,
@@ -90,7 +95,6 @@ const availableRewards = [
   {
     id: "v-003",
     name: "IDR 20k Voucher",
-    cost: 800,
     code: "DISC20K",
     expiresAt: "2026-02-01T00:00:00Z",
     icon: Ticket,
@@ -103,7 +107,7 @@ export default function CustomerDashboard() {
       <div className="mx-auto max-w-5xl space-y-6">
         {/* HERO SECTION: Welcome & Points */}
         <Card
-          className="border-none bg-primary text-primary-foreground"
+          className="border-none bg-primary text-primary-foreground dark:bg-primary"
           style={cardShadowStyle}
         >
           <CardContent>
@@ -228,38 +232,51 @@ export default function CustomerDashboard() {
                 <CardDescription>Redeem your points for deals</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {availableRewards.map((reward) => (
-                    <div
-                      className="relative flex flex-col gap-2 rounded-lg border border-dashed p-3"
-                      key={reward.id}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-medium text-sm">{reward.name}</p>
-                            <Client>
-                              <p className="text-muted-foreground text-xs">
-                                Expires {formatDate(reward.expiresAt)}
+                {availableRewards.length === 0 ? (
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <Ticket className="size-8 text-muted-foreground" />
+                      </EmptyMedia>
+                      <EmptyTitle>No Rewards Available</EmptyTitle>
+                      <EmptyDescription>
+                        You don't have any rewards to redeem yet. Place an order
+                        to earn points!
+                      </EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
+                ) : (
+                  <div className="space-y-3">
+                    {availableRewards.map((reward) => (
+                      <div
+                        className="relative flex flex-col gap-2 rounded-lg border border-dashed p-3"
+                        key={reward.id}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <p className="font-medium text-sm">
+                                {reward.name}
                               </p>
-                            </Client>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="mt-1 flex items-center justify-between border-t border-dashed pt-2">
-                        <span className="font-bold text-primary text-xs">
-                          {reward.cost} pts
-                        </span>
-                        {/* Changed Button to Code Display */}
-                        <div className="flex items-center justify-center rounded bg-muted px-2 py-1">
-                          <span className="font-bold font-mono text-[10px] tracking-wide">
-                            {reward.code}
-                          </span>
+                        <div className="mt-1 flex items-center justify-between border-t border-dashed pt-2">
+                          <div className="flex items-center justify-between rounded bg-muted px-2 py-1">
+                            <span className="font-bold font-mono text-[10px] tracking-wide">
+                              {reward.code}
+                            </span>
+                          </div>
+                          <Client>
+                            <p className="text-muted-foreground text-xs">
+                              Expires {formatDate(reward.expiresAt)}
+                            </p>
+                          </Client>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

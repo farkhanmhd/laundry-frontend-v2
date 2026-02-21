@@ -314,7 +314,10 @@
       "total": "Total",
       "status": "Status",
       "date": "Tanggal",
-      "items": "item"
+      "items": "item",
+      "actions": "Aksi",
+      "markAsReady": "Tandai Siap",
+      "markAsCompleted": "Tandai Selesai"
     }
   },
   "Deliveries": {
@@ -469,12 +472,15 @@
     },
     "stockForm": {
       "title": "Penyesuaian Stok",
-      "description": "Sesuaikan jumlah stok...",
+      "description": "Sesuaikan jumlah stok dan lacak perubahan.",
       "currentQuantity": "Jumlah Saat Ini",
+      "currentQuantityPlaceholder": "Jumlah saat ini dalam stok",
       "changeAmount": "Jumlah Perubahan",
+      "changeAmountPlaceholder": "Kurangi (-1) atau Tambah (6)",
       "adjustmentType": "Jenis Penyesuaian",
       "selectType": "Pilih Jenis Penyesuaian",
-      "reasonLabel": "Alasan Penyesuaian"
+      "reasonLabel": "Alasan Penyesuaian",
+      "reasonPlaceholder": "Contoh: Barang rusak dibuang, koreksi hitung manual, dll."
     },
     "logs": {
       "title": "Log Inventaris",
@@ -505,8 +511,11 @@
       "serviceData": "Data Layanan",
       "serviceDataDescription": "Tinjau dan modifikasi detail layanan utama...",
       "serviceName": "Layanan",
+      "serviceNamePlaceholder": "Masukkan nama layanan",
       "serviceDescription": "Deskripsi Layanan",
+      "serviceDescriptionPlaceholder": "Masukkan deskripsi layanan",
       "servicePrice": "Harga Layanan (IDR)",
+      "servicePricePlaceholder": "Masukkan harga layanan",
       "cancel": "Batal",
       "saveChanges": "Simpan Perubahan",
       "edit": "Edit",
@@ -661,6 +670,7 @@
     }
   },
   "InventoryReports": {
+    "title": "Laporan Inventaris",
     "totalItems": {
       "title": "Total Barang",
       "description": "Semua item inventaris dalam stok"
@@ -763,6 +773,29 @@
       "scanDescription": "Scan kode QRIS di bawah dengan aplikasi pembayaran pilihan Anda.",
       "checkPaymentStatus": "Cek Status Pembayaran",
       "saveQrImage": "Simpan Gambar QR"
+    },
+    "summaryEmptyVouchers": {
+      "noVouchersAvailable": "Tidak Ada Voucher",
+      "noVouchersDescription": "Tidak ada voucher yang tersedia untuk pesanan ini."
+    },
+    "voucher": {
+      "off": "OFF",
+      "upTo": "Maksimal",
+      "exp": "Kedaluwarsa",
+      "noExpiry": "Tanpa Batas",
+      "minTransaction": "Min. Transaksi",
+      "noLimit": "Tanpa Batas",
+      "remove": "Hapus",
+      "addMoreToUse": "Tambah {amount} lagi untuk pakai",
+      "apply": "Pakai"
+    },
+    "voucherInput": {
+      "minimumSpendNotMet": "Belum memenuhi minimum transaksi",
+      "voucherDoesNotExist": "Voucher {code} tidak ada",
+      "voucherNotExist": "Voucher tidak ada",
+      "pleaseInputCode": "Silakan masukkan kode voucher",
+      "enterVoucherCode": "Masukkan kode voucher",
+      "apply": "Pakai"
     }
   },
   "CustomerDeliveries": {

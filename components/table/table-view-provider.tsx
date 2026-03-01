@@ -16,7 +16,7 @@ interface ProductsTableProps<TData extends { id: string }> {
 export const TableViewProvider = <TData extends { id: string }>({
   data,
   total,
-  withPagination = true,
+  withPagination = false,
 }: ProductsTableProps<TData>) => {
   const { table, setInternalData, columns, setTotalRow } = useTableContext();
 

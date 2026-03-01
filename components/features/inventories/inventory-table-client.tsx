@@ -4,9 +4,8 @@ import { Plus, TableOfContents } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { TableProvider } from "@/components/table/context";
-import { DataTableQuerySearch } from "@/components/table/data-table-query-search";
 import { TableViewProvider } from "@/components/table/table-view-provider";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Inventory } from "@/lib/modules/inventories/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
@@ -28,14 +27,28 @@ export const InventoryTableClient = ({ data }: Props) => {
         <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
           <CardTitle className="hidden md:block">{t("title")}</CardTitle>
           <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
-            <DataTableQuerySearch className="w-full md:w-80 md:max-w-80" />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex items-center gap-3">
+              <Button variant="outline">Export</Button>
               <Link
                 className={cn(buttonVariants({ variant: "outline" }))}
-                href="/inventories/logs"
+                href="/inventories/adjustments"
               >
                 <TableOfContents />
-                {t("logs.title")}
+                {t("logs.adjustmentButton")}
+              </Link>
+              <Link
+                className={cn(buttonVariants({ variant: "outline" }))}
+                href="/inventories/usage"
+              >
+                <TableOfContents />
+                {t("logs.usageButton")}
+              </Link>
+              <Link
+                className={cn(buttonVariants({ variant: "outline" }))}
+                href="/inventories/restocks"
+              >
+                <TableOfContents />
+                {t("logs.restockButton")}
               </Link>
               <Link className={cn(buttonVariants())} href="/inventories/new">
                 <Plus />

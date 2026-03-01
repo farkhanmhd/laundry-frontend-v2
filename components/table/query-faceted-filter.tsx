@@ -18,14 +18,24 @@ import {
 } from "@/components/ui/popover";
 import { useQuerySearchParam } from "@/hooks/use-query-search-param";
 import type { SelectOption } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { cardShadowStyle, cn } from "@/lib/utils";
 
 interface Props {
   title: string;
   queryKey: string;
   options: SelectOption[];
   icon?: React.ReactNode;
+  variant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
   placeholder?: string;
+  className?: string;
   children?: React.ReactNode;
 }
 
@@ -36,6 +46,8 @@ export const QueryFacetedFilter = ({
   icon,
   placeholder,
   children,
+  variant = "ghost",
+  className,
 }: Props) => {
   const { selectedValues, toggleQuery, removeQuery } =
     useQuerySearchParam(queryKey);
@@ -45,7 +57,11 @@ export const QueryFacetedFilter = ({
         {children ? (
           children
         ) : (
-          <Button className="rounded-none border-l" variant="ghost">
+          <Button
+            className={cn("rounded-none border-l", className)}
+            style={cardShadowStyle}
+            variant={variant}
+          >
             {icon && (
               <span className="mr-2 flex h-4 w-4 items-center">{icon}</span>
             )}

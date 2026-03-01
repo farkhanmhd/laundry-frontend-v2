@@ -223,6 +223,8 @@ export const useCustomerOrder = () => {
     }
   }, [amountBeforePoints, customerCart.points, userPoints, setCustomerCart]);
 
+  const clearCustomerCart = () => setCustomerCart(initialState);
+
   const { voucherList } = customerCart;
 
   return {
@@ -244,5 +246,6 @@ export const useCustomerOrder = () => {
     handlePointChange,
     togglePoint,
     userPoints,
+    clearCustomerCart,
   };
 };

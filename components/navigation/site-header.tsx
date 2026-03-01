@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart, User } from "lucide-react";
+import { Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { usePOS } from "@/lib/modules/pos/state";
@@ -11,6 +11,7 @@ import { Badge } from "../ui/badge";
 import { buttonVariants } from "../ui/button";
 import { Client } from "../utils/client";
 import { BreadcrumbNav } from "./breadcrumb-nav";
+import { NavigationCommand } from "./navigation-command";
 import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
@@ -25,6 +26,9 @@ export function SiteHeader() {
       </div>
       <Client>
         <div className="flex items-center gap-2">
+          <NavigationCommand size="icon" variant="ghost">
+            <Search />
+          </NavigationCommand>
           <ThemeToggle />
           <TranslatorToggle />
           {session?.user.role === "user" ? (

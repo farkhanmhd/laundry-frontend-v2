@@ -73,7 +73,7 @@ export const OrderPaymentCard = ({ orderId, data }: OrderPaymentProps) => {
               >
                 {data.transactionStatus === "settlement"
                   ? t("paid")
-                  : data.transactionStatus}
+                  : t(`statusValues.${data.transactionStatus}`)}
               </Badge>
             )}
           </div>

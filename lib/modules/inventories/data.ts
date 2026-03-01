@@ -13,17 +13,29 @@ export type AdjustQuantityBody = Parameters<
   ReturnType<typeof elysia.inventories>["stock"]["patch"]
 >[0];
 
+export type RestockInventoryBody = Parameters<
+  ReturnType<typeof elysia.inventories>["restock"]["post"]
+>[0];
+
 type AddInventoryBody = Parameters<typeof elysia.inventories.post>[0];
 
 export type Inventory = NonNullable<
   Awaited<ReturnType<typeof InventoriesApi.getInventoryById>>
 >;
-export type InventoryHistory = NonNullable<
+export type AdjustmentHistory = NonNullable<
   Awaited<ReturnType<typeof InventoriesApi.getInventoryHistory>>
 >["inventoryHistory"][number];
 
+export type RestockHistory = NonNullable<
+  Awaited<ReturnType<typeof InventoriesApi.getRestockHistory>>
+>["restockHistory"][number];
+
+export type UsageHistory = NonNullable<
+  Awaited<ReturnType<typeof InventoriesApi.getUsageHistory>>
+>["inventoryUsageHistory"][number];
+
 export type InventoryHistoryQuery = NonNullable<
-  Parameters<typeof elysia.inventories.history.get>[0]
+  Parameters<typeof elysia.inventories.adjustments.get>[0]
 >["query"];
 
 export abstract class InventoriesApi extends BaseApi {
@@ -37,7 +49,27 @@ export abstract class InventoriesApi extends BaseApi {
   }
 
   static async getInventoryHistory(query: InventoryHistoryQuery) {
-    const { data: response } = await elysia.inventories.history.get({
+    const { data: response } = await elysia.inventories.adjustments.get({
+      ...(await InventoriesApi.getConfig()),
+      query,
+    });
+
+    const data = response?.data;
+    return data;
+  }
+
+  static async getUsageHistory(query: InventoryHistoryQuery) {
+    const { data: response } = await elysia.inventories.usage.get({
+      ...(await InventoriesApi.getConfig()),
+      query,
+    });
+
+    const data = response?.data;
+    return data;
+  }
+
+  static async getRestockHistory(query: InventoryHistoryQuery) {
+    const { data: response } = await elysia.inventories["restock-history"].get({
       ...(await InventoriesApi.getConfig()),
       query,
     });
@@ -109,6 +141,14 @@ export abstract class InventoriesApi extends BaseApi {
 
   static async adjustQuantity(id: string, body: AdjustQuantityBody) {
     const result = await elysia.inventories({ id }).stock.patch(body, {
+      ...(await InventoriesApi.getConfig()),
+    });
+
+    return result;
+  }
+
+  static async restockInventory(id: string, body: RestockInventoryBody) {
+    const result = await elysia.inventories({ id }).restock.post(body, {
       ...(await InventoriesApi.getConfig()),
     });
 

@@ -71,7 +71,7 @@ export const adjustQuantitySchema = z
       .min(1, { error: "Inventory ID cannot be empty." }),
     currentQuantity: z.int(),
     changeAmount: nonZeroIntegerSchema,
-    type: z.union(allowedAdjustType.map((val) => z.literal(val))),
+    adjustmentTime: z.date({ error: "Adjustment Time is required" }),
     note: z
       .string({
         error: "A reason for the adjustment is required.",
@@ -85,6 +85,26 @@ export const adjustQuantitySchema = z
   });
 
 export type AdjustQuantitySchema = z.infer<typeof adjustQuantitySchema>;
+
+export const restockInventorySchema = z.object({
+  id: z
+    .string({
+      error: "Inventory ID is required.",
+    })
+    .min(1, { error: "Inventory ID cannot be empty." }),
+  currentQuantity: z.int(),
+  supplier: z
+    .string({ error: "Supplier name required" })
+    .min(1, { error: "Supplier  cannot be empty" }),
+  restockQuantity: positiveIntNoLeadingZero,
+  restockTime: z.date({ error: "Restock Time is required" }),
+  note: z
+    .string()
+    .max(255, { error: "Notes must be 255 characters or less." })
+    .optional(),
+});
+
+export type RestockInventorySchema = z.infer<typeof restockInventorySchema>;
 
 export const updateInventoryImageSchema = z.object({
   id: z

@@ -10,6 +10,7 @@ interface SalesTableProps<T> {
   columns: ColumnDef<T, unknown>[];
   total: number;
   tab: string;
+  withPagination?: boolean;
 }
 
 export const SalesTable = <T extends { id: string }>({
@@ -17,6 +18,7 @@ export const SalesTable = <T extends { id: string }>({
   total,
   columns,
   tab,
+  withPagination = false,
 }: SalesTableProps<T>) => {
   return (
     <TabsContent className="m-0 bg-transparent" value={tab}>
@@ -29,7 +31,7 @@ export const SalesTable = <T extends { id: string }>({
             <TableViewProvider
               data={items}
               total={total}
-              withPagination={false}
+              withPagination={withPagination}
             />
           </CardContent>
         </Card>

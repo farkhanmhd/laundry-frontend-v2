@@ -3,7 +3,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [new URL(`${process.env.NEXT_PUBLIC_API_URL}/uploads/**`)],
+    remotePatterns: [
+      new URL(`${process.env.NEXT_PUBLIC_API_URL}/uploads/**`),
+      new URL("https://api.sandbox.midtrans.com/v2/qris/**"),
+    ],
   },
   experimental: {
     serverActions: {

@@ -2,26 +2,25 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
+import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { adjustQuantityAction } from "@/lib/modules/inventories/actions";
 import {
   type AdjustQuantitySchema,
   adjustQuantitySchema,
-  allowedAdjustType,
 } from "@/lib/modules/inventories/schema";
 
 type Props = {
@@ -32,13 +31,14 @@ type Props = {
 export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   const t = useTranslations("Inventories");
   const [isEditing, setIsEditing] = useState(false);
+  const { refresh } = useRouter();
 
   const defaultValues: AdjustQuantitySchema = {
     id,
     currentQuantity,
     note: "",
-    type: "adjustment",
     changeAmount: 0,
+    adjustmentTime: new Date(),
   };
 
   const { form, action } = useHookFormAction(
@@ -52,15 +52,14 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
             toast.success(data.message);
-            const changeAmount = Number(form.getValues("changeAmount"));
 
             form.reset({
               id,
-              currentQuantity: currentQuantity + changeAmount,
               changeAmount: 0,
               note: "",
             });
             setIsEditing(false);
+            refresh();
           }
         },
       },
@@ -74,7 +73,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
       currentQuantity,
       changeAmount: Number(form.watch("changeAmount")),
       note: form.watch("note"),
-      type: form.watch("type"),
+      adjustmentTime: form.watch("adjustmentTime"),
     };
     action.execute(formData);
   };
@@ -82,10 +81,6 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   const handleCancel = () => {
     form.reset(defaultValues);
     setIsEditing(false);
-  };
-
-  const handleTypeChange = (value: string) => {
-    form.setValue("type", value as AdjustQuantitySchema["type"]);
   };
 
   return (
@@ -119,27 +114,27 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
           />
         </div>
 
-        <div className="space-y-4">
-          <Label htmlFor="type">{t("stockForm.adjustmentType")}</Label>
-          <Select onValueChange={handleTypeChange} value={form.watch("type")}>
-            <SelectTrigger
-              className="w-full capitalize"
-              disabled={!isEditing || action.isPending}
-              id="type"
-            >
-              <SelectValue placeholder={t("stockForm.selectType")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {allowedAdjustType.map((val) => (
-                  <SelectItem className="capitalize" key={val} value={val}>
-                    {val}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+        <FieldGroup>
+          <Controller
+            control={form.control}
+            name="adjustmentTime"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel className="text-base" htmlFor={field.name}>
+                  {t("stockForm.adjustmentTime")}
+                </FieldLabel>
+                <DateTimePicker
+                  date={field.value}
+                  disabled={!isEditing || action.isPending}
+                  onChange={field.onChange}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </FieldGroup>
 
         <FormInput
           as={Textarea}

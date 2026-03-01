@@ -1,5 +1,6 @@
 import { InventoryDataForm } from "@/components/features/inventories/inventory-data-form";
 import { InventoryImageForm } from "@/components/features/inventories/inventory-image-form";
+import { InventoryRestockForm } from "@/components/features/inventories/inventory-restock-form";
 import { StockAdjustmentForm } from "@/components/features/inventories/stock-adjustment-form";
 import { TabsContent } from "@/components/ui/tabs";
 import { InventoriesApi, type Inventory } from "@/lib/modules/inventories/data";
@@ -33,6 +34,16 @@ const InventoryDetailPage = async ({ params }: Props) => {
         value="stock"
       >
         <StockAdjustmentForm
+          currentQuantity={inventory.stock}
+          id={inventory.id}
+        />
+      </TabsContent>
+      <TabsContent
+        className="data-[state=inactive]:hidden"
+        forceMount
+        value="restock"
+      >
+        <InventoryRestockForm
           currentQuantity={inventory.stock}
           id={inventory.id}
         />

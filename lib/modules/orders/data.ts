@@ -57,6 +57,15 @@ export abstract class OrdersApi extends BaseApi {
     const data = response?.data;
     return data;
   }
+
+  static async getOrderPaymentDetails(id: string) {
+    const { data: response } = await elysia.orders({ id }).payment_details.get({
+      ...(await OrdersApi.getConfig()),
+    });
+
+    const data = response?.data;
+    return data;
+  }
 }
 
 export type Order = NonNullable<
@@ -73,3 +82,7 @@ export type OrderDetailItem = NonNullable<
 export type OrderDetailVoucher = NonNullable<
   Awaited<ReturnType<typeof OrdersApi.getOrderItems>>
 >["voucher"];
+
+export type OrderPaymentDetails = NonNullable<
+  Awaited<ReturnType<typeof OrdersApi.getOrderPaymentDetails>>
+>;

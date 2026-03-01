@@ -11,12 +11,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import type {
+  AdjustmentHistory,
   Inventory,
-  InventoryHistory,
+  RestockHistory,
+  UsageHistory,
 } from "@/lib/modules/inventories/data";
 import { cn, formatToIDR, type SelectOption } from "@/lib/utils";
 
@@ -51,6 +52,8 @@ const useInventoryTranslations = () => {
       orderRef: t("logs.orderRef"),
       user: t("logs.user"),
       time: t("logs.time"),
+      supplier: t("logs.supplier"),
+      note: t("logs.note"),
     },
   };
 };
@@ -61,9 +64,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
   return [
     {
       accessorKey: "image",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.image} />
-      ),
+      header: t.table.image,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           <Image
@@ -80,9 +81,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.id} />
-      ),
+      header: t.table.id,
       cell: ({ row }) => (
         <Link
           className={cn(
@@ -98,9 +97,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "name",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.name} />
-      ),
+      header: t.table.name,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium">
           {row.getValue("name")}
@@ -109,9 +106,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "price",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.price} />
-      ),
+      header: t.table.price,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium">
           {formatToIDR(row.getValue("price"))}
@@ -120,9 +115,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "stock",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.quantity} />
-      ),
+      header: t.table.quantity,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           {row.getValue("stock")}
@@ -131,9 +124,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "safetyStock",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.safetyStock} />
-      ),
+      header: t.table.safetyStock,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           {row.getValue("safetyStock")}
@@ -142,7 +133,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       id: "stockStatus",
-      header: () => <div>{t.table.status}</div>,
+      header: t.table.status,
       cell: ({ row }) => {
         const stockStatus =
           (row.original?.stock as number) >=
@@ -166,9 +157,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "createdAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.dateAdded} />
-      ),
+      header: t.table.dateAdded,
       cell: ({ row }) => {
         const date = new Date(row.getValue("createdAt"));
         const formattedDate = format(date, "PP, HH:mm");
@@ -181,9 +170,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
     {
       accessorKey: "updatedAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t.table.lastUpdate} />
-      ),
+      header: t.table.lastUpdate,
       cell: ({ row }) => {
         const date = new Date(row.getValue("updatedAt"));
         const formattedDate = format(date, "PP, HH:mm");
@@ -223,14 +210,187 @@ export const useInventoryCategoryOptions = (): SelectOption[] => {
   ];
 };
 
-export const useInventoryHistoryColumns = (): ColumnDef<InventoryHistory>[] => {
+export const useAdjustmentHistoryColumns =
+  (): ColumnDef<AdjustmentHistory>[] => {
+    const t = useInventoryTranslations();
+
+    return [
+      {
+        accessorKey: "name",
+        header: t.logs.product,
+        cell: ({ row }) => {
+          const inventoryId = row.original.inventoryId;
+          return (
+            <Link
+              className={cn(
+                "line-clamp-1 min-w-max font-medium",
+                buttonVariants({ variant: "link", size: "sm" })
+              )}
+              href={inventoryId ? `/inventories/${inventoryId}` : "#"}
+            >
+              {row.getValue("name") || t.table.unknown}
+            </Link>
+          );
+        },
+      },
+      {
+        accessorKey: "change",
+        header: t.logs.change,
+        cell: ({ row }) => {
+          const amount = row.getValue("change") as number;
+          const isPositive = amount > 0;
+          return (
+            <div
+              className={cn(
+                "min-w-max",
+                isPositive && "text-green-600",
+                !isPositive && "text-destructive"
+              )}
+            >
+              {isPositive ? "+" : ""}
+              {amount}
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "stockRemaining",
+        header: t.logs.remaining,
+        cell: ({ row }) => (
+          <div className="min-w-max font-medium">
+            {row.getValue("stockRemaining")}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "note",
+        header: t.logs.note,
+        cell: ({ row }) => (
+          <div className="min-w-max font-medium">{row.getValue("note")}</div>
+        ),
+      },
+      {
+        accessorKey: "user",
+        header: t.logs.user,
+        cell: ({ row }) => (
+          <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+            {row.getValue("user") || "System"}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "createdAt",
+        header: t.logs.time,
+        cell: ({ row }) => {
+          const date = new Date(row.getValue("createdAt"));
+          return (
+            <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+              {format(date, "PP, HH:mm")}
+            </div>
+          );
+        },
+      },
+    ];
+  };
+
+export const useInventoryUsageHistoryColumns =
+  (): ColumnDef<UsageHistory>[] => {
+    const t = useInventoryTranslations();
+
+    return [
+      {
+        accessorKey: "name",
+        header: t.logs.product,
+        cell: ({ row }) => {
+          const inventoryId = row.original.inventoryId;
+          return (
+            <Link
+              className={cn(
+                "line-clamp-1 min-w-max font-medium",
+                buttonVariants({ variant: "link", size: "sm" })
+              )}
+              href={inventoryId ? `/inventories/${inventoryId}` : "#"}
+            >
+              {row.getValue("name") || t.table.unknown}
+            </Link>
+          );
+        },
+      },
+      {
+        accessorKey: "change",
+        header: t.logs.change,
+        cell: ({ row }) => {
+          const amount = row.getValue("change") as number;
+          const isPositive = amount > 0;
+          return (
+            <div className={cn("min-w-max", !isPositive && "text-destructive")}>
+              {amount}
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "stockRemaining",
+        header: t.logs.remaining,
+        cell: ({ row }) => (
+          <div className="min-w-max font-medium">
+            {row.getValue("stockRemaining")}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "orderId",
+        header: t.logs.orderRef,
+        cell: ({ row }) => {
+          const orderId = row.getValue("orderId") as string | null;
+          if (!orderId) {
+            return <span className="text-center text-muted-foreground">-</span>;
+          }
+          return (
+            <Link
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "p-0 uppercase"
+              )}
+              href={`/orders/${orderId}`}
+            >
+              {orderId}
+            </Link>
+          );
+        },
+        enableSorting: false,
+      },
+      {
+        accessorKey: "user",
+        header: t.logs.user,
+        cell: ({ row }) => (
+          <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+            {row.getValue("user") || "System"}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "createdAt",
+        header: t.logs.time,
+        cell: ({ row }) => {
+          const date = new Date(row.getValue("createdAt"));
+          return (
+            <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+              {format(date, "PP, HH:mm")}
+            </div>
+          );
+        },
+      },
+    ];
+  };
+
+export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
   const t = useInventoryTranslations();
-  const categoryOptions = useInventoryCategoryOptions();
 
   return [
     {
-      accessorKey: "name",
-      header: t.table.name,
+      accessorKey: "inventoryName",
+      header: t.logs.product,
       cell: ({ row }) => {
         const inventoryId = row.original.inventoryId;
         return (
@@ -241,104 +401,63 @@ export const useInventoryHistoryColumns = (): ColumnDef<InventoryHistory>[] => {
             )}
             href={inventoryId ? `/inventories/${inventoryId}` : "#"}
           >
-            {row.getValue("name") || t.table.unknown}
+            {row.getValue("inventoryName") || t.table.unknown}
           </Link>
         );
       },
     },
     {
-      accessorKey: "category",
-      header: t.logs.category,
-      cell: ({ row }) => {
-        const category = row.getValue("category") as string;
-        const option = categoryOptions.find((opt) => opt.value === category);
-
-        let variant: "default" | "destructive" | "secondary" | "outline" =
-          "default";
-        if (category === "waste") {
-          variant = "destructive";
-        }
-        if (category === "restock") {
-          variant = "secondary";
-        }
-        if (category === "adjustment") {
-          variant = "outline";
-        }
-
-        return (
-          <div className="min-w-max">
-            <Badge className="rounded-md py-1.5 capitalize" variant={variant}>
-              {option?.icon && (
-                <span className="mr-1 flex items-center">{option.icon}</span>
-              )}
-              {category}
-            </Badge>
-          </div>
-        );
-      },
-      filterFn: (row, id, value) => value.includes(row.getValue(id)),
-    },
-    {
-      accessorKey: "change",
-      header: t.logs.change,
-      cell: ({ row }) => {
-        const amount = row.getValue("change") as number;
-        const isPositive = amount > 0;
-        return (
-          <div
-            className={cn(
-              "min-w-max",
-              isPositive && "text-green-600",
-              !isPositive && "text-destructive"
-            )}
-          >
-            {isPositive ? "+" : ""}
-            {amount}
-          </div>
-        );
-      },
+      accessorKey: "restockQuantity",
+      header: t.categories.restock,
+      cell: ({ row }) => (
+        <div className="min-w-max font-medium text-green-600">
+          +{row.getValue("restockQuantity") as number}
+        </div>
+      ),
     },
     {
       accessorKey: "stockRemaining",
       header: t.logs.remaining,
       cell: ({ row }) => (
         <div className="min-w-max font-medium">
-          {row.getValue("stockRemaining")}
+          {row.getValue("stockRemaining") as number}
         </div>
       ),
     },
     {
-      accessorKey: "orderId",
-      header: t.logs.orderRef,
-      cell: ({ row }) => {
-        const orderId = row.getValue("orderId") as string | null;
-        if (!orderId) {
-          return <span className="text-center text-muted-foreground">-</span>;
-        }
-        return (
-          <Link
-            className={cn(buttonVariants({ variant: "link" }), "p-0 uppercase")}
-            href={`/orders/${orderId}`}
-          >
-            {orderId}
-          </Link>
-        );
-      },
+      accessorKey: "note",
+      header: t.logs.note,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {(row.getValue("note") as string) || "-"}
+        </div>
+      ),
     },
     {
-      accessorKey: "user",
+      accessorKey: "supplier",
+      header: t.logs.supplier,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {(row.getValue("supplier") as string) || "-"}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "actorName",
       header: t.logs.user,
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
-          {row.getValue("user") || "System"}
+          {(row.getValue("actorName") as string) || "System"}
         </div>
       ),
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "restockTime",
       header: t.logs.time,
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
+        const dateValue = row.getValue("restockTime") as string | Date;
+        const date = new Date(dateValue);
+
         return (
           <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
             {format(date, "PP, HH:mm")}

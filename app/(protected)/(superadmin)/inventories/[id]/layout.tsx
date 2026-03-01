@@ -20,6 +20,10 @@ const ProductDetailLayout = ({ children }: { children: React.ReactNode }) => {
       label: t("stockForm.title"),
       value: "stock",
     },
+    {
+      label: t("restockForm.title"),
+      value: "restock",
+    },
   ];
 
   return (

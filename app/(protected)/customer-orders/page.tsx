@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { OrderListItem } from "@/components/features/orders/order-list-item";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { mockCustomerOrders } from "./data";
+import { CustomerOrderList } from "@/components/features/orders/customer-order-list";
+import { buttonVariants } from "@/components/ui/button";
 
 const MyOrdersPage = async () => {
   const t = await getTranslations("CustomerOrders");
@@ -18,12 +17,7 @@ const MyOrdersPage = async () => {
         </div>
         <p className="text-muted-foreground text-sm">{t("description")}</p>
       </div>
-      <div className="grid gap-4">
-        {mockCustomerOrders.map((order) => (
-          <OrderListItem key={order.id} order={order} shadow />
-        ))}
-        <Button variant="secondary">{t("loadMore")}</Button>
-      </div>
+      <CustomerOrderList />
     </div>
   );
 };

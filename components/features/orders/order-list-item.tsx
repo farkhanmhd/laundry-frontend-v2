@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
+import type { CustomerOrder } from "@/hooks/use-customer-orders";
 import {
   cardShadowStyle,
   cn,
@@ -12,12 +13,7 @@ import {
 } from "@/lib/utils";
 
 type Props = {
-  order: {
-    id: string;
-    status: string;
-    total: number;
-    createdAt: string;
-  };
+  order: CustomerOrder;
   shadow?: boolean;
 };
 
@@ -38,7 +34,7 @@ export function OrderListItem({ order, shadow = false }: Props) {
             className="font-semibold"
             variant={getStatusColor(order.status)}
           >
-            {order.status.toUpperCase()}
+            {t(`status.${order.status}`)}
           </Badge>
         </div>
         <Client>
@@ -49,7 +45,7 @@ export function OrderListItem({ order, shadow = false }: Props) {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="font-bold">{formatToIDR(order.total)}</p>
+        <p className="font-bold">{formatToIDR(order.total ?? 0)}</p>
         <div className="flex items-center justify-between gap-2">
           <Link
             className={cn(buttonVariants({ variant: "secondary", size: "sm" }))}

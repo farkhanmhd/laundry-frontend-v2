@@ -15,6 +15,12 @@ export const SalesByOrderTable = ({ data }: Props) => {
   } = data;
   const columns = useSalesByOrderColumns();
   return (
-    <SalesTable columns={columns} items={items} tab="orders" total={total} />
+    <SalesTable
+      columns={columns}
+      items={items}
+      tab="orders"
+      total={total}
+      withPagination
+    />
   );
 };

@@ -20,6 +20,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Client } from "@/components/utils/client";
+import type { CustomerOrder } from "@/hooks/use-customer-orders";
 import { cardShadowStyle, cn, formatDate } from "@/lib/utils";
 
 // --- MOCK DATA ---
@@ -30,29 +31,23 @@ const userProfile = {
   points: 1250,
 };
 
-const recentOrders = [
+const recentOrders: CustomerOrder[] = [
   {
     id: "o-x9d2a",
     status: "processing",
     total: 125_000,
-    itemsCount: 3,
-    service: "Express Wash",
     createdAt: "2025-12-10T08:30:00Z",
   },
   {
     id: "o-k3m9p",
     status: "pending",
     total: 85_000,
-    itemsCount: 1,
-    service: "Premium Dry Clean",
     createdAt: "2025-12-11T09:15:00Z",
   },
   {
     id: "o-j8l4x",
     status: "completed",
     total: 210_000,
-    itemsCount: 4,
-    service: "Bedding Set Wash",
     createdAt: "2025-12-05T14:20:00Z",
   },
 ];

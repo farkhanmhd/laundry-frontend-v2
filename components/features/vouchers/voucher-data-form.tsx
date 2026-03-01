@@ -146,7 +146,11 @@ export const VoucherDataForm = ({
               <FieldLabel className="text-base" htmlFor={field.name}>
                 {t("form.expiryDate")}
               </FieldLabel>
-              <DateTimePicker date={field.value} onChange={field.onChange} />
+              <DateTimePicker
+                date={field.value}
+                disablePast
+                onChange={field.onChange}
+              />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

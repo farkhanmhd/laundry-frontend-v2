@@ -242,7 +242,8 @@
       "waitingForPayment": "Waiting for Payment",
       "markAsReady": "Mark as Ready",
       "markAsCompleted": "Mark as Completed",
-      "completed": "Completed"
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     },
     "customer": {
       "customerDetails": "Customer Details",
@@ -266,12 +267,30 @@
       "paymentInformation": "Payment Information",
       "paymentMethod": "Payment Method",
       "status": "Status",
+      "statusValues": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "ready": "Ready",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "paid": "PAID",
+      "unpaid": "UNPAID",
       "amountPaid": "Amount Paid",
       "amountDue": "Amount Due",
       "changeReturned": "Change Returned",
-      "payNow": "Pay Now",
-      "paid": "PAID",
-      "unpaid": "UNPAID"
+      "scanQris": "Scan QRIS",
+      "timeRemaining": "Time Remaining",
+      "transactionTime": "Transaction Time",
+      "paidAt": "Paid At",
+      "paymentFailed": "Payment Failed",
+      "orderCancelled": "Your order has been cancelled because the payment time has expired.",
+      "paymentSuccess": "Payment Successful",
+      "paymentVerified": "Your payment has been verified",
+      "total": "Total",
+      "amountToPay": "Amount to Pay",
+      "change": "Change",
+      "acquirer": "Acquirer"
     },
     "delivery": {
       "logistics": "Logistics",
@@ -477,13 +496,32 @@
       "currentQuantityPlaceholder": "Current quantity in stock",
       "changeAmount": "Change Amount",
       "changeAmountPlaceholder": "Decrease (-1) or Increase (6)",
+      "adjustmentTime": "Adjustment Time",
       "adjustmentType": "Adjustment Type",
       "selectType": "Select adjustment Type",
       "reasonLabel": "Reason for Adjustment",
       "reasonPlaceholder": "e.g. Damaged items removed, manual count correction, etc."
     },
+    "restockForm": {
+      "title": "Restock Inventory",
+      "description": "Add new stock to your inventory.",
+      "currentStock": "Current Stock",
+      "supplier": "Supplier",
+      "supplierPlaceholder": "Enter supplier name",
+      "restockQuantity": "Restock Quantity",
+      "restockQuantityPlaceholder": "Enter quantity to add",
+      "restockTime": "Restock Time",
+      "noteLabel": "Notes",
+      "notePlaceholder": "Optional notes for this restock"
+    },
     "logs": {
-      "title": "Inventory Logs",
+      "title": "Inventory Adjustment Report",
+      "adjustmentTitle": "Adjustment Report",
+      "restockTitle": "Restock Report",
+      "usageTitle": "Usage Report",
+      "adjustmentButton": "Adjustment Report",
+      "restockButton": "Restock Report",
+      "usageButton": "Usage Report",
       "searchByProduct": "Search by Product name or Order ID",
       "searchProduct": "Search Product",
       "searchCategory": "Search Category",
@@ -491,9 +529,11 @@
       "category": "Category",
       "change": "Change",
       "remaining": "Remaining",
+      "note": "Note",
       "orderRef": "Order Ref",
       "user": "User",
-      "time": "Time"
+      "time": "Time",
+      "supplier": "Supplier"
     }
   },
   "Services": {
@@ -695,9 +735,17 @@
     "newOrder": "New Order",
     "description": "View and manage your laundry orders",
     "loadMore": "Load More",
+    "noMoreOrders": "No more orders",
     "order": "Order",
     "details": "Details",
     "payNow": "Pay Now",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "ready": "Ready",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
     "orderSummary": {
       "pickupLocation": "Pickup Location",
       "noItemsAdded": "No Items Added",
@@ -754,7 +802,9 @@
       "paymentRequired": "Payment Required",
       "processing": "Processing",
       "ready": "Ready",
-      "completed": "Completed"
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "tryAgain": "Try Again"
     },
     "payment": {
       "success": "Payment Successful!",

@@ -199,7 +199,7 @@ export const usePOS = () => {
     }
 
     if (posData.points) {
-      payload.points = -1 * posData.points;
+      payload.points = posData.points;
     }
 
     execute(payload);

@@ -18,6 +18,8 @@ type Props = {
   onChange: (date: Date | undefined) => void;
   dateLabel?: string;
   timeLabel?: string;
+  disablePast?: boolean;
+  disabled?: boolean;
 };
 
 export function DateTimePicker({
@@ -25,6 +27,8 @@ export function DateTimePicker({
   onChange,
   dateLabel = "",
   timeLabel = "",
+  disablePast = false,
+  disabled = false,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const futureDateLimit = new Date();
@@ -101,6 +105,7 @@ export function DateTimePicker({
           <PopoverTrigger asChild>
             <Button
               className="justify-between border-input font-normal"
+              disabled={disabled}
               id="date-picker"
               variant="outline"
             >
@@ -111,7 +116,7 @@ export function DateTimePicker({
           <PopoverContent align="start" className="w-auto overflow-hidden p-0">
             <Calendar
               captionLayout="dropdown"
-              disabled={{ before: new Date() }}
+              disabled={disablePast ? { before: new Date() } : undefined}
               endMonth={futureDateLimit}
               mode="single"
               onSelect={handleDateSelect}
@@ -129,6 +134,7 @@ export function DateTimePicker({
         )}
         <Input
           className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          disabled={disabled}
           id="time-picker"
           onChange={handleTimeChange}
           step="1"

@@ -13,7 +13,7 @@ import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
 interface OrderInfoProps {
   id: string;
   data: {
-    status: "pending" | "processing" | "ready" | "completed";
+    status: "pending" | "processing" | "ready" | "completed" | "cancelled";
     createdAt: string;
   };
 }
@@ -22,6 +22,7 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
   const t = useTranslations("Orders.orderInfo");
 
   const orderStatus = {
+    cancelled: <Badge variant="destructive">{t("cancelled")}</Badge>,
     pending: <Badge variant="destructive">{t("waitingForPayment")}</Badge>,
     processing: (
       <Button onClick={() => toast("Never gonna give you up")}>

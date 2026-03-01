@@ -242,7 +242,8 @@
       "waitingForPayment": "Menunggu Pembayaran",
       "markAsReady": "Tandai Sudah Siap",
       "markAsCompleted": "Tandai Selesai",
-      "completed": "Selesai"
+      "completed": "Selesai",
+      "cancelled": "Dibatalkan"
     },
     "customer": {
       "customerDetails": "Detail Pelanggan",
@@ -266,12 +267,30 @@
       "paymentInformation": "Informasi Pembayaran",
       "paymentMethod": "Metode Pembayaran",
       "status": "Status",
+      "statusValues": {
+        "pending": "Menunggu",
+        "processing": "Diproses",
+        "ready": "Siap",
+        "completed": "Selesai",
+        "cancelled": "Dibatalkan"
+      },
+      "paid": "LUNAS",
+      "unpaid": "BELUM BAYAR",
       "amountPaid": "Jumlah Dibayar",
       "amountDue": "Jumlah Ditagihkan",
       "changeReturned": "Kembalian",
-      "payNow": "Bayar Sekarang",
-      "paid": "LUNAS",
-      "unpaid": "BELUM BAYAR"
+      "scanQris": "Pindai QRIS",
+      "timeRemaining": "Waktu Tersisa",
+      "transactionTime": "Waktu Transaksi",
+      "paidAt": "Dibayar Pada",
+      "paymentSuccess": "Pembayaran Berhasil",
+      "paymentVerified": "Pembayaran Anda telah diverifikasi",
+      "paymentFailed": "Pembayaran Gagal",
+      "orderCancelled": "Pesanan Anda telah dibatalkan karena waktu pembayaran telah habis.",
+      "total": "Total",
+      "amountToPay": "Jumlah yang Harus Dibayar",
+      "change": "Kembalian",
+      "acquirer": "Penyedia"
     },
     "delivery": {
       "logistics": "Logistik",
@@ -419,7 +438,7 @@
     }
   },
   "Inventories": {
-    "title": "Inventaris",
+    "title": "Persediaan",
     "table": {
       "searchPlaceholder": "Cari inventaris...",
       "image": "Gambar",
@@ -477,13 +496,32 @@
       "currentQuantityPlaceholder": "Jumlah saat ini dalam stok",
       "changeAmount": "Jumlah Perubahan",
       "changeAmountPlaceholder": "Kurangi (-1) atau Tambah (6)",
+      "adjustmentTime": "Waktu Penyesuaian",
       "adjustmentType": "Jenis Penyesuaian",
       "selectType": "Pilih Jenis Penyesuaian",
       "reasonLabel": "Alasan Penyesuaian",
       "reasonPlaceholder": "Contoh: Barang rusak dibuang, koreksi hitung manual, dll."
     },
+    "restockForm": {
+      "title": "Restok Inventaris",
+      "description": "Tambahkan stok baru ke inventaris Anda.",
+      "currentStock": "Stok Saat Ini",
+      "supplier": "Pemasok",
+      "supplierPlaceholder": "Masukkan nama pemasok",
+      "restockQuantity": "Jumlah Restok",
+      "restockQuantityPlaceholder": "Masukkan jumlah yang akan ditambahkan",
+      "restockTime": "Waktu Restok",
+      "noteLabel": "Catatan",
+      "notePlaceholder": "Catatan opsional untuk restok ini"
+    },
     "logs": {
-      "title": "Log Inventaris",
+      "title": "Laporan Penyesuaian Persediaan",
+      "adjustmentTitle": "Laporan Penyesuaian",
+      "restockTitle": "Laporan Restok",
+      "usageTitle": "Laporan Penggunaan",
+      "adjustmentButton": "Laporan Penyesuaian",
+      "usageButton": "Laporan Penggunaan",
+      "restockButton": "Laporan Restok",
       "searchByProduct": "Cari berdasarkan nama produk atau ID Pesanan",
       "searchProduct": "Cari Produk",
       "searchCategory": "Cari Kategori",
@@ -491,9 +529,11 @@
       "category": "Kategori",
       "change": "Perubahan",
       "remaining": "Sisa",
+      "note": "Catatan",
       "orderRef": "Ref Pesanan",
       "user": "Pengguna",
-      "time": "Waktu"
+      "time": "Waktu",
+      "supplier": "Pemasok"
     }
   },
   "Services": {
@@ -670,7 +710,7 @@
     }
   },
   "InventoryReports": {
-    "title": "Laporan Inventaris",
+    "title": "Laporan Persediaan",
     "totalItems": {
       "title": "Total Barang",
       "description": "Semua item inventaris dalam stok"
@@ -695,9 +735,17 @@
     "newOrder": "Pesanan Baru",
     "description": "Lihat dan kelola pesanan laundry Anda",
     "loadMore": "Muat Lebih Banyak",
+    "noMoreOrders": "Tidak ada pesanan lagi",
     "order": "Pesanan",
     "details": "Detail",
     "payNow": "Bayar Sekarang",
+    "status": {
+      "pending": "Menunggu",
+      "processing": "Diproses",
+      "ready": "Siap",
+      "completed": "Selesai",
+      "cancelled": "Dibatalkan"
+    },
     "orderSummary": {
       "pickupLocation": "Lokasi Penjemputan",
       "noItemsAdded": "Tidak Ada Item Ditambahkan",
@@ -754,7 +802,9 @@
       "paymentRequired": "Menunggu Pembayaran",
       "processing": "Diproses",
       "ready": "Siap",
-      "completed": "Selesai"
+      "completed": "Selesai",
+      "cancelled": "Dibatalkan",
+      "tryAgain": "Coba Lagi"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",

@@ -6,6 +6,7 @@ import {
   addInventorySchema,
   adjustQuantitySchema,
   deleteInventorySchema,
+  restockInventorySchema,
   updateInventoryImageSchema,
   updateInventorySchema,
 } from "./schema";
@@ -87,11 +88,11 @@ export const updateInventoryAction = actionClient
 export const adjustQuantityAction = actionClient
   .inputSchema(adjustQuantitySchema)
   .action(async ({ parsedInput }) => {
-    const { id, changeAmount, note, type } = parsedInput;
+    const { id, changeAmount, note, adjustmentTime } = parsedInput;
     const result = await InventoriesApi.adjustQuantity(id, {
       note,
       changeAmount,
-      type,
+      adjustmentTime,
     });
 
     if (!result || result.error) {
@@ -116,5 +117,26 @@ export const updateInventoryImageAction = actionClient
     return {
       status: "success",
       message: "Inventory updated",
+    };
+  });
+
+export const restockInventoryAction = actionClient
+  .inputSchema(restockInventorySchema)
+  .action(async ({ parsedInput }) => {
+    const { id, restockQuantity, restockTime, supplier, note } = parsedInput;
+    const result = await InventoriesApi.restockInventory(id, {
+      restockQuantity,
+      restockTime,
+      supplier,
+      note,
+    });
+
+    if (!result || result.error) {
+      return errorResult;
+    }
+
+    return {
+      status: "success",
+      message: "Inventory restocked",
     };
   });

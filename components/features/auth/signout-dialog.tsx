@@ -17,11 +17,13 @@ import { Button } from "@/components/ui/button";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { usePOS } from "@/lib/modules/pos/state";
+import { useCustomerOrder } from "../customer-orders/state";
 
 export const SignoutDialog = () => {
   const t = useTranslations("Auth");
   const [open, setOpen] = useState(false);
   const { clearPosData } = usePOS();
+  const { clearCustomerCart } = useCustomerOrder();
 
   const { push } = useRouter();
 
@@ -32,6 +34,7 @@ export const SignoutDialog = () => {
       setOpen(false);
       push("/login");
       clearPosData();
+      clearCustomerCart();
     }
   };
 

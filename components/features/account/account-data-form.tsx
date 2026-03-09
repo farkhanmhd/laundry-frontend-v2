@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,31 +16,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { updateProfileAction } from "@/lib/modules/account/actions";
-import {
-  type UpdateProfileSchema,
-  updateProfileSchema,
-} from "@/lib/modules/account/schema";
+import type { AccountInfo } from "@/lib/modules/account/data";
+import { updateProfileSchema } from "@/lib/modules/account/schema";
 import { cardShadowStyle } from "@/lib/utils";
 
-type Props = {
-  account: UpdateProfileSchema;
-};
+interface Props {
+  data: AccountInfo;
+}
 
-export function AccountDataForm({ account }: Props) {
+export function AccountDataForm({ data }: Props) {
   const t = useTranslations("AccountSettings.accountSettings");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
-  const { form, handleSubmitWithAction, action } = useHookFormAction(
+  const { form, action } = useHookFormAction(
     updateProfileAction,
     zodResolver(updateProfileSchema),
     {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          username: account.username,
-          name: account.name,
-          phone: account.phone,
+          username: data?.username as string,
+          name: data?.name,
+          phone: data?.phone || "",
+          email: data?.email,
         },
       },
       actionProps: {
@@ -57,6 +55,21 @@ export function AccountDataForm({ account }: Props) {
       },
     }
   );
+
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    const submittedData = {
+      email: form.watch("email"),
+      name: form.watch("name"),
+      username: form.watch("username"),
+      phone: form.watch("phone"),
+    };
+
+    action.execute(submittedData);
+
+    form.reset(submittedData);
+    setIsEditing(false);
+  };
 
   const handleCancel = () => {
     form.reset(); // Revert changes
@@ -85,7 +98,7 @@ export function AccountDataForm({ account }: Props) {
       </CardHeader>
 
       <CardContent>
-        <form className="flex flex-col gap-6" onSubmit={handleSubmitWithAction}>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           {/* Username Field */}
           <FormInput
             description={t("usernameDescription")}
@@ -114,6 +127,16 @@ export function AccountDataForm({ account }: Props) {
             name="phone"
             placeholder={t("phoneNumberPlaceholder")}
             type="tel"
+          />
+
+          <FormInput
+            description={t("phoneDescription")}
+            disabled={!isEditing || action.isPending}
+            form={form}
+            label={t("email")}
+            name="email"
+            placeholder={t("emailPlaceholder")}
+            type="email"
           />
 
           {/* Action Buttons - Only visible when editing */}

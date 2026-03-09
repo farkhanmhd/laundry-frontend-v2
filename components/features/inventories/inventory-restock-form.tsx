@@ -69,8 +69,6 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
     }
   );
 
-  console.log(action.result);
-
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formData: RestockInventorySchema = {

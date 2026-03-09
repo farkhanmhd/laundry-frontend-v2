@@ -24,14 +24,14 @@ export function PasswordForm() {
   const t = useTranslations("AccountSettings.security");
   const [isEditing, setIsEditing] = useState(false);
 
-  const { form, handleSubmitWithAction, action } = useHookFormAction(
+  const { form, action, handleSubmitWithAction } = useHookFormAction(
     updatePasswordAction,
     zodResolver(updatePasswordSchema),
     {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          oldPassword: "",
+          currentPassword: "",
           newPassword: "",
           confirmPassword: "",
         },
@@ -41,7 +41,7 @@ export function PasswordForm() {
           if (result?.data?.status === "success") {
             toast.success(result.data.message);
             setIsEditing(false);
-            form.reset(); // Clear sensitive fields on success
+            form.reset();
           } else if (result?.serverError) {
             toast.error("Something went wrong");
           }
@@ -86,7 +86,7 @@ export function PasswordForm() {
               disabled={action.isPending}
               form={form}
               label={t("currentPassword")}
-              name="oldPassword"
+              name="currentPassword"
               placeholder={t("currentPasswordPlaceholder")}
               type="password"
             />

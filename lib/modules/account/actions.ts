@@ -1,6 +1,7 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
+import { AccountApi } from "./data";
 import {
   addressSchema,
   updateAdminSchema,
@@ -11,14 +12,18 @@ import {
 export const updateProfileAction = actionClient
   .inputSchema(updateProfileSchema)
   .action(async ({ parsedInput }) => {
-    // SIMULATE SERVER DELAY
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await AccountApi.updateProfile(parsedInput);
 
-    console.log("Updating user:", parsedInput);
+    if (result?.status === "success") {
+      return {
+        status: "success",
+        message: "Profile updated successfully",
+      };
+    }
 
     return {
-      status: "success",
-      message: "Profile updated successfully",
+      status: "error",
+      message: "Failed to update profile",
     };
   });
 
@@ -58,15 +63,17 @@ export const addAddressAction = actionClient
 export const updatePasswordAction = actionClient
   .inputSchema(updatePasswordSchema)
   .action(async ({ parsedInput }) => {
-    // SIMULATE SERVER DELAY
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await AccountApi.updatePassword(parsedInput);
 
-    // HERE: You would typically verify the old password matches the DB
-    // and then hash and save the new password.
-    console.log("Updating password...", "Old:", parsedInput.oldPassword);
+    if (result?.status === "success") {
+      return {
+        status: "success",
+        message: "Password updated successfully",
+      };
+    }
 
     return {
-      status: "success",
-      message: "Password changed successfully",
+      status: "error",
+      message: "Failed to update profile",
     };
   });

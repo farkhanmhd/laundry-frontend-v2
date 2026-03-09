@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
 export const updateProfileSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: positiveIntNoLeadingZero,
+  email: z.email().min(3, "Email must be at least 3 characters"),
+  phone: z.string().min(8, "Phone number must be at least 8 characters"),
 });
 
 export const updateAdminSchema = updateProfileSchema.extend({
@@ -30,7 +30,7 @@ export type AddressSchema = z.infer<typeof addressSchema>;
 
 export const updatePasswordSchema = z
   .object({
-    oldPassword: z.string().min(1, "Current password is required"),
+    currentPassword: z.string().min(1, "Current password is required"),
     newPassword: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })
@@ -39,4 +39,7 @@ export const updatePasswordSchema = z
     path: ["confirmPassword"],
   });
 
-export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;
+export type UpdatePasswordSchema = Omit<
+  z.infer<typeof updatePasswordSchema>,
+  "confirmPassword"
+>;

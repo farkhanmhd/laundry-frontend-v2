@@ -1,15 +1,9 @@
 "use client";
 
-import { AccountDataForm } from "@/components/features/account/account-data-form";
 import AddressManager from "@/components/features/account/address-manager";
 import { PasswordForm } from "@/components/features/account/password-form";
 
 // --- MOCK DATA ---
-const MOCK_USER_DATA = {
-  username: "budisantoso99",
-  name: "Budi Santoso",
-  phone: 1_234_567_890,
-};
 
 const MOCK_ADDRESSES = [
   {
@@ -37,7 +31,7 @@ const MOCK_ADDRESSES = [
 
 const AccountPage = () => (
   <div className="min-h-[calc(100dvh-128px)] max-w-3xl space-y-6 p-6 md:min-h-[calc(100dvh-64px)] lg:mx-auto">
-    <AccountDataForm account={MOCK_USER_DATA} />
+    {/*<AccountDataForm />*/}
     <PasswordForm />
     <AddressManager initialAddresses={MOCK_ADDRESSES} />
   </div>

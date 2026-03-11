@@ -17,6 +17,7 @@ export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
 export const addressSchema = z.object({
   label: z.string().min(2, "Label must be at least 2 characters"),
   street: z.string().min(5, "Address must be at least 5 characters"),
+  note: z.string().optional(),
   // Validation: value must not be 0
   lat: z
     .number()

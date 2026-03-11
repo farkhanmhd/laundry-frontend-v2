@@ -111,3 +111,5 @@ export const customerNavData: NavItem[] = [
     icon: User,
   },
 ];
+
+export const LAUNDRY_POINT_ZERO: [number, number] = [98.7525, 3.5911];

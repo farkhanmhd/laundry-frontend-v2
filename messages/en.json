@@ -928,9 +928,11 @@
       "newAddressDescription": "Pin your location on the map and fill in the details.",
       "addressLabel": "Address Label",
       "addressLabelPlaceholder": "e.g. Home, Office",
+      "addressNoteLabel": "Note",
+      "addressNotePlaceholder": "Building name, Floor, Room, etc.",
       "fullAddress": "Full Address",
       "fullAddressPlaceholder": "Street name...",
-      "pinLocation": "Pin Location *",
+      "pinLocation": "Pin Location",
       "pinLocationError": "Please pin a location on the map.",
       "saveAddress": "Save Address",
       "saving": "Saving...",
@@ -938,7 +940,11 @@
       "noAddresses": "No addresses saved yet.",
       "viewLocation": "View Location",
       "delete": "Delete",
-      "addressRemoved": "Address removed"
+      "addressRemoved": "Address removed",
+      "laundryLocation": "Laundry Location",
+      "locationDetails": "Location Details",
+      "distance": "Distance",
+      "distanceTooFar": "Distance from must be under 2km"
     }
   },
   "Auth": {

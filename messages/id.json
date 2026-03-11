@@ -928,9 +928,11 @@
       "newAddressDescription": "Pin lokasi Anda di peta dan isi detailnya.",
       "addressLabel": "Label Alamat",
       "addressLabelPlaceholder": "contoh. Rumah, Kantor",
+      "addressNoteLabel": "Catatan",
+      "addressNotePlaceholder": "Nama gedung, lantai, ruangan, dll.",
       "fullAddress": "Alamat Lengkap",
       "fullAddressPlaceholder": "Nama jalan...",
-      "pinLocation": "Pin Lokasi *",
+      "pinLocation": "Pin Lokasi",
       "pinLocationError": "Silakan pin lokasi di peta.",
       "saveAddress": "Simpan Alamat",
       "saving": "Menyimpan...",
@@ -938,7 +940,11 @@
       "noAddresses": "Belum ada alamat tersimpan.",
       "viewLocation": "Lihat Lokasi",
       "delete": "Hapus",
-      "addressRemoved": "Alamat dihapus"
+      "addressRemoved": "Alamat dihapus",
+      "laundryLocation": "Lokasi Laundry",
+      "locationDetails": "Detail Lokasi",
+      "distance": "Jarak",
+      "distanceTooFar": "Jarak harus kurang dari 2km"
     }
   },
   "Auth": {

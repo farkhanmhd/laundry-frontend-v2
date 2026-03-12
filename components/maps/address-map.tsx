@@ -3,7 +3,7 @@
 import { MapPin } from "lucide-react";
 import { LngLat, type MapMouseEvent } from "maplibre-gl";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -36,131 +36,104 @@ export const AddressMap = ({ location }: AddressMapProps) => {
     toast.error(t("distanceTooFar"));
   }, [t]);
 
-  useEffect(() => {
-    if (!validDistance && draggableMarker.lat !== LAUNDRY_POINT_ZERO[1]) {
-      showLocationTooFarToast();
-    }
-  }, [validDistance, draggableMarker.lat, showLocationTooFarToast]);
+  // Single source of truth for updating marker + form values + distance validation
+  const applyLocation = useCallback(
+    (lng: number, lat: number) => {
+      setDraggableMarker({ lng, lat });
+      form.setValue("lng", lng);
+      form.setValue("lat", lat);
 
-  // 2. The new Geolocation Effect
+      const distanceKm = origin.distanceTo(new LngLat(lng, lat)) / 1000;
+      if (distanceKm > 2) {
+        showLocationTooFarToast();
+      }
+    },
+    [origin, showLocationTooFarToast, form, setDraggableMarker]
+  );
+
+  // Request browser geolocation on mount (only when no existing location is provided)
   useEffect(() => {
-    // Abort if the map isn't ready OR if an existing location prop was passed in
     if (!(map && isLoaded) || location) {
       return;
     }
-
-    // Check if the browser supports geolocation
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Success: The user clicked "Allow"
-          const userLng = position.coords.longitude;
-          const userLat = position.coords.latitude;
-
-          // Update the marker state
-          setDraggableMarker({
-            lng: userLng,
-            lat: userLat,
-          });
-
-          form.setValue("lng", userLng);
-          form.setValue("lat", userLat);
-
-          // Tell the map instance to smoothly fly to the new coordinates
-          map.flyTo({
-            center: [userLng, userLat],
-            zoom: 12, // Zoom in closer since we know their exact location
-            duration: 2000, // 2 second animation
-          });
-        },
-        (error) => {
-          // Error: The user clicked "Block" or the request timed out.
-          // We do not need to update the state here, because it already
-          // defaulted to LAUNDRY_POINT_ZERO on the initial render.
-          console.log(
-            "User denied location access. Staying at laundry point. ",
-            error
-          );
-        }
-      );
+    if (!("geolocation" in navigator)) {
+      return;
     }
-  }, [map, isLoaded, location, form, setDraggableMarker]); // Dependencies ensure this runs at the right time
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        applyLocation(coords.longitude, coords.latitude);
+        map.flyTo({
+          center: [coords.longitude, coords.latitude],
+          zoom: 12,
+          duration: 2000,
+        });
+      },
+      (error) => {
+        console.log(
+          "User denied location access. Staying at laundry point.",
+          error
+        );
+      }
+    );
+  }, [map, isLoaded, location, applyLocation]);
+
+  // Sync incoming location prop (e.g. editing an existing saved address)
+  // useRef guards against infinite loops: applyLocation triggers re-renders which
+  // can recreate the callback and re-fire this effect without the guard.
+  const appliedLocationRef = useRef<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
-    if (location) {
-      setDraggableMarker({
-        lng: location.lng,
-        lat: location.lat,
-      });
-
-      form.setValue("lng", location.lng);
-      form.setValue("lat", location.lat);
-      if (!validDistance) {
-        showLocationTooFarToast();
-      }
+    if (!location) {
+      return;
     }
-  }, [
-    location,
-    form,
-    setDraggableMarker,
-    validDistance,
-    showLocationTooFarToast,
-  ]);
 
+    if (
+      appliedLocationRef.current?.lat === location.lat &&
+      appliedLocationRef.current?.lng === location.lng
+    ) {
+      return;
+    }
+
+    appliedLocationRef.current = location;
+    applyLocation(location.lng, location.lat);
+  }, [location, applyLocation]);
+
+  // Effect 2: Fly to location once map is ready
+  useEffect(() => {
+    if (!(location && map && isLoaded)) {
+      return;
+    }
+
+    map.flyTo({
+      center: [location.lng, location.lat],
+      zoom: 12,
+      duration: 2000,
+    });
+  }, [map, isLoaded, location]);
+
+  // Attach map click handler
   useEffect(() => {
     if (!(map && isLoaded)) {
       return;
     }
 
     const handleMapClick = (e: MapMouseEvent) => {
-      const newLng = e.lngLat.lng;
-      const newLat = e.lngLat.lat;
-      setDraggableMarker({ lng: newLng, lat: newLat });
-      form.setValue("lng", newLng);
-      form.setValue("lat", newLat);
-
-      const clickedDestination = new LngLat(newLng, newLat);
-      const clickedDistance = (
-        origin.distanceTo(clickedDestination) / 1000
-      ).toFixed(2);
-
-      if (Number(clickedDistance) > 2) {
-        showLocationTooFarToast();
-      }
+      applyLocation(e.lngLat.lng, e.lngLat.lat);
     };
 
     map.on("click", handleMapClick);
-
     return () => {
       map.off("click", handleMapClick);
     };
-  }, [
-    map,
-    isLoaded,
-    setDraggableMarker,
-    form,
-    origin,
-    showLocationTooFarToast,
-  ]);
+  }, [map, isLoaded, applyLocation]);
 
-  const handleLocate = (coords: { longitude: number; latitude: number }) => {
-    const newLng = coords.longitude;
-    const newLat = coords.latitude;
-
-    setDraggableMarker({ lng: newLng, lat: newLat });
-
-    form.setValue("lng", newLng);
-    form.setValue("lat", newLat);
-
-    const locatedDestination = new LngLat(newLng, newLat);
-    const locatedDistance = (
-      origin.distanceTo(locatedDestination) / 1000
-    ).toFixed(2);
-
-    if (Number(locatedDistance) > 2) {
-      showLocationTooFarToast();
-    }
-  };
+  const handleLocate = useCallback(
+    (coords: { longitude: number; latitude: number }) => {
+      applyLocation(coords.longitude, coords.latitude);
+    },
+    [applyLocation]
+  );
 
   return (
     <>
@@ -200,18 +173,7 @@ export const AddressMap = ({ location }: AddressMapProps) => {
         draggable
         latitude={draggableMarker.lat}
         longitude={draggableMarker.lng}
-        onDragEnd={(lngLat) => {
-          const newLng = lngLat.lng;
-          const newLat = lngLat.lat;
-          setDraggableMarker({ lng: newLng, lat: newLat });
-          const draggedDestination = new LngLat(newLng, newLat);
-          const draggedDistance = (
-            origin.distanceTo(draggedDestination) / 1000
-          ).toFixed(2);
-          if (Number(draggedDistance) > 2) {
-            showLocationTooFarToast();
-          }
-        }}
+        onDragEnd={(lngLat) => applyLocation(lngLat.lng, lngLat.lat)}
       >
         <MarkerContent>
           <div className="cursor-move">

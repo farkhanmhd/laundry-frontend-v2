@@ -924,7 +924,7 @@
       "description": "Kelola lokasi pengiriman Anda (Maks 3).",
       "loadingMap": "Memuat Peta...",
       "addNew": "Tambah Baru",
-      "newAddress": "Alamat Baru",
+      "newAddress": "Alamat",
       "newAddressDescription": "Pin lokasi Anda di peta dan isi detailnya.",
       "addressLabel": "Label Alamat",
       "addressLabelPlaceholder": "contoh. Rumah, Kantor",

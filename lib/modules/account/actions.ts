@@ -44,21 +44,28 @@ export const updateAdminAction = actionClient
 export const addAddressAction = actionClient
   .inputSchema(addressSchema)
   .action(async ({ parsedInput }) => {
-    // SIMULATE DB DELAY
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await AccountApi.addAddress(parsedInput);
 
-    const newAddress = {
-      id: Math.random().toString(36).substr(2, 9),
-      ...parsedInput,
-    };
+    if (result?.status === "success") {
+      return {
+        status: "success",
+        message: "Address saved successfully",
+      };
+    }
 
-    // Return a structured response matching your hook's check
     return {
-      status: "success",
-      message: "Address saved successfully",
-      data: newAddress,
+      status: "error",
+      message: "Failed to save address",
     };
   });
+
+export const getAddressesAction = actionClient.action(async () => {
+  const addresses = await AccountApi.getAddresses();
+  return {
+    status: "success",
+    data: addresses,
+  };
+});
 
 export const updatePasswordAction = actionClient
   .inputSchema(updatePasswordSchema)

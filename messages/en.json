@@ -924,7 +924,7 @@
       "description": "Manage your shipping locations (Max 3).",
       "loadingMap": "Loading Map...",
       "addNew": "Add New",
-      "newAddress": "New Address",
+      "newAddress": "Address",
       "newAddressDescription": "Pin your location on the map and fill in the details.",
       "addressLabel": "Address Label",
       "addressLabelPlaceholder": "e.g. Home, Office",

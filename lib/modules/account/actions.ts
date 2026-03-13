@@ -4,6 +4,7 @@ import { actionClient } from "@/lib/safe-action";
 import { AccountApi } from "./data";
 import {
   addressSchema,
+  updateAddressSchemaWithId,
   updateAdminSchema,
   updatePasswordSchema,
   updateProfileSchema,
@@ -56,6 +57,25 @@ export const addAddressAction = actionClient
     return {
       status: "error",
       message: "Failed to save address",
+    };
+  });
+
+export const updateAddressAction = actionClient
+  .inputSchema(updateAddressSchemaWithId)
+  .action(async ({ parsedInput }) => {
+    const { id, ...body } = parsedInput;
+    const result = await AccountApi.updateAddress({ id, body });
+
+    if (result?.status === "success") {
+      return {
+        status: "success",
+        message: "Address updated successfully",
+      };
+    }
+
+    return {
+      status: "error",
+      message: "Failed to update address",
     };
   });
 

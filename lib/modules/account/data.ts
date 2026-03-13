@@ -2,6 +2,7 @@ import { elysia } from "@/elysia";
 import { BaseApi } from "../base-api";
 import type {
   AddressSchema,
+  UpdateAddressSchema,
   UpdatePasswordSchema,
   UpdateProfileSchema,
 } from "./schema";
@@ -44,6 +45,22 @@ export abstract class AccountApi extends BaseApi {
     const { data: response } = await elysia.account.address.post(body, {
       ...(await AccountApi.getConfig()),
     });
+
+    return response;
+  }
+
+  static async updateAddress({
+    id,
+    body,
+  }: {
+    id: string;
+    body: UpdateAddressSchema;
+  }) {
+    const { data: response } = await elysia.account
+      .address({ id })
+      .patch(body, {
+        ...(await AccountApi.getConfig()),
+      });
 
     return response;
   }

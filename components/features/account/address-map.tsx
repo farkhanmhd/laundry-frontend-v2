@@ -5,19 +5,19 @@ import { LngLat, type MapMouseEvent } from "maplibre-gl";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import { useAddressFormContext } from "../features/account/address-form-context";
 import {
   MapControls,
   MapMarker,
   MarkerContent,
   MarkerPopup,
   useMap,
-} from "../ui/map";
+} from "@/components/ui/map";
+import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { useAddAddressFormContext } from "./add-address-form-context";
 
 type AddressMapProps = {
-  location?: { lat: number; lng: number };
+  location?: { lat: number; lng: number } | undefined;
 };
 
 export const AddressMap = ({ location }: AddressMapProps) => {
@@ -29,7 +29,7 @@ export const AddressMap = ({ location }: AddressMapProps) => {
     validDistance,
     distanceInKm,
     origin,
-  } = useAddressFormContext();
+  } = useAddAddressFormContext();
   const { map, isLoaded } = useMap();
 
   const showLocationTooFarToast = useCallback(() => {

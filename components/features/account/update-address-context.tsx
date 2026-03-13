@@ -2,14 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { LngLat } from "maplibre-gl";
 import { useRouter } from "next/navigation";
-import { createContext, use, useEffect, useMemo, useState } from "react";
+import { createContext, use, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
-import { addAddressAction } from "@/lib/modules/account/actions";
-import type { AccountAddress } from "@/lib/modules/account/data";
-import { addressSchema } from "@/lib/modules/account/schema";
+import { updateAddressAction } from "@/lib/modules/account/actions";
+import {
+  type UpdateAddressSchemaWithId,
+  updateAddressSchemaWithId,
+} from "@/lib/modules/account/schema";
 
-interface AddressFormContextState {
+interface UpdateAddressContextState {
   action: ReturnType<typeof useHookFormAction>["action"];
   form: ReturnType<typeof useHookFormAction>["form"];
   handleSubmitWithAction: ReturnType<
@@ -25,48 +27,31 @@ interface AddressFormContextState {
   validDistance: boolean;
   distanceInKm: string;
   origin: LngLat;
-  address?: AccountAddress;
+  address: UpdateAddressSchemaWithId;
 }
 
-const AddressFormContext = createContext<AddressFormContextState | null>(null);
+const UpdateAddressFormContext =
+  createContext<UpdateAddressContextState | null>(null);
 
-// type AddressSchema = {
-//     id: string;
-//     label: string;
-//     street: string;
-//     lat: number;
-//     lng: number;
-//     note?: string | undefined;
-// }
-
-type AddressFormProviderProps = {
+type UpdateAddressFormProviderProps = {
+  address: UpdateAddressSchemaWithId;
   children: React.ReactNode;
-  address?: AccountAddress;
   onCancel: () => void;
 };
 
-const addressDefaultValues: AccountAddress = {
-  id: Math.random().toString(),
-  label: "",
-  street: "",
-  lat: 0,
-  lng: 0,
-  note: "",
-};
-
-export const AddressFormProvider = ({
-  children,
+export const UpdateAddressFormProvider = ({
   address,
+  children,
   onCancel,
-}: AddressFormProviderProps) => {
+}: UpdateAddressFormProviderProps) => {
   const { refresh } = useRouter();
   const { action, form, handleSubmitWithAction } = useHookFormAction(
-    addAddressAction,
-    zodResolver(addressSchema),
+    updateAddressAction,
+    zodResolver(updateAddressSchemaWithId),
     {
       formProps: {
         mode: "onChange",
-        values: address ?? addressDefaultValues,
+        defaultValues: address,
       },
       actionProps: {
         onSettled: ({ result }) => {
@@ -86,15 +71,6 @@ export const AddressFormProvider = ({
     lng: LAUNDRY_POINT_ZERO[0],
     lat: LAUNDRY_POINT_ZERO[1],
   });
-
-  useEffect(() => {
-    if (address) {
-      setDraggableMarker({
-        lng: address.lng,
-        lat: address.lat,
-      });
-    }
-  }, [address]);
 
   const origin = useMemo(
     () => new LngLat(LAUNDRY_POINT_ZERO[0], LAUNDRY_POINT_ZERO[1]),
@@ -116,14 +92,6 @@ export const AddressFormProvider = ({
     [distanceInKm]
   );
 
-  useEffect(() => {
-    if (address) {
-      form.reset(address);
-    } else {
-      form.reset();
-    }
-  }, [address, form]);
-
   const handleCancel = () => {
     form.reset();
     onCancel();
@@ -144,14 +112,14 @@ export const AddressFormProvider = ({
   };
 
   return (
-    <AddressFormContext.Provider value={value}>
+    <UpdateAddressFormContext.Provider value={value}>
       {children}
-    </AddressFormContext.Provider>
+    </UpdateAddressFormContext.Provider>
   );
 };
 
-export const useAddressFormContext = () => {
-  const context = use(AddressFormContext);
+export const useUpdateAddressFormContext = () => {
+  const context = use(UpdateAddressFormContext);
 
   if (!context) {
     throw new Error(

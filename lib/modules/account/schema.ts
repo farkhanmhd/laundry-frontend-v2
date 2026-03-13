@@ -25,7 +25,6 @@ export const addressSchema = z.object({
     .min(3, "Address must be at least 5 characters")
     .max(255, "Address must be at most 255 characters"),
   note: z.string().max(255, "Note must be at most 255 characters").nullable(),
-  // Validation: value must not be 0
   lat: z
     .number()
     .min(-90, "Latitude must be between -90 and 90")
@@ -80,4 +79,11 @@ export const updateAddressSchema = z.object({
   note: z.string().max(255, "Note must be at most 255 characters").optional(),
 });
 
+export const updateAddressSchemaWithId = updateAddressSchema.extend({
+  id: z.string(),
+});
+
+export type UpdateAddressSchemaWithId = z.infer<
+  typeof updateAddressSchemaWithId
+>;
 export type UpdateAddressSchema = z.infer<typeof updateAddressSchema>;

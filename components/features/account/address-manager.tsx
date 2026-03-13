@@ -16,9 +16,12 @@ import {
 } from "@/components/ui/card";
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
+import type { UpdateAddressSchemaWithId } from "@/lib/modules/account/schema";
 import { cardShadowStyle } from "@/lib/utils";
-import { AddressForm } from "./address-form";
-import { AddressFormProvider } from "./address-form-context";
+import { AddAddressForm } from "./add-address-form";
+import { AddAddressFormProvider } from "./add-address-form-context";
+import { UpdateAddressFormProvider } from "./update-address-context";
+import { UpdateAddressForm } from "./update-address-form";
 
 interface AddressManagerProps {
   addresses?: AccountAddress[];
@@ -33,8 +36,6 @@ const deleteAddress = async (id: string) => {
       },
     }
   );
-
-  console.log({ response });
 
   return response;
 };
@@ -129,19 +130,19 @@ export function AddressManager({ addresses }: AddressManagerProps) {
 
       {/* 2. ADD FORM */}
       {isAdding && !viewingAddress && (
-        <AddressFormProvider onCancel={() => setIsAdding(false)}>
-          <AddressForm />
-        </AddressFormProvider>
+        <AddAddressFormProvider onCancel={() => setIsAdding(false)}>
+          <AddAddressForm />
+        </AddAddressFormProvider>
       )}
 
       {/* 3. VIEW LOCATION DIALOG */}
       {!!viewingAddress && !isAdding && (
-        <AddressFormProvider
-          address={viewingAddress}
+        <UpdateAddressFormProvider
+          address={viewingAddress as UpdateAddressSchemaWithId}
           onCancel={() => setViewingAddress(null)}
         >
-          <AddressForm />
-        </AddressFormProvider>
+          <UpdateAddressForm />
+        </UpdateAddressFormProvider>
       )}
     </div>
   );

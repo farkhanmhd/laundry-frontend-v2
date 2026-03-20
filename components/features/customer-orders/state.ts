@@ -51,7 +51,7 @@ export const useCustomerOrder = () => {
   const [customerCart, setCustomerCart] = useAtom(customerOrderAtom);
   const { push } = useRouter();
 
-  const { execute, isPending, result } = useAction(createPickupRequest, {
+  const { execute, isPending } = useAction(createPickupRequest, {
     onSuccess: ({ data: result }) => {
       if (result && result.status === "success") {
         toast.success(result.message);

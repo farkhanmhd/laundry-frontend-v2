@@ -1,84 +1,63 @@
 "use client";
 
-import { NotepadText, Pencil } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { cardShadowStyle } from "@/lib/utils";
+import type { AccountAddress } from "@/lib/modules/account/data";
+import { cn } from "@/lib/utils";
+import { useCustomerOrder } from "./state";
 
-interface OrderSummaryAddressProps {
-  /**
-   * Label displayed above the location name (e.g. "Pickup location")
-   */
-  label?: string;
-  /**
-   * The name of the location (e.g. "Office", "Home")
-   */
-  name: string;
-  /**
-   * The actual address string
-   */
-  address: string;
-  /**
-   * Handler for the "Change location" button
-   */
-  onChangeLocation?: () => void;
-  /**
-   * Handler for the "Edit address details" button
-   */
-  onEditAddress?: () => void;
-  /**
-   * Handler for the "Notes" button
-   */
-  onNotes?: () => void;
+interface CustomerOrderSummaryAddressProps {
+  address: AccountAddress;
 }
 
-export function CustomerOrderSummaryAddress({
-  label,
-  name,
+export const CustomerOrderSummaryAddress = ({
   address,
-  onChangeLocation,
-  onEditAddress,
-  onNotes,
-}: OrderSummaryAddressProps) {
-  const t = useTranslations("CustomerOrders");
+}: CustomerOrderSummaryAddressProps) => {
+  const t = useTranslations("CustomerOrders.orderSummaryAddress");
+  const { selectedAddress, handleSelectAddress, isPending } =
+    useCustomerOrder();
+
   return (
-    <div className="w-full rounded-xl bg-card p-6" style={cardShadowStyle}>
-      <div className="flex items-start justify-between gap-4">
-        {/* Address Info */}
-        <div className="space-y-1">
-          <p className="font-medium text-muted-foreground text-xs">
-            {label || t("orderSummaryAddress.label")}
-          </p>
-          <h3 className="font-semibold tracking-tight">{name}</h3>
-          <p className="text-muted-foreground text-sm">{address}</p>
+    <div
+      className={cn(
+        "flex items-center justify-between rounded-lg border p-3 transition-colors",
+        selectedAddress === address.id && "border-primary"
+      )}
+      key={address.id}
+    >
+      <div className="flex items-center gap-3">
+        <MapPin className="h-4 w-4 text-muted-foreground" />
+        <div>
+          <p className="font-medium">{address.label}</p>
+          <p className="text-muted-foreground text-sm">{address.street}</p>
+          {address.note && (
+            <p className="text-muted-foreground text-xs">
+              {t("notes")}: {address.note}
+            </p>
+          )}
         </div>
-
-        {/* Change Location Button */}
-        <Button
-          className="shrink-0 bg-background"
-          onClick={onChangeLocation}
-          variant="outline"
-        >
-          {t("orderSummaryAddress.changeLocation")}
-        </Button>
       </div>
-
-      {/* Action Buttons */}
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      {selectedAddress !== address.id && (
         <Button
-          className="font-medium"
-          onClick={onEditAddress}
-          variant="outline"
+          disabled={isPending}
+          onClick={() => handleSelectAddress(address.id)}
+          size="sm"
         >
-          <Pencil className="h-4 w-4" />
-          {t("orderSummaryAddress.editAddressDetails")}
+          {t("select")}
         </Button>
-
-        <Button className="font-medium" onClick={onNotes} variant="outline">
-          <NotepadText className="h-4 w-4" />
-          {t("orderSummaryAddress.notes")}
+      )}
+      {selectedAddress === address.id && (
+        <Button
+          className="bg-background text-destructive hover:bg-destructive/10 hover:text-destructive"
+          disabled={isPending}
+          onClick={() => handleSelectAddress(null)}
+          size="sm"
+          variant="ghost"
+        >
+          {t("cancel")}
         </Button>
-      </div>
+      )}
     </div>
   );
-}
+};

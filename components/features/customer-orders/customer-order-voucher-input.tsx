@@ -12,8 +12,12 @@ import { useCustomerOrder } from "./state";
 export const CustomerOrderVoucherInput = () => {
   const t = useTranslations("CustomerOrders.voucherInput");
   const [inputCode, setInputCode] = useState("");
-  const { handleSelectVoucher, totalAmount, setCustomerCart } =
-    useCustomerOrder();
+  const {
+    handleSelectVoucher,
+    totalAmount,
+    setCustomerCart,
+    isPending: isPendingAction,
+  } = useCustomerOrder();
   const { mutate, isPending } = useMutation({
     mutationFn: getVoucherByCode,
     onSuccess: (data) => {
@@ -45,7 +49,7 @@ export const CustomerOrderVoucherInput = () => {
     },
   });
 
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = (e: React.SubmitEvent) => {
     e.preventDefault();
     const cleanCode = inputCode.trim();
     if (!cleanCode) {
@@ -58,12 +62,12 @@ export const CustomerOrderVoucherInput = () => {
   return (
     <form className="flex gap-2" onSubmit={handleApply}>
       <Input
-        disabled={isPending}
+        disabled={isPending || isPendingAction}
         onChange={(e) => setInputCode(e.target.value)}
         placeholder={t("enterVoucherCode")}
         value={inputCode}
       />
-      <Button disabled={isPending} type="submit">
+      <Button disabled={isPending || isPendingAction} type="submit">
         {t("apply")}
       </Button>
     </form>

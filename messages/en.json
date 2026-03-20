@@ -760,7 +760,13 @@
       "label": "Pickup location",
       "changeLocation": "Change location",
       "editAddressDetails": "Edit address details",
-      "notes": "Notes"
+      "notes": "Notes",
+      "noSavedAddresses": "No saved addresses",
+      "addAddressForPickup": "Add an address to use for pickup delivery.",
+      "addNewAddress": "Add new address",
+      "select": "Select",
+      "cancel": "Cancel",
+      "yourAddresses": "Your Addresses"
     },
     "paymentSummary": {
       "paymentMethod": "Payment Method",

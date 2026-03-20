@@ -4,9 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
 import { type ChangeEvent, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
+import { createPickupRequest } from "@/lib/modules/customer-orders/actions";
+import type { RequestPickupSchema } from "@/lib/modules/customer-orders/schema";
 import type { PosItemData, PosVoucher } from "@/lib/modules/pos/data";
 import { getMaxDiscount, type PosOrderItem } from "@/lib/modules/pos/state";
 import { positiveIntRegex } from "@/lib/utils";
@@ -28,6 +31,7 @@ export interface CustomerOrderState {
   voucherList: PosVoucher[];
   selectedVoucher: PosVoucher | null;
   points?: number | null;
+  selectedAddress: string | null;
 }
 
 const initialState: CustomerOrderState = {
@@ -35,6 +39,7 @@ const initialState: CustomerOrderState = {
   voucherList: [],
   selectedVoucher: null,
   points: null,
+  selectedAddress: null,
 };
 
 const customerOrderAtom = atomWithStorage<CustomerOrderState>(
@@ -45,6 +50,38 @@ const customerOrderAtom = atomWithStorage<CustomerOrderState>(
 export const useCustomerOrder = () => {
   const [customerCart, setCustomerCart] = useAtom(customerOrderAtom);
   const { push } = useRouter();
+
+  const { execute, isPending, result } = useAction(createPickupRequest, {
+    onSuccess: ({ data: result }) => {
+      if (result && result.status === "success") {
+        toast.success(result.message);
+        clearCustomerCart();
+      }
+    },
+  });
+
+  const submitPickupRequest = () => {
+    if (selectedAddress) {
+      const data: RequestPickupSchema = {
+        items: customerCart.items,
+        addressId: selectedAddress,
+      };
+
+      if (customerCart.points) {
+        data.points = customerCart.points;
+      }
+
+      if (customerCart.selectedVoucher) {
+        data.items.push({
+          itemType: "voucher",
+          voucherId: customerCart.selectedVoucher.id,
+          quantity: 1,
+        });
+      }
+
+      execute(data);
+    }
+  };
 
   const handleAddToCart = (item: PosItemData) => {
     const existingItem = customerCart.items.find((i) => i.id === item.id);
@@ -223,9 +260,24 @@ export const useCustomerOrder = () => {
     }
   }, [amountBeforePoints, customerCart.points, userPoints, setCustomerCart]);
 
-  const clearCustomerCart = () => setCustomerCart(initialState);
+  function clearCustomerCart() {
+    setCustomerCart({
+      items: [],
+      selectedAddress: null,
+      selectedVoucher: null,
+      points: null,
+      voucherList: customerCart.voucherList,
+    });
+  }
 
-  const { voucherList } = customerCart;
+  const handleSelectAddress = (addressId: string | null) => {
+    setCustomerCart((prev) => ({
+      ...prev,
+      selectedAddress: addressId,
+    }));
+  };
+
+  const { voucherList, selectedAddress } = customerCart;
 
   return {
     customerCart,
@@ -247,5 +299,10 @@ export const useCustomerOrder = () => {
     togglePoint,
     userPoints,
     clearCustomerCart,
+    selectedAddress,
+    handleSelectAddress,
+    execute,
+    isPending,
+    submitPickupRequest,
   };
 };

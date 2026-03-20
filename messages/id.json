@@ -647,7 +647,7 @@
       "showVoucherDescription": "Ketika diaktifkan, voucher ini akan terlihat di sisi pelanggan.",
       "visible": "Tampil",
       "hidden": "Tersembunyi",
-      "fixed": "Tetap",
+      "fixed": "Fixed",
       "percentage": "Persentase",
       "createNew": "Buat Voucher Baru",
       "createDescription": "Masukkan detail di bawah untuk menambahkan voucher baru.",
@@ -760,7 +760,13 @@
       "label": "Lokasi penjemputan",
       "changeLocation": "Ubah lokasi",
       "editAddressDetails": "Edit detail alamat",
-      "notes": "Catatan"
+      "notes": "Catatan",
+      "noSavedAddresses": "Tidak ada alamat tersimpan",
+      "addAddressForPickup": "Tambahkan alamat untuk pengiriman penjemputan.",
+      "addNewAddress": "Tambah alamat baru",
+      "select": "Pilih",
+      "cancel": "Batal",
+      "yourAddresses": "Alamat Anda"
     },
     "paymentSummary": {
       "paymentMethod": "Metode Pembayaran",

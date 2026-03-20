@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
-const orderItemSchema = z.object({
-  itemType: z.enum(["service", "inventory", "bundling", "voucher"]),
+export const orderItemSchema = z.object({
+  itemType: z.enum(["service", "inventory", "bundling", "voucher", "points"]),
   serviceId: z.optional(z.nullable(z.string())),
   inventoryId: z.optional(z.nullable(z.string())),
   bundlingId: z.optional(z.nullable(z.string())),

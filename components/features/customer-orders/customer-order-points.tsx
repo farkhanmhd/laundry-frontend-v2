@@ -17,8 +17,13 @@ import { useCustomerOrder } from "./state";
 
 export const CustomerOrderPoints = () => {
   const t = useTranslations("CustomerOrders");
-  const { customerCart, userPoints, togglePoint, handlePointChange } =
-    useCustomerOrder();
+  const {
+    customerCart,
+    userPoints,
+    togglePoint,
+    handlePointChange,
+    isPending,
+  } = useCustomerOrder();
 
   return (
     <FieldLabel
@@ -41,6 +46,7 @@ export const CustomerOrderPoints = () => {
         </FieldContent>
         <Switch
           checked={customerCart.points !== null}
+          disabled={isPending}
           id="points"
           onCheckedChange={togglePoint}
         />
@@ -62,6 +68,7 @@ export const CustomerOrderPoints = () => {
                   autoComplete="off"
                   autoFocus
                   className="w-full"
+                  disabled={isPending}
                   id="points-input"
                   inputMode="numeric"
                   onChange={(e) => handlePointChange(e)}

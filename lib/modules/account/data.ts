@@ -38,7 +38,10 @@ export abstract class AccountApi extends BaseApi {
       ...(await AccountApi.getConfig()),
     });
 
-    return response?.data;
+    if (!response?.data) {
+      return [];
+    }
+    return response.data;
   }
 
   static async addAddress(body: AddressSchema) {

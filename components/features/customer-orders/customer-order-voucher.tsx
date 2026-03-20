@@ -20,7 +20,7 @@ export const CustomerOrderVoucherCard: React.FC<VoucherCardProps> = ({
   isSelected,
 }) => {
   const t = useTranslations("CustomerOrders.voucher");
-  const { handleRemoveVoucher, handleSelectVoucher, totalAmount } =
+  const { handleRemoveVoucher, handleSelectVoucher, totalAmount, isPending } =
     useCustomerOrder();
 
   const isPercentage = voucher.discountPercentage !== null;
@@ -114,6 +114,7 @@ export const CustomerOrderVoucherCard: React.FC<VoucherCardProps> = ({
         {isSelected ? (
           <Button
             className="h-8 px-3 font-medium text-destructive hover:bg-destructive/10 hover:text-destructive"
+            disabled={isPending}
             onClick={(e) => {
               e.stopPropagation();
               handleRemoveVoucher();
@@ -134,7 +135,7 @@ export const CustomerOrderVoucherCard: React.FC<VoucherCardProps> = ({
             ) : (
               <Button
                 className="h-8 px-4 font-medium shadow-none"
-                disabled={totalAmount < voucher.minSpend}
+                disabled={totalAmount < voucher.minSpend || isPending}
                 onClick={() => handleSelectVoucher(voucher)}
                 size="sm"
                 variant="default"

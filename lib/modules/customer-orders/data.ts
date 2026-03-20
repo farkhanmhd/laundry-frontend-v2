@@ -1,5 +1,6 @@
 import { elysia } from "@/elysia";
 import { BaseApi } from "../base-api";
+import type { RequestPickupSchema } from "./schema";
 
 export abstract class CustomerOrdersApi extends BaseApi {
   static async getCustomerOrderDetail(id: string) {
@@ -64,5 +65,13 @@ export abstract class CustomerOrdersApi extends BaseApi {
     }
 
     return response.data;
+  }
+
+  static async createPickupRequest(body: RequestPickupSchema) {
+    const response = await elysia.customerorders["request-pickup"].post(body, {
+      ...(await CustomerOrdersApi.getConfig()),
+    });
+
+    return response;
   }
 }

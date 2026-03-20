@@ -29,7 +29,7 @@ interface OrderSummaryItemProps {
 }
 
 export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
-  const { handleIncrementQuantity, handleDecrementQuantity } =
+  const { handleIncrementQuantity, handleDecrementQuantity, isPending } =
     useCustomerOrder();
 
   return (
@@ -70,6 +70,7 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
       <div className="mt-4 flex items-center justify-between">
         <Button
           className="h-8"
+          disabled={isPending}
           // onClick={onNoteClick}
           size="sm"
           variant="outline"

@@ -6,7 +6,7 @@ import { PasswordForm } from "@/components/features/account/password-form";
 const MOCK_USER_DATA = {
   username: "budisantoso99",
   name: "Budi Santoso",
-  phone: 1_234_567_890,
+  phone: "+621092308",
   email: "email@test.com",
 };
 

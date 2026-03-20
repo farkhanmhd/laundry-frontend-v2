@@ -1,7 +1,8 @@
+// login-form.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Triangle } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -13,7 +14,6 @@ import {
 } from "@/components/features/auth/schema";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
-import { FieldDescription } from "@/components/ui/field";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -52,20 +52,26 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex w-full flex-col gap-6", className)} {...props}>
+    <div className={cn("flex w-full flex-col gap-7", className)} {...props}>
+      {/* Header */}
+      <div className="flex flex-col gap-1.5">
+        <h1 className="font-semibold text-[22px] text-foreground tracking-[-0.02em]">
+          {t("greeting")}
+        </h1>
+        <p className="text-[13.5px] text-muted-foreground leading-relaxed">
+          {t("subtitle")}
+        </p>
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-border/60" />
+
+      {/* Form */}
       <form
-        className="flex w-full flex-col items-center justify-center gap-6"
+        className="flex w-full flex-col gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex w-full flex-col items-center gap-2 text-center">
-          <div className="flex flex-col items-center gap-2 font-medium">
-            <div className="flex flex-col items-center justify-center gap-3 rounded-md">
-              <Triangle className="size-6" />
-              <h1 className="font-bold text-xl">{t("greeting")}</h1>
-            </div>
-          </div>
-        </div>
-        <div className="w-full max-w-sm space-y-5">
+        <div className="flex flex-col gap-4">
           <FormInput
             disabled={form.formState.isSubmitting}
             form={form}
@@ -73,30 +79,54 @@ export function LoginForm({
             name="username"
             placeholder={t("usernamePlaceholder")}
           />
-          <FormInput
-            disabled={form.formState.isSubmitting}
-            form={form}
-            label={t("password")}
-            name="password"
-            placeholder={t("passwordPlaceholder")}
-            type="password"
-          />
-          <Button
-            className="w-full"
-            disabled={form.formState.isSubmitting}
-            type="submit"
-          >
-            {t("signIn")}
-          </Button>
-
-          <FieldDescription className="px-6 text-center">
-            {t("termsDescription")}
-            <Link href="#">{t("termsOfService")}</Link>
-            <span>{t("and")}</span>
-            <Link href="#">{t("privacyPolicy")}</Link>.
-          </FieldDescription>
+          <div className="flex flex-col gap-1.5">
+            <FormInput
+              disabled={form.formState.isSubmitting}
+              form={form}
+              label={t("password")}
+              name="password"
+              placeholder={t("passwordPlaceholder")}
+              type="password"
+            />
+            {/* Forgot password — placed right under the password field */}
+            <div className="flex justify-end">
+              <Link
+                className="text-[12px] text-muted-foreground/70 transition-colors hover:text-primary"
+                href="/forgot-password"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          </div>
         </div>
+
+        <Button
+          className="mt-1 w-full rounded-lg font-medium tracking-[-0.01em] transition-all active:scale-[0.98]"
+          disabled={form.formState.isSubmitting}
+          size="default"
+          type="submit"
+        >
+          {form.formState.isSubmitting ? (
+            <span className="flex items-center gap-2">
+              <LoaderIcon className="animate-spin" />
+              Signing in…
+            </span>
+          ) : (
+            t("signIn")
+          )}
+        </Button>
       </form>
+
+      {/* Footer */}
+      <p className="text-center text-[12.5px] text-muted-foreground/70">
+        {t("noAccount")}{" "}
+        <Link
+          className="font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+          href="/register"
+        >
+          {t("register")}
+        </Link>
+      </p>
     </div>
   );
 }

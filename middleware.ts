@@ -1,21 +1,31 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
+const PUBLIC_PATHS = ["/login", "/register"];
+
+// Prefix-based public routes — any path starting with these is public
+const PUBLIC_PREFIXES = ["/track"];
+
 export async function middleware(request: NextRequest) {
   try {
     const session = await getMiddlewareSession();
     const nextUrl = request.nextUrl.pathname;
+    const isPublicPath = PUBLIC_PATHS.includes(nextUrl);
+    const isPublicPrefix = PUBLIC_PREFIXES.some((prefix) =>
+      nextUrl.startsWith(prefix)
+    );
+    const isPublic = isPublicPath || isPublicPrefix;
 
-    // Case 1: No session, and not on the login page -> redirect to login
-    if (!session && nextUrl !== "/login") {
+    // Case 1: No session, and not on a public page -> redirect to login
+    if (!(session || isPublic)) {
       const loginUrl = new URL("/login", request.nextUrl.origin);
       return NextResponse.redirect(loginUrl);
     }
 
-    // Case 2: Session exists, but user is on login or root page -> redirect to POS
+    // Case 2: Session exists, but user is on a public or root page -> redirect to dashboard
     if (
       session &&
-      (nextUrl === "/login" || nextUrl === "/maintenance" || nextUrl === "/")
+      (isPublicPath || nextUrl === "/maintenance" || nextUrl === "/")
     ) {
       const dashboardUrl = new URL("/dashboard", request.nextUrl.origin);
       return NextResponse.redirect(dashboardUrl);
@@ -24,16 +34,18 @@ export async function middleware(request: NextRequest) {
     // If none of the above, continue to the requested page
     return NextResponse.next();
   } catch {
-    // IMPORTANT: Check the current path to avoid a redirect loop.
     const currentPath = request.nextUrl.pathname;
 
-    if (currentPath === "/maintenance") {
-      // If the auth service fails, we should still allow access to
-      // the login and maintenance pages themselves.
-      return NextResponse.next(); // Allow request to proceed
+    // If the auth service fails, allow public paths and maintenance through
+    if (
+      currentPath === "/maintenance" ||
+      PUBLIC_PATHS.includes(currentPath) ||
+      PUBLIC_PREFIXES.some((prefix) => currentPath.startsWith(prefix))
+    ) {
+      return NextResponse.next();
     }
 
-    // For all other pages, redirect to maintenance.
+    // For all other pages, redirect to maintenance
     const maintenanceUrl = new URL("/maintenance", request.nextUrl.origin);
     return NextResponse.redirect(maintenanceUrl);
   }

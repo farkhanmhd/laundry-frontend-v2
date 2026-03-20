@@ -987,5 +987,17 @@
     "changeLocation": "Ubah lokasi",
     "editAddressDetails": "Edit detail alamat",
     "notes": "Catatan"
+  },
+  "ReceiptSearch": {
+    "title": "Lacak Pesanan Anda",
+    "description": "Masukkan ID pesanan untuk melihat struk dan status pesanan.",
+    "orderId": "ID Pesanan",
+    "orderIdPlaceholder": "contoh ORD-2024-001",
+    "validationMinLength": "ID Pesanan minimal 7 karakter.",
+    "lookingUp": "Mencari…",
+    "findReceipt": "Cari Struk",
+    "notFoundTitle": "Struk tidak ditemukan",
+    "notFoundDescription": "Tidak ada pesanan yang cocok dengan {orderId}. Periksa ID dan coba lagi.",
+    "errorMessage": "Terjadi kesalahan. Silakan coba lagi."
   }
 }

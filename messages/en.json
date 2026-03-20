@@ -987,5 +987,17 @@
     "changeLocation": "Change location",
     "editAddressDetails": "Edit address details",
     "notes": "Notes"
+  },
+  "ReceiptSearch": {
+    "title": "Track Your Order",
+    "description": "Enter your order ID to view your receipt and order status.",
+    "orderId": "Order ID",
+    "orderIdPlaceholder": "e.g. ORD-2024-001",
+    "validationMinLength": "Order ID must be at least 7 characters.",
+    "lookingUp": "Looking up…",
+    "findReceipt": "Find Receipt",
+    "notFoundTitle": "Receipt not found",
+    "notFoundDescription": "No order matched {orderId}. Check the ID and try again.",
+    "errorMessage": "Something went wrong. Please try again."
   }
 }

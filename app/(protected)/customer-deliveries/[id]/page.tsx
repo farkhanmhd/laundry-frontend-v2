@@ -30,14 +30,11 @@ type DeliveryDetail = {
   requestedAt: string;
   completedAt: string | null;
   orderId: string;
-  address: {
-    id: string;
-    label: string | null;
-    address: string;
-    notes: string | null;
-    latitude: string | null;
-    longitude: string | null;
-  };
+  addressLabel: string | null;
+  address: string;
+  addressNotes: string | null;
+  latitude: string | null;
+  longitude: string | null;
 };
 
 async function getDelivery(id: string): Promise<DeliveryDetail> {
@@ -51,14 +48,11 @@ async function getDelivery(id: string): Promise<DeliveryDetail> {
     requestedAt: new Date().toISOString(),
     completedAt: null,
     orderId: "o-xK9s2",
-    address: {
-      id: "addr-123",
-      label: "Home",
-      address: "Jl. Jamin Ginting No. 123, Padang Bulan, Medan",
-      notes: "White fence, black gate",
-      latitude: "3.5852",
-      longitude: "98.6756",
-    },
+    addressLabel: "Home",
+    address: "Jl. Jamin Ginting No. 123, Padang Bulan, Medan",
+    addressNotes: "White fence, black gate",
+    latitude: "3.5852",
+    longitude: "98.6756",
   };
 }
 
@@ -208,9 +202,9 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                 <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                   {t("selectedAddress")}
                 </span>
-                {delivery.address.label && (
+                {delivery.addressLabel && (
                   <Badge className="font-semibold uppercase" variant="default">
-                    {delivery.address.label}
+                    {delivery.addressLabel}
                   </Badge>
                 )}
               </div>
@@ -219,11 +213,11 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
                 <div className="space-y-1">
                   <p className="font-medium text-foreground text-sm leading-snug">
-                    {delivery.address.address}
+                    {delivery.address}
                   </p>
-                  {delivery.address.notes && (
+                  {delivery.addressNotes && (
                     <p className="text-muted-foreground text-xs">
-                      {t("locationNote")}: {delivery.address.notes}
+                      {t("locationNote")}: {delivery.addressNotes}
                     </p>
                   )}
                 </div>

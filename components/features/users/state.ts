@@ -15,8 +15,12 @@ const userTableDialogAtom = atom<UserTableDialog>({
   dialog: null,
 });
 
+const createUserDialogAtom = atom(false);
+
 export function useUserTableDialog() {
   const [data, setData] = useAtom(userTableDialogAtom);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] =
+    useAtom(createUserDialogAtom);
 
   const openUpdateRoleDialog = (user: DialogUserData) => {
     setData({
@@ -47,6 +51,9 @@ export function useUserTableDialog() {
     });
   };
 
+  const openCreateUserDialog = () => setIsCreateDialogOpen(true);
+  const closeCreateUserDialog = () => setIsCreateDialogOpen(false);
+
   return {
     data,
     openUpdateRoleDialog,
@@ -56,5 +63,8 @@ export function useUserTableDialog() {
     isBanDialogOpen,
     isUserAdmin,
     user,
+    isCreateDialogOpen,
+    openCreateUserDialog,
+    closeCreateUserDialog,
   };
 }

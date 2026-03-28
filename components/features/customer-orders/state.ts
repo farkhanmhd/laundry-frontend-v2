@@ -55,6 +55,7 @@ export const useCustomerOrder = () => {
     onSuccess: ({ data: result }) => {
       if (result && result.status === "success") {
         toast.success(result.message);
+        push(`/customer-orders/${result.data?.orderId}`);
         clearCustomerCart();
       }
     },

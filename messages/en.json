@@ -709,6 +709,23 @@
       "cancel": "Cancel",
       "revokeAccess": "Revoke Access",
       "confirmAdmin": "Confirm Admin"
+    },
+    "createUserDialog": {
+      "createUser": "Cashier",
+      "title": "Create New Cashier",
+      "name": "Name",
+      "namePlaceholder": "Enter user name",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "email": "Email",
+      "emailPlaceholder": "Enter email address",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "cancel": "Cancel",
+      "submit": "Create Cashier Account",
+      "creating": "Creating...",
+      "successMessage": "Cashier created successfully",
+      "errorMessage": "Failed to create cashier"
     }
   },
   "Account": {

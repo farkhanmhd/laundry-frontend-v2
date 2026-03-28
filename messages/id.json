@@ -700,7 +700,7 @@
     "roleDialog": {
       "failedUpdate": "Gagal memperbarui peran",
       "demotedToUser": "diturunkan menjadi Pengguna",
-      "promotedToAdmin": "dinaikkan menjadi Admin",
+      "promotedToUser": "dinaikkan menjadi Admin",
       "unexpectedError": "Terjadi kesalahan tak terduga",
       "revokeAdminTitle": "Cabut akses admin?",
       "grantAdminTitle": "Berikan akses admin?",
@@ -709,6 +709,23 @@
       "cancel": "Batal",
       "revokeAccess": "Cabut Akses",
       "confirmAdmin": "Konfirmasi Admin"
+    },
+    "createUserDialog": {
+      "createUser": "Kasir",
+      "title": "Buat Kasir Baru",
+      "name": "Nama",
+      "namePlaceholder": "Masukkan nama pengguna",
+      "username": "Nama Pengguna",
+      "usernamePlaceholder": "Masukkan nama pengguna",
+      "email": "Email",
+      "emailPlaceholder": "Masukkan alamat email",
+      "phoneNumber": "Nomor Telepon",
+      "phoneNumberPlaceholder": "Masukkan nomor telepon",
+      "cancel": "Batal",
+      "submit": "Buat Akun Kasir",
+      "creating": "Membuat...",
+      "successMessage": "Akun kasir berhasil dibuat",
+      "errorMessage": "Gagal membuat akun kasir"
     }
   },
   "Account": {

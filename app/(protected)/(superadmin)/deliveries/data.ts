@@ -1,15 +1,12 @@
 export type Delivery = {
   id: string;
   orderId: string;
-  routeId: string | null; // null
-
-  // Separated customer fields
+  routeId: string | null;
   customerName: string;
   customerPhone: string;
-
   address: string;
   status: "requested" | "assigned" | "completed" | "cancelled";
-  requestedAt: string; // ISO 8601 UTC
+  requestedAt: string;
 };
 
 export const mockDeliveries: Delivery[] = [

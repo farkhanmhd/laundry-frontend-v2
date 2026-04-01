@@ -1,10 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
-import { AlertCircle, Calendar as CalendarIcon, Package } from "lucide-react";
-import Link from "next/link";
 import React from "react";
-import type { DateRange } from "react-day-picker";
 import {
   Bar,
   BarChart,
@@ -16,9 +12,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -33,22 +26,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cardShadowStyle, cn } from "@/lib/utils";
 
 // --- DASHBOARD METRICS ---
 const dashboardMetrics = {
-  totalRevenue: 4_850_000,
-  totalOrders: 324,
-  activeMembers: 156,
-  totalStaff: 12,
-  revenueGrowth: 12.5,
-  orderGrowth: 8.2,
+  totalRevenue: 4_850_000, // sum of payment.total where order.status equal completed
+  totalOrders: 324, // count orders
+  activeMembers: 156, // count members
+  totalStaff: 12, // count user with admin role
 };
 
 const orderStatusData = [
@@ -255,113 +240,8 @@ const bundlingStatsConfig = {
 } satisfies ChartConfig;
 
 // --- RECENT ORDERS DATA ---
-const recentOrders = [
-  {
-    id: "o-x9d2a",
-    customer: "Alice Johnson",
-    total: 125_000,
-    status: "pending",
-    date: "2025-12-10T03:30:00Z",
-  },
-  {
-    id: "o-k3m9p",
-    customer: "Budi Santoso",
-    total: 85_000,
-    status: "processing",
-    date: "2025-12-10T02:15:00Z",
-  },
-  {
-    id: "o-p4l1q",
-    customer: "Sarah Lee",
-    total: 45_000,
-    status: "ready",
-    date: "2025-12-09T09:00:00Z",
-  },
-  {
-    id: "o-m8n2b",
-    customer: "Rahman Hakim",
-    total: 210_000,
-    status: "completed",
-    date: "2025-12-09T07:30:00Z",
-  },
-  {
-    id: "o-j7k9x",
-    customer: "Diana Prince",
-    total: 150_000,
-    status: "processing",
-    date: "2025-12-09T04:00:00Z",
-  },
-  {
-    id: "o-992ka",
-    customer: "Michael Chen",
-    total: 320_000,
-    status: "pending",
-    date: "2025-12-09T03:00:00Z",
-  },
-  {
-    id: "o-112lp",
-    customer: "Jessica Wong",
-    total: 90_000,
-    status: "ready",
-    date: "2025-12-09T02:30:00Z",
-  },
-  {
-    id: "o-334md",
-    customer: "Tom Holland",
-    total: 110_000,
-    status: "completed",
-    date: "2025-12-08T14:00:00Z",
-  },
-  {
-    id: "o-556nq",
-    customer: "Robert Down",
-    total: 55_000,
-    status: "processing",
-    date: "2025-12-08T11:00:00Z",
-  },
-  {
-    id: "o-778pr",
-    customer: "Chris Evans",
-    total: 180_000,
-    status: "pending",
-    date: "2025-12-08T09:00:00Z",
-  },
-];
-
-const lowStockItems = [
-  { id: "p-001", name: "Laundry Detergent", current: 8, safety: 20 },
-  { id: "p-002", name: "Fabric Softener", current: 5, safety: 15 },
-  { id: "p-003", name: "Stain Remover", current: 12, safety: 25 },
-];
 
 // --- HELPER FUNCTIONS ---
-
-const getFilteredOrders = (status: string) => {
-  if (status === "all") {
-    return recentOrders.slice(0, 10);
-  }
-  return recentOrders.filter((o) => o.status === status).slice(0, 10);
-};
-
-const getBadgeVariant = (
-  status: string
-): "default" | "secondary" | "outline" | "destructive" => {
-  switch (status) {
-    case "pending":
-    case "requested":
-      return "secondary";
-    case "processing":
-    case "assigned":
-      return "default";
-    case "ready":
-    case "completed":
-      return "outline";
-    default:
-      return "secondary";
-  }
-};
-
-const formatToUTC = (dateString: string) => new Date(dateString).toUTCString();
 
 interface StatCardProps {
   label: string;
@@ -388,38 +268,21 @@ const StatCard = ({
   </Card>
 );
 
-export default function SuperAdminDashboard() {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+interface Props {
+  recentOrders: React.ReactNode;
+  lowStocks: React.ReactNode;
+  date: React.ReactNode;
+}
 
+export default function SuperAdminDashboard({
+  recentOrders,
+  lowStocks,
+  date,
+}: Props) {
   const totalOrdersCount = React.useMemo(
     () => orderStatusData.reduce((acc, curr) => acc + curr.value, 0),
     []
   );
-
-  const dateState = () => {
-    if (date?.from && date.to) {
-      return "range";
-    }
-
-    if (date?.from) {
-      return "single";
-    }
-
-    return "empty";
-  };
-
-  const dateDisplay = {
-    empty: <span>Pick a date</span>,
-    single: date?.from && format(date.from, "LLL dd, y"),
-    range: date?.from && date?.to && (
-      <>
-        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
-      </>
-    ),
-  };
 
   //  <div className="mx-auto flex max-w-5xl flex-col gap-5 sm:gap-6">
 
@@ -436,48 +299,17 @@ export default function SuperAdminDashboard() {
           </div>
 
           {/* Date Range Picker */}
-          <div className="grid gap-2" style={cardShadowStyle}>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  className={cn(
-                    "w-75 justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                  id="date"
-                  variant="outline"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {dateDisplay[dateState()]}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="end" className="w-auto p-0">
-                <Calendar
-                  autoFocus
-                  defaultMonth={date?.from}
-                  mode="range"
-                  numberOfMonths={2}
-                  onSelect={setDate}
-                  selected={date}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+          {date}
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
-            change={dashboardMetrics.revenueGrowth}
             label="Total Revenue"
             value={dashboardMetrics.totalRevenue}
             valueColor="text-primary"
           />
-          <StatCard
-            change={dashboardMetrics.orderGrowth}
-            label="Total Orders"
-            value={dashboardMetrics.totalOrders}
-          />
+          <StatCard label="Total Orders" value={dashboardMetrics.totalOrders} />
           <StatCard
             label="Active Members"
             subtext="Registered loyalty members"
@@ -558,51 +390,7 @@ export default function SuperAdminDashboard() {
           </Card>
 
           {/* Low Stock Alert - Clickable Links */}
-          <Card style={cardShadowStyle}>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-orange-600" />
-                  Low Stock Inventory
-                </CardTitle>
-                <Link
-                  className={cn(buttonVariants({ variant: "secondary" }))}
-                  href="/inventories"
-                >
-                  View All Inventories
-                </Link>
-              </div>
-              <CardDescription>Items below safety stock level</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {lowStockItems.map((item) => (
-                  <Link
-                    className="block rounded-lg border border-border p-3 transition-all hover:border-primary hover:bg-muted/50"
-                    href={`/inventories/${item.id}`}
-                    key={item.id}
-                  >
-                    <div className="mb-2 flex items-start justify-between">
-                      <p className="font-medium text-sm">{item.name}</p>
-                      <Badge variant="destructive">Alert</Badge>
-                    </div>
-                    <div className="flex justify-between text-muted-foreground text-xs">
-                      <span>Current: {item.current}</span>
-                      <span>Safety Stock: {item.safety}</span>
-                    </div>
-                    <div className="mt-2 h-2 w-full rounded-full border bg-muted">
-                      <div
-                        className="h-2 rounded-full bg-destructive"
-                        style={{
-                          width: `${(item.current / item.safety) * 100}%`,
-                        }}
-                      />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          {lowStocks}
         </div>
 
         {/* ROW 2: Top Services, Inventory Usage, Bundling */}
@@ -775,93 +563,7 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* ROW 4: Recent Orders */}
-        <div className="grid grid-cols-1 gap-6">
-          <Card className="flex h-full flex-col" style={cardShadowStyle}>
-            <Tabs className="flex w-full flex-1 flex-col" defaultValue="all">
-              <CardHeader className="flex flex-col gap-4 pb-4">
-                <div className="flex w-full items-center justify-between">
-                  <div className="space-y-1">
-                    <CardTitle>Recent Orders</CardTitle>
-                    <CardDescription>
-                      Overview of latest transactions
-                    </CardDescription>
-                  </div>
-                  <Button asChild size="sm" variant="outline">
-                    <Link href="/orders">View All Orders</Link>
-                  </Button>
-                </div>
-                {/* FIX: h-auto and flex-wrap ensure Tabs wrap correctly and don't overlap list content */}
-                <TabsList className="flex h-auto w-full flex-wrap justify-start gap-2 bg-transparent p-0">
-                  {["All", "Pending", "Processing", "Ready", "Completed"].map(
-                    (status) => (
-                      <TabsTrigger
-                        className="h-9 border border-transparent bg-muted/50 px-4 py-2 data-[state=active]:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:bg-background dark:data-[state=active]:bg-primary"
-                        key={status}
-                        value={status.toLowerCase()}
-                      >
-                        {status}
-                      </TabsTrigger>
-                    )
-                  )}
-                </TabsList>
-              </CardHeader>
-
-              <CardContent className="flex-1">
-                {["all", "pending", "processing", "ready", "completed"].map(
-                  (tab) => (
-                    <TabsContent
-                      className="mt-0 space-y-2"
-                      key={tab}
-                      value={tab}
-                    >
-                      {getFilteredOrders(tab).length === 0 ? (
-                        <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
-                          No orders found for this status.
-                        </div>
-                      ) : (
-                        getFilteredOrders(tab).map((order) => (
-                          <Link
-                            className="group block"
-                            href={`/orders/${order.id}`}
-                            key={order.id}
-                          >
-                            <div className="flex items-center justify-between rounded-lg border border-border p-4 transition-all hover:border-primary">
-                              <div className="flex items-start gap-4">
-                                <div className="mt-1 rounded-full bg-secondary p-2 text-secondary-foreground transition-colors group-hover:bg-background group-hover:text-primary">
-                                  <Package className="h-5 w-5" />
-                                </div>
-                                <div>
-                                  <p className="font-semibold text-foreground transition-colors group-hover:text-primary">
-                                    {order.customer}
-                                  </p>
-                                  <p className="text-muted-foreground text-sm uppercase">
-                                    {order.id}
-                                  </p>
-                                  <p className="mt-1 text-muted-foreground/70 text-sm">
-                                    {formatToUTC(order.date)}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex flex-col items-end gap-2">
-                                <p className="font-medium text-foreground text-sm">
-                                  Rp{order.total.toLocaleString()}
-                                </p>
-                                <Badge variant={getBadgeVariant(order.status)}>
-                                  {order.status.charAt(0).toUpperCase() +
-                                    order.status.slice(1)}
-                                </Badge>
-                              </div>
-                            </div>
-                          </Link>
-                        ))
-                      )}
-                    </TabsContent>
-                  )
-                )}
-              </CardContent>
-            </Tabs>
-          </Card>
-        </div>
+        {recentOrders}
       </div>
     </div>
   );

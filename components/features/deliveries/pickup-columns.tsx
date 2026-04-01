@@ -6,17 +6,17 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { Delivery } from "@/lib/modules/deliveries/data";
 import { cn } from "@/lib/utils";
-import type { Delivery } from "./data";
 
-export const usePickupsColumns = () => {
+export const usePickupColumns = () => {
   const t = useTranslations("Pickups");
 
   const columns: ColumnDef<Delivery>[] = [
     {
       id: "select",
       cell: ({ row }) => {
-        if (row.getValue("status") === "cancelled" || row.getValue("routeId")) {
+        if (row.getValue("status") === "cancelled" || row.original.routeId) {
           return null;
         }
         return (

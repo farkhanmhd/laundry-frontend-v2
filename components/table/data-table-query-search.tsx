@@ -12,19 +12,14 @@ interface Props {
 
 export const DataTableQuerySearch = ({ placeholder, className }: Props) => {
   const t = useTranslations("Table");
-  const { setGlobalFilter, table, globalFilter } = useTableContext();
+  const { setGlobalFilter, globalFilter } = useTableContext();
   const searchPlaceholder = placeholder || t("search.placeholder");
-
-  const handleSearchChange = (searchQuery: string) => {
-    setGlobalFilter(searchQuery);
-    table.firstPage();
-  };
 
   return (
     <div className="flex items-center gap-2 px-0">
       <Input
         className={cn("bg-background", className)}
-        onChange={(e) => handleSearchChange(e.target.value)}
+        onChange={(e) => setGlobalFilter(e.target.value)}
         placeholder={searchPlaceholder}
         value={globalFilter}
       />

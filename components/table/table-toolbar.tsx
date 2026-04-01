@@ -27,10 +27,7 @@ export function TableToolbar({ children, searchPlaceholder }: Props) {
     <div className="flex w-full items-center">
       <DataTableSearch
         className="rounded-none border-none dark:bg-background"
-        onChange={setGlobalFilter}
         placeholder={placeholder}
-        table={table}
-        value={globalFilter}
       />
       {isFiltered && (
         <Button

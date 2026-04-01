@@ -50,7 +50,6 @@ export const getInventoryHistoryQuery = async (
     rows: Number(searchParams?.rows) || 10,
     search: searchParams?.search || "",
     page: Number(searchParams?.page) || 1,
-    category: searchParams?.category || [],
     inventoryIds: searchParams?.inventoryIds || [],
   };
 

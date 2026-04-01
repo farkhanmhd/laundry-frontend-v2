@@ -26,15 +26,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { cardShadowStyle, cn } from "@/lib/utils";
+import { cardShadowStyle } from "@/lib/utils";
 
 // --- DASHBOARD METRICS ---
-const dashboardMetrics = {
-  totalRevenue: 4_850_000, // sum of payment.total where order.status equal completed
-  totalOrders: 324, // count orders
-  activeMembers: 156, // count members
-  totalStaff: 12, // count user with admin role
-};
 
 const orderStatusData = [
   { name: "Pending", value: 24, fill: "var(--chart-1)" },
@@ -240,44 +234,18 @@ const bundlingStatsConfig = {
 } satisfies ChartConfig;
 
 // --- RECENT ORDERS DATA ---
-
-// --- HELPER FUNCTIONS ---
-
-interface StatCardProps {
-  label: string;
-  value: number;
-  change?: number;
-  subtext?: string;
-  valueColor?: string;
-}
-
-const StatCard = ({
-  label,
-  value,
-  valueColor = "text-foreground",
-}: StatCardProps) => (
-  <Card style={cardShadowStyle}>
-    <CardHeader className="pb-2">
-      <CardDescription>{label}</CardDescription>
-      <CardTitle className={cn("font-bold text-2xl", valueColor)}>
-        {typeof value === "number" && value > 100_000
-          ? `Rp${(value / 1_000_000).toFixed(1)}M`
-          : value}
-      </CardTitle>
-    </CardHeader>
-  </Card>
-);
-
 interface Props {
   recentOrders: React.ReactNode;
   lowStocks: React.ReactNode;
   date: React.ReactNode;
+  keyMetrics: React.ReactNode;
 }
 
 export default function SuperAdminDashboard({
   recentOrders,
   lowStocks,
   date,
+  keyMetrics,
 }: Props) {
   const totalOrdersCount = React.useMemo(
     () => orderStatusData.reduce((acc, curr) => acc + curr.value, 0),
@@ -302,25 +270,7 @@ export default function SuperAdminDashboard({
           {date}
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard
-            label="Total Revenue"
-            value={dashboardMetrics.totalRevenue}
-            valueColor="text-primary"
-          />
-          <StatCard label="Total Orders" value={dashboardMetrics.totalOrders} />
-          <StatCard
-            label="Active Members"
-            subtext="Registered loyalty members"
-            value={dashboardMetrics.activeMembers}
-          />
-          <StatCard
-            label="Staff Members"
-            subtext="Across all branches"
-            value={dashboardMetrics.totalStaff}
-          />
-        </div>
+        {keyMetrics}
 
         {/* ROW 1: Order Status, Delivery Status, Low Stock */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

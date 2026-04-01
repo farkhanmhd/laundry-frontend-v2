@@ -2,6 +2,21 @@ import { elysia } from "@/elysia";
 import { BaseApi } from "../base-api";
 
 export abstract class AdminDashboardApi extends BaseApi {
+  static async getMetrics(from?: string, to?: string) {
+    console.log({ from, to });
+    
+    const { data: response } = await elysia["admin-dashboard"].metrics.get({
+      ...(await AdminDashboardApi.getConfig()),
+      query: { from, to },
+    });
+
+    if (!response) {
+      throw new Error("Failed to fetch dashboard metrics");
+    }
+
+    return response.data;
+  }
+
   static async getOrders() {
     const { data: response } = await elysia["admin-dashboard"].orders.get({
       ...(await AdminDashboardApi.getConfig()),
@@ -36,3 +51,7 @@ export type DashboardOrder = NonNullable<
 export type LowStockItem = NonNullable<
   Awaited<ReturnType<typeof AdminDashboardApi.getLowStock>>
 >[number];
+
+export type DashboardMetrics = NonNullable<
+  Awaited<ReturnType<typeof AdminDashboardApi.getMetrics>>
+>;

@@ -1,10 +1,7 @@
 import { PackageCheck } from "lucide-react";
 import { LowStockItem } from "@/components/features/inventories/low-stock-item";
 import { CardContent } from "@/components/ui/card";
-import {
-  AdminDashboardApi,
-  type LowStockItem as LowStockItemType,
-} from "@/lib/modules/admin-dashboard/data";
+import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
 
 const LowStockPage = async () => {
   const lowStockItems = await AdminDashboardApi.getLowStock();
@@ -18,7 +15,7 @@ const LowStockPage = async () => {
         </div>
       ) : (
         <div className="space-y-2">
-          {lowStockItems.map((item: LowStockItemType) => (
+          {lowStockItems.map((item) => (
             <LowStockItem item={item} key={item.id} />
           ))}
         </div>

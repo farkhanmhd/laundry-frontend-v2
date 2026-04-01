@@ -29,14 +29,14 @@
         "noUnknownAtRules": "off"
       },
       "complexity": {
-        "noStaticOnlyClass": "off"
+        "noStaticOnlyClass": "off",
       },
       "style": {
         "noMagicNumbers": "off",
         "useConsistentTypeDefinitions": "off"
       },
       "nursery": {
-        "noLeakedRender": "off"
+        "noLeakedRender": "off",
       }
     },
     "domains": {
@@ -60,6 +60,8 @@
     "ultracite/biome/next"
   ],
   "javascript": {
-    "globals": ["bun"]
+    "globals": [
+      "bun"
+    ]
   }
 }

@@ -12,7 +12,7 @@ const RecentOrdersLoading = () => {
         <TabsContent className="mt-0 space-y-2" key={tab} value={tab}>
           <div className="space-y-2">
             {skeletonItems.map(() => (
-              <div key={`skeleton-${randomUUID()}`}>
+              <div key={randomUUID()}>
                 <div className="flex items-start gap-4">
                   <div className="mt-1 rounded-full bg-secondary p-2">
                     <Skeleton className="h-5 w-5 rounded-full" />

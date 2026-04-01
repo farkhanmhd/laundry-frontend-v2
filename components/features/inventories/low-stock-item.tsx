@@ -15,7 +15,6 @@ export const LowStockItem = ({ item }: Props) => {
     <Link
       className="block rounded-lg border border-border p-3 transition-all hover:border-primary hover:bg-muted/50"
       href={`/inventories/${item.id}`}
-      key={item.id}
     >
       <div className="mb-2 flex items-start justify-between">
         <p className="font-medium text-sm">{item.name}</p>

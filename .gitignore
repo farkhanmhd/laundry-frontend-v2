@@ -42,3 +42,5 @@ next-env.d.ts
 
 server.ts
 tsconfig.tsbuildinfo
+cli.txt
+prompt.md

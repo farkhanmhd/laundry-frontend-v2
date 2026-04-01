@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -7,10 +8,10 @@ const LowStockLoading = () => {
   return (
     <CardContent>
       <div className="space-y-2">
-        {skeletonItems.map((_, index) => (
+        {skeletonItems.map(() => (
           <div
             className="rounded-lg border border-border p-3"
-            key={`skeleton-${index}`}
+            key={randomUUID()}
           >
             <div className="mb-2 flex items-start justify-between">
               <Skeleton className="h-4 w-32" />

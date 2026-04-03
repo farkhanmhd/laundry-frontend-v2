@@ -1,4 +1,3 @@
-import { sleep } from "bun";
 import { elysia } from "@/elysia";
 import { BaseApi } from "../base-api";
 
@@ -16,7 +15,6 @@ export abstract class CustomerDeliveriesApi extends BaseApi {
   }
 
   static async getDeliveryById(id: string) {
-    await sleep(3000);
     const { data: response } = await elysia["customer-deliveries"]({ id }).get({
       ...(await CustomerDeliveriesApi.getConfig()),
     });

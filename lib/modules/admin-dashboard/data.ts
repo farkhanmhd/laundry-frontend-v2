@@ -91,6 +91,42 @@ export abstract class AdminDashboardApi extends BaseApi {
     }
     return response.data;
   }
+
+  static async getOperationalMetrics() {
+    const { data: response } = await elysia["admin-dashboard"][
+      "operational-metrics"
+    ].get({
+      ...(await AdminDashboardApi.getConfig()),
+    });
+    if (!response) {
+      throw new Error("Failed to fetch operational metrics");
+    }
+    return response.data;
+  }
+
+  static async getRecentPickups() {
+    const { data: response } = await elysia["admin-dashboard"][
+      "recent-pickups"
+    ].get({
+      ...(await AdminDashboardApi.getConfig()),
+    });
+    if (!response) {
+      throw new Error("Failed to fetch recent pickups");
+    }
+    return response.data;
+  }
+
+  static async getRecentDeliveries() {
+    const { data: response } = await elysia["admin-dashboard"][
+      "recent-deliveries"
+    ].get({
+      ...(await AdminDashboardApi.getConfig()),
+    });
+    if (!response) {
+      throw new Error("Failed to fetch recent deliveries");
+    }
+    return response.data;
+  }
 }
 
 export type DashboardOrder = NonNullable<
@@ -119,4 +155,16 @@ export type InventoryUsageItem = NonNullable<
 
 export type BundlingStatsItem = NonNullable<
   Awaited<ReturnType<typeof AdminDashboardApi.getBundlingStats>>
+>[number];
+
+export type OperationalMetrics = NonNullable<
+  Awaited<ReturnType<typeof AdminDashboardApi.getOperationalMetrics>>
+>;
+
+export type RecentPickup = NonNullable<
+  Awaited<ReturnType<typeof AdminDashboardApi.getRecentPickups>>
+>[number];
+
+export type RecentDelivery = NonNullable<
+  Awaited<ReturnType<typeof AdminDashboardApi.getRecentDeliveries>>
 >[number];

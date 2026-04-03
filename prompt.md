@@ -1,39 +1,12 @@
-# /inventories
-- table (columns, buttons, search placeholder)
-- scorecard
-- alert
+# Data Fetching for @admin /dashboard
 
-# inventories/new
-- all forms
-
-# /inventories/{id}
-- all forms (inventory data, image, stock)
-
-# /inventories/logs
-- columns
-- faceted filter label
-- search placeholder
-
-# /services
-- table (columns, buttons, search placeholder)
-
-# /services/new
-- all forms
-
-# /services/{id}
-- all forms (service data, image, price
-
-# /bundlings
-- table (columns, buttons, search placeholder)
-
-# /bundlings/new
-- all forms
-
-# /bundlings/{id}
-- all forms (bundling data, image, items)
-
-# /users
-- table (columns, buttons, search placeholder, actions)
-
-# /account
-- all forms (user data, password)
+- update the layout.tsx at /app/(protected)/dashboard/@admin to have parallel routes for operationalMetrics, pickupRequests, deliveryRequests  
+- then update /lib/modules/admin-dashboard/data.ts to have this 3 data fetching 
+```
+/admin-dashboard/operational-metrics)
+/admin-dashboard/recent-pickups​
+/admin-dashboard/recent-deliveries
+```
+- the purpose of the data fetching above is to for each new slots at /app/(protected)/dashboard/@admin to replace the mock data.
+- for each new slot create next.js loading.tsx made with shadcn skeleton
+- for each new slot create next.js error.tsx for error mechanism

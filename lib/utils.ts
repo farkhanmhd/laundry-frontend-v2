@@ -109,3 +109,8 @@ export const salesTabLists: SelectOption[] = [
     value: "orders",
   },
 ];
+
+import type { Delivery } from "@/lib/modules/routes/data";
+
+export const isDone = (status: Delivery["status"]) =>
+  status === "picked_up" || status === "completed";

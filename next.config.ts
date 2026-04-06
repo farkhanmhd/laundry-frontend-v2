@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["maplibre-gl"],
   images: {
     remotePatterns: [
       new URL(`${process.env.NEXT_PUBLIC_API_URL}/uploads/**`),

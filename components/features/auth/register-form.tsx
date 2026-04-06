@@ -1,4 +1,3 @@
-// components/features/auth/register-form.tsx
 "use client";
 
 import { AlertCircle, Check, Loader2 } from "lucide-react";
@@ -15,9 +14,6 @@ import {
   useRegister,
 } from "./register-context";
 
-// ---------------------------------------------------------------------------
-// Phone status badge
-// ---------------------------------------------------------------------------
 function PhoneStatusBadge({ status }: { status: PhoneStatus }) {
   const { t } = useRegister();
 
@@ -36,6 +32,11 @@ function PhoneStatusBadge({ status }: { status: PhoneStatus }) {
       label: t("phoneAvailable"),
       className: "text-emerald-500",
     },
+    registered: {
+      icon: <AlertCircle className="size-3" />,
+      label: "Already Registered", // Or t("phoneRegistered") if translated
+      className: "text-destructive",
+    },
     taken: {
       icon: <Check className="size-3" />,
       label: t("phoneTaken"),
@@ -48,7 +49,7 @@ function PhoneStatusBadge({ status }: { status: PhoneStatus }) {
     },
   } as const;
 
-  const c = config[status];
+  const c = config[status as keyof typeof config];
 
   return (
     <span
@@ -63,9 +64,6 @@ function PhoneStatusBadge({ status }: { status: PhoneStatus }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Existing member banner
-// ---------------------------------------------------------------------------
 function MemberBanner({ member }: { member: ExistingMember }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/5 px-3.5 py-3">
@@ -76,7 +74,7 @@ function MemberBanner({ member }: { member: ExistingMember }) {
         <p className="font-medium text-[12.5px] text-primary">
           Existing member found
         </p>
-        <p className="truncate text-[11.5px] text-muted-foreground">
+        <p className="truncate text-[11.5px] text-muted-foreground uppercase">
           {member.name} · ID {member.memberId}
         </p>
       </div>
@@ -84,9 +82,29 @@ function MemberBanner({ member }: { member: ExistingMember }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Phone field
-// ---------------------------------------------------------------------------
+function RegisteredBanner() {
+  return (
+    <div className="mt-2 flex flex-col gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-4">
+      <div className="flex items-center gap-3">
+        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-destructive/15">
+          <AlertCircle className="size-4 text-destructive" />
+        </div>
+        <p className="font-semibold text-[13px] text-destructive">
+          This phone number is already linked to an account.
+        </p>
+      </div>
+      <Button
+        asChild
+        className="h-8 w-full text-xs"
+        size="sm"
+        variant="destructive"
+      >
+        <Link href="/login">Sign in to your account</Link>
+      </Button>
+    </div>
+  );
+}
+
 function PhoneField() {
   const { form, phoneStatus, isSubmitting, handlePhoneChange, t } =
     useRegister();
@@ -102,22 +120,32 @@ function PhoneField() {
         </Label>
         <PhoneStatusBadge status={phoneStatus} />
       </div>
-      <Input
-        disabled={isSubmitting}
-        id="phoneNumber"
-        placeholder={t("phoneNumberPlaceholder")}
-        type="tel"
-        {...form.register("phoneNumber")}
-        className={cn(
-          phoneStatus === "taken" &&
-            "border-primary/50 focus-visible:ring-primary/30",
-          phoneStatus === "available" &&
-            "border-emerald-500/50 focus-visible:ring-emerald-500/30"
-        )}
-        onChange={handlePhoneChange}
-      />
+      <div className="relative">
+        <Input
+          autoComplete="off"
+          disabled={isSubmitting}
+          id="phoneNumber"
+          placeholder={t("phoneNumberPlaceholder")}
+          type="tel"
+          {...form.register("phoneNumber")}
+          className={cn(
+            "px-11",
+            phoneStatus === "taken" &&
+              "border-primary/50 focus-visible:ring-primary/30",
+            phoneStatus === "available" &&
+              "border-emerald-500/50 focus-visible:ring-emerald-500/30"
+          )}
+          onChange={handlePhoneChange}
+        />
+        <span className="absolute bottom-2 left-3.5 text-muted-foreground text-sm">
+          +62
+        </span>
+      </div>
+
+      {phoneStatus === "registered" && <RegisteredBanner />}
+
       {form.formState.errors.phoneNumber && (
-        <p className="text-[11.5px] text-destructive">
+        <p className="text-destructive text-sm">
           {form.formState.errors.phoneNumber.message}
         </p>
       )}
@@ -125,9 +153,6 @@ function PhoneField() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Revealed fields (hidden until phone check resolves)
-// ---------------------------------------------------------------------------
 function RevealedFields() {
   const { form, fieldsVisible, isMember, isSubmitting, existingMember, t } =
     useRegister();
@@ -205,9 +230,6 @@ function RevealedFields() {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Inner form — consumes context
-// ---------------------------------------------------------------------------
 function RegisterFormInner({
   className,
   ...props
@@ -250,9 +272,6 @@ function RegisterFormInner({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Public export — wraps inner form with provider
-// ---------------------------------------------------------------------------
 export function RegisterForm(props: React.ComponentProps<"div">) {
   return (
     <RegisterProvider>

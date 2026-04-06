@@ -65,7 +65,7 @@
     "greeting": "Create an account",
     "subtitle": "Fill in the details below to get started.",
     "phoneNumber": "Phone Number",
-    "phoneNumberPlaceholder": "+62 812 3456 7890",
+    "phoneNumberPlaceholder": "81234567890",
     "fullName": "Full Name",
     "fullNamePlaceholder": "Jane Doe",
     "username": "Username",

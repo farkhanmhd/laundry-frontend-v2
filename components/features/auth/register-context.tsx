@@ -2,16 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
+import type { Prettify } from "better-auth";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createContext, type ReactNode, use, useEffect, useState } from "react";
 import { type UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useDebounce } from "use-debounce";
 import { z } from "zod";
+import { elysia } from "@/elysia";
 
-// ---------------------------------------------------------------------------
-// Schema
-// ---------------------------------------------------------------------------
 export const registerSchema = z
   .object({
     phoneNumber: z
@@ -36,40 +36,30 @@ export const registerSchema = z
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-export type PhoneStatus = "idle" | "checking" | "available" | "taken" | "error";
+export type PhoneStatus =
+  | "idle"
+  | "checking"
+  | "available"
+  | "taken"
+  | "error"
+  | "registered";
 
-export interface ExistingMember {
-  memberId: string;
-  name: string;
-  phoneNumber: string;
-}
+async function checkPhoneNumber(phone: string) {
+  const { data, error } = await elysia.members["search-by-phone"].get({
+    query: { phone },
+  });
 
-// ---------------------------------------------------------------------------
-// Mock API — replace with your real fetch when ready
-// ---------------------------------------------------------------------------
-async function checkPhoneNumber(phone: string): Promise<ExistingMember | null> {
-  await new Promise((r) => setTimeout(r, 900));
-
-  // TODO: replace with real call:
-  // const res = await fetch(`/api/auth/check-phone?phone=${encodeURIComponent(phone)}`);
-  // const json = await res.json();
-  // return json.exists
-  //   ? { memberId: json.memberId, name: json.name, phoneNumber: phone }
-  //   : null;
-
-  // Mock: numbers ending in "1" are existing members
-  if (phone.replace(/\D/g, "").endsWith("1")) {
-    return { memberId: "MBR-0042", name: "Jane Doe", phoneNumber: phone };
+  if (error) {
+    return null;
   }
-  return null;
+
+  return data.data;
 }
 
-// ---------------------------------------------------------------------------
-// Context shape
-// ---------------------------------------------------------------------------
+export type ExistingMember = Prettify<
+  NonNullable<Awaited<ReturnType<typeof checkPhoneNumber>>>
+>;
+
 interface RegisterContextValue {
   form: UseFormReturn<RegisterSchema>;
   phoneStatus: PhoneStatus;
@@ -82,19 +72,14 @@ interface RegisterContextValue {
   t: ReturnType<typeof useTranslations<"RegisterPage">>;
 }
 
-// ---------------------------------------------------------------------------
-// Context
-// ---------------------------------------------------------------------------
 const RegisterContext = createContext<RegisterContextValue | null>(null);
 
-// ---------------------------------------------------------------------------
-// Provider
-// ---------------------------------------------------------------------------
 export function RegisterProvider({ children }: { children: ReactNode }) {
   const { push } = useRouter();
   const t = useTranslations("RegisterPage");
 
-  const [debouncedPhone, setDebouncedPhone] = useState("");
+  const [phone, setPhone] = useState("");
+  const [debouncedPhone] = useDebounce(phone, 300);
 
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -110,7 +95,6 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
 
   const isSubmitting = form.formState.isSubmitting;
 
-  // ── Phone check ──────────────────────────────────────────────────────────
   const {
     data: existingMember,
     isFetching,
@@ -119,13 +103,12 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
   } = useQuery({
     queryKey: ["check-phone", debouncedPhone],
     queryFn: () => checkPhoneNumber(debouncedPhone),
-    enabled: debouncedPhone.replace(/\D/g, "").length >= 7,
+    enabled: debouncedPhone.replace(/\D/g, "").length >= 6,
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  // ── Derived phone status ─────────────────────────────────────────────────
   const phoneStatus: PhoneStatus = (() => {
     if (!debouncedPhone || debouncedPhone.replace(/\D/g, "").length < 7) {
       return "idle";
@@ -137,7 +120,15 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       return "error";
     }
     if (isSuccess) {
-      return existingMember ? "taken" : "available";
+      // If BOTH exist, they are fully registered (The Blocker)
+      if (existingMember?.memberId && existingMember.userId) {
+        return "registered";
+      }
+      // If ONLY memberId exists, they are an existing member but need an account (Available)
+      if (existingMember?.memberId) {
+        return "taken";
+      }
+      return "available";
     }
     return "idle";
   })();
@@ -145,27 +136,20 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
   const fieldsVisible = phoneStatus === "available" || phoneStatus === "taken";
   const isMember = phoneStatus === "taken" && !!existingMember;
 
-  // ── Prefill name when existing member is found ───────────────────────────
   useEffect(() => {
     form.setValue("name", existingMember?.name ?? "", {
       shouldValidate: !!existingMember,
     });
   }, [existingMember, form]);
 
-  // ── Debounced phone change handler ───────────────────────────────────────
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     form.setValue("phoneNumber", value, { shouldValidate: true });
-
-    const timer = setTimeout(() => setDebouncedPhone(value), 600);
-    return () => clearTimeout(timer);
+    setPhone(value);
   };
 
-  // ── Submit ───────────────────────────────────────────────────────────────
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      // TODO: wire up auth client
-      // await authClient.signUp({ ...data, memberId: existingMember?.memberId });
       console.log(data);
       await new Promise((r) => setTimeout(r, 1000));
       toast.success("Account created!", {
@@ -198,9 +182,6 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Hook
-// ---------------------------------------------------------------------------
 export function useRegister(): RegisterContextValue {
   const ctx = use(RegisterContext);
   if (!ctx) {

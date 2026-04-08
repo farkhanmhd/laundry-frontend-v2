@@ -7,9 +7,9 @@ const LowStockPage = async () => {
   const lowStockItems = await AdminDashboardApi.getLowStock();
 
   return (
-    <CardContent>
+    <CardContent className="h-full">
       {lowStockItems.length === 0 ? (
-        <div className="flex h-32 flex-col items-center justify-center gap-2 text-muted-foreground">
+        <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
           <PackageCheck className="h-10 w-10" />
           <p className="text-sm">All items are well-stocked</p>
         </div>

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { getSession } from "@/lib/modules/auth/session";
 
 type Props = {
-  children: ReactNode;
   user: ReactNode;
   admins: ReactNode;
 };

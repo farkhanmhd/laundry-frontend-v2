@@ -1,7 +1,15 @@
+import { Package } from "lucide-react";
 import Link from "next/link";
 import { DeliveriesItem } from "@/components/features/deliveries/deliveries-item";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { CustomerDashboardApi } from "@/lib/modules/customer-dashboard/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
 
@@ -24,9 +32,23 @@ export default async function RecentDeliveriesSlot() {
         </div>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {deliveries.map((delivery) => (
-          <DeliveriesItem delivery={delivery} key={delivery.id} />
-        ))}
+        {deliveries.length > 0 ? (
+          deliveries.map((delivery) => (
+            <DeliveriesItem delivery={delivery} key={delivery.id} />
+          ))
+        ) : (
+          <Empty className="border-none p-0 md:p-0">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Package className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle>No recent deliveries</EmptyTitle>
+              <EmptyDescription>
+                You don't have any recent deliveries at the moment.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        )}
       </CardContent>
     </Card>
   );

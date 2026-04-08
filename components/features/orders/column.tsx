@@ -3,6 +3,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -14,6 +15,7 @@ import {
 import { Client } from "@/components/utils/client";
 import type { Order } from "@/lib/modules/orders/data";
 import { cn, formatToIDR } from "@/lib/utils";
+import type { UpdateOrderStatusData } from "./update-status-dialog";
 
 export const ordersColumns: ColumnDef<Order>[] = [
   {
@@ -126,10 +128,17 @@ export const ordersColumns: ColumnDef<Order>[] = [
     id: "actions",
     cell: ({ row }) => {
       const t = useTranslations("Orders.table");
+      const { setData, onOpenChange } = useAlertDialog<UpdateOrderStatusData>();
       const status = row.original.status;
 
-      const handleStatusUpdate = (newStatus: string) => {
-        console.log(`Updating order ${row.original.id} to ${newStatus}`);
+      const handleStatusUpdate = (
+        newStatus: UpdateOrderStatusData["newStatus"]
+      ) => {
+        setData({
+          orderId: row.original.id,
+          newStatus,
+        });
+        onOpenChange(true);
       };
 
       return (

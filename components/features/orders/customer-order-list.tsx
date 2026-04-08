@@ -1,7 +1,14 @@
 "use client";
 
+import { ClipboardList } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { useCustomerOrders } from "@/hooks/use-customer-orders";
 import { OrderListItem } from "./order-list-item";
 import { OrderListItemSkeleton } from "./order-list-item-skeleton";
@@ -23,6 +30,19 @@ export const CustomerOrderList = () => {
   }
 
   const orders = data?.pages.flatMap((order) => order.data) || [];
+
+  if (orders.length === 0) {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <ClipboardList className="size-6" />
+          </EmptyMedia>
+          <EmptyTitle>{t("noOrders")}</EmptyTitle>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
 
   return (
     <div className="grid gap-4">

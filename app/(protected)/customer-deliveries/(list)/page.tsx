@@ -1,16 +1,7 @@
-import { DeliveriesItem } from "@/components/features/deliveries/deliveries-item";
-import { CustomerDeliveriesApi } from "@/lib/modules/customer-deliveries/data";
+import { CustomerDeliveryList } from "@/components/features/deliveries/customer-delivery-list";
 
-const CustomerDeliveriesPage = async () => {
-  const deliveries = await CustomerDeliveriesApi.getDeliveries();
-
-  return (
-    <>
-      {deliveries.map((delivery) => (
-        <DeliveriesItem delivery={delivery} key={delivery.id} shadow />
-      ))}
-    </>
-  );
+const CustomerDeliveriesPage = () => {
+  return <CustomerDeliveryList />;
 };
 
 export default CustomerDeliveriesPage;

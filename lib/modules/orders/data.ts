@@ -1,3 +1,4 @@
+import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
 import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
@@ -85,4 +86,8 @@ export type OrderDetailVoucher = NonNullable<
 
 export type OrderPaymentDetails = NonNullable<
   Awaited<ReturnType<typeof OrdersApi.getOrderPaymentDetails>>
+>;
+
+export type OrderDelivery = Prettify<
+  NonNullable<Awaited<ReturnType<typeof OrdersApi.getOrderDeliveries>>>[number]
 >;

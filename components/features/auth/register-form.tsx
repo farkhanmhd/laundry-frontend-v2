@@ -34,7 +34,7 @@ function PhoneStatusBadge({ status }: { status: PhoneStatus }) {
     },
     registered: {
       icon: <AlertCircle className="size-3" />,
-      label: "Already Registered", // Or t("phoneRegistered") if translated
+      label: "Already Reg`istered", // Or t("phoneRegistered") if translated
       className: "text-destructive",
     },
     taken: {
@@ -123,6 +123,7 @@ function PhoneField() {
       <div className="relative">
         <Input
           autoComplete="off"
+          autoFocus
           disabled={isSubmitting}
           id="phoneNumber"
           placeholder={t("phoneNumberPlaceholder")}
@@ -166,23 +167,20 @@ function RevealedFields() {
     >
       {isMember && existingMember && <MemberBanner member={existingMember} />}
 
-      <div className="grid grid-cols-2 gap-3">
-        <FormInput
-          disabled={isSubmitting || isMember}
-          form={form}
-          label={t("fullName")}
-          name="name"
-          placeholder={t("fullNamePlaceholder")}
-        />
-        <FormInput
-          disabled={isSubmitting}
-          form={form}
-          label={t("username")}
-          name="username"
-          placeholder={t("usernamePlaceholder")}
-        />
-      </div>
-
+      <FormInput
+        disabled={isSubmitting || isMember}
+        form={form}
+        label={t("fullName")}
+        name="name"
+        placeholder={t("fullNamePlaceholder")}
+      />
+      <FormInput
+        disabled={isSubmitting}
+        form={form}
+        label={t("username")}
+        name="username"
+        placeholder={t("usernamePlaceholder")}
+      />
       <FormInput
         disabled={isSubmitting}
         form={form}

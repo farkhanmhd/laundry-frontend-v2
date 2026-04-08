@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { DeliverySelectedRows } from "@/components/features/deliveries/delivery-selected-rows";
+import { DeliverSelectedDelivery } from "@/components/features/deliveries/deliver-selected-delivery";
 import { usePickupColumns } from "@/components/features/deliveries/pickup-columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
@@ -13,7 +13,7 @@ const DeliveriesPage = ({ children }: { children: ReactNode }) => {
   return (
     <TableProvider columns={columns} manualPagination>
       <TableToolbar>
-        <DeliverySelectedRows />
+        <DeliverSelectedDelivery />
       </TableToolbar>
       {children}
       <TablePagination />

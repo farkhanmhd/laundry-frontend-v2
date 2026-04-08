@@ -8,8 +8,10 @@ import {
   Navigation,
   Route as RouteIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,6 +33,7 @@ import {
   MarkerLabel,
 } from "@/components/ui/map";
 import { Progress } from "@/components/ui/progress";
+import { elysia } from "@/elysia";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { cardShadowStyle, isDone } from "@/lib/utils";
@@ -216,10 +219,37 @@ type Props = {
 export function ProgressCard({ routeId, deliveries }: Props) {
   const t = useTranslations("Routes");
   const [showMap, setShowMap] = useState(false);
+  const { refresh } = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [routeFinishDialog, setRouteFinishDialog] = useState(false);
   const totalStops = deliveries.length;
   const completedCount = deliveries.filter((d) => isDone(d.status)).length;
   const progressPercentage = Math.round((completedCount / totalStops) * 100);
   const isRouteFinished = progressPercentage === 100;
+  const isCompleted = completedCount === totalStops;
+
+  const handleFinishRoute = () => {
+    startTransition(() => {
+      startTransition(async () => {
+        try {
+          const { error } = await elysia
+            .routes({ id: routeId })
+            .patch({}, { fetch: { credentials: "include" } });
+
+          if (error) {
+            throw new Error(error.value?.message || "Failed to complete route");
+          }
+
+          toast.success("Route completed successfully");
+          refresh();
+        } catch (err) {
+          if (err instanceof Error) {
+            toast.error(err.message);
+          }
+        }
+      });
+    });
+  };
 
   return (
     <Card className="gap-3" style={cardShadowStyle}>
@@ -260,7 +290,7 @@ export function ProgressCard({ routeId, deliveries }: Props) {
             </Button>
           ) : (
             <Button
-              className="w-full"
+              className="w-full sm:w-auto sm:flex-1"
               disabled={isRouteFinished}
               onClick={() => setShowMap(true)}
             >
@@ -270,9 +300,15 @@ export function ProgressCard({ routeId, deliveries }: Props) {
           )}
 
           {isRouteFinished && (
-            <AlertDialog>
+            <AlertDialog
+              onOpenChange={setRouteFinishDialog}
+              open={routeFinishDialog || isPending}
+            >
               <AlertDialogTrigger asChild>
-                <Button className="flex-1 gap-2 bg-green-600 text-white shadow-sm hover:bg-green-700">
+                <Button
+                  className="w-full gap-2 bg-green-600 text-white shadow-sm hover:bg-green-700 sm:w-auto sm:flex-1"
+                  disabled={isCompleted}
+                >
                   <CheckCircle2 className="h-4 w-4" />
                   {t("finishRouteAtHq")}
                 </Button>
@@ -287,8 +323,14 @@ export function ProgressCard({ routeId, deliveries }: Props) {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-green-600 hover:bg-green-700">
+                  <AlertDialogCancel disabled={isPending}>
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-green-600 hover:bg-green-700"
+                    disabled={isPending}
+                    onClick={handleFinishRoute}
+                  >
                     {t("confirmCompletion")}
                   </AlertDialogAction>
                 </AlertDialogFooter>

@@ -10,7 +10,8 @@ const OrderDelivery = async ({ params }: Props) => {
   const { id } = await params;
   const deliveries = await OrdersApi.getOrderDeliveries(id);
 
-  if (deliveries === undefined) {
+  if (!deliveries) {
+    console.log("Deliveries not found");
     notFound();
   }
 

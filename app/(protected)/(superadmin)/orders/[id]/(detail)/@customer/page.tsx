@@ -11,6 +11,7 @@ const OrderCustomer = async ({ params }: Props) => {
   const data = await OrdersApi.getOrderCustomer(id);
 
   if (!data) {
+    console.log("Customer not found");
     notFound();
   }
 

@@ -12,17 +12,7 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +23,6 @@ import {
   MarkerContent,
   MarkerLabel,
 } from "@/components/ui/map";
-import { Separator } from "@/components/ui/separator";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { cardShadowStyle, cn, isDone } from "@/lib/utils";
@@ -202,6 +191,12 @@ export function TimelineItem({ delivery }: Props) {
   const t = useTranslations("Routes");
   const done = isDone(delivery.status);
   const [showMap, setShowMap] = useState(false);
+  const { onOpenChange, setData } = useAlertDialog();
+
+  const handleStatusUpdate = () => {
+    onOpenChange(true);
+    setData(delivery);
+  };
 
   return (
     <div className="relative flex gap-4">
@@ -226,28 +221,10 @@ export function TimelineItem({ delivery }: Props) {
 
           {delivery.status === "in_progress" ||
           delivery.status === "requested" ? (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button size="sm" variant="outline">
-                  <Check className="h-4 w-4" />
-                  {t("markPickedUp")}
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t("confirmPickup")}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t("confirmPickupDescription", {
-                      customerName: delivery.customerName,
-                    })}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Confirm</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <Button onClick={handleStatusUpdate} size="sm" variant="outline">
+              <Check className="h-4 w-4" />
+              {t("markPickedUp")}
+            </Button>
           ) : (
             <Badge className="uppercase">
               {delivery.status === "picked_up" ? t("pickedUp") : t("completed")}
@@ -271,7 +248,6 @@ export function TimelineItem({ delivery }: Props) {
               <span className="text-xs italic">"{delivery.notes}"</span>
             </div>
           )}
-          <Separator />
           <div className="flex items-center justify-between pt-1">
             <Link
               className={cn(buttonVariants({ variant: "outline" }))}

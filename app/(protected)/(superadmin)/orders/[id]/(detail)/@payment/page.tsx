@@ -11,6 +11,7 @@ const OrderPayment = async ({ params }: Props) => {
   const data = await OrdersApi.getOrderPayment(id);
 
   if (!data) {
+    console.log("Order payment not found");
     notFound();
   }
 

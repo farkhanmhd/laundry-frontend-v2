@@ -8,21 +8,12 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import type { OrderDelivery } from "@/lib/modules/orders/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
 
-type DeliveryStatus = "requested" | "in_progress" | "completed" | "cancelled";
-
-interface DeliveryItem {
-  id: string;
-  type: "pickup" | "delivery";
-  status: "completed" | "requested" | "in_progress" | "cancelled";
-  address: string | null;
-  label: string | null;
-  note: string | null;
-}
-
+type DeliveryStatus = OrderDelivery["status"];
 interface OrderDeliveryCardProps {
-  items: DeliveryItem[];
+  items: OrderDelivery[];
 }
 
 export const OrderDeliveryCard = ({ items }: OrderDeliveryCardProps) => {
@@ -37,6 +28,8 @@ export const OrderDeliveryCard = ({ items }: OrderDeliveryCardProps) => {
         "text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-900/50 dark:border-slate-800",
       in_progress:
         "text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/50 dark:border-blue-800",
+      picked_up:
+        "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-900/50 dark:border-green-800",
       completed:
         "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-900/50 dark:border-green-800",
       cancelled:

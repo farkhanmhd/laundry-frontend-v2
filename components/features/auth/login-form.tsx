@@ -72,6 +72,7 @@ export function LoginForm({
       >
         <div className="flex flex-col gap-4">
           <FormInput
+            autoFocus
             disabled={form.formState.isSubmitting}
             form={form}
             label={t("username")}

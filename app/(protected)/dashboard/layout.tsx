@@ -10,7 +10,15 @@ type Props = {
 const DashboardLayout = async (props: Props) => {
   const role = (await getSession())?.user.role;
 
-  return props[role as keyof typeof props];
+  if (role === "admin") {
+    return props.admin;
+  }
+
+  if (role === "superadmin") {
+    return props.superadmin;
+  }
+
+  return props.user;
 };
 
 export default DashboardLayout;

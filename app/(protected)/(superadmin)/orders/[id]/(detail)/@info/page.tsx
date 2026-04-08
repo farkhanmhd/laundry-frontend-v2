@@ -11,6 +11,7 @@ const OrderInformation = async ({ params }: Props) => {
   const data = await OrdersApi.getOrderStatus(id);
 
   if (!data) {
+    console.log("Order not found");
     notFound();
   }
 

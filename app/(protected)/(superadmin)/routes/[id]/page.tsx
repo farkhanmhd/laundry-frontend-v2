@@ -22,9 +22,6 @@ export default async function RouteDetailPage({ params }: Props) {
         <ProgressCard deliveries={deliveries} routeId={route.id} />
 
         <div className="relative space-y-4">
-          {/* Vertical connector line */}
-          <div className="absolute top-6 bottom-6 left-8 -z-10 w-0.5 bg-muted-foreground/20" />
-
           {deliveries.map((delivery) => (
             <TimelineItem delivery={delivery} key={delivery.id} />
           ))}

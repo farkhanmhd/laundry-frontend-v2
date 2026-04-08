@@ -37,6 +37,7 @@ const DeliveryStatusBadge = ({
   const labels: Record<DeliveryDetail["status"], string> = {
     requested: t("status.requested"),
     in_progress: t("status.in_progress"),
+    picked_up: t("status.picked_up"),
     completed: t("status.completed"),
     cancelled: t("status.cancelled"),
   };

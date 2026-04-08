@@ -9,32 +9,8 @@ import { createContext, type ReactNode, use, useEffect, useState } from "react";
 import { type UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
-import { z } from "zod";
 import { elysia } from "@/elysia";
-
-export const registerSchema = z
-  .object({
-    phoneNumber: z
-      .string()
-      .min(7, "Phone number is too short")
-      .max(20, "Phone number is too long")
-      .regex(/^\+?[0-9\s\-()]+$/, "Invalid phone number format"),
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    username: z
-      .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(32, "Username is too long")
-      .regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers, and underscores"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((d) => d.password === d.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-export type RegisterSchema = z.infer<typeof registerSchema>;
+import { type RegisterSchema, registerSchema } from "./schema";
 
 export type PhoneStatus =
   | "idle"
@@ -73,6 +49,16 @@ interface RegisterContextValue {
 }
 
 const RegisterContext = createContext<RegisterContextValue | null>(null);
+
+const registerUser = async (body: Omit<RegisterSchema, "confirmPassword">) => {
+  const { data, error } = await elysia.users.post(body);
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data.data;
+};
 
 export function RegisterProvider({ children }: { children: ReactNode }) {
   const { push } = useRouter();
@@ -150,12 +136,20 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      console.log(data);
-      await new Promise((r) => setTimeout(r, 1000));
-      toast.success("Account created!", {
-        description: "Welcome aboard. Please sign in.",
-      });
-      push("/login");
+      const { confirmPassword, ...payload } = data;
+      const result = await registerUser(payload);
+
+      if (!result) {
+        toast.error("Registration failed", { description: "Server Error" });
+        return;
+      }
+
+      if (result.newUserId) {
+        toast.success("Account created!", {
+          description: "Welcome aboard. Please sign in.",
+        });
+        push("/login");
+      }
     } catch (error) {
       if (error instanceof Error) {
         toast.error("Registration failed", { description: error.message });

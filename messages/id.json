@@ -313,7 +313,8 @@
       "total": "Total",
       "amountToPay": "Jumlah yang Harus Dibayar",
       "change": "Kembalian",
-      "acquirer": "Penyedia"
+      "acquirer": "Penyedia",
+      "payNow": "Bayar Sekarang"
     },
     "delivery": {
       "logistics": "Logistik",
@@ -360,6 +361,14 @@
       "actions": "Aksi",
       "markAsReady": "Tandai Siap",
       "markAsCompleted": "Tandai Selesai"
+    },
+    "updateStatus": {
+      "confirmTitle": "Update Status Pesanan",
+      "confirmDescription": "Apakah Anda yakin ingin mengubah status pesanan ini?",
+      "cancel": "Batal",
+      "confirm": "Konfirmasi",
+      "updating": "Mengupdate...",
+      "statusUpdated": "Berhasil memperbarui status"
     }
   },
   "Deliveries": {
@@ -392,7 +401,7 @@
   "Routes": {
     "routeProgress": "Progres Rute",
     "stopsVisited": "{completed} dari {total} pemberhentian dikunjungi",
-    "startNavigation": "Mulai Navigasi",
+    "startNavigation": "Lihat Rute",
     "routeFinished": "Rute Selesai",
     "finishRouteAtHq": "Selesai Rute di HQ",
     "processRouteCompletion": "Proses Penyelesaian Rute",
@@ -776,6 +785,7 @@
     "description": "Lihat dan kelola pesanan laundry Anda",
     "loadMore": "Muat Lebih Banyak",
     "noMoreOrders": "Tidak ada pesanan lagi",
+    "noOrders": "Anda belum pernah melakukan pesanan",
     "order": "Pesanan",
     "details": "Detail",
     "payNow": "Bayar Sekarang",
@@ -898,6 +908,8 @@
     "title": "Pengiriman Saya",
     "description": "Lacak penjemputan dan pengiriman aktif Anda dan lihat riwayat pengiriman.",
     "loadMore": "Muat Lebih Banyak",
+    "noMoreDeliveries": "Tidak ada pengiriman lagi",
+    "noDeliveries": "Anda belum memiliki pengiriman",
     "viewDelivery": "Lihat Pengiriman",
     "orderId": "ID Pesanan",
     "pickup": "Penjemputan",
@@ -916,12 +928,13 @@
       "pickup": "Penjemputan",
       "delivery": "Pengiriman",
       "status": {
-        "requested": "Mencari Driver",
+        "requested": "Pengiriman Diajukan",
         "assigned": "Driver Ditugaskan",
         "in_progress": "Dalam Perjalanan",
+        "picked_up": "Barang Diterima",
         "completed": "Selesai",
         "cancelled": "Dibatalkan",
-        "messageRequested": "Kami saat ini sedang mencari driver di dekat Anda.",
+        "messageRequested": "Kami Sedang Menugaskan Driver untuk pengiriman Anda.",
         "messageAssignedPickup": "Mohon tunggu driver kami untuk menjemput barang Anda.",
         "messageAssignedDropoff": "Driver ditugaskan. Kami sedang menyiapkan untuk mengirim barang Anda.",
         "messageInProgressPickup": "Driver sedang dalam perjalanan ke lokasi Anda untuk penjemputan.",

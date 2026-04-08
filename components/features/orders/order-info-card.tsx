@@ -2,13 +2,14 @@
 
 import { LayoutDashboard } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
+import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
 import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
+import type { UpdateOrderStatusData } from "./update-status-dialog";
 
 interface OrderInfoProps {
   id: string;
@@ -20,17 +21,28 @@ interface OrderInfoProps {
 
 export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
   const t = useTranslations("Orders.orderInfo");
+  const { setData, onOpenChange } = useAlertDialog<UpdateOrderStatusData>();
+
+  const handleStatusUpdate = (
+    newStatus: UpdateOrderStatusData["newStatus"]
+  ) => {
+    setData({
+      orderId: id,
+      newStatus,
+    });
+    onOpenChange(true);
+  };
 
   const orderStatus = {
     cancelled: <Badge variant="destructive">{t("cancelled")}</Badge>,
     pending: <Badge variant="destructive">{t("waitingForPayment")}</Badge>,
     processing: (
-      <Button onClick={() => toast("Never gonna give you up")}>
+      <Button onClick={() => handleStatusUpdate("ready")}>
         {t("markAsReady")}
       </Button>
     ),
     ready: (
-      <Button onClick={() => toast("Never gonna give you up")}>
+      <Button onClick={() => handleStatusUpdate("completed")}>
         {t("markAsCompleted")}
       </Button>
     ),

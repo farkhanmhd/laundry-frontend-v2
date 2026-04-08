@@ -313,7 +313,8 @@
       "total": "Total",
       "amountToPay": "Amount to Pay",
       "change": "Change",
-      "acquirer": "Acquirer"
+      "acquirer": "Acquirer",
+      "payNow": "Pay Now"
     },
     "delivery": {
       "logistics": "Logistics",
@@ -360,6 +361,14 @@
       "actions": "Actions",
       "markAsReady": "Mark as Ready",
       "markAsCompleted": "Mark as Completed"
+    },
+    "updateStatus": {
+      "confirmTitle": "Update Order Status",
+      "confirmDescription": "Are you sure you want to update the status of this order?",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "updating": "Updating...",
+      "statusUpdated": "Status updated"
     }
   },
   "Deliveries": {
@@ -392,7 +401,7 @@
   "Routes": {
     "routeProgress": "Route Progress",
     "stopsVisited": "{completed} of {total} stops visited",
-    "startNavigation": "Start Navigation",
+    "startNavigation": "View Routes",
     "routeFinished": "Route Finished",
     "finishRouteAtHq": "Finish Route at HQ",
     "processRouteCompletion": "Process Route Completion",
@@ -776,6 +785,7 @@
     "description": "View and manage your laundry orders",
     "loadMore": "Load More",
     "noMoreOrders": "No more orders",
+    "noOrders": "You haven't made any orders yet",
     "order": "Order",
     "details": "Details",
     "payNow": "Pay Now",
@@ -898,6 +908,8 @@
     "title": "My Deliveries",
     "description": "Track your active pickups and deliveries and browse your delivery history.",
     "loadMore": "Load More",
+    "noMoreDeliveries": "No more deliveries",
+    "noDeliveries": "You don't have any deliveries yet",
     "viewDelivery": "View Delivery",
     "orderId": "Order ID",
     "pickup": "Pickup",
@@ -916,12 +928,13 @@
       "pickup": "Pickup",
       "delivery": "Delivery",
       "status": {
-        "requested": "Looking for Driver",
+        "requested": "Delivery Requested",
         "assigned": "Driver Assigned",
         "in_progress": "On The Way",
+        "picked_up": "Items Picked Up",
         "completed": "Completed",
         "cancelled": "Cancelled",
-        "messageRequested": "We are currently looking for a driver nearby.",
+        "messageRequested": "We are assigning a driver for your pickup.",
         "messageAssignedPickup": "Please wait for our driver to pickup your items.",
         "messageAssignedDropoff": "Driver assigned. We are preparing to send your items.",
         "messageInProgressPickup": "Driver is on the way to your location for pickup.",

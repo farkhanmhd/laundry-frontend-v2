@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import {
   Card,
   CardContent,
@@ -6,7 +5,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cardShadowStyle } from "@/lib/utils";
+import { cardShadowStyle, MapItems } from "@/lib/utils";
 
 const BAR_WIDTHS = ["w-4/5", "w-2/3", "w-1/2", "w-2/5", "w-1/3"];
 
@@ -16,12 +15,15 @@ const BarChartSkeleton = () => (
       <Skeleton className="h-5 w-36" />
     </CardHeader>
     <CardContent className="space-y-3">
-      {BAR_WIDTHS.map((width) => (
-        <div className="flex items-center gap-2" key={randomUUID()}>
-          <Skeleton className={`h-8 rounded ${width}`} />
-          <Skeleton className="h-4 w-10 shrink-0" />
-        </div>
-      ))}
+      <MapItems
+        of={BAR_WIDTHS}
+        render={(width) => (
+          <div className="flex items-center gap-2" key={width}>
+            <Skeleton className={`h-8 rounded ${width}`} />
+            <Skeleton className="h-4 w-10 shrink-0" />
+          </div>
+        )}
+      />
     </CardContent>
     <CardFooter>
       <Skeleton className="h-3 w-56" />

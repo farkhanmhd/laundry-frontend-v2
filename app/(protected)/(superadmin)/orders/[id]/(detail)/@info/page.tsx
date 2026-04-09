@@ -9,13 +9,14 @@ interface Props {
 const OrderInformation = async ({ params }: Props) => {
   const { id } = await params;
   const data = await OrdersApi.getOrderStatus(id);
+  const deliveries = await OrdersApi.getOrderDeliveries(id);
 
   if (!data) {
     console.log("Order not found");
     notFound();
   }
 
-  return <OrderInfoCard data={data} id={id} />;
+  return <OrderInfoCard data={data} deliveries={deliveries} id={id} />;
 };
 
 export default OrderInformation;

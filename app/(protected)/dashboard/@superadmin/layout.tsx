@@ -11,6 +11,7 @@ interface Props {
   keyMetrics: React.ReactNode;
   orderStatus: React.ReactNode;
   performances: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default function SuperAdminDashboard({
@@ -20,6 +21,7 @@ export default function SuperAdminDashboard({
   keyMetrics,
   orderStatus,
   performances,
+  children,
 }: Props) {
   return (
     <div className="p-6">
@@ -52,6 +54,7 @@ export default function SuperAdminDashboard({
         {performances}
         {/* ROW 4: Recent Orders */}
         {recentOrders}
+        {children}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export interface PosOrderItem {
   name: string;
   price: number;
   stock?: number | null;
-  itemType: "service" | "inventory" | "bundling" | "voucher";
+  itemType: "service" | "inventory" | "bundling" | "voucher" | "points";
   quantity: number;
   serviceId?: string | null | undefined;
   inventoryId?: string | null | undefined;

@@ -10,6 +10,7 @@ type Props = {
   operationalMetrics: React.ReactNode;
   pickupRequests: React.ReactNode;
   deliveryRequests: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export default function EmployeeDashboard({
@@ -17,6 +18,7 @@ export default function EmployeeDashboard({
   operationalMetrics,
   pickupRequests,
   deliveryRequests,
+  children,
 }: Props) {
   return (
     <div className="min-h-screen p-6">
@@ -45,8 +47,8 @@ export default function EmployeeDashboard({
           {pickupRequests}
           {deliveryRequests}
         </div>
-
         {recentOrders}
+        {children}
       </div>
     </div>
   );

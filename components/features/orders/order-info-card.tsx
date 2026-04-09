@@ -8,18 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
+import type { OrderDelivery } from "@/lib/modules/orders/data";
 import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
 
 interface OrderInfoProps {
   id: string;
+  deliveries: OrderDelivery[];
   data: {
     status: "pending" | "processing" | "ready" | "completed" | "cancelled";
     createdAt: string;
   };
 }
 
-export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
+export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
   const t = useTranslations("Orders.orderInfo");
   const { setData, onOpenChange } = useAlertDialog<UpdateOrderStatusData>();
 
@@ -33,6 +35,8 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
     onOpenChange(true);
   };
 
+  const needDelivery = deliveries.some((d) => d.type === "delivery");
+
   const orderStatus = {
     cancelled: <Badge variant="destructive">{t("cancelled")}</Badge>,
     pending: <Badge variant="destructive">{t("waitingForPayment")}</Badge>,
@@ -42,7 +46,10 @@ export const OrderInfoCard = ({ id, data }: OrderInfoProps) => {
       </Button>
     ),
     ready: (
-      <Button onClick={() => handleStatusUpdate("completed")}>
+      <Button
+        disabled={needDelivery}
+        onClick={() => handleStatusUpdate("completed")}
+      >
         {t("markAsCompleted")}
       </Button>
     ),

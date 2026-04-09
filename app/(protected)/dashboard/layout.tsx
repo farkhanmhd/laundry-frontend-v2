@@ -5,6 +5,7 @@ type Props = {
   superadmin: ReactNode;
   admin: ReactNode;
   user: ReactNode;
+  children: React.ReactNode;
 };
 
 const DashboardLayout = async (props: Props) => {
@@ -18,7 +19,11 @@ const DashboardLayout = async (props: Props) => {
     return props.superadmin;
   }
 
-  return props.user;
+  if (role === "user") {
+    return props.user;
+  }
+
+  return props.children;
 };
 
 export default DashboardLayout;

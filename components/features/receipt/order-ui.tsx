@@ -1,7 +1,6 @@
 // components/features/receipt/order-ui.tsx
 
-import { randomUUID } from "node:crypto";
-import { cn } from "@/lib/utils";
+import { cn, MapItems } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Section card wrapper
@@ -97,15 +96,15 @@ export function ItemsSkeleton() {
     <SectionCard>
       <Skeleton className="mb-4 h-3 w-16" />
       <div className="flex flex-col gap-3">
-        {Array.from({ length: 3 }).map(() => (
-          <div className="flex items-center justify-between" key={randomUUID()}>
-            <div className="flex flex-col gap-1.5">
+        <MapItems
+          of={Array.from({ length: 3 })}
+          render={(_, i) => (
+            <div className="flex items-center justify-between" key={i}>
               <Skeleton className="h-4 w-36" />
-              <Skeleton className="h-3 w-20" />
+              <Skeleton className="h-4 w-16" />
             </div>
-            <Skeleton className="h-4 w-16" />
-          </div>
-        ))}
+          )}
+        />
       </div>
     </SectionCard>
   );

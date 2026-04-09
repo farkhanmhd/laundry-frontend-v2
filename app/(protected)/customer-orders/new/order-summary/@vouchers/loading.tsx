@@ -1,13 +1,17 @@
 import { PosVoucherCardSkeleton } from "@/components/features/pos/pos-voucher-card-skeleton";
+import { MapItems } from "@/lib/utils";
 
 const VoucherLoading = () => {
   return (
     <ul className="space-y-3">
-      {Array.from({ length: 3 }).map(() => (
-        <li key={crypto.randomUUID()}>
-          <PosVoucherCardSkeleton />
-        </li>
-      ))}
+      <MapItems
+        of={Array.from({ length: 3 })}
+        render={(_, i) => (
+          <li key={i}>
+            <PosVoucherCardSkeleton />
+          </li>
+        )}
+      />
     </ul>
   );
 };

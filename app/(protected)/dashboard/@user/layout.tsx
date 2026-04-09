@@ -6,12 +6,14 @@ export default function UserDashboardLayout({
   recentOrders,
   quickActions,
   myRewards,
+  children,
 }: {
   hero: React.ReactNode;
   recentDeliveries: React.ReactNode;
   recentOrders: React.ReactNode;
   quickActions: React.ReactNode;
   myRewards: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <div className="p-4 md:p-6">
@@ -25,6 +27,7 @@ export default function UserDashboardLayout({
           <div className="row-start-1 space-y-6 lg:row-auto">
             {quickActions}
             {myRewards}
+            {children}
           </div>
         </div>
       </div>

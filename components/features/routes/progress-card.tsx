@@ -226,7 +226,7 @@ export function ProgressCard({ routeId, deliveries }: Props) {
   const completedCount = deliveries.filter((d) => isDone(d.status)).length;
   const progressPercentage = Math.round((completedCount / totalStops) * 100);
   const isRouteFinished = progressPercentage === 100;
-  const isCompleted = completedCount === totalStops;
+  const isCompleted = deliveries.every((d) => d.status === "completed");
 
   const handleFinishRoute = () => {
     startTransition(() => {

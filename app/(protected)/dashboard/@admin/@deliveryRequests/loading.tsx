@@ -1,13 +1,14 @@
-import { randomUUID } from "node:crypto";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MapItems } from "@/lib/utils";
 
 export default function DeliveryRequestsLoading() {
   return (
-    <>
-      {Array.from({ length: 3 }).map(() => (
+    <MapItems
+      of={Array.from({ length: 3 })}
+      render={(_, i) => (
         <div
           className="flex items-start justify-between border-border border-b pb-3 last:border-0 last:pb-0"
-          key={randomUUID()}
+          key={i}
         >
           <div className="grid w-full gap-2">
             {/* Customer Name */}
@@ -24,7 +25,7 @@ export default function DeliveryRequestsLoading() {
             </div>
           </div>
         </div>
-      ))}
-    </>
+      )}
+    />
   );
 }

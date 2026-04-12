@@ -1,10 +1,11 @@
 import { elysia } from "@/elysia";
-import { BaseApi } from "../base-api";
 
-export abstract class CustomerDashboardApi extends BaseApi {
+export abstract class CustomerDashboardApi {
   static async getCustomerInfo() {
     const { data: response } = await elysia["customer-dashboard"].customer.get({
-      ...(await CustomerDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     if (!response) {
@@ -16,7 +17,9 @@ export abstract class CustomerDashboardApi extends BaseApi {
 
   static async getOrders() {
     const { data: response } = await elysia["customer-dashboard"].orders.get({
-      ...(await CustomerDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     if (!response) {
@@ -30,7 +33,9 @@ export abstract class CustomerDashboardApi extends BaseApi {
     const { data: response } = await elysia[
       "customer-dashboard"
     ].deliveries.get({
-      ...(await CustomerDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     if (!response) {
@@ -42,7 +47,9 @@ export abstract class CustomerDashboardApi extends BaseApi {
 
   static async getVouchers() {
     const { data: response } = await elysia["customer-dashboard"].vouchers.get({
-      ...(await CustomerDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     if (!response) {

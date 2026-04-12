@@ -1145,7 +1145,8 @@
       "hero": {
         "greeting": "Halo, {name}",
         "currentPoints": "Poin Saat Ini",
-        "failedToLoad": "Gagal memuat profil pengguna."
+        "failedToLoad": "Gagal memuat profil pengguna.",
+        "retry": "Coba Lagi"
       },
       "quickActions": {
         "title": "Aksi Cepat",
@@ -1157,14 +1158,16 @@
         "viewAll": "Lihat Semua",
         "empty": "Belum ada pengiriman terbaru",
         "emptyDesc": "Anda tidak memiliki pengiriman terbaru saat ini.",
-        "failedToLoad": "Gagal memuat pengiriman terbaru."
+        "failedToLoad": "Gagal memuat pengiriman terbaru.",
+        "retry": "Coba Lagi"
       },
       "recentOrders": {
         "title": "Pesanan Terbaru",
         "viewAll": "Lihat Semua",
         "empty": "Belum ada pesanan terbaru",
         "emptyDesc": "Anda tidak memiliki pesanan terbaru saat ini.",
-        "failedToLoad": "Gagal memuat pesanan terbaru."
+        "failedToLoad": "Gagal memuat pesanan terbaru.",
+        "retry": "Coba Lagi"
       },
       "myRewards": {
         "title": "Hadiah Tersedia",

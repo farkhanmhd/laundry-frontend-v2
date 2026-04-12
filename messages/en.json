@@ -1145,7 +1145,8 @@
       "hero": {
         "greeting": "Hello, {name}",
         "currentPoints": "Current Points",
-        "failedToLoad": "Failed to load user profile."
+        "failedToLoad": "Failed to load user profile.",
+        "retry": "Retry"
       },
       "quickActions": {
         "title": "Quick Actions",
@@ -1157,14 +1158,16 @@
         "viewAll": "View All",
         "empty": "No recent deliveries",
         "emptyDesc": "You don't have any recent deliveries at the moment.",
-        "failedToLoad": "Failed to load recent deliveries."
+        "failedToLoad": "Failed to load recent deliveries.",
+        "retry": "Retry"
       },
       "recentOrders": {
         "title": "Recent Orders",
         "viewAll": "View All",
         "empty": "No recent orders",
         "emptyDesc": "You don't have any recent orders at the moment.",
-        "failedToLoad": "Failed to load recent orders."
+        "failedToLoad": "Failed to load recent orders.",
+        "retry": "Retry"
       },
       "myRewards": {
         "title": "Available Rewards",

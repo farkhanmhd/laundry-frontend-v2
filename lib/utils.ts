@@ -1,3 +1,4 @@
+import type { useQuery } from "@tanstack/react-query";
 import { type ClassValue, clsx } from "clsx";
 import { parse, startOfMonth } from "date-fns";
 import { Children, type ReactNode } from "react";
@@ -114,3 +115,5 @@ import type { Delivery } from "@/lib/modules/routes/data";
 
 export const isDone = (status: Delivery["status"]) =>
   status === "picked_up" || status === "completed";
+
+export type ResetQuery = ReturnType<typeof useQuery>["refetch"];

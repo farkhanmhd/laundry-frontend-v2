@@ -1,10 +1,11 @@
 import { elysia } from "@/elysia";
-import { BaseApi } from "../base-api";
 
-export abstract class AdminDashboardApi extends BaseApi {
+export abstract class AdminDashboardApi {
   static async getMetrics(from?: string, to?: string) {
     const { data: response } = await elysia["admin-dashboard"].metrics.get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query: { from, to },
     });
 
@@ -16,7 +17,9 @@ export abstract class AdminDashboardApi extends BaseApi {
 
   static async getOrders() {
     const { data: response } = await elysia["admin-dashboard"].orders.get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     if (!response) {
@@ -27,7 +30,11 @@ export abstract class AdminDashboardApi extends BaseApi {
 
   static async getLowStock() {
     const { data: response } = await elysia["admin-dashboard"]["low-stock"].get(
-      { ...(await AdminDashboardApi.getConfig()) }
+      {
+        fetch: {
+          credentials: "include",
+        },
+      }
     );
 
     if (!response) {
@@ -40,7 +47,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "order-status"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -54,7 +63,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "top-services"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -68,7 +79,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "inventory-usage"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -82,7 +95,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "bundling-stats"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -96,7 +111,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "operational-metrics"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
     if (!response) {
       throw new Error("Failed to fetch operational metrics");
@@ -108,7 +125,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "recent-pickups"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
     if (!response) {
       throw new Error("Failed to fetch recent pickups");
@@ -120,7 +139,9 @@ export abstract class AdminDashboardApi extends BaseApi {
     const { data: response } = await elysia["admin-dashboard"][
       "recent-deliveries"
     ].get({
-      ...(await AdminDashboardApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
     if (!response) {
       throw new Error("Failed to fetch recent deliveries");

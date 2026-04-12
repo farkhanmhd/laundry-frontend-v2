@@ -71,7 +71,12 @@ export function NavMain() {
                         isActive={isActive}
                         tooltip={translateTitle(item.title)}
                       >
-                        <Link href={item.url}>
+                        <Link
+                          href={item.url}
+                          prefetch={
+                            item.url === "/dashboard" ? false : undefined
+                          }
+                        >
                           {item.icon && <item.icon />}
                           <span>{translateTitle(item.title)}</span>
                         </Link>
@@ -84,7 +89,10 @@ export function NavMain() {
                       isActive={isActive}
                       size="lg"
                     >
-                      <Link href={item.url}>
+                      <Link
+                        href={item.url}
+                        prefetch={item.url === "/dashboard" ? false : undefined}
+                      >
                         {item.icon && <item.icon />}
                         {item.title.length > 8 &&
                         item.title.split(" ").length > 1 ? (

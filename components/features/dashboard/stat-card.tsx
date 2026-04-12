@@ -8,7 +8,7 @@ import { cardShadowStyle, cn } from "@/lib/utils";
 
 interface StatCardProps {
   label: string;
-  value: number;
+  value: number | string;
   change?: number;
   subtext?: string;
   valueColor?: string;
@@ -23,9 +23,7 @@ export const StatCard = ({
     <CardHeader className="pb-2">
       <CardDescription>{label}</CardDescription>
       <CardTitle className={cn("font-bold text-2xl", valueColor)}>
-        {typeof value === "number" && value > 100_000
-          ? `Rp${(value / 1_000_000).toFixed(1)}M`
-          : value}
+        {value}
       </CardTitle>
     </CardHeader>
   </Card>

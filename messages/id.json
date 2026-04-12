@@ -865,7 +865,8 @@
       "confirmPaymentDescription": "Anda akan memproses pembayaran pesanan ini melalui QRIS. Pastikan pemindai QRIS Anda siap sebelum melanjutkan.",
       "confirmPayment": "Konfirmasi Pembayaran",
       "cancel": "Batal",
-      "payNow": "Bayar Sekarang"
+      "payNow": "Bayar Sekarang",
+      "confirmAddress": "Konfirmasi Pengiriman"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",

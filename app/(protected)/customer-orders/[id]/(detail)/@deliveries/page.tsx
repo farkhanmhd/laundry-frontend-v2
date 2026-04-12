@@ -1,7 +1,8 @@
 import { ArrowDownCircle, ArrowUpCircle, MapPin, Truck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { RequestDeliverySection } from "@/components/features/customer-orders/request-delivery-section";
+import { CustomerOrderAddressProvider } from "@/components/features/customer-orders/state";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
@@ -86,31 +87,21 @@ export default async function OrderDetailDeliveries({
           </div>
         )}
         {canRequestDelivery && (
-          <>
-            {deliveries.length > 0 && <Separator className="bg-border" />}
-            <div className="flex flex-col items-center justify-center space-y-4 py-2 text-center">
-              {deliveries.length === 0 && (
-                <div className="rounded-full bg-secondary/50 p-4">
-                  <Truck className="h-8 w-8 text-muted-foreground/50" />
-                </div>
-              )}
-              <div className="space-y-1">
-                <p className="font-medium text-foreground">
-                  {status === "ready"
-                    ? t("readyForDelivery")
-                    : t("homeDelivery")}
-                </p>
-                <p className="mx-auto max-w-xs text-muted-foreground text-sm">
-                  {status === "ready"
-                    ? t("readyForDeliveryDescription")
-                    : t("homeDeliveryDescription")}
-                </p>
-              </div>
-              <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                {t("requestDelivery")}
-              </Button>
-            </div>
-          </>
+          <CustomerOrderAddressProvider>
+            <RequestDeliverySection
+              hasExistingDeliveries={deliveries.length > 0}
+              isReady={status === "ready"}
+              labels={{
+                readyForDelivery: t("readyForDelivery"),
+                homeDelivery: t("homeDelivery"),
+                readyForDeliveryDescription: t("readyForDeliveryDescription"),
+                homeDeliveryDescription: t("homeDeliveryDescription"),
+                requestDelivery: t("requestDelivery"),
+                confirmAddress: t("confirmAddress"),
+                cancel: t("cancel"),
+              }}
+            />
+          </CustomerOrderAddressProvider>
         )}
         {deliveries.length === 0 && (
           <div className="flex flex-col items-center justify-center space-y-4 py-6 text-center">

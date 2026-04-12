@@ -5,7 +5,11 @@ import { format, startOfMonth } from "date-fns";
 import { useTranslations } from "next-intl";
 import { StatCard } from "@/components/features/dashboard/stat-card";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
-import { type DateRangeSearchParams, getDateRange } from "@/lib/utils";
+import {
+  type DateRangeSearchParams,
+  formatToIDR,
+  getDateRange,
+} from "@/lib/utils";
 import { KeyMetricsError } from "./key-metrics-error";
 import { KeyMetricsSkeleton } from "./key-metrics-skeleton";
 
@@ -52,7 +56,7 @@ export function KeyMetrics({
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <StatCard
         label={t("totalRevenue")}
-        value={metrics.totalRevenue}
+        value={formatToIDR(metrics.totalRevenue)}
         valueColor="text-primary"
       />
       <StatCard label={t("totalOrders")} value={metrics.totalOrders} />

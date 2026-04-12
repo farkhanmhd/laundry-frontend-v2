@@ -3,11 +3,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
-import { type ChangeEvent, useEffect, useMemo } from "react";
+import {
+  type ChangeEvent,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
+import type { AccountAddress } from "@/lib/modules/account/data";
 import { createPickupRequest } from "@/lib/modules/customer-orders/actions";
 import type { RequestPickupSchema } from "@/lib/modules/customer-orders/schema";
 import type { PosItemData, PosVoucher } from "@/lib/modules/pos/data";
@@ -330,4 +339,116 @@ export const useCustomerOrder = () => {
     submitPickupRequest,
     canRequestPickup,
   };
+};
+
+interface CustomerOrderAddress {
+  addresses: AccountAddress[] | undefined;
+  selectedAddress: string | null;
+  setSelectedAddress: (value: string | null) => void;
+  selectingAddress: boolean;
+  setSelectingAddress: (value: boolean) => void;
+  isPending: boolean;
+  handleSubmit: () => void;
+}
+
+const CustomerOrderAddressContext = createContext<CustomerOrderAddress | null>(
+  null
+);
+
+async function getUserAddresses() {
+  const { data: response } = await elysia.account.addresses.get({
+    fetch: {
+      credentials: "include",
+    },
+  });
+
+  if (!response?.data) {
+    return [];
+  }
+  return response.data;
+}
+
+async function createDeliveryRequest(body: {
+  addressId: string;
+  orderId: string;
+}) {
+  const { data, error } = await elysia.customerorders["request-delivery"].post(
+    body,
+    {
+      fetch: {
+        credentials: "include",
+      },
+    }
+  );
+
+  if (error) {
+    console.log(JSON.stringify(error));
+    throw new Error(`Error: ${error.value.type}`);
+  }
+
+  if (data) {
+    return data.data.deliveryId;
+  }
+}
+
+export const CustomerOrderAddressProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const { data: addresses } = useQuery({
+    queryKey: ["addresses"],
+    queryFn: getUserAddresses,
+  });
+  const params = useParams();
+  const [isPending, startTransition] = useTransition();
+  const [selectingAddress, setSelectingAddress] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const { refresh } = useRouter();
+
+  const handleSubmit = () => {
+    if (!selectedAddress) {
+      return;
+    }
+    startTransition(async () => {
+      try {
+        const deliveryId = await createDeliveryRequest({
+          addressId: selectedAddress,
+          orderId: params.id as string,
+        });
+        if (deliveryId) {
+          toast.success("Delivery request submitted successfully");
+          refresh();
+        }
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : String(error));
+      }
+    });
+  };
+
+  const value = {
+    addresses,
+    selectedAddress,
+    setSelectedAddress,
+    selectingAddress,
+    setSelectingAddress,
+    isPending,
+    handleSubmit,
+  };
+
+  return (
+    <CustomerOrderAddressContext.Provider value={value}>
+      {children}
+    </CustomerOrderAddressContext.Provider>
+  );
+};
+
+export const useCustomerOrderAddress = (): CustomerOrderAddress => {
+  const context = useContext(CustomerOrderAddressContext);
+  if (!context) {
+    throw new Error(
+      "useCustomerOrderAddress must be used within a CustomerOrderAddressProvider"
+    );
+  }
+  return context;
 };

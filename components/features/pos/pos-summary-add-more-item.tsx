@@ -5,7 +5,7 @@ import { usePOS } from "@/lib/modules/pos/state";
 
 export function PosSummaryAddMoreItem() {
   const t = useTranslations("POS.summaryAddMoreItem");
-  const { isPending } = usePOS;
+  const { isPending } = usePOS();
 
   return (
     <div className="flex items-center justify-between border-t p-4">

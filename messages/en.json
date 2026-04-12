@@ -865,7 +865,8 @@
       "confirmPaymentDescription": "You are about to process this order payment via QRIS. Please ensure your QRIS scanner is ready before proceeding.",
       "confirmPayment": "Confirm Payment",
       "cancel": "Cancel",
-      "payNow": "Pay Now"
+      "payNow": "Pay Now",
+      "confirmAddress": "Confirm Delivery"
     },
     "payment": {
       "success": "Payment Successful!",

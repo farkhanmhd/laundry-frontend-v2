@@ -16,31 +16,21 @@ export async function SuperAdminDashboard({
   return (
     <div className="p-6">
       <div className="flex flex-col gap-6">
-        {/* Header */}
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div>
             <h1 className="font-bold text-3xl">{t("title")}</h1>
             <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
           </div>
 
-          {/* Date Range Picker */}
           <DashboardDateRange />
         </div>
 
         <KeyMetrics searchParams={searchParams} />
-
-        {/* ROW 1: Order Status, Delivery Status, Low Stock */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Order Status Distribution (Donut Chart) */}
           <OrderStatus searchParams={searchParams} />
-
-          {/* Low Stock Alert - Clickable Links */}
           <LowStock />
         </div>
-
-        {/* ROW 2: Top Services, Inventory Usage, Bundling */}
         <PerformanceCharts searchParams={searchParams} />
-        {/* ROW 4: Recent Orders */}
         <SuperAdminRecentOrders />
       </div>
     </div>

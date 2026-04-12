@@ -1,6 +1,7 @@
 "use client";
 
 import { BarChart2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -46,20 +47,23 @@ const EmptyBarChart = ({
 }: {
   title: string;
   description: string;
-}) => (
-  <Card style={cardShadowStyle}>
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent className="flex h-full flex-col items-center justify-center gap-2 py-10 text-center text-muted-foreground">
-      <BarChart2 className="size-10 opacity-40" />
-      <p className="text-sm">No data available</p>
-    </CardContent>
-    <CardFooter className="mt-auto flex-col items-start gap-2 text-sm">
-      <div className="text-muted-foreground leading-none">{description}</div>
-    </CardFooter>
-  </Card>
-);
+}) => {
+  const t = useTranslations("Dashboard.charts");
+  return (
+    <Card style={cardShadowStyle}>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="flex h-full flex-col items-center justify-center gap-2 py-10 text-center text-muted-foreground">
+        <BarChart2 className="size-10 opacity-40" />
+        <p className="text-sm">{t("noData")}</p>
+      </CardContent>
+      <CardFooter className="mt-auto flex-col items-start gap-2 text-sm">
+        <div className="text-muted-foreground leading-none">{description}</div>
+      </CardFooter>
+    </Card>
+  );
+};
 
 export const HorizontalBarChart = ({
   title,

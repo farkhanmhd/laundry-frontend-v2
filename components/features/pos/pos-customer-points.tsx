@@ -17,7 +17,7 @@ import { cardShadowStyle } from "@/lib/utils";
 
 export const PosCustomerPoints = () => {
   const t = useTranslations("POS.customerPoints");
-  const { posData, togglePoint, handlePointChange } = usePOS();
+  const { posData, togglePoint, handlePointChange, isPending } = usePOS();
 
   if (!posData.member) {
     return null;
@@ -48,6 +48,7 @@ export const PosCustomerPoints = () => {
         </FieldContent>
         <Switch
           checked={posData.points !== null}
+          disabled={isPending}
           id="points"
           onCheckedChange={togglePoint}
         />
@@ -69,6 +70,7 @@ export const PosCustomerPoints = () => {
                   autoComplete="off"
                   autoFocus
                   className="w-full"
+                  disabled={isPending}
                   id="points-input"
                   inputMode="numeric"
                   onChange={(e) => handlePointChange(e)}

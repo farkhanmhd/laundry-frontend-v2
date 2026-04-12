@@ -10,7 +10,7 @@ const customerTypeOptions = ["guest", "member"];
 
 export const PosCustomerTypeSelection = () => {
   const t = useTranslations("POS");
-  const { customerType, handleCustomerTypeChange } = usePOS();
+  const { isPending, customerType, handleCustomerTypeChange } = usePOS();
   return (
     <CardHeader className="border-border border-b [.border-b]:pb-3.5">
       <div className="flex items-center justify-between">
@@ -26,6 +26,7 @@ export const PosCustomerTypeSelection = () => {
             <Label className="cursor-pointer" htmlFor={option} key={option}>
               <RadioGroupItem
                 className="peer sr-only"
+                disabled={isPending}
                 id={option}
                 value={option}
               />

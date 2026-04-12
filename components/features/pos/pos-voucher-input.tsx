@@ -11,7 +11,12 @@ import { getVoucherByCode, usePOS } from "@/lib/modules/pos/state";
 export const PosVoucherInput = () => {
   const t = useTranslations("POS.voucherInput");
   const [inputCode, setInputCode] = useState("");
-  const { handleSelectVoucher, totalAmount, setPosData } = usePOS();
+  const {
+    isPending: isPendingState,
+    handleSelectVoucher,
+    totalAmount,
+    setPosData,
+  } = usePOS();
   const { mutate, isPending } = useMutation({
     mutationFn: getVoucherByCode,
     onSuccess: (data) => {
@@ -43,7 +48,7 @@ export const PosVoucherInput = () => {
     },
   });
 
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = (e: React.SubmitEvent) => {
     e.preventDefault();
     const cleanCode = inputCode.trim();
     if (!cleanCode) {
@@ -56,7 +61,7 @@ export const PosVoucherInput = () => {
   return (
     <form className="flex gap-2" onSubmit={handleApply}>
       <Input
-        disabled={isPending}
+        disabled={isPending || isPendingState}
         onChange={(e) => setInputCode(e.target.value)}
         placeholder={t("enterVoucherCode")}
         value={inputCode}

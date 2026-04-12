@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { HorizontalBarChart } from "./horizontal-bart-chart";
 
 export type BundlingStatsItem = {
@@ -40,13 +41,15 @@ export const BundlingStatsChart = ({ data }: Props) => {
     ),
   };
 
+  const t = useTranslations("Dashboard.superadmin.performances");
+
   return (
     <HorizontalBarChart
       config={config}
       dataKey="sales"
-      description="Performance tracking for bundled offers"
+      description={t("bundlingStatsDesc")}
       rows={rows}
-      title="Bundling Performance"
+      title={t("bundlingStats")}
     />
   );
 };

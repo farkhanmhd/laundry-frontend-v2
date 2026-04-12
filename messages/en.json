@@ -860,7 +860,12 @@
       "ready": "Ready",
       "completed": "Completed",
       "cancelled": "Cancelled",
-      "tryAgain": "Try Again"
+      "tryAgain": "Try Again",
+      "confirmPaymentTitle": "Complete Your Payment",
+      "confirmPaymentDescription": "You are about to process this order payment via QRIS. Please ensure your QRIS scanner is ready before proceeding.",
+      "confirmPayment": "Confirm Payment",
+      "cancel": "Cancel",
+      "payNow": "Pay Now"
     },
     "payment": {
       "success": "Payment Successful!",
@@ -1029,5 +1034,153 @@
     "notFoundTitle": "Receipt not found",
     "notFoundDescription": "No order matched {orderId}. Check the ID and try again.",
     "errorMessage": "Something went wrong. Please try again."
+  },
+  "Dashboard": {
+    "admin": {
+      "title": "Operations Desk",
+      "newOrder": "New Order",
+      "deliveryRequests": {
+        "title": "Delivery Requests",
+        "description": "Outgoing finished orders",
+        "viewAll": "View All Deliveries",
+        "empty": "No delivery requests found.",
+        "errorTitle": "Error",
+        "errorMessage": "Failed to fetch delivery requests.",
+        "retry": "Retry"
+      },
+      "pickupRequests": {
+        "title": "Pickup Requests",
+        "description": "Incoming laundry from customers",
+        "viewAll": "View All Pickups",
+        "empty": "No pickup requests found.",
+        "errorTitle": "Error",
+        "errorMessage": "Failed to fetch pickup requests.",
+        "retry": "Retry"
+      },
+      "operationalMetrics": {
+        "ordersPending": "Orders Pending",
+        "ordersPendingDesc": "Waiting for Payment",
+        "ordersProcessing": "In Processing",
+        "ordersProcessingDesc": "Operations in progress",
+        "pickupsPending": "Pickup Requests",
+        "pickupsPendingDesc": "To be collected",
+        "deliveriesPending": "Delivery Requests",
+        "deliveriesPendingDesc": "Ready to ship",
+        "errorTitle": "Error loading metrics",
+        "errorMessage": "Failed to fetch operational metrics.",
+        "retry": "Retry"
+      },
+      "recentOrders": {
+        "title": "Recent Orders",
+        "description": "Overview of latest transactions",
+        "viewAll": "View All Orders",
+        "empty": "No orders found for this status.",
+        "failedTitle": "Failed to load orders",
+        "failedMessage": "Something went wrong",
+        "tryAgain": "Try Again",
+        "tabAll": "All",
+        "tabPending": "Pending",
+        "tabProcessing": "Processing",
+        "tabReady": "Ready",
+        "tabCompleted": "Completed"
+      }
+    },
+    "superadmin": {
+      "title": "Dashboard",
+      "subtitle": "Welcome back! Here's your business overview.",
+      "keyMetrics": {
+        "totalRevenue": "Total Revenue",
+        "totalOrders": "Total Orders",
+        "activeMembers": "Active Members",
+        "activeMembersSubtext": "Registered loyalty members",
+        "staffMembers": "Staff Members",
+        "staffMembersSubtext": "Across all branches",
+        "failedToLoad": "Failed to load",
+        "errorMessage": "Something went wrong while fetching metrics.",
+        "retry": "Retry"
+      },
+      "lowStock": {
+        "title": "Low Stock Inventory",
+        "description": "Items below safety stock level",
+        "viewAll": "View All Inventories",
+        "allHealthy": "All items are well-stocked",
+        "failedTitle": "Failed to load low stock items",
+        "failedMessage": "Something went wrong",
+        "tryAgain": "Try Again"
+      },
+      "orderStatus": {
+        "title": "Order Status Distribution",
+        "description": "Breakdown of current orders by status",
+        "footer": "Showing distribution across all current statuses",
+        "failedTitle": "Failed to load order status",
+        "failedMessage": "Something went wrong while fetching data. Please try again.",
+        "retry": "Retry"
+      },
+      "performances": {
+        "topServices": "Top Services",
+        "topServicesDesc": "Showing top performing services based on revenue",
+        "inventoryUsage": "Inventory Usage",
+        "inventoryUsageDesc": "Track consumption of key inventory items",
+        "bundlingStats": "Bundling Performance",
+        "bundlingStatsDesc": "Performance tracking for bundled offers",
+        "failedToLoad": "Failed to load data",
+        "retry": "Retry"
+      },
+      "recentOrders": {
+        "title": "Recent Orders",
+        "description": "Overview of latest transactions",
+        "viewAll": "View All Orders",
+        "empty": "No orders found for this status.",
+        "failedTitle": "Failed to load orders",
+        "failedMessage": "Something went wrong",
+        "tryAgain": "Try Again",
+        "tabAll": "All",
+        "tabPending": "Pending",
+        "tabProcessing": "Processing",
+        "tabReady": "Ready",
+        "tabCompleted": "Completed"
+      }
+    },
+    "user": {
+      "hero": {
+        "greeting": "Hello, {name}",
+        "currentPoints": "Current Points",
+        "failedToLoad": "Failed to load user profile."
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "newOrder": "New Order",
+        "manageAddress": "Manage Address"
+      },
+      "recentDeliveries": {
+        "title": "Recent Deliveries",
+        "viewAll": "View All",
+        "empty": "No recent deliveries",
+        "emptyDesc": "You don't have any recent deliveries at the moment.",
+        "failedToLoad": "Failed to load recent deliveries."
+      },
+      "recentOrders": {
+        "title": "Recent Orders",
+        "viewAll": "View All",
+        "empty": "No recent orders",
+        "emptyDesc": "You don't have any recent orders at the moment.",
+        "failedToLoad": "Failed to load recent orders."
+      },
+      "myRewards": {
+        "title": "Available Rewards",
+        "description": "Redeem your points for deals",
+        "empty": "No Rewards Available",
+        "emptyDesc": "You don't have any rewards to redeem yet. Place an order to earn points!",
+        "failedToLoad": "Failed to load rewards."
+      }
+    },
+    "charts": {
+      "noData": "No data available",
+      "noOrderData": "No order data available",
+      "orders": "Orders",
+      "salesCount": "Sales Count",
+      "unitsUsed": "Units Used",
+      "revenue": "Revenue"
+    }
   }
 }

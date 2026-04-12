@@ -1,9 +1,11 @@
 import { Package } from "lucide-react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { CardContent } from "@/components/ui/card";
 import { TabsContent } from "@/components/ui/tabs";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
+import { formatDate } from "@/lib/utils";
 
 const getBadgeVariant = (
   status: string
@@ -23,8 +25,6 @@ const getBadgeVariant = (
   }
 };
 
-const formatToUTC = (dateString: string) => new Date(dateString).toUTCString();
-
 const RecentOrdersSlot = async () => {
   const recentOrders = await AdminDashboardApi.getOrders();
 
@@ -35,13 +35,15 @@ const RecentOrdersSlot = async () => {
     return recentOrders.filter((o) => o.status === status).slice(0, 10);
   };
 
+  const t = await getTranslations("Dashboard.admin.recentOrders");
+
   return (
     <CardContent className="flex-1">
       {["all", "pending", "processing", "ready", "completed"].map((tab) => (
         <TabsContent className="mt-0 space-y-2" key={tab} value={tab}>
           {getFilteredOrders(tab).length === 0 ? (
             <div className="flex h-32 items-center justify-center text-muted-foreground text-sm">
-              No orders found for this status.
+              {t("empty")}
             </div>
           ) : (
             getFilteredOrders(tab).map((order) => (
@@ -63,13 +65,13 @@ const RecentOrdersSlot = async () => {
                         {order.id}
                       </p>
                       <p className="mt-1 text-muted-foreground/70 text-sm">
-                        {formatToUTC(order.date)}
+                        {formatDate(order.date)}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <p className="font-medium text-foreground text-sm">
-                      Rp{order.total.toLocaleString()}
+                      Rp {order.total.toLocaleString()}
                     </p>
                     <Badge variant={getBadgeVariant(order.status)}>
                       {order.status.charAt(0).toUpperCase() +

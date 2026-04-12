@@ -20,6 +20,7 @@ export function PosPaymentMethod() {
     handlePaymentMethodChange,
     amountPaidValidation,
     handleAmountPaidChange,
+    isPending,
   } = usePOS();
 
   const handleNoteClick = (amount: number) => {
@@ -35,7 +36,12 @@ export function PosPaymentMethod() {
           value={posData.paymentMethod}
         >
           <Label className="cursor-pointer" htmlFor="cash">
-            <RadioGroupItem className="peer sr-only" id="cash" value="cash" />
+            <RadioGroupItem
+              className="peer sr-only"
+              disabled={isPending}
+              id="cash"
+              value="cash"
+            />
             <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
               <Banknote className="h-6 w-6" />
               <span className="font-medium">{t("cash")}</span>
@@ -43,7 +49,12 @@ export function PosPaymentMethod() {
           </Label>
 
           <Label className="cursor-pointer" htmlFor="qris">
-            <RadioGroupItem className="peer sr-only" id="qris" value="qris" />
+            <RadioGroupItem
+              className="peer sr-only"
+              disabled={isPending}
+              id="qris"
+              value="qris"
+            />
             <div className="flex w-full items-center justify-center gap-2 rounded-xl border-2 p-2 transition-all hover:border-primary hover:text-primary peer-aria-checked:border-primary peer-aria-checked:text-primary">
               <QrCode className="h-6 w-6" />
               <span className="font-medium">{t("qris")}</span>
@@ -65,6 +76,7 @@ export function PosPaymentMethod() {
                 aria-invalid={amountPaidValidation}
                 autoComplete="off"
                 className="mb-1 pl-10"
+                disabled={isPending}
                 id="cash-amount"
                 onChange={(e) => handleAmountPaidChange(e.target.value)}
                 placeholder="0"
@@ -82,6 +94,7 @@ export function PosPaymentMethod() {
               <li key={note}>
                 <Button
                   className="border-primary text-primary"
+                  disabled={isPending}
                   onClick={() => handleNoteClick(note)}
                   variant="outline"
                 >

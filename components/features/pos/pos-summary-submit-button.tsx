@@ -6,11 +6,11 @@ import { usePOS } from "@/lib/modules/pos/state";
 
 export const PosSummarySubmitButton = () => {
   const t = useTranslations("POS.summarySubmitButton");
-  const { totalItems, isPending, submitPosOrder } = usePOS();
+  const { totalItems, isPending, submitPosOrder, canPlaceOrder } = usePOS();
   return (
     <Button
       className="w-full"
-      disabled={totalItems === 0 || isPending}
+      disabled={totalItems === 0 || isPending || !canPlaceOrder}
       onClick={submitPosOrder}
     >
       {t("processPayment")}

@@ -1,4 +1,5 @@
 import { Ticket } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import {
   Card,
   CardContent,
@@ -19,16 +20,17 @@ import { cardShadowStyle, formatDate } from "@/lib/utils";
 
 export default async function MyRewardsSlot() {
   const vouchers = await CustomerDashboardApi.getVouchers();
+  const t = await getTranslations("Dashboard.user.myRewards");
 
   return (
     <Card className="gap-0" style={cardShadowStyle}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="font-semibold text-base">
-            Available Rewards
+            {t("title")}
           </CardTitle>
         </div>
-        <CardDescription>Redeem your points for deals</CardDescription>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent>
         {vouchers.length === 0 ? (
@@ -37,11 +39,8 @@ export default async function MyRewardsSlot() {
               <EmptyMedia variant="icon">
                 <Ticket className="size-8 text-muted-foreground" />
               </EmptyMedia>
-              <EmptyTitle>No Rewards Available</EmptyTitle>
-              <EmptyDescription>
-                You don't have any rewards to redeem yet. Place an order to earn
-                points!
-              </EmptyDescription>
+              <EmptyTitle>{t("empty")}</EmptyTitle>
+              <EmptyDescription>{t("emptyDesc")}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         ) : (

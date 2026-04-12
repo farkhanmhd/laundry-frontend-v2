@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { PosCustomer } from "@/lib/modules/pos/state";
+import { type PosCustomer, usePOS } from "@/lib/modules/pos/state";
 
 interface Props {
   customer: PosCustomer;
@@ -10,6 +10,7 @@ interface Props {
 export const PosSelectedCustomer = ({ customer, onClick }: Props) => {
   const t = useTranslations("POS");
   const tSelected = useTranslations("POS.selectedCustomer");
+  const { isPending } = usePOS();
 
   return (
     <div className="fade-in slide-in-from-top-2 flex animate-in items-start justify-between gap-3 rounded-lg border border-primary p-4 duration-300">
@@ -30,6 +31,7 @@ export const PosSelectedCustomer = ({ customer, onClick }: Props) => {
       <button
         aria-label={t("clearSelection")}
         className="ml-2 shrink-0 rounded p-1 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-card-foreground"
+        disabled={isPending}
         onClick={onClick}
         type="button"
       >

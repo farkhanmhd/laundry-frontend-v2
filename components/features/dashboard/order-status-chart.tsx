@@ -1,6 +1,7 @@
 "use client";
 
 import { PackageSearch } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Label, Pie, PieChart } from "recharts";
 import {
@@ -30,18 +31,22 @@ type Props = {
   data: OrderStatusData[];
 };
 
-const EmptyChart = () => (
-  <div className="flex h-75 flex-col items-center justify-center gap-2 text-muted-foreground">
-    <PackageSearch className="size-10 opacity-40" />
-    <p className="text-sm">No order data available</p>
-  </div>
-);
+const EmptyChart = () => {
+  const t = useTranslations("Dashboard.charts");
+  return (
+    <div className="flex h-75 flex-col items-center justify-center gap-2 text-muted-foreground">
+      <PackageSearch className="size-10 opacity-40" />
+      <p className="text-sm">{t("noOrderData")}</p>
+    </div>
+  );
+};
 
 export const OrderStatusChart = ({ data }: Props) => {
   const chartData = data.map((item) => ({
     ...item,
     fill: STATUS_COLORS[item.name] ?? "var(--chart-5)",
   }));
+  const t = useTranslations("Dashboard.charts");
 
   const totalOrdersCount = useMemo(
     () => data.reduce((acc, curr) => acc + curr.value, 0),
@@ -91,7 +96,7 @@ export const OrderStatusChart = ({ data }: Props) => {
                       x={viewBox.cx}
                       y={(viewBox.cy || 0) + 24}
                     >
-                      Orders
+                      {t("orders")}
                     </tspan>
                   </text>
                 );

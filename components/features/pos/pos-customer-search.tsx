@@ -24,6 +24,7 @@ export const PosCustomerSearch = () => {
     clearSelectedCustomer,
     debouncedSearch,
     toggleNewMember,
+    isPending,
   } = usePOS();
   const showSuggestions =
     !posData.member && phone.length > 0 && members && members.length > 0;
@@ -56,6 +57,7 @@ export const PosCustomerSearch = () => {
                 <Input
                   autoComplete="off"
                   className="pl-9"
+                  disabled={isPending}
                   id="customer-search"
                   onChange={(e) => handlePhoneChange(e.target.value)}
                   placeholder={t("phonePlaceholder")}

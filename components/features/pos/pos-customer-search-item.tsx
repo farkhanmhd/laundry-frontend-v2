@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import type { PosCustomer } from "@/lib/modules/pos/state";
+import { type PosCustomer, usePOS } from "@/lib/modules/pos/state";
 
 interface Props {
   customer: PosCustomer;
@@ -7,9 +7,11 @@ interface Props {
 }
 
 export const PosCustomerSearchItem = ({ customer, onClick }: Props) => {
+  const { isPending } = usePOS();
   return (
     <button
       className="group flex w-full items-center justify-between border-border border-b px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-secondary"
+      disabled={isPending}
       onClick={onClick}
       type="button"
     >

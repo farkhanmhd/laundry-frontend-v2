@@ -1,6 +1,7 @@
 import { CreditCard } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { CustomerPaymentDialog } from "@/components/features/customer-orders/customer-payment-dialog";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,7 +16,23 @@ type OrderDetailProps = {
 export default async function OrderDetailPayment({ params }: OrderDetailProps) {
   const { id } = await params;
   const t = await getTranslations("CustomerOrders.orderDetail");
-  const payment = await CustomerOrdersApi.getCustomerOrderPayment(id);
+  const [payment, deliveries] = await Promise.all([
+    CustomerOrdersApi.getCustomerOrderPayment(id),
+    CustomerOrdersApi.getCustomerOrderDelivery(id),
+  ]);
+
+  const hasCompletedPickup = deliveries.find(
+    (delivery) => delivery.type === "pickup" && delivery.status === "completed"
+  );
+
+  const canMakePayment =
+    payment &&
+    payment.status !== "settlement" &&
+    !payment.actions?.length &&
+    hasCompletedPickup;
+
+  const qrisReadyPayment =
+    payment && payment.status !== "settlement" && payment.actions?.length;
 
   return (
     <Card style={cardShadowStyle}>
@@ -67,12 +84,14 @@ export default async function OrderDetailPayment({ params }: OrderDetailProps) {
             {formatToIDR(payment?.total || 0)}
           </span>
         </div>
-        {payment && payment.status !== "settlement" && (
+        {canMakePayment && <CustomerPaymentDialog />}
+
+        {qrisReadyPayment && (
           <Link
             className={cn(buttonVariants(), "w-full")}
             href={`/customer-orders/${id}/payment`}
           >
-            {t("payWithQris")}
+            {t("payNow")}
           </Link>
         )}
       </CardContent>

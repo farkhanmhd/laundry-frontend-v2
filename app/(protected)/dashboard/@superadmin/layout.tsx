@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type React from "react";
 
 // Top Services Data
@@ -23,16 +24,15 @@ export default function SuperAdminDashboard({
   performances,
   children,
 }: Props) {
+  const t = useTranslations("Dashboard.superadmin");
   return (
     <div className="p-6">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div>
-            <h1 className="font-bold text-3xl">Dashboard</h1>
-            <p className="mt-1 text-muted-foreground">
-              Welcome back! Here&apos;s your business overview.
-            </p>
+            <h1 className="font-bold text-3xl">{t("title")}</h1>
+            <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
           </div>
 
           {/* Date Range Picker */}

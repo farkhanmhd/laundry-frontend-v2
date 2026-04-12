@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ export default function EmployeeDashboard({
   deliveryRequests,
   children,
 }: Props) {
+  const t = useTranslations("Dashboard.admin");
   return (
     <div className="min-h-screen p-6">
       <div className="flex flex-col gap-6">
@@ -27,13 +29,13 @@ export default function EmployeeDashboard({
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <h1 className="font-bold text-3xl text-foreground tracking-tight">
-              Operations Desk
+              {t("title")}
             </h1>
           </div>
           <div className="flex gap-3">
             <Link className={cn(buttonVariants())} href="/pos">
               <Plus className="h-4 w-4" />
-              New Order
+              {t("newOrder")}
             </Link>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Package } from "lucide-react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { DeliveriesItem } from "@/components/features/deliveries/deliveries-item";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,19 +16,20 @@ import { cardShadowStyle, cn } from "@/lib/utils";
 
 export default async function RecentDeliveriesSlot() {
   const deliveries = await CustomerDashboardApi.getDeliveries();
+  const t = await getTranslations("Dashboard.user.recentDeliveries");
 
   return (
     <Card className="gap-3" style={cardShadowStyle}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="font-semibold md:text-lg">
-            Recent Deliveries
+            {t("title")}
           </CardTitle>
           <Link
             className={cn(buttonVariants({ variant: "outline" }))}
             href="/customer-deliveries"
           >
-            View All
+            {t("viewAll")}
           </Link>
         </div>
       </CardHeader>
@@ -42,10 +44,8 @@ export default async function RecentDeliveriesSlot() {
               <EmptyMedia variant="icon">
                 <Package className="size-6" />
               </EmptyMedia>
-              <EmptyTitle>No recent deliveries</EmptyTitle>
-              <EmptyDescription>
-                You don't have any recent deliveries at the moment.
-              </EmptyDescription>
+              <EmptyTitle>{t("empty")}</EmptyTitle>
+              <EmptyDescription>{t("emptyDesc")}</EmptyDescription>
             </EmptyHeader>
           </Empty>
         )}

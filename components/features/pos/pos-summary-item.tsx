@@ -28,7 +28,8 @@ interface OrderSummaryItemProps {
 
 export function PosSummaryItem({ item }: OrderSummaryItemProps) {
   const t = useTranslations("POS.summaryItem");
-  const { handleIncrementQuantity, handleDecrementQuantity } = usePOS();
+  const { isPending, handleIncrementQuantity, handleDecrementQuantity } =
+    usePOS();
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("id-ID").format(price);
@@ -65,13 +66,19 @@ export function PosSummaryItem({ item }: OrderSummaryItemProps) {
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <Button className="h-8" size="sm" variant="outline">
+        <Button
+          className="h-8"
+          disabled={isPending}
+          size="sm"
+          variant="outline"
+        >
           <NotepadText />
           {t("notesPlaceholder")}
         </Button>
 
         <div className="flex items-center">
           <NumberInput
+            disabled={isPending}
             onDecrement={() => handleDecrementQuantity(item.id)}
             onIncrement={() => handleIncrementQuantity(item.id)}
             value={item.quantity}

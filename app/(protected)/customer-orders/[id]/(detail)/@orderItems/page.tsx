@@ -1,8 +1,11 @@
 import { Package } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { CustomerOrderItem } from "@/lib/modules/customer-orders/data";
 import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
-import { cardShadowStyle, formatToIDR } from "@/lib/utils";
+import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
+
+type CustomerOrderItemType = CustomerOrderItem["itemType"];
 
 type OrderDetailProps = {
   params: Promise<{ id: string }>;
@@ -12,6 +15,12 @@ export default async function OrderDetailItems({ params }: OrderDetailProps) {
   const { id } = await params;
   const t = await getTranslations("CustomerOrders.orderDetail");
   const items = await CustomerOrdersApi.getCustomerOrderItems(id);
+
+  const isItemDiscount = (itemType: CustomerOrderItemType) => {
+    const isDiscountItem = ["voucher", "points"].includes(itemType);
+
+    return isDiscountItem;
+  };
 
   return (
     <Card className="shadow-card-shadow" style={cardShadowStyle}>
@@ -28,24 +37,29 @@ export default async function OrderDetailItems({ params }: OrderDetailProps) {
               <div className="flex flex-1 flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h4 className="line-clamp-1 font-semibold text-foreground">
-                        {item.name}
-                      </h4>
-                    </div>
+                    <h4 className="line-clamp-1 font-semibold text-foreground">
+                      {isItemDiscount(item.itemType) ? item.note : item.name}
+                    </h4>
                   </div>
-                  <p className="text-muted-foreground text-sm">
-                    {item.quantity} x {formatToIDR(item.price)}
-                  </p>
+                  {!isItemDiscount(item.itemType) && (
+                    <p className="text-muted-foreground text-sm">
+                      {item.quantity} x {formatToIDR(item.price)}
+                    </p>
+                  )}
                 </div>
-                {item.note && (
+                {!isItemDiscount(item.itemType) && !!item.note && (
                   <div className="mt-3 flex items-start gap-2 rounded-md bg-muted/30 p-2 text-muted-foreground text-xs">
                     <span className="italic">"{item.note}"</span>
                   </div>
                 )}
                 <div className="mt-3 flex items-center justify-between border-t pt-3">
                   <span className="font-medium text-sm">{t("subtotal")}</span>
-                  <span className="font-bold text-primary">
+                  <span
+                    className={cn("font-bold", {
+                      "text-primary": !isItemDiscount(item.itemType),
+                      "text-green-600": isItemDiscount(item.itemType),
+                    })}
+                  >
                     {formatToIDR(item.subtotal)}
                   </span>
                 </div>

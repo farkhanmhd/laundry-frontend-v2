@@ -16,18 +16,18 @@ export default async function OrderDetailDeliveries({
 }: OrderDetailProps) {
   const { id } = await params;
   const t = await getTranslations("CustomerOrders.orderDetail");
-  const deliveries = await CustomerOrdersApi.getCustomerOrderDelivery(id);
-  const detail = await CustomerOrdersApi.getCustomerOrderDetail(id);
+  const [deliveries, detail, payment] = await Promise.all([
+    CustomerOrdersApi.getCustomerOrderDelivery(id),
+    CustomerOrdersApi.getCustomerOrderDetail(id),
+    CustomerOrdersApi.getCustomerOrderPayment(id),
+  ]);
 
   const status = detail.status;
   const hasDeliveryRequest = deliveries.some((d) => d.type === "delivery");
-  const isOrderCompleted = status === "completed";
-  const isPendingOrder = status === "pending";
-  const canRequestDelivery = !(
-    isOrderCompleted ||
-    isPendingOrder ||
-    hasDeliveryRequest
-  );
+  const canRequestDelivery =
+    !hasDeliveryRequest &&
+    (status === "ready" || status === "processing") &&
+    payment.status === "settlement";
 
   return (
     <Card style={cardShadowStyle}>
@@ -112,7 +112,7 @@ export default async function OrderDetailDeliveries({
             </div>
           </>
         )}
-        {deliveries.length === 0 && isOrderCompleted && (
+        {deliveries.length === 0 && (
           <div className="flex flex-col items-center justify-center space-y-4 py-6 text-center">
             <div className="rounded-full bg-secondary/50 p-4">
               <Truck className="h-8 w-8 text-muted-foreground/50" />

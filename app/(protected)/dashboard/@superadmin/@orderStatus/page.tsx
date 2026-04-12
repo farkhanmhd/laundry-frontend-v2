@@ -1,4 +1,5 @@
 import { format, startOfMonth } from "date-fns";
+import { getTranslations } from "next-intl/server";
 import { OrderStatusChart } from "@/components/features/dashboard/order-status-chart";
 import {
   Card,
@@ -30,20 +31,19 @@ const OrderStatusSlot = async ({ searchParams }: Props) => {
     to: format(dateRange.to || new Date(), "dd-MM-yyyy"),
   };
   const data = await AdminDashboardApi.getOrderStatus(query);
+  const t = await getTranslations("Dashboard.superadmin.orderStatus");
 
   return (
     <Card className="flex flex-col" style={cardShadowStyle}>
       <CardHeader className="items-center pb-0">
-        <CardTitle>Order Status Distribution</CardTitle>
-        <CardDescription>Breakdown of current orders by status</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <OrderStatusChart data={data} />
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="text-muted-foreground leading-none">
-          Showing distribution across all current statuses
-        </div>
+        <div className="text-muted-foreground leading-none">{t("footer")}</div>
       </CardFooter>
     </Card>
   );

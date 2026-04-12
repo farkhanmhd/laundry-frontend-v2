@@ -16,7 +16,7 @@ const OrderInformation = async ({ params }: Props) => {
     notFound();
   }
 
-  return <OrderInfoCard data={data} deliveries={deliveries} id={id} />;
+  return <OrderInfoCard data={data} deliveries={deliveries || []} id={id} />;
 };
 
 export default OrderInformation;

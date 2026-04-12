@@ -95,7 +95,7 @@ const AverageUsageContent = async ({ query }: MetricProps) => {
       description={t("description")}
       icon={<Target className="h-6 w-6 text-primary" />}
       title={t("title")}
-      value={data?.averageUsagePerOrder ?? 0}
+      value={data?.averageUsagePerOrder.toFixed(2) ?? 0}
     />
   );
 };

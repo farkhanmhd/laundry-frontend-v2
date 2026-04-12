@@ -1,4 +1,6 @@
+import { randomUUID } from "node:crypto";
 import { format, startOfMonth } from "date-fns";
+import { getTranslations } from "next-intl/server";
 import { StatCard } from "@/components/features/dashboard/stat-card";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
 import { type DateRangeSearchParams, getDateRange } from "@/lib/utils";
@@ -18,23 +20,24 @@ const KeyMetricSlot = async (props: Props) => {
     to: format(dateRange.to || new Date(), "dd-MM-yyyy"),
   };
   const metrics = await AdminDashboardApi.getMetrics(query.from, query.to);
+  const t = await getTranslations("Dashboard.superadmin.keyMetrics");
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4" key={randomUUID()}>
       <StatCard
-        label="Total Revenue"
+        label={t("totalRevenue")}
         value={metrics.totalRevenue}
         valueColor="text-primary"
       />
-      <StatCard label="Total Orders" value={metrics.totalOrders} />
+      <StatCard label={t("totalOrders")} value={metrics.totalOrders} />
       <StatCard
-        label="Active Members"
-        subtext="Registered loyalty members"
+        label={t("activeMembers")}
+        subtext={t("activeMembersSubtext")}
         value={metrics.activeMembers}
       />
       <StatCard
-        label="Staff Members"
-        subtext="Across all branches"
+        label={t("staffMembers")}
+        subtext={t("staffMembersSubtext")}
         value={metrics.totalStaff}
       />
     </div>

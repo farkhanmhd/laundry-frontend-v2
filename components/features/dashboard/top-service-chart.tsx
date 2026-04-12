@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { HorizontalBarChart } from "./horizontal-bart-chart";
 
 export type TopServiceItem = {
@@ -40,13 +41,15 @@ export const TopServicesChart = ({ data }: Props) => {
     ),
   };
 
+  const t = useTranslations("Dashboard.superadmin.performances");
+
   return (
     <HorizontalBarChart
       config={config}
       dataKey="revenue"
-      description="Showing top performing services based on revenue"
+      description={t("topServicesDesc")}
       rows={rows}
-      title="Top Services"
+      title={t("topServices")}
       valueFormatter={(v) => `Rp${(v / 1000).toFixed(0)}k`}
     />
   );

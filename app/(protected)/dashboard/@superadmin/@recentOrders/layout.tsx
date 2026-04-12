@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +16,8 @@ interface Props {
   children: React.ReactNode;
 }
 
-const RecentOrdersLayout = async ({ children }: Props) => {
+const RecentOrdersLayout = ({ children }: Props) => {
+  const t = useTranslations("Dashboard.superadmin.recentOrders");
   return (
     <div className="grid grid-cols-1 gap-6">
       <Card className="flex h-full flex-col" style={cardShadowStyle}>
@@ -21,13 +25,11 @@ const RecentOrdersLayout = async ({ children }: Props) => {
           <CardHeader className="flex flex-col gap-4 pb-4">
             <div className="flex w-full items-center justify-between">
               <div className="space-y-1">
-                <CardTitle>Recent Orders</CardTitle>
-                <CardDescription>
-                  Overview of latest transactions
-                </CardDescription>
+                <CardTitle>{t("title")}</CardTitle>
+                <CardDescription>{t("description")}</CardDescription>
               </div>
               <Button asChild size="sm" variant="outline">
-                <Link href="/orders">View All Orders</Link>
+                <Link href="/orders">{t("viewAll")}</Link>
               </Button>
             </div>
             {/* FIX: h-auto and flex-wrap ensure Tabs wrap correctly and don't overlap list content */}
@@ -39,7 +41,7 @@ const RecentOrdersLayout = async ({ children }: Props) => {
                     key={status}
                     value={status.toLowerCase()}
                   >
-                    {status}
+                    {t(`tab${status}`)}
                   </TabsTrigger>
                 )
               )}

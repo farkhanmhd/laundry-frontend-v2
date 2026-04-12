@@ -1,5 +1,7 @@
-import { ArrowUpCircle } from "lucide-react";
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -16,14 +18,14 @@ export default function DeliveryRequestsLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("Dashboard.admin.deliveryRequests");
   return (
     <Card style={cardShadowStyle}>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base text-foreground">
-          <ArrowUpCircle className="h-5 w-5 text-primary" />
-          Delivery Requests
+          {t("title")}
         </CardTitle>
-        <CardDescription>Outgoing finished orders</CardDescription>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">{children}</CardContent>
       <CardFooter className="mt-auto">
@@ -31,7 +33,7 @@ export default function DeliveryRequestsLayout({
           className={cn(buttonVariants({ variant: "outline" }), "w-full")}
           href="/deliveries"
         >
-          View All Deliveries
+          {t("viewAll")}
         </Link>
       </CardFooter>
     </Card>

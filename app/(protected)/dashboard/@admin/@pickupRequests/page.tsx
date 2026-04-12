@@ -1,4 +1,5 @@
 import { MapPin } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
 
@@ -22,12 +23,13 @@ const getBadgeVariant = (
 
 export default async function PickupRequestsSlot() {
   const pickupRequests = await AdminDashboardApi.getRecentPickups();
+  const t = await getTranslations("Dashboard.admin.pickupRequests");
 
   return (
     <>
       {pickupRequests.length === 0 ? (
         <p className="py-4 text-center text-muted-foreground text-sm">
-          No pickup requests found.
+          {t("empty")}
         </p>
       ) : (
         pickupRequests.map((item) => (

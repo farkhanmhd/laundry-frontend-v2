@@ -81,6 +81,7 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
 
         <div className="flex items-center">
           <NumberInput
+            disabled={isPending}
             onDecrement={() => handleDecrementQuantity(item.id)}
             onIncrement={() => handleIncrementQuantity(item.id)}
             value={item.quantity}

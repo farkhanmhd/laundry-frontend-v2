@@ -17,6 +17,7 @@ export const PosNewMember = () => {
     phone,
     handlePhoneChange,
     phoneNumberValidation,
+    isPending,
   } = usePOS();
   return (
     <div className="fade-in slide-in-from-top-2 relative flex animate-in flex-col items-start justify-between gap-6 rounded-lg border p-4 py-6 duration-300">
@@ -31,6 +32,7 @@ export const PosNewMember = () => {
           autoComplete="off"
           autoFocus
           className="w-full"
+          disabled={isPending}
           id="new-customer-name"
           onChange={(e) => handleCustomerNameChange(e.target.value)}
           placeholder={t("customerNamePlaceholder")}
@@ -49,6 +51,7 @@ export const PosNewMember = () => {
             aria-invalid={phoneNumberValidation}
             autoComplete="off"
             className="w-full pl-9"
+            disabled={isPending}
             id="new-customer-phone"
             onChange={(e) => handlePhoneChange(e.target.value)}
             placeholder={t("phoneNumberPlaceholder")}
@@ -67,6 +70,7 @@ export const PosNewMember = () => {
       <button
         aria-label={tPOS("clearSelection")}
         className="absolute top-3 right-3 rounded-md p-1.5 text-muted-foreground hover:bg-secondary"
+        disabled={isPending}
         onClick={toggleNewMember}
         type="button"
       >

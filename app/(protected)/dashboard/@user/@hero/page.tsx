@@ -1,4 +1,5 @@
 import { Wallet } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import {
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import { cardShadowStyle } from "@/lib/utils";
 
 export default async function HeroSlot() {
   const customerInfo = await CustomerDashboardApi.getCustomerInfo();
+  const t = await getTranslations("Dashboard.user.hero");
 
   return (
     <Card
@@ -20,7 +22,7 @@ export default async function HeroSlot() {
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <CardTitle className="font-bold text-2xl">
-              Hello, {customerInfo.name}
+              {t("greeting", { name: customerInfo.name })}
             </CardTitle>
             <CardDescription className="text-primary-foreground/80">
               {customerInfo.phone}
@@ -31,7 +33,9 @@ export default async function HeroSlot() {
               <Wallet className="h-5 w-5" />
             </div>
             <div>
-              <p className="font-medium text-xs opacity-80">Current Points</p>
+              <p className="font-medium text-xs opacity-80">
+                {t("currentPoints")}
+              </p>
               <p className="font-bold text-xl">
                 {customerInfo.points.toLocaleString("id-ID")}
               </p>

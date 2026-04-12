@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
@@ -10,19 +11,20 @@ export default function DeliveryRequestsError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("Dashboard.admin.deliveryRequests");
   return (
     <Alert variant="destructive">
       <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Error</AlertTitle>
+      <AlertTitle>{t("errorTitle")}</AlertTitle>
       <AlertDescription className="flex flex-col gap-2">
-        <span>Failed to fetch delivery requests.</span>
+        <span>{t("errorMessage")}</span>
         <Button
           className="w-fit"
           onClick={() => reset()}
           size="sm"
           variant="outline"
         >
-          Retry
+          {t("retry")}
         </Button>
       </AlertDescription>
     </Alert>

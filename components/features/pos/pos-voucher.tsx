@@ -20,7 +20,8 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
   isSelected,
 }) => {
   const t = useTranslations("POS.voucher");
-  const { handleRemoveVoucher, handleSelectVoucher, totalAmount } = usePOS();
+  const { handleRemoveVoucher, handleSelectVoucher, totalAmount, isPending } =
+    usePOS();
 
   const isPercentage = voucher.discountPercentage !== null;
   const amountToMinSpend =
@@ -113,6 +114,7 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
         {isSelected ? (
           <Button
             className="h-8 px-3 font-medium text-destructive hover:bg-destructive/10 hover:text-destructive"
+            disabled={isPending}
             onClick={(e) => {
               e.stopPropagation();
               handleRemoveVoucher();
@@ -133,7 +135,7 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
             ) : (
               <Button
                 className="h-8 px-4 font-medium shadow-none"
-                disabled={totalAmount < voucher.minSpend}
+                disabled={totalAmount < voucher.minSpend || isPending}
                 onClick={() => handleSelectVoucher(voucher)}
                 size="sm"
                 variant="default"

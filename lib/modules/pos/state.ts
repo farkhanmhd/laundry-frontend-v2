@@ -483,6 +483,33 @@ export const usePOS = () => {
     (item) => item.itemType !== "voucher"
   );
 
+  const canPlaceOrder = useMemo(() => {
+    // Base requirement: Must have items
+    if (totalItems <= 0) {
+      return false;
+    }
+
+    // Identity requirement: Must be a member or a guest with a valid name
+    const hasValidIdentity = posData.member !== null || !customerNameValidation;
+    if (!hasValidIdentity) {
+      return false;
+    }
+
+    // Payment requirement
+    if (posData.paymentMethod === "qris") {
+      return true;
+    }
+
+    // Cash requires sufficient payment
+    return !amountPaidValidation;
+  }, [
+    totalItems,
+    posData.member,
+    customerNameValidation,
+    posData.paymentMethod,
+    amountPaidValidation,
+  ]);
+
   return {
     amountPaidValidation,
     customerNameValidation,
@@ -524,5 +551,6 @@ export const usePOS = () => {
     changeAmount,
     handlePointChange,
     points,
+    canPlaceOrder,
   };
 };

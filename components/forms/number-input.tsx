@@ -12,6 +12,7 @@ interface Props {
   value: number;
   onIncrement: () => void;
   onDecrement: () => void;
+  disabled?: boolean;
 }
 
 export default function NumberInput({
@@ -20,6 +21,7 @@ export default function NumberInput({
   value = 0,
   onIncrement,
   onDecrement,
+  disabled = false,
 }: Props) {
   return (
     <ButtonGroup>
@@ -29,6 +31,7 @@ export default function NumberInput({
       <Button
         aria-label="Decrement"
         className="h-7.5"
+        disabled={disabled}
         onClick={onDecrement}
         size="icon-sm"
         type="button"
@@ -38,12 +41,14 @@ export default function NumberInput({
       </Button>
       <Input
         className="h-7.5 w-13! text-center font-mono focus-visible:border-input focus-visible:ring-0"
+        disabled={disabled}
         readOnly
         value={value}
       />
       <Button
         aria-label="Increment"
         className="h-7.5"
+        disabled={disabled}
         onClick={onIncrement}
         size="icon-sm"
         type="button"

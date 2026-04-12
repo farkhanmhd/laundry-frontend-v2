@@ -860,7 +860,12 @@
       "ready": "Siap",
       "completed": "Selesai",
       "cancelled": "Dibatalkan",
-      "tryAgain": "Coba Lagi"
+      "tryAgain": "Coba Lagi",
+      "confirmPaymentTitle": "Selesaikan Pembayaran Anda",
+      "confirmPaymentDescription": "Anda akan memproses pembayaran pesanan ini melalui QRIS. Pastikan pemindai QRIS Anda siap sebelum melanjutkan.",
+      "confirmPayment": "Konfirmasi Pembayaran",
+      "cancel": "Batal",
+      "payNow": "Bayar Sekarang"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",
@@ -1029,5 +1034,153 @@
     "notFoundTitle": "Struk tidak ditemukan",
     "notFoundDescription": "Tidak ada pesanan yang cocok dengan {orderId}. Periksa ID dan coba lagi.",
     "errorMessage": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "Dashboard": {
+    "admin": {
+      "title": "Meja Operasional",
+      "newOrder": "Pesanan Baru",
+      "deliveryRequests": {
+        "title": "Permintaan Pengiriman",
+        "description": "Pesanan selesai untuk dikirim",
+        "viewAll": "Lihat Semua Pengiriman",
+        "empty": "Tidak ada permintaan pengiriman.",
+        "errorTitle": "Kesalahan",
+        "errorMessage": "Gagal mengambil permintaan pengiriman.",
+        "retry": "Coba Lagi"
+      },
+      "pickupRequests": {
+        "title": "Permintaan Penjemputan",
+        "description": "Laundry masuk dari pelanggan",
+        "viewAll": "Lihat Semua Penjemputan",
+        "empty": "Tidak ada permintaan penjemputan.",
+        "errorTitle": "Kesalahan",
+        "errorMessage": "Gagal mengambil permintaan penjemputan.",
+        "retry": "Coba Lagi"
+      },
+      "operationalMetrics": {
+        "ordersPending": "Pesanan Tertunda",
+        "ordersPendingDesc": "Menunggu Pembayaran",
+        "ordersProcessing": "Sedang Diproses",
+        "ordersProcessingDesc": "Operasi sedang berjalan",
+        "pickupsPending": "Permintaan Penjemputan",
+        "pickupsPendingDesc": "Menunggu dijemput",
+        "deliveriesPending": "Permintaan Pengiriman",
+        "deliveriesPendingDesc": "Siap dikirim",
+        "errorTitle": "Gagal memuat metrik",
+        "errorMessage": "Gagal mengambil metrik operasional.",
+        "retry": "Coba Lagi"
+      },
+      "recentOrders": {
+        "title": "Pesanan Terbaru",
+        "description": "Ringkasan transaksi terkini",
+        "viewAll": "Lihat Semua Pesanan",
+        "empty": "Tidak ada pesanan untuk status ini.",
+        "failedTitle": "Gagal memuat pesanan",
+        "failedMessage": "Terjadi kesalahan",
+        "tryAgain": "Coba Lagi",
+        "tabAll": "Semua",
+        "tabPending": "Tertunda",
+        "tabProcessing": "Diproses",
+        "tabReady": "Siap",
+        "tabCompleted": "Selesai"
+      }
+    },
+    "superadmin": {
+      "title": "Dasbor",
+      "subtitle": "Selamat datang kembali! Berikut ringkasan bisnis Anda.",
+      "keyMetrics": {
+        "totalRevenue": "Total Pendapatan",
+        "totalOrders": "Total Pesanan",
+        "activeMembers": "Anggota Aktif",
+        "activeMembersSubtext": "Anggota loyalitas terdaftar",
+        "staffMembers": "Anggota Staf",
+        "staffMembersSubtext": "Di semua cabang",
+        "failedToLoad": "Gagal memuat",
+        "errorMessage": "Terjadi kesalahan saat mengambil metrik.",
+        "retry": "Coba Lagi"
+      },
+      "lowStock": {
+        "title": "Inventaris Stok Menipis",
+        "description": "Item di bawah tingkat stok aman",
+        "viewAll": "Lihat Semua Inventaris",
+        "allHealthy": "Semua item memiliki stok yang cukup",
+        "failedTitle": "Gagal memuat item stok menipis",
+        "failedMessage": "Terjadi kesalahan",
+        "tryAgain": "Coba Lagi"
+      },
+      "orderStatus": {
+        "title": "Distribusi Status Pesanan",
+        "description": "Rincian pesanan saat ini berdasarkan status",
+        "footer": "Menampilkan distribusi di semua status saat ini",
+        "failedTitle": "Gagal memuat status pesanan",
+        "failedMessage": "Terjadi kesalahan saat mengambil data. Silakan coba lagi.",
+        "retry": "Coba Lagi"
+      },
+      "performances": {
+        "topServices": "Layanan Terlaris",
+        "topServicesDesc": "Menampilkan layanan dengan performa terbaik berdasarkan pendapatan",
+        "inventoryUsage": "Penggunaan Inventaris",
+        "inventoryUsageDesc": "Lacak konsumsi item inventaris utama",
+        "bundlingStats": "Performa Paket",
+        "bundlingStatsDesc": "Pelacakan performa penawaran paket",
+        "failedToLoad": "Gagal memuat data",
+        "retry": "Coba Lagi"
+      },
+      "recentOrders": {
+        "title": "Pesanan Terbaru",
+        "description": "Ringkasan transaksi terkini",
+        "viewAll": "Lihat Semua Pesanan",
+        "empty": "Tidak ada pesanan untuk status ini.",
+        "failedTitle": "Gagal memuat pesanan",
+        "failedMessage": "Terjadi kesalahan",
+        "tryAgain": "Coba Lagi",
+        "tabAll": "Semua",
+        "tabPending": "Tertunda",
+        "tabProcessing": "Diproses",
+        "tabReady": "Siap",
+        "tabCompleted": "Selesai"
+      }
+    },
+    "user": {
+      "hero": {
+        "greeting": "Halo, {name}",
+        "currentPoints": "Poin Saat Ini",
+        "failedToLoad": "Gagal memuat profil pengguna."
+      },
+      "quickActions": {
+        "title": "Aksi Cepat",
+        "newOrder": "Pesanan Baru",
+        "manageAddress": "Kelola Alamat"
+      },
+      "recentDeliveries": {
+        "title": "Pengiriman Terbaru",
+        "viewAll": "Lihat Semua",
+        "empty": "Belum ada pengiriman terbaru",
+        "emptyDesc": "Anda tidak memiliki pengiriman terbaru saat ini.",
+        "failedToLoad": "Gagal memuat pengiriman terbaru."
+      },
+      "recentOrders": {
+        "title": "Pesanan Terbaru",
+        "viewAll": "Lihat Semua",
+        "empty": "Belum ada pesanan terbaru",
+        "emptyDesc": "Anda tidak memiliki pesanan terbaru saat ini.",
+        "failedToLoad": "Gagal memuat pesanan terbaru."
+      },
+      "myRewards": {
+        "title": "Hadiah Tersedia",
+        "description": "Tukar poin Anda untuk mendapatkan penawaran",
+        "empty": "Tidak Ada Hadiah",
+        "emptyDesc": "Anda belum memiliki hadiah untuk ditukar. Buat pesanan untuk mendapatkan poin!",
+        "failedToLoad": "Gagal memuat hadiah."
+      }
+    },
+    "charts": {
+      "noData": "Tidak ada data tersedia",
+      "noOrderData": "Tidak ada data pesanan",
+      "orders": "Pesanan",
+      "salesCount": "Jumlah Penjualan",
+      "unitsUsed": "Unit Terpakai",
+      "revenue": "Pendapatan"
+    }
   }
 }

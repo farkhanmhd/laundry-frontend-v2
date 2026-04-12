@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { HorizontalBarChart } from "./horizontal-bart-chart";
 
 export type InventoryUsageItem = {
@@ -38,13 +39,15 @@ export const InventoryUsageChart = ({ data }: Props) => {
     ),
   };
 
+  const t = useTranslations("Dashboard.superadmin.performances");
+
   return (
     <HorizontalBarChart
       config={config}
       dataKey="usage"
-      description="Track consumption of key inventory items"
+      description={t("inventoryUsageDesc")}
       rows={rows}
-      title="Inventory Usage"
+      title={t("inventoryUsage")}
     />
   );
 };

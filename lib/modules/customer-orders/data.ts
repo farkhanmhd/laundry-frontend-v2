@@ -1,3 +1,4 @@
+import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
 import { BaseApi } from "../base-api";
 import type { RequestPickupSchema } from "./schema";
@@ -74,4 +75,22 @@ export abstract class CustomerOrdersApi extends BaseApi {
 
     return response;
   }
+
+  static async getOrderPaymentDetails(id: string) {
+    const { data: response } = await elysia
+      .customerorders({ id })
+      .payment_details.get({
+        ...(await CustomerOrdersApi.getConfig()),
+      });
+
+    const data = response?.data;
+
+    return data;
+  }
 }
+
+export type CustomerOrderItem = Prettify<
+  NonNullable<
+    Awaited<ReturnType<typeof CustomerOrdersApi.getCustomerOrderItems>>
+  >[number]
+>;

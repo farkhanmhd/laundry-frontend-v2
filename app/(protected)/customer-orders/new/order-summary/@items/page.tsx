@@ -5,13 +5,13 @@ import { useTranslations } from "next-intl";
 import { CustomerOrderEmptyItems } from "@/components/features/customer-orders/customer-order-empty-items";
 import { CustomerOrderItem } from "@/components/features/customer-orders/customer-order-item";
 import { useCustomerOrder } from "@/components/features/customer-orders/state";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { PosOrderItem } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 export default function OrderSummaryItems() {
-  const { customerCart } = useCustomerOrder();
+  const { customerCart, isPending } = useCustomerOrder();
   const t = useTranslations("CustomerOrders");
   return (
     <Client>
@@ -40,12 +40,11 @@ export default function OrderSummaryItems() {
                 {t("orderSummary.addOtherItems")}
               </p>
             </div>
-            <Link
-              className={buttonVariants({ variant: "outline", size: "sm" })}
-              href="/customer-orders/new"
-            >
-              {t("orderSummary.addMore")}
-            </Link>
+            <Button disabled={isPending} size="sm" variant="outline">
+              <Link href="/customer-orders/new">
+                {t("orderSummary.addMore")}
+              </Link>
+            </Button>
           </div>
         )}
       </div>

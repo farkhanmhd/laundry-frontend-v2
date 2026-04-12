@@ -280,6 +280,29 @@ export const useCustomerOrder = () => {
 
   const { voucherList, selectedAddress } = customerCart;
 
+  const onlyInventoryItems = useMemo(() => {
+    const inventoryItems = customerCart.items.every(
+      (item) => item.itemType === "inventory"
+    );
+    return inventoryItems;
+  }, [customerCart.items]);
+
+  const canRequestPickup = useMemo(() => {
+    if (totalItems <= 0) {
+      return false;
+    }
+
+    if (!selectedAddress) {
+      return false;
+    }
+
+    if (onlyInventoryItems) {
+      return false;
+    }
+
+    return true;
+  }, [totalItems, selectedAddress, onlyInventoryItems]);
+
   return {
     customerCart,
     setCustomerCart,
@@ -305,5 +328,6 @@ export const useCustomerOrder = () => {
     execute,
     isPending,
     submitPickupRequest,
+    canRequestPickup,
   };
 };

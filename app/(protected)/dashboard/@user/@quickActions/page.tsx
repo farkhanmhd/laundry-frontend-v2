@@ -1,14 +1,16 @@
 import { MapPin, Truck } from "lucide-react";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cardShadowStyle, cn } from "@/lib/utils";
 
-export default function QuickActionsSlot() {
+export default async function QuickActionsSlot() {
+  const t = await getTranslations("Dashboard.user.quickActions");
   return (
     <Card className="gap-3" style={cardShadowStyle}>
       <CardHeader>
-        <CardTitle className="font-semibold text-base">Quick Actions</CardTitle>
+        <CardTitle className="font-semibold text-base">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-3">
@@ -20,7 +22,7 @@ export default function QuickActionsSlot() {
             href="/customer-orders/new"
           >
             <Truck className="h-6 w-6" />
-            <span className="font-semibold text-xs">New Order</span>
+            <span className="font-semibold text-xs">{t("newOrder")}</span>
           </Link>
           <Link
             className={cn(
@@ -30,7 +32,7 @@ export default function QuickActionsSlot() {
             href="/account#address"
           >
             <MapPin className="h-6 w-6" />
-            <span className="font-semibold text-xs">Manage Address</span>
+            <span className="font-semibold text-xs">{t("manageAddress")}</span>
           </Link>
         </div>
       </CardContent>

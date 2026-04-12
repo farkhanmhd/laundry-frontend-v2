@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { elysia } from "@/elysia";
 import type { OrderPaymentDetails } from "@/lib/modules/orders/data";
 
@@ -14,11 +14,14 @@ type PaymentSocketMessage = {
   status: string;
 };
 
+const timestampRegex = /([+-]\d{2})$/;
+
 const TERMINAL_STATUSES = ["settlement", "capture", "cancel", "expire", "deny"];
 
 export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
   const [paymentDetails, setPaymentDetails] =
     useState<OrderPaymentDetails>(initialData);
+
   const isQris = paymentDetails.paymentType === "qris";
   const isPending = paymentDetails.transactionStatus === "pending";
   const isSettlement = paymentDetails.transactionStatus === "settlement";
@@ -27,6 +30,12 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
   const isExpired = timeLeft === "Expired";
 
+  const transactionStatusRef = useRef(paymentDetails.transactionStatus);
+
+  useEffect(() => {
+    transactionStatusRef.current = paymentDetails.transactionStatus;
+  }, [paymentDetails.transactionStatus]);
+
   useEffect(() => {
     if (!(isPending && paymentDetails.expiryTime)) {
       return;
@@ -34,7 +43,11 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
 
     const calculateTimeLeft = () => {
       const now = Date.now();
-      const expiry = new Date(paymentDetails.expiryTime as string).getTime();
+      const expiry = new Date(
+        (paymentDetails.expiryTime as string)
+          .replace(" ", "T")
+          .replace(timestampRegex, "$1:00")
+      ).getTime();
       const diff = expiry - now;
 
       if (diff <= 0) {
@@ -52,14 +65,14 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [paymentDetails.expiryTime, isPending, paymentDetails]);
+  }, [paymentDetails.expiryTime, isPending]);
 
   useEffect(() => {
     if (!paymentDetails.orderId) {
       return;
     }
 
-    if (TERMINAL_STATUSES.includes(paymentDetails.transactionStatus)) {
+    if (TERMINAL_STATUSES.includes(transactionStatusRef.current)) {
       console.log("Already Paid");
       return;
     }
@@ -76,20 +89,18 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
       const data = event.data as PaymentSocketMessage;
 
       if (data.result) {
-        setPaymentDetails((prev) => {
-          return {
-            ...prev,
-            transactionStatus: data.result.transactionStatus,
-            updatedAt: data.result.updatedAt,
-          };
-        });
+        setPaymentDetails((prev) => ({
+          ...prev,
+          transactionStatus: data.result.transactionStatus,
+          updatedAt: data.result.updatedAt,
+        }));
       }
     });
 
     return () => {
       socket.close();
     };
-  }, [paymentDetails.orderId, paymentDetails.transactionStatus]);
+  }, [paymentDetails.orderId]);
 
   return {
     paymentDetails,

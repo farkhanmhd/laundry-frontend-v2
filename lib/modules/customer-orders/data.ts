@@ -1,17 +1,20 @@
 import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
-import { BaseApi } from "../base-api";
 import type { RequestPickupSchema } from "./schema";
 
-export abstract class CustomerOrdersApi extends BaseApi {
+const customerOrderFetchConfig = {
+  fetch: {
+    credentials: "include" as const,
+  },
+};
+
+export abstract class CustomerOrdersApi {
   static async getCustomerOrderDetail(id: string) {
     const { data: response } = await elysia
       .customerorders({
         id,
       })
-      .detail.get({
-        ...(await CustomerOrdersApi.getConfig()),
-      });
+      .detail.get(customerOrderFetchConfig);
 
     if (!response) {
       throw new Error("Failed to fetch customer order detail");
@@ -25,9 +28,7 @@ export abstract class CustomerOrdersApi extends BaseApi {
       .customerorders({
         id,
       })
-      .items.get({
-        ...(await CustomerOrdersApi.getConfig()),
-      });
+      .items.get(customerOrderFetchConfig);
 
     if (!response) {
       throw new Error("Failed to fetch customer order items");
@@ -41,9 +42,7 @@ export abstract class CustomerOrdersApi extends BaseApi {
       .customerorders({
         id,
       })
-      .payment.get({
-        ...(await CustomerOrdersApi.getConfig()),
-      });
+      .payment.get(customerOrderFetchConfig);
 
     if (!response) {
       throw new Error("Failed to fetch customer order payment");
@@ -57,9 +56,7 @@ export abstract class CustomerOrdersApi extends BaseApi {
       .customerorders({
         id,
       })
-      .delivery.get({
-        ...(await CustomerOrdersApi.getConfig()),
-      });
+      .delivery.get(customerOrderFetchConfig);
 
     if (!response) {
       throw new Error("Failed to fetch customer order delivery");
@@ -69,9 +66,10 @@ export abstract class CustomerOrdersApi extends BaseApi {
   }
 
   static async createPickupRequest(body: RequestPickupSchema) {
-    const response = await elysia.customerorders["request-pickup"].post(body, {
-      ...(await CustomerOrdersApi.getConfig()),
-    });
+    const response = await elysia.customerorders["request-pickup"].post(
+      body,
+      customerOrderFetchConfig
+    );
 
     return response;
   }
@@ -79,13 +77,19 @@ export abstract class CustomerOrdersApi extends BaseApi {
   static async getOrderPaymentDetails(id: string) {
     const { data: response } = await elysia
       .customerorders({ id })
-      .payment_details.get({
-        ...(await CustomerOrdersApi.getConfig()),
-      });
+      .payment_details.get(customerOrderFetchConfig);
 
     const data = response?.data;
 
     return data;
+  }
+
+  static async cancelCustomerOrder(id: string) {
+    const result = await elysia
+      .customerorders({ id })
+      .patch({}, customerOrderFetchConfig);
+
+    return result;
   }
 }
 

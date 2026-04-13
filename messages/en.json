@@ -698,23 +698,19 @@
       "noUsername": "No username"
     },
     "actions": {
-      "openMenu": "Open menu",
-      "actions": "Actions",
-      "copyUserId": "Copy User ID",
-      "viewDetails": "View Details",
-      "setAsUser": "Set as User",
-      "setAsAdmin": "Set as Admin",
-      "banUser": "Ban User"
+      "buttonLabel": "Update role",
+      "setAsUser": "Revoke",
+      "setAsAdmin": "Grant"
     },
     "roleDialog": {
       "failedUpdate": "Failed to update role",
-      "demotedToUser": "demoted to User",
-      "promotedToAdmin": "promoted to Admin",
+      "demotedToUser": "{name} was changed to User",
+      "promotedToAdmin": "{name} was changed to Admin",
       "unexpectedError": "An unexpected error occurred",
       "revokeAdminTitle": "Revoke admin access?",
       "grantAdminTitle": "Grant admin access?",
-      "revokeDescription": "They will lose dashboard access",
-      "grantDescription": "full administrative privileges",
+      "revokeDescription": "Are you sure you want to demote {name}? They will lose dashboard access.",
+      "grantDescription": "Are you sure you want to promote {name}? They will have full administrative privileges.",
       "cancel": "Cancel",
       "revokeAccess": "Revoke Access",
       "confirmAdmin": "Confirm Admin"
@@ -866,7 +862,8 @@
       "confirmPayment": "Confirm Payment",
       "cancel": "Cancel",
       "payNow": "Pay Now",
-      "confirmAddress": "Confirm Delivery"
+      "confirmAddress": "Confirm Delivery",
+      "cancelPickupRequest": "Cancel Pickup Request"
     },
     "payment": {
       "success": "Payment Successful!",

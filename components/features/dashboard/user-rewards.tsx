@@ -90,7 +90,7 @@ export function UserRewards() {
                 </div>
                 <div className="mt-1 flex items-center justify-between border-t border-dashed pt-2">
                   <div className="flex items-center justify-between rounded bg-muted px-2 py-1">
-                    <span className="font-bold font-mono text-[10px] tracking-wide">
+                    <span className="font-bold font-mono text-[10px] uppercase tracking-wide">
                       {voucher.code}
                     </span>
                   </div>

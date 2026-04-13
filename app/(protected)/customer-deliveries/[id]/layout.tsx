@@ -8,7 +8,7 @@ interface Props {
 const CustomerDeliveryDetailLayout = async ({ children }: Props) => {
   const t = await getTranslations("CustomerDeliveries.deliveryDetail");
   return (
-    <div className="mx-auto max-w-3xl space-y-6 bg-background p-6 text-foreground">
+    <div className="mx-auto min-h-[calc(100dvh-128px)] max-w-3xl space-y-6 bg-background p-6 text-foreground md:min-h-[calc(100dvh-64px)]">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <h1 className="font-bold text-2xl text-foreground tracking-tight">

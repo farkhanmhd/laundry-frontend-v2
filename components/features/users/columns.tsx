@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import type { User } from "@/lib/modules/users/data";
-import { UserActionsMenu } from "./user-actions-menu";
+import { UserActionsColumn } from "./user-actions-column";
 
 export const useUserColumns = (): ColumnDef<User>[] => {
   const t = useTranslations("Users");
@@ -98,7 +98,7 @@ export const useUserColumns = (): ColumnDef<User>[] => {
       id: "actions",
       cell: ({ row }) => {
         const user = row.original;
-        return <UserActionsMenu user={user} />;
+        return <UserActionsColumn user={user} />;
       },
     },
   ];

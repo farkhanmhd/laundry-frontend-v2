@@ -75,123 +75,118 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
   const statusMessage = getStatusMessage(delivery.status, delivery.type, t);
 
   return (
-    <div className="grid gap-6 md:grid-cols-1" style={cardShadowStyle}>
-      <Card className="border-border bg-card shadow-sm">
-        <div className="flex items-center justify-between border-border/50 border-b px-4 pb-4">
-          <CardTitle className="flex items-center gap-2 text-base text-card-foreground">
-            <Truck className="h-4 w-4 text-muted-foreground" />
-            {t("deliveryInformation")}
-          </CardTitle>
-        </div>
-        <CardContent className="space-y-6">
-          <Alert>
-            <Info className="h-4 w-4 text-primary" />
-            <DeliveryStatusBadge status={delivery.status} t={t} />
-            <AlertDescription>{statusMessage}</AlertDescription>
-          </Alert>
+    <Card className="border-border bg-card shadow-sm" style={cardShadowStyle}>
+      <div className="flex items-center justify-between border-border/50 border-b px-4 pb-4">
+        <CardTitle className="flex items-center gap-2 text-base text-card-foreground">
+          <Truck className="h-4 w-4 text-muted-foreground" />
+          {t("deliveryInformation")}
+        </CardTitle>
+      </div>
+      <CardContent className="space-y-6">
+        <Alert>
+          <Info className="h-4 w-4 text-primary" />
+          <DeliveryStatusBadge status={delivery.status} t={t} />
+          <AlertDescription>{statusMessage}</AlertDescription>
+        </Alert>
 
-          <div className="grid grid-cols-2 gap-x-4 gap-y-6">
-            <div className="space-y-1.5">
-              <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                {t("deliveryId")}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+          <div className="space-y-1.5">
+            <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+              {t("deliveryId")}
+            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-foreground text-sm uppercase">
+                {delivery.id}
               </span>
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground text-sm uppercase">
-                  {delivery.id}
-                </span>
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                {t("type")}
-              </span>
-              <div className="flex items-center gap-2">
-                {isPickup ? (
-                  <ArrowDownCircle className="h-5 w-5 text-muted-foreground" />
-                ) : (
-                  <ArrowUpCircle className="h-5 w-5 text-primary" />
-                )}
-                <span className="font-medium text-foreground text-sm capitalize">
-                  {isPickup ? t("pickup") : t("delivery")}
-                </span>
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                {t("orderId")}
-              </span>
-              <Link
-                className="group flex w-fit items-center gap-2 uppercase"
-                href={`/customer-orders/${delivery.orderId}`}
-              >
-                <span className="font-medium text-foreground text-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 transition-colors group-hover:text-primary">
-                  {delivery.orderId}
-                </span>
-                <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-              </Link>
-            </div>
-
-            <div className="space-y-1.5">
-              <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                {t("requestedTime")}
-              </span>
-              <div className="flex items-center gap-2 text-foreground">
-                <span className="font-medium text-sm">
-                  {format(
-                    new Date(delivery.requestedAt),
-                    "MMM dd, yyyy, HH:mm"
-                  )}
-                </span>
-              </div>
             </div>
           </div>
 
-          <Separator />
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
-                {t("selectedAddress")}
-              </span>
-              {delivery.addressLabel && (
-                <Badge className="font-semibold uppercase" variant="default">
-                  {delivery.addressLabel}
-                </Badge>
+          <div className="space-y-1.5">
+            <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+              {t("type")}
+            </span>
+            <div className="flex items-center gap-2">
+              {isPickup ? (
+                <ArrowDownCircle className="h-5 w-5 text-muted-foreground" />
+              ) : (
+                <ArrowUpCircle className="h-5 w-5 text-primary" />
               )}
+              <span className="font-medium text-foreground text-sm capitalize">
+                {isPickup ? t("pickup") : t("delivery")}
+              </span>
             </div>
+          </div>
 
-            <div className="flex gap-3 rounded-lg border border-border bg-secondary/30 p-4">
-              <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
-              <div className="space-y-1">
-                <p className="font-medium text-foreground text-sm leading-snug">
-                  {delivery.address}
-                </p>
-                {delivery.addressNotes && (
-                  <p className="text-muted-foreground text-xs">
-                    {t("locationNote")}: {delivery.addressNotes}
-                  </p>
-                )}
-              </div>
+          <div className="space-y-1.5">
+            <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+              {t("orderId")}
+            </span>
+            <Link
+              className="group flex w-fit items-center gap-2 uppercase"
+              href={`/customer-orders/${delivery.orderId}`}
+            >
+              <span className="font-medium text-foreground text-sm underline decoration-muted-foreground/50 decoration-dotted underline-offset-4 transition-colors group-hover:text-primary">
+                {delivery.orderId}
+              </span>
+              <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+            </Link>
+          </div>
+
+          <div className="space-y-1.5">
+            <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+              {t("requestedTime")}
+            </span>
+            <div className="flex items-center gap-2 text-foreground">
+              <span className="font-medium text-sm">
+                {format(new Date(delivery.requestedAt), "MMM dd, yyyy, HH:mm")}
+              </span>
             </div>
+          </div>
+        </div>
 
-            {delivery.notes && (
-              <div className="rounded-md border border-border bg-secondary/50 p-3">
-                <div className="mb-1 flex items-center gap-2">
-                  <AlertCircle className="h-3 w-3 text-primary" />
-                  <p className="font-semibold text-foreground text-xs">
-                    {t("instructionsForDriver")}
-                  </p>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  "{delivery.notes}"
-                </p>
-              </div>
+        <Separator />
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+              {t("selectedAddress")}
+            </span>
+            {delivery.addressLabel && (
+              <Badge className="font-semibold uppercase" variant="default">
+                {delivery.addressLabel}
+              </Badge>
             )}
           </div>
-        </CardContent>
-      </Card>
-    </div>
+
+          <div className="flex gap-3 rounded-lg border border-border bg-secondary/30 p-4">
+            <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+            <div className="space-y-1">
+              <p className="font-medium text-foreground text-sm leading-snug">
+                {delivery.address}
+              </p>
+              {delivery.addressNotes && (
+                <p className="text-muted-foreground text-xs">
+                  {t("locationNote")}: {delivery.addressNotes}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {delivery.notes && (
+            <div className="rounded-md border border-border bg-secondary/50 p-3">
+              <div className="mb-1 flex items-center gap-2">
+                <AlertCircle className="h-3 w-3 text-primary" />
+                <p className="font-semibold text-foreground text-xs">
+                  {t("instructionsForDriver")}
+                </p>
+              </div>
+              <p className="text-muted-foreground text-sm">
+                "{delivery.notes}"
+              </p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

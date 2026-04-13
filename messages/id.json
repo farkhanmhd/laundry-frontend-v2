@@ -698,23 +698,19 @@
       "noUsername": "Tanpa nama pengguna"
     },
     "actions": {
-      "openMenu": "Buka menu",
-      "actions": "Tindakan",
-      "copyUserId": "Salin ID Pengguna",
-      "viewDetails": "Lihat Detail",
-      "setAsUser": "Jadikan Pengguna",
-      "setAsAdmin": "Jadikan Admin",
-      "banUser": "Blokir Pengguna"
+      "buttonLabel": "Perbarui peran",
+      "setAsUser": "Cabut",
+      "setAsAdmin": "Beri"
     },
     "roleDialog": {
       "failedUpdate": "Gagal memperbarui peran",
-      "demotedToUser": "diturunkan menjadi Pengguna",
-      "promotedToUser": "dinaikkan menjadi Admin",
+      "demotedToUser": "{name} diubah menjadi Pengguna",
+      "promotedToAdmin": "{name} diubah menjadi Admin",
       "unexpectedError": "Terjadi kesalahan tak terduga",
       "revokeAdminTitle": "Cabut akses admin?",
       "grantAdminTitle": "Berikan akses admin?",
-      "revokeDescription": "Mereka akan kehilangan akses dasbor",
-      "grantDescription": "hak administratif penuh",
+      "revokeDescription": "Apakah Anda yakin ingin menurunkan {name}? Mereka akan kehilangan akses dasbor.",
+      "grantDescription": "Apakah Anda yakin ingin menaikkan {name}? Mereka akan memiliki hak administratif penuh.",
       "cancel": "Batal",
       "revokeAccess": "Cabut Akses",
       "confirmAdmin": "Konfirmasi Admin"
@@ -866,7 +862,8 @@
       "confirmPayment": "Konfirmasi Pembayaran",
       "cancel": "Batal",
       "payNow": "Bayar Sekarang",
-      "confirmAddress": "Konfirmasi Pengiriman"
+      "confirmAddress": "Konfirmasi Pengiriman",
+      "cancelPickupRequest": "Batalkan Permintaan Jemput"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
@@ -17,6 +18,7 @@ import { authClient } from "@/lib/modules/auth/auth-client";
 import { useUserTableDialog } from "./state";
 
 export function UpdateUserRoleDialog() {
+  const t = useTranslations("Users.roleDialog");
   const { isRoleDialogOpen, isUserAdmin, user, closeUserDialog } =
     useUserTableDialog();
   const [isLoading, setIsLoading] = useState(false);
@@ -32,18 +34,21 @@ export function UpdateUserRoleDialog() {
       });
 
       if (error) {
-        toast.error("Failed to update role");
+        toast.error(t("failedUpdate"));
         setIsLoading(false);
+        return;
       }
 
       toast.success(
-        `User ${isUserAdmin ? "demoted to User" : "promoted to Admin"}`
+        t(isUserAdmin ? "demotedToUser" : "promotedToAdmin", {
+          name: user?.name ?? "",
+        })
       );
 
       router.refresh();
       closeUserDialog();
     } catch {
-      toast.error("An unexpected error occurred");
+      toast.error(t("unexpectedError"));
     } finally {
       setIsLoading(false);
     }
@@ -53,24 +58,26 @@ export function UpdateUserRoleDialog() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {isUserAdmin ? "Revoke admin access?" : "Grant admin access?"}
+            {isUserAdmin ? t("revokeAdminTitle") : t("grantAdminTitle")}
           </AlertDialogTitle>
           <AlertDialogDescription>
             {isUserAdmin
-              ? `Are you sure you want to demote ${user?.name}? They will lose dashboard access.`
-              : `Are you sure you want to promote ${user?.name}? They will have full administrative privileges.`}
+              ? t("revokeDescription", { name: user?.name ?? "" })
+              : t("grantDescription", { name: user?.name ?? "" })}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>
+            {t("cancel")}
+          </AlertDialogCancel>
 
           <Button
             disabled={isLoading}
             onClick={handleUpdateRole}
             variant={isUserAdmin ? "destructive" : "default"}
           >
-            {isUserAdmin ? "Revoke Access" : "Confirm Admin"}
+            {isUserAdmin ? t("revokeAccess") : t("confirmAdmin")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

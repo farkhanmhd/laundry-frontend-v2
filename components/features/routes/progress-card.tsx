@@ -282,7 +282,7 @@ export function ProgressCard({ routeId, deliveries }: Props) {
         <div className="flex flex-col gap-3 sm:flex-row">
           {showMap ? (
             <Button
-              className="w-full"
+              className="flex-1"
               onClick={() => setShowMap(false)}
               variant="outline"
             >

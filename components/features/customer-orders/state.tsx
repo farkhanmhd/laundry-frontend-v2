@@ -1,10 +1,9 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useParams, useRouter } from "next/navigation";
-import { useAction } from "next-safe-action/hooks";
 import {
   type ChangeEvent,
   createContext,
@@ -17,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
-import { createPickupRequest } from "@/lib/modules/customer-orders/actions";
+import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
 import type { RequestPickupSchema } from "@/lib/modules/customer-orders/schema";
 import type { PosItemData, PosVoucher } from "@/lib/modules/pos/data";
 import { getMaxDiscount, type PosOrderItem } from "@/lib/modules/pos/state";
@@ -60,13 +59,30 @@ export const useCustomerOrder = () => {
   const [customerCart, setCustomerCart] = useAtom(customerOrderAtom);
   const { push } = useRouter();
 
-  const { execute, isPending } = useAction(createPickupRequest, {
-    onSuccess: ({ data: result }) => {
-      if (result && result.status === "success") {
-        toast.success(result.message);
-        push(`/customer-orders/${result.data?.orderId}`);
+  const createPickupRequestMutation = useMutation({
+    mutationFn: (data: RequestPickupSchema) =>
+      CustomerOrdersApi.createPickupRequest(data),
+    onSuccess: (response) => {
+      if (!response) {
+        toast.error("Something went wrong");
+        return;
+      }
+
+      if (response.status !== 201) {
+        toast.error(
+          `Something went wrong. ${response.error?.value.message ?? ""}`.trim()
+        );
+        return;
+      }
+
+      if (response.data) {
+        toast.success(response.data.message);
+        push(`/customer-orders/${response.data.data.orderId}`);
         clearCustomerCart();
       }
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : String(error));
     },
   });
 
@@ -89,7 +105,7 @@ export const useCustomerOrder = () => {
         });
       }
 
-      execute(data);
+      createPickupRequestMutation.mutate(data);
     }
   };
 
@@ -334,8 +350,8 @@ export const useCustomerOrder = () => {
     clearCustomerCart,
     selectedAddress,
     handleSelectAddress,
-    execute,
-    isPending,
+    execute: createPickupRequestMutation.mutate,
+    isPending: createPickupRequestMutation.isPending,
     submitPickupRequest,
     canRequestPickup,
   };

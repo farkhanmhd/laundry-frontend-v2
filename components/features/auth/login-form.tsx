@@ -88,15 +88,6 @@ export function LoginForm({
               placeholder={t("passwordPlaceholder")}
               type="password"
             />
-            {/* Forgot password — placed right under the password field */}
-            <div className="flex justify-end">
-              <Link
-                className="text-[12px] text-muted-foreground/70 transition-colors hover:text-primary"
-                href="/forgot-password"
-              >
-                Forgot password?
-              </Link>
-            </div>
           </div>
         </div>
 

@@ -3,7 +3,7 @@
 import { MapPin, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useCustomerOrderAddress } from "./state";
+import { useCustomerOrderDetail } from "./customer-order-detail-context";
 
 type Props = {
   hasExistingDeliveries: boolean;
@@ -30,9 +30,9 @@ export function RequestDeliverySection({
     setSelectingAddress,
     selectedAddress,
     setSelectedAddress,
-    isPending,
-    handleSubmit,
-  } = useCustomerOrderAddress();
+    isRequestingDelivery,
+    requestDelivery,
+  } = useCustomerOrderDetail();
 
   return (
     <>
@@ -51,7 +51,7 @@ export function RequestDeliverySection({
                     ? "border-primary bg-primary/5"
                     : "border-border"
                 }`}
-                disabled={isPending}
+                disabled={isRequestingDelivery}
                 key={address.id}
                 onClick={() => setSelectedAddress(address.id)}
                 type="button"
@@ -67,7 +67,7 @@ export function RequestDeliverySection({
           <div className="flex gap-2 pt-1">
             <Button
               className="flex-1"
-              disabled={isPending}
+              disabled={isRequestingDelivery}
               onClick={() => {
                 setSelectingAddress(false);
                 setSelectedAddress(null);
@@ -78,8 +78,8 @@ export function RequestDeliverySection({
             </Button>
             <Button
               className="flex-1"
-              disabled={!selectedAddress || isPending}
-              onClick={handleSubmit}
+              disabled={!selectedAddress || isRequestingDelivery}
+              onClick={requestDelivery}
             >
               {labels.confirmAddress}
             </Button>

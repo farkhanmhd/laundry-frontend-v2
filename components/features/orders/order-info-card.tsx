@@ -8,21 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
-import type { OrderDelivery } from "@/lib/modules/orders/data";
 import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
+import { useOrderDetail } from "./order-detail-context";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
 
-interface OrderInfoProps {
-  id: string;
-  deliveries: OrderDelivery[];
-  data: {
-    status: "pending" | "processing" | "ready" | "completed" | "cancelled";
-    createdAt: string;
-  };
-}
+// interface OrderInfoProps {
+//   id: string;
+//   deliveries: OrderDelivery[];
+//   data: {
+//     status: "pending" | "processing" | "ready" | "completed" | "cancelled";
+//     createdAt: string;
+//   };
+// }
 
-export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
+export const OrderInfoCard = () => {
   const t = useTranslations("Orders.orderInfo");
+  const { orderInfo, deliveries, id } = useOrderDetail();
   const { setData, onOpenChange } = useAlertDialog<UpdateOrderStatusData>();
 
   const handleStatusUpdate = (
@@ -35,7 +36,7 @@ export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
     onOpenChange(true);
   };
 
-  const needDelivery = deliveries.some((d) => d.type === "delivery");
+  const needDelivery = deliveries?.some((d) => d.type === "delivery");
 
   const orderStatus = {
     cancelled: <Badge variant="destructive">{t("cancelled")}</Badge>,
@@ -56,6 +57,10 @@ export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
     completed: <Badge>{t("completed")}</Badge>,
   };
 
+  if (!orderInfo) {
+    return null;
+  }
+
   return (
     <Card className="w-full" style={cardShadowStyle}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -63,7 +68,7 @@ export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
           <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
           {t("orderInformation")}
         </CardTitle>
-        {orderStatus[data.status as keyof typeof orderStatus]}
+        {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
       </CardHeader>
 
       <Separator className="mb-4" />
@@ -82,11 +87,11 @@ export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
             <Badge
               className={cn(
                 "px-2 py-0.5 text-[10px] uppercase shadow-none",
-                getStatusColor(data.status)
+                getStatusColor(orderInfo?.status || "pending")
               )}
               variant="outline"
             >
-              {data.status}
+              {orderInfo?.status}
             </Badge>
           </div>
         </div>
@@ -96,7 +101,7 @@ export const OrderInfoCard = ({ id, data, deliveries }: OrderInfoProps) => {
             {t("createdAt")}
           </span>
           <span className="font-medium text-foreground text-sm">
-            <Client>{formatDate(data.createdAt)}</Client>
+            <Client>{formatDate(orderInfo?.createdAt)}</Client>
           </span>
         </div>
       </CardContent>

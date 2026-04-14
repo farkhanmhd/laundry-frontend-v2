@@ -2,25 +2,26 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import { DeliverSelectedDelivery } from "@/components/features/deliveries/deliver-selected-delivery";
-import { useDeliveryColumns } from "@/components/features/deliveries/delivery-columns";
+import { useUserColumns } from "@/components/features/users/columns";
+import { CreateUserDialog } from "@/components/features/users/create-user-dialog";
+import { UpdateUserRoleDialog } from "@/components/features/users/user-role-dialog";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableSkeleton } from "@/components/table/table-skeleton";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { TableView } from "@/components/table/table-view";
-import { OrderDeliveryError } from "@/components/utils/error-cards";
-import { DeliveriesApi } from "@/lib/modules/deliveries/data";
+import { UsersError } from "@/components/utils/error-cards";
+import { UsersApi } from "@/lib/modules/users/data";
 
-const DeliveriesTableContent = () => {
+const UsersTableContent = () => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") || "";
   const page = Number(searchParams.get("page")) || 1;
   const rows = Number(searchParams.get("rows")) || 50;
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["deliveries", { search, page, rows }],
-    queryFn: () => DeliveriesApi.getDeliveries({ search, page, rows }),
+    queryKey: ["users", { search, page, rows }],
+    queryFn: () => UsersApi.getUsers({ search, page, rows }),
   });
 
   if (isLoading) {
@@ -30,26 +31,31 @@ const DeliveriesTableContent = () => {
   if (isError) {
     return (
       <div className="p-6">
-        <OrderDeliveryError reset={() => refetch()} />
+        <UsersError reset={() => refetch()} />
       </div>
     );
   }
 
-  return <TableView data={data} />;
+  return (
+    <>
+      <TableView data={data?.users} total={data?.total} />
+      <UpdateUserRoleDialog />
+    </>
+  );
 };
 
-const DeliveriesPage = () => {
-  const columns = useDeliveryColumns();
+const UsersTablePage = () => {
+  const userColumns = useUserColumns();
 
   return (
-    <TableProvider columns={columns} manualPagination>
+    <TableProvider columns={userColumns} manualPagination>
       <TableToolbar>
-        <DeliverSelectedDelivery />
+        <CreateUserDialog />
       </TableToolbar>
-      <DeliveriesTableContent />
+      <UsersTableContent />
       <TablePagination />
     </TableProvider>
   );
 };
 
-export default DeliveriesPage;
+export default UsersTablePage;

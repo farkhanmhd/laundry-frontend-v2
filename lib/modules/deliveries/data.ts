@@ -1,5 +1,4 @@
 import { elysia } from "@/elysia";
-import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 
 export type PickupsQuery = SearchQuery & {
@@ -10,10 +9,12 @@ export type DeliveriesQuery = SearchQuery & {
   status?: "cancelled" | "completed" | "requested" | "in_progress" | "assigned";
 };
 
-export abstract class PickupsApi extends BaseApi {
+export abstract class PickupsApi {
   static async getPickups(query: PickupsQuery) {
     const { data: response } = await elysia.deliveries.pickups.get({
-      ...(await PickupsApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -22,10 +23,12 @@ export abstract class PickupsApi extends BaseApi {
   }
 }
 
-export abstract class DeliveriesApi extends BaseApi {
+export abstract class DeliveriesApi {
   static async getDeliveries(query: DeliveriesQuery) {
     const { data: response } = await elysia.deliveries.deliveries.get({
-      ...(await DeliveriesApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 

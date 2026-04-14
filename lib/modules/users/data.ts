@@ -1,14 +1,14 @@
-import { headers } from "next/headers";
 import { elysia } from "@/elysia";
-import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 import { authClient } from "../auth/auth-client";
-import type { UpdateRoleSchema } from "./schema";
+import type { CreateCashierSchema, UpdateRoleSchema } from "./schema";
 
-export abstract class UsersApi extends BaseApi {
+export abstract class UsersApi {
   static async getUsers(query: SearchQuery) {
     const { data: response } = await elysia.users.get({
-      ...(await UsersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -18,16 +18,12 @@ export abstract class UsersApi extends BaseApi {
 
   static async updateUserRole(body: UpdateRoleSchema) {
     const { userId, role } = body;
-    const headerList = await headers();
-    const cookieHeader = headerList.get("cookie") || "";
 
     const { data, error } = await authClient.admin.setRole({
       userId,
       role,
       fetchOptions: {
-        headers: {
-          Cookie: cookieHeader,
-        },
+        credentials: "include",
         body: {
           userId,
           role,
@@ -36,6 +32,16 @@ export abstract class UsersApi extends BaseApi {
     });
 
     return { data, error };
+  }
+
+  static async createCashier(body: CreateCashierSchema) {
+    const response = await elysia.users.cashier.post(body, {
+      fetch: {
+        credentials: "include",
+      },
+    });
+
+    return response;
   }
 }
 

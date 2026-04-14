@@ -1,16 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { LoaderIcon, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  type CreateUserSchema,
-  createUserSchema,
-} from "@/components/features/users/schema";
 import { FormInput } from "@/components/forms/form-input";
 import {
   AlertDialog,
@@ -22,14 +18,19 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { UsersApi } from "@/lib/modules/users/data";
+import {
+  type CreateCashierSchema,
+  createCashierSchema,
+} from "@/lib/modules/users/schema";
 
 export function CreateUserDialog() {
   const t = useTranslations("Users.createUserDialog");
-  const { push } = useRouter();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
-  const form = useForm<CreateUserSchema>({
-    resolver: zodResolver(createUserSchema),
+  const form = useForm<CreateCashierSchema>({
+    resolver: zodResolver(createCashierSchema),
     defaultValues: {
       name: "",
       username: "",
@@ -38,13 +39,19 @@ export function CreateUserDialog() {
     },
   });
 
-  const onSubmit = (data: CreateUserSchema) => {
+  const onSubmit = async (data: CreateCashierSchema) => {
     try {
-      console.log("Create user data:", data);
+      const response = await UsersApi.createCashier(data);
+
+      if (response.error) {
+        toast.error(response.error.value?.message || t("errorMessage"));
+        return;
+      }
+
       toast.success(t("successMessage"));
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       setOpen(false);
       form.reset();
-      push("/users");
     } catch {
       toast.error(t("errorMessage"));
     }
@@ -97,7 +104,6 @@ export function CreateUserDialog() {
             placeholder={t("phoneNumberPlaceholder")}
             type="tel"
           />
-
           <AlertDialogFooter className="mt-2">
             <AlertDialogCancel disabled={form.formState.isSubmitting}>
               {t("cancel")}

@@ -1,17 +1,18 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { Check, CheckCheck } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Client } from "@/components/utils/client";
 import type { Order } from "@/lib/modules/orders/data";
 import { cn, formatToIDR } from "@/lib/utils";
@@ -131,6 +132,10 @@ export const ordersColumns: ColumnDef<Order>[] = [
       const { setData, onOpenChange } = useAlertDialog<UpdateOrderStatusData>();
       const status = row.original.status;
 
+      if (["completed", "cancelled"].includes(status)) {
+        return null;
+      }
+
       const handleStatusUpdate = (
         newStatus: UpdateOrderStatusData["newStatus"]
       ) => {
@@ -141,25 +146,45 @@ export const ordersColumns: ColumnDef<Order>[] = [
         onOpenChange(true);
       };
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">⋯</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {status === "processing" && (
-              <DropdownMenuItem onClick={() => handleStatusUpdate("ready")}>
-                {t("markAsReady")}
-              </DropdownMenuItem>
-            )}
-            {status === "ready" && (
-              <DropdownMenuItem onClick={() => handleStatusUpdate("completed")}>
-                {t("markAsCompleted")}
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      if (status === "processing") {
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => handleStatusUpdate("ready")}
+                  size="icon"
+                  variant="outline"
+                >
+                  <Check className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t("markAsReady")}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      }
+
+      if (status === "ready") {
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => handleStatusUpdate("completed")}
+                  size="icon"
+                  variant="outline"
+                >
+                  <CheckCheck className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t("markAsCompleted")}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      }
+
+      return null;
     },
   },
 ];

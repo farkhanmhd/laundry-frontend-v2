@@ -20,19 +20,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Client } from "@/components/utils/client";
-import type { OrderDetailResponse } from "@/lib/modules/orders/data";
 import { cardShadowStyle, formatToIDR } from "@/lib/utils";
+import { useOrderDetail } from "./order-detail-context";
 
-interface OrderItemsCardProps {
-  data: OrderDetailResponse;
-}
-
-export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
+export const OrderItemsCard = () => {
   const t = useTranslations("Orders.items");
-  const { items, voucher, points } = data;
+  const { items: data } = useOrderDetail();
+  const items = data?.items;
+  const voucher = data?.voucher;
+  const points = data?.points;
 
   const subTotal = useMemo(
-    () => items.reduce((acc, curr) => acc + curr.subtotal, 0),
+    () => items?.reduce((acc, curr) => acc + curr.subtotal, 0) || 0,
     [items]
   );
 
@@ -69,7 +68,7 @@ export const OrderItemsCard = ({ data }: OrderItemsCardProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
+              {items?.map((item) => (
                 <TableRow
                   className="align-top hover:bg-transparent"
                   key={item.id}

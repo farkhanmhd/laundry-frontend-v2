@@ -10,15 +10,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { OrderDelivery } from "@/lib/modules/orders/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
+import { useOrderDetail } from "./order-detail-context";
 
 type DeliveryStatus = OrderDelivery["status"];
-interface OrderDeliveryCardProps {
-  items: OrderDelivery[];
-}
 
-export const OrderDeliveryCard = ({ items }: OrderDeliveryCardProps) => {
+export const OrderDeliveryCard = () => {
   const t = useTranslations("Orders.delivery");
-  const sortedDeliveries = [...items]
+  const { deliveries } = useOrderDetail();
+  const sortedDeliveries = [...(deliveries || [])]
     .sort((a) => (a.type === "pickup" ? -1 : 1))
     .slice(0, 2);
 

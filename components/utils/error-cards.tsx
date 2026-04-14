@@ -156,3 +156,17 @@ export const OrderInfoError = (props: ErrorCardProps) => {
     />
   );
 };
+
+// ----------------------------------------------------------------------
+// 6. Users Management Error
+// ----------------------------------------------------------------------
+export const UsersError = (props: ErrorCardProps) => {
+  return (
+    <BaseErrorCard
+      {...props}
+      icon={User}
+      label="Users"
+      title="User Management"
+    />
+  );
+};

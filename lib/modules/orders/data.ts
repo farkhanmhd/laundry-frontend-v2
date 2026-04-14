@@ -1,12 +1,13 @@
 import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
-import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 
-export abstract class OrdersApi extends BaseApi {
+export abstract class OrdersApi {
   static async getOrders(query: SearchQuery) {
     const { data: response } = await elysia.orders.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
       query,
     });
 
@@ -16,7 +17,9 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderStatus(id: string) {
     const { data: response } = await elysia.orders({ id }).status.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
@@ -25,7 +28,9 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderItems(id: string) {
     const { data: response } = await elysia.orders({ id }).items.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
@@ -34,7 +39,9 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderPayment(id: string) {
     const { data: response } = await elysia.orders({ id }).payment.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
@@ -43,7 +50,9 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderCustomer(id: string) {
     const { data: response } = await elysia.orders({ id }).customer.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
@@ -52,7 +61,9 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderDeliveries(id: string) {
     const { data: response } = await elysia.orders({ id }).deliveries.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
@@ -61,13 +72,27 @@ export abstract class OrdersApi extends BaseApi {
 
   static async getOrderPaymentDetails(id: string) {
     const { data: response } = await elysia.orders({ id }).payment_details.get({
-      ...(await OrdersApi.getConfig()),
+      fetch: {
+        credentials: "include",
+      },
     });
 
     const data = response?.data;
     return data;
   }
 }
+
+export type OrderStatusResponse = NonNullable<
+  Awaited<ReturnType<typeof OrdersApi.getOrderStatus>>
+>;
+
+export type OrderPaymentResponse = NonNullable<
+  Awaited<ReturnType<typeof OrdersApi.getOrderPayment>>
+>;
+
+export type OrderCustomerResponse = NonNullable<
+  Awaited<ReturnType<typeof OrdersApi.getOrderCustomer>>
+>;
 
 export type Order = NonNullable<
   Awaited<ReturnType<typeof OrdersApi.getOrders>>
@@ -76,6 +101,7 @@ export type Order = NonNullable<
 export type OrderDetailResponse = NonNullable<
   Awaited<ReturnType<typeof OrdersApi.getOrderItems>>
 >;
+
 export type OrderDetailItem = NonNullable<
   Awaited<ReturnType<typeof OrdersApi.getOrderItems>>
 >["items"][number];

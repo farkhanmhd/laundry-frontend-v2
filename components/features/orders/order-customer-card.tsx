@@ -3,16 +3,10 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cardShadowStyle } from "@/lib/utils";
+import { useOrderDetail } from "./order-detail-context";
 
-interface OrderCustomerProps {
-  data: {
-    name: string | null;
-    phone: string | null;
-    memberId: string | null;
-  };
-}
-
-export const OrderCustomerCard = ({ data }: OrderCustomerProps) => {
+export const OrderCustomerCard = () => {
+  const { customer } = useOrderDetail();
   const t = useTranslations("Orders.customer");
 
   return (
@@ -30,8 +24,10 @@ export const OrderCustomerCard = ({ data }: OrderCustomerProps) => {
             {t("customerName")}
           </span>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-foreground">{data.name}</span>
-            {data.memberId && (
+            <span className="font-medium text-foreground">
+              {customer?.name}
+            </span>
+            {customer?.memberId && (
               <Badge
                 className="flex h-5 items-center gap-1 border border-amber-200 bg-amber-100 px-1.5 py-0 font-semibold text-[10px] text-amber-600 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/40 dark:text-amber-400"
                 variant="secondary"
@@ -43,12 +39,14 @@ export const OrderCustomerCard = ({ data }: OrderCustomerProps) => {
           </div>
         </div>
 
-        {data.phone && (
+        {customer?.phone && (
           <div className="flex flex-col gap-1">
             <span className="text-muted-foreground text-sm">
               {t("phoneNumber")}
             </span>
-            <span className="font-medium text-foreground">{data.phone}</span>
+            <span className="font-medium text-foreground">
+              {customer?.phone}
+            </span>
           </div>
         )}
       </CardContent>

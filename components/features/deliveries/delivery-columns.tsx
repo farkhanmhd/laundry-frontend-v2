@@ -96,7 +96,7 @@ export const useDeliveryColumns = () => {
     },
     {
       accessorKey: "status",
-      header: t("status"),
+      header: "Status",
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
 

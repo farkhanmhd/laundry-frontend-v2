@@ -26,7 +26,7 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           <Image
             alt={t("table.image")}
-            className="max-h-[60px] rounded-lg"
+            className="max-h-15 rounded-lg"
             height={60}
             src={row.getValue("image") || "/placeholder.svg"}
             width={60}

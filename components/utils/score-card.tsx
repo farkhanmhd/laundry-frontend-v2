@@ -22,7 +22,7 @@ export const ScoreCard = ({
   value,
 }: ScoreCardProps) => {
   return (
-    <Card style={cardShadowStyle}>
+    <Card className="h-full w-full" style={cardShadowStyle}>
       <CardHeader>
         <div className="flex w-full items-center justify-between">
           <CardTitle className="font-medium text-accent-foreground">

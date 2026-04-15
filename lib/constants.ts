@@ -112,4 +112,73 @@ export const customerNavData: NavItem[] = [
   },
 ];
 
+export const adminMobileNavData: NavItem[] = [
+  {
+    title: "POS",
+    url: "/pos",
+    icon: Monitor,
+  },
+  {
+    title: "Orders",
+    url: "/orders",
+    icon: ListTodo,
+  },
+  {
+    title: "Pickups",
+    url: "/pickups",
+    icon: Truck,
+  },
+  {
+    title: "Deliveries",
+    url: "/deliveries",
+    icon: Motorbike,
+  },
+];
+
+export const superAdminMobileNavData: NavItem[] = [
+  {
+    title: "POS",
+    url: "/pos",
+    icon: Monitor,
+  },
+  {
+    title: "Inventory",
+    url: "/inventories",
+    icon: Archive,
+  },
+  {
+    title: "Sales",
+    url: "/sales",
+    icon: ChartColumnIncreasing,
+  },
+  {
+    title: "Users",
+    url: "/users",
+    icon: ShieldUser,
+  },
+];
+
+export const customerMobileNavData: NavItem[] = [
+  {
+    title: "Home",
+    url: "/dashboard",
+    icon: Home,
+  },
+  {
+    title: "Orders",
+    url: "/customer-orders",
+    icon: ListTodo,
+  },
+  {
+    title: "Deliveries",
+    url: "/customer-deliveries",
+    icon: Truck,
+  },
+  {
+    title: "Account",
+    url: "/account",
+    icon: User,
+  },
+];
+
 export const LAUNDRY_POINT_ZERO: [number, number] = [98.7525, 3.5911];

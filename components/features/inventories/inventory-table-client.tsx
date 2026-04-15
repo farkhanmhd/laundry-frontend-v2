@@ -21,47 +21,113 @@ export const InventoryTableClient = ({ data }: Props) => {
   const { data: session } = authClient.useSession();
   const role = session?.user.role;
   const columns = useInventoryColumns();
+
   return (
     <TableProvider columns={columns}>
       <Card
         className="gap-0 overflow-hidden p-0 dark:bg-background"
         style={cardShadowStyle}
       >
-        <CardHeader className="flex items-center justify-between border-b px-4 pt-6 pb-0 dark:bg-background">
-          <CardTitle className="hidden md:block">{t("title")}</CardTitle>
-          {role === "superadmin" && (
-            <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
-              <div className="flex items-center gap-3">
-                <Button variant="outline">Export</Button>
+        <CardHeader className="border-b px-4 py-3 dark:bg-background">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base md:text-lg">{t("title")}</CardTitle>
+
+            {role === "superadmin" && (
+              /* Desktop: single row */
+              <div className="hidden items-center gap-2 lg:flex">
+                <Button size="sm" variant="outline">
+                  Export
+                </Button>
                 <Link
-                  className={cn(buttonVariants({ variant: "outline" }))}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
                   href="/inventories/adjustments"
                 >
-                  <TableOfContents />
+                  <TableOfContents className="h-3.5 w-3.5" />
                   {t("logs.adjustmentButton")}
                 </Link>
                 <Link
-                  className={cn(buttonVariants({ variant: "outline" }))}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
                   href="/inventories/usage"
                 >
-                  <TableOfContents />
+                  <TableOfContents className="h-3.5 w-3.5" />
                   {t("logs.usageButton")}
                 </Link>
                 <Link
-                  className={cn(buttonVariants({ variant: "outline" }))}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" })
+                  )}
                   href="/inventories/restocks"
                 >
-                  <TableOfContents />
+                  <TableOfContents className="h-3.5 w-3.5" />
                   {t("logs.restockButton")}
                 </Link>
-                <Link className={cn(buttonVariants())} href="/inventories/new">
-                  <Plus />
+                <Link
+                  className={cn(buttonVariants({ size: "sm" }))}
+                  href="/inventories/new"
+                >
+                  <Plus className="h-3.5 w-3.5" />
                   {t("form.product")}
                 </Link>
               </div>
+            )}
+          </div>
+
+          {role === "superadmin" && (
+            /* Mobile: 2x2 grid + full-width add button */
+            <div className="mt-3 flex flex-col gap-2 lg:hidden">
+              <div className="grid grid-cols-2 gap-2">
+                <Button className="w-full" size="sm" variant="outline">
+                  Export
+                </Button>
+                <Link
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "w-full justify-center"
+                  )}
+                  href="/inventories/adjustments"
+                >
+                  <TableOfContents className="h-3.5 w-3.5 shrink-0" />
+                  {t("logs.adjustmentButton").split(" ").at(-1)}
+                </Link>
+                <Link
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "w-full justify-center"
+                  )}
+                  href="/inventories/usage"
+                >
+                  <TableOfContents className="h-3.5 w-3.5 shrink-0" />
+                  {t("logs.usageButton").split(" ").at(-1)}
+                </Link>
+                <Link
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "w-full justify-center"
+                  )}
+                  href="/inventories/restocks"
+                >
+                  <TableOfContents className="h-3.5 w-3.5 shrink-0" />
+                  {t("logs.restockButton").split(" ").at(-1)}
+                </Link>
+              </div>
+              <Link
+                className={cn(
+                  buttonVariants({ size: "sm" }),
+                  "w-full justify-center"
+                )}
+                href="/inventories/new"
+              >
+                <Plus className="h-3.5 w-3.5 shrink-0" />
+                {t("form.product")}
+              </Link>
             </div>
           )}
         </CardHeader>
+
         <CardContent className="p-0 dark:bg-background">
           <TableViewProvider data={data} withPagination={false} />
         </CardContent>

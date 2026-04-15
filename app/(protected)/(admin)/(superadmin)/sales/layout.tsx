@@ -6,7 +6,7 @@ import { SalesReportTitle } from "@/components/features/sales/sales-report-title
 import { useSalesTab } from "@/components/features/sales/sales-state";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cardShadowStyle, salesTabLists } from "@/lib/utils";
+import { cardShadowStyle, cn, salesTabLists } from "@/lib/utils";
 
 interface SalesTablesLayoutProps {
   children: React.ReactNode;
@@ -56,12 +56,24 @@ const SalesLayout = ({
           </TabsList>
         </div>
         <div className="space-y-6">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="flex flex-col justify-between gap-4 md:flex-row">
             <div className="w-full">
               <SalesReportTitle />
             </div>
-            <div className="flex gap-1">
-              {date}
+            <div
+              className={cn("grid w-full gap-2", {
+                "grid-cols-2 xl:grid-cols-4": tab === "orders",
+                "grid-cols-3 xl:grid-cols-5": tab === "overview",
+              })}
+            >
+              <div
+                className={cn({
+                  "col-span-3 xl:col-span-2": tab === "overview",
+                  "col-span-2": tab === "orders",
+                })}
+              >
+                {date}
+              </div>
               <Button style={cardShadowStyle} variant="outline">
                 <Download />
                 Export

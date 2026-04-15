@@ -35,7 +35,9 @@ const MemberReportCards = async (props: MemberReportsPageProps) => {
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         <TotalItemsCard />
         <TotalUsageCard query={query} />
-        <AverageUsageCard query={query} />
+        <div className="md:col-span-2 xl:col-span-1">
+          <AverageUsageCard query={query} />
+        </div>
       </div>
     </div>
   );

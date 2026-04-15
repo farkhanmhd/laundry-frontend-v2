@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { Voucher } from "@/lib/modules/vouchers/data";
-// import { Checkbox } from "@/components/ui/checkbox";
 import { cn, formatToIDR } from "@/lib/utils";
 
 export const useVoucherColumns = (): ColumnDef<Voucher>[] => {

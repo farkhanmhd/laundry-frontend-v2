@@ -3,18 +3,12 @@ import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
 const PUBLIC_PATHS = ["/login", "/register"];
 
-// Prefix-based public routes — any path starting with these is public
-const PUBLIC_PREFIXES = ["/track"];
-
 export async function middleware(request: NextRequest) {
   try {
     const session = await getMiddlewareSession();
     const nextUrl = request.nextUrl.pathname;
-    const isPublicPath = PUBLIC_PATHS.includes(nextUrl);
-    const isPublicPrefix = PUBLIC_PREFIXES.some((prefix) =>
-      nextUrl.startsWith(prefix)
-    );
-    const isPublic = isPublicPath || isPublicPrefix;
+
+    const isPublic = PUBLIC_PATHS.includes(nextUrl);
 
     // Case 1: No session, and not on a public page -> redirect to login
     if (!(session || isPublic)) {
@@ -25,7 +19,7 @@ export async function middleware(request: NextRequest) {
     // Case 2: Session exists, but user is on a public or root page -> redirect to dashboard
     if (
       session &&
-      (isPublicPath || nextUrl === "/maintenance" || nextUrl === "/")
+      (isPublic || nextUrl === "/maintenance" || nextUrl === "/")
     ) {
       const dashboardUrl = new URL("/dashboard", request.nextUrl.origin);
       return NextResponse.redirect(dashboardUrl);
@@ -37,11 +31,7 @@ export async function middleware(request: NextRequest) {
     const currentPath = request.nextUrl.pathname;
 
     // If the auth service fails, allow public paths and maintenance through
-    if (
-      currentPath === "/maintenance" ||
-      PUBLIC_PATHS.includes(currentPath) ||
-      PUBLIC_PREFIXES.some((prefix) => currentPath.startsWith(prefix))
-    ) {
+    if (currentPath === "/maintenance" || PUBLIC_PATHS.includes(currentPath)) {
       return NextResponse.next();
     }
 

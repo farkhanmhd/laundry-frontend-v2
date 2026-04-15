@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Check, CheckCheck } from "lucide-react";
+import { Check, CircleCheck } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
@@ -154,7 +154,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
                 <Button
                   onClick={() => handleStatusUpdate("ready")}
                   size="icon"
-                  variant="outline"
+                  variant="secondary"
                 >
                   <Check className="h-4 w-4" />
                 </Button>
@@ -173,9 +173,8 @@ export const ordersColumns: ColumnDef<Order>[] = [
                 <Button
                   onClick={() => handleStatusUpdate("completed")}
                   size="icon"
-                  variant="outline"
                 >
-                  <CheckCheck className="h-4 w-4" />
+                  <CircleCheck className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{t("markAsCompleted")}</TooltipContent>

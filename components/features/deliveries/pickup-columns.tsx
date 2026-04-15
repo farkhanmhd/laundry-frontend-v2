@@ -103,13 +103,13 @@ export const usePickupColumns = () => {
         const getVariant = (s: string) => {
           switch (s) {
             case "requested":
-              return "secondary";
+              return "outline";
             case "assigned":
-              return "outline";
+              return "secondary";
             case "in_progress":
-              return "default";
+              return "secondary";
             case "completed":
-              return "outline";
+              return "default";
             case "cancelled":
               return "destructive";
             default:

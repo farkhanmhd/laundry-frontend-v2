@@ -16,7 +16,7 @@ export abstract class UsersApi {
     return data;
   }
 
-  static async updateUserRole(body: UpdateRoleSchema) {
+  static async updaterequiredRole(body: UpdateRoleSchema) {
     const { userId, role } = body;
 
     const { data, error } = await authClient.admin.setRole({

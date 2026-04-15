@@ -8,6 +8,7 @@ import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { buttonVariants } from "@/components/ui/button";
+import { AuthorizedComponent } from "@/components/utils/authorize-component";
 import { cn } from "@/lib/utils";
 
 const ServicesLayout = ({ children }: { children: React.ReactNode }) => {
@@ -16,13 +17,15 @@ const ServicesLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <TableProvider columns={columns}>
       <TableToolbar>
-        <Link
-          className={cn(buttonVariants(), "rounded-none")}
-          href="/services/new"
-        >
-          <Plus />
-          {t("form.serviceName")}
-        </Link>
+        <AuthorizedComponent requiredRole="superadmin">
+          <Link
+            className={cn(buttonVariants(), "rounded-none")}
+            href="/services/new"
+          >
+            <Plus />
+            {t("form.serviceName")}
+          </Link>
+        </AuthorizedComponent>
       </TableToolbar>
       {children}
       <TablePagination />

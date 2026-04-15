@@ -3,8 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { ordersColumns } from "@/components/features/orders/column";
-import { UpdateOrderStatusDialog } from "@/components/features/orders/update-status-dialog";
-import { AlertDialogProvider } from "@/components/providers/alert-dialog-provider";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableSkeleton } from "@/components/table/table-skeleton";
@@ -47,14 +45,11 @@ const OrdersTableContent = () => {
 
 const OrdersTablePage = () => {
   return (
-    <AlertDialogProvider>
-      <TableProvider columns={ordersColumns} manualPagination>
-        <TableToolbar />
-        <OrdersTableContent />
-        <TablePagination />
-      </TableProvider>
-      <UpdateOrderStatusDialog />
-    </AlertDialogProvider>
+    <TableProvider columns={ordersColumns} manualPagination>
+      <TableToolbar />
+      <OrdersTableContent />
+      <TablePagination />
+    </TableProvider>
   );
 };
 

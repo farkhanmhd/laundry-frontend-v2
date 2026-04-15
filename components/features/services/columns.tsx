@@ -7,13 +7,16 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import type { Service } from "@/lib/modules/services/data";
 import { cn, formatToIDR } from "@/lib/utils";
 
 export const useServiceColumns = (): ColumnDef<Service>[] => {
   const t = useTranslations("Services");
+  const { data } = authClient.useSession();
+  const role = data?.user.role;
 
-  return [
+  const columns: ColumnDef<Service>[] = [
     {
       accessorKey: "image",
       header: ({ column }) => (
@@ -32,24 +35,6 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
       ),
       enableSorting: false,
       enableHiding: false,
-    },
-    {
-      accessorKey: "id",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t("table.id")} />
-      ),
-      cell: ({ row }) => (
-        <Link
-          className={cn(
-            "line-clamp-1 min-w-max font-medium uppercase",
-            buttonVariants({ variant: "link", size: "sm" }),
-            "text-sidebar-ring"
-          )}
-          href={`/services/${row.getValue("id")}`}
-        >
-          {row.getValue("id")}
-        </Link>
-      ),
     },
     {
       accessorKey: "name",
@@ -104,4 +89,29 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
       },
     },
   ];
+
+  if (role === "superadmin") {
+    const idColumn: ColumnDef<Service> = {
+      accessorKey: "id",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={t("table.id")} />
+      ),
+      cell: ({ row }) => (
+        <Link
+          className={cn(
+            "line-clamp-1 min-w-max font-medium uppercase",
+            buttonVariants({ variant: "link", size: "sm" }),
+            "text-sidebar-ring"
+          )}
+          href={`/services/${row.getValue("id")}`}
+        >
+          {row.getValue("id")}
+        </Link>
+      ),
+    };
+
+    columns.splice(1, 0, idColumn);
+  }
+
+  return columns;
 };

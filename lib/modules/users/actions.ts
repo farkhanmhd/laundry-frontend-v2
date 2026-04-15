@@ -9,10 +9,10 @@ const errorResponse = {
   message: "Failed to update user role",
 };
 
-export const updateUserRoleAction = actionClient
+export const updaterequiredRoleAction = actionClient
   .inputSchema(updateRoleSchema)
   .action(async ({ parsedInput }) => {
-    const { data, error } = await UsersApi.updateUserRole(parsedInput);
+    const { data, error } = await UsersApi.updaterequiredRole(parsedInput);
 
     if (error) {
       console.log(error);

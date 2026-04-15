@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import type {
   AdjustmentHistory,
   Inventory,
@@ -61,7 +62,10 @@ const useInventoryTranslations = () => {
 export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
   const t = useInventoryTranslations();
 
-  return [
+  const { data } = authClient.useSession();
+  const role = data?.user.role;
+
+  const columns: ColumnDef<Inventory>[] = [
     {
       accessorKey: "image",
       header: t.table.image,
@@ -78,22 +82,6 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
       ),
       enableSorting: false,
       enableHiding: false,
-    },
-    {
-      accessorKey: "id",
-      header: t.table.id,
-      cell: ({ row }) => (
-        <Link
-          className={cn(
-            "line-clamp-1 min-w-max font-medium uppercase",
-            buttonVariants({ variant: "link", size: "sm" }),
-            "text-sidebar-ring"
-          )}
-          href={`/inventories/${row.getValue("id")}`}
-        >
-          {row.getValue("id")}
-        </Link>
-      ),
     },
     {
       accessorKey: "name",
@@ -182,6 +170,29 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
       },
     },
   ];
+
+  if (role === "superadmin") {
+    const idColumn: ColumnDef<Inventory> = {
+      accessorKey: "id",
+      header: t.table.id,
+      cell: ({ row }) => (
+        <Link
+          className={cn(
+            "line-clamp-1 min-w-max font-medium uppercase",
+            buttonVariants({ variant: "link", size: "sm" }),
+            "text-sidebar-ring"
+          )}
+          href={`/inventories/${row.getValue("id")}`}
+        >
+          {row.getValue("id")}
+        </Link>
+      ),
+    };
+
+    columns.splice(1, 0, idColumn);
+  }
+
+  return columns;
 };
 
 export const useInventoryCategoryOptions = (): SelectOption[] => {

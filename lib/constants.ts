@@ -54,11 +54,6 @@ export const adminNavData: NavItem[] = [
     icon: Users,
   },
   {
-    title: "Sales",
-    url: "/sales",
-    icon: ChartColumnIncreasing,
-  },
-  {
     title: "Inventories",
     url: "/inventories",
     icon: Archive,
@@ -69,11 +64,6 @@ export const adminNavData: NavItem[] = [
     icon: HandPlatter,
   },
   {
-    title: "Vouchers",
-    url: "/vouchers",
-    icon: Ticket,
-  },
-  {
     title: "Bundlings",
     url: "/bundlings",
     icon: Blocks,
@@ -82,6 +72,16 @@ export const adminNavData: NavItem[] = [
 
 export const superAdminNavData: NavItem[] = [
   ...adminNavData,
+  {
+    title: "Vouchers",
+    url: "/vouchers",
+    icon: Ticket,
+  },
+  {
+    title: "Sales",
+    url: "/sales",
+    icon: ChartColumnIncreasing,
+  },
   {
     title: "Users",
     url: "/users",

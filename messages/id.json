@@ -1,28 +1,28 @@
 {
   "Members": {
-    "title": "Laporan Keanggotaan",
+    "title": "Laporan KeMemberan",
     "totalMembers": {
-      "title": "Total Anggota",
-      "description": "Semua anggota yang terdaftar"
+      "title": "Total Member",
+      "description": "Semua Member yang terdaftar"
     },
     "averageOrderValue": {
       "title": "Rata-rata Nilai Pesanan",
       "description": "Rata-rata yang dihabiskan per pesanan"
     },
     "activeMembers": {
-      "title": "Anggota Aktif",
-      "description": "Anggota dengan aktivitas terkini"
+      "title": "Member Aktif",
+      "description": "Member dengan aktivitas terkini"
     },
     "totalMemberOrders": {
-      "title": "Total Pesanan Anggota",
-      "description": "Pesanan yang dilakukan oleh anggota"
+      "title": "Total Pesanan Member",
+      "description": "Pesanan yang dilakukan oleh Member"
     },
     "table": {
-      "placeholder": "Cari anggota"
+      "placeholder": "Cari Member"
     },
-    "membersListTitle": "Daftar Anggota",
+    "membersListTitle": "Daftar Member",
     "columns": {
-      "memberName": "Nama Anggota",
+      "memberName": "Nama Member",
       "phone": "Telepon",
       "joinDate": "Tanggal Bergabung",
       "orders": "Pesanan",
@@ -30,13 +30,13 @@
       "averageSpending": "Rata-rata Pengeluaran"
     },
     "addMember": {
-      "button": "Anggota",
-      "title": "Tambah Anggota Baru",
+      "button": "Member",
+      "title": "Tambah Member Baru",
       "name": "Nama",
-      "namePlaceholder": "Nama Anggota Baru",
+      "namePlaceholder": "Nama Member Baru",
       "phone": "Nomor Telepon",
       "cancel": "Batal",
-      "submit": "Tambah Anggota"
+      "submit": "Tambah Member"
     },
     "pagination": {
       "selectedRows": "{selected} dari {total} baris terpilih.",
@@ -88,14 +88,14 @@
   "POS": {
     "customerInformation": "Informasi Pelanggan",
     "guest": "Tamu",
-    "member": "Anggota",
+    "member": "Member",
     "clearSelection": "Hapus pilihan",
     "clearInput": "Hapus input",
     "newMember": {
-      "title": "Anggota Baru",
-      "description": "Isi nama dan nomor telepon pelanggan di bawah untuk menambah anggota baru",
+      "title": "Member Baru",
+      "description": "Isi nama dan nomor telepon pelanggan di bawah untuk menambah Member baru",
       "customerName": "Nama Pelanggan",
-      "customerNamePlaceholder": "Nama Anggota Baru",
+      "customerNamePlaceholder": "Nama Member Baru",
       "customerNameValidation": "Silakan isi nama pelanggan",
       "phoneNumber": "Nomor Telepon",
       "phoneNumberPlaceholder": "81234567890",
@@ -109,13 +109,13 @@
       "guestType": "Pelanggan tamu"
     },
     "customerSearch": {
-      "searchMember": "Cari Anggota",
+      "searchMember": "Cari Member",
       "description": "Temukan pelanggan berdasarkan nomor telepon",
       "phonePlaceholder": "81234567890",
       "emptySearch": {
-        "noMemberFound": "Anggota tidak ditemukan",
-        "confirmAdd": "Konfirmasi untuk menambahkan \"{phone}\" sebagai anggota baru",
-        "addAsNewMember": "Tambah Anggota Baru"
+        "noMemberFound": "Member tidak ditemukan",
+        "confirmAdd": "Konfirmasi untuk menambahkan \"{phone}\" sebagai Member baru",
+        "addAsNewMember": "Tambah Member Baru"
       }
     },
     "selectedCustomer": {
@@ -125,7 +125,7 @@
       "redeemLoyaltyPoints": "Tukar Poin Loyalitas",
       "balance": "Saldo:",
       "enterAmountDescription": ". Masukkan jumlah untuk mengurangi dari total.",
-      "selectMemberToEnable": "Pilih anggota untuk mengaktifkan penukaran poin.",
+      "selectMemberToEnable": "Pilih Member untuk mengaktifkan penukaran poin.",
       "amountOfPoints": "Jumlah poin"
     },
     "orderProducts": {
@@ -150,7 +150,7 @@
     },
     "summaryEmptyVouchers": {
       "noVouchersAvailable": "Tidak Ada Voucher",
-      "noVouchersDescription": "Tidak ada voucher yang tersedia untuk anggota ini."
+      "noVouchersDescription": "Tidak ada voucher yang tersedia untuk Member ini."
     },
     "paymentMethod": {
       "cash": "Tunai",
@@ -221,7 +221,7 @@
       "orders": "Pesanan",
       "deliveries": "Pengiriman",
       "pickUps": "Penjemputan",
-      "members": "Anggota",
+      "members": "Member",
       "sales": "Penjualan",
       "inventories": "Inventaris",
       "services": "Layanan",
@@ -272,7 +272,7 @@
       "customerDetails": "Detail Pelanggan",
       "customerName": "Nama Pelanggan",
       "phoneNumber": "Nomor Telepon",
-      "member": "ANGGOTA"
+      "member": "Member"
     },
     "items": {
       "orderItems": "Item Pesanan",
@@ -962,7 +962,7 @@
       "fullNamePlaceholder": "Masukkan nama lengkap Anda",
       "phoneNumber": "Nomor Telepon",
       "phoneNumberPlaceholder": "contoh. 08123456789",
-      "phoneDescription": "Digunakan untuk koordinasi pengiriman dan poin keanggotaan.",
+      "phoneDescription": "Digunakan untuk koordinasi pengiriman dan poin keMemberan.",
       "email": "Email",
       "emailPlaceholder": "user@gmail.com",
       "emailDescription": "Digunakan untuk email pengguna."
@@ -1089,9 +1089,9 @@
       "keyMetrics": {
         "totalRevenue": "Total Pendapatan",
         "totalOrders": "Total Pesanan",
-        "activeMembers": "Anggota Aktif",
-        "activeMembersSubtext": "Anggota loyalitas terdaftar",
-        "staffMembers": "Anggota Staf",
+        "activeMembers": "Member Aktif",
+        "activeMembersSubtext": "Member loyalitas terdaftar",
+        "staffMembers": "Member Staf",
         "staffMembersSubtext": "Di semua cabang",
         "failedToLoad": "Gagal memuat",
         "errorMessage": "Terjadi kesalahan saat mengambil metrik.",

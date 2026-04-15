@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { useUserTableDialog } from "./state";
 
-export function UpdateUserRoleDialog() {
+export function UpdaterequiredRoleDialog() {
   const t = useTranslations("Users.roleDialog");
   const { isRoleDialogOpen, isUserAdmin, user, closeUserDialog } =
     useUserTableDialog();

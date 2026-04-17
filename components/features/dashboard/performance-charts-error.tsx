@@ -22,7 +22,7 @@ interface PerformanceChartsErrorProps {
 export function PerformanceChartsError({
   resetErrorBoundary,
 }: PerformanceChartsErrorProps) {
-  const t = useTranslations("Dashboard.superadmin.performance");
+  const t = useTranslations("Dashboard.superadmin.performances");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -36,18 +36,18 @@ export function PerformanceChartsError({
   const CHART_CARDS = [
     {
       key: "top-services",
-      title: t("topServicesTitle"),
+      title: t("topServices"),
       description: t("topServicesDesc"),
     },
     {
       key: "inventory-usage",
-      title: t("inventoryUsageTitle"),
+      title: t("inventoryUsage"),
       description: t("inventoryUsageDesc"),
     },
     {
       key: "bundling-stats",
-      title: t("bundlingTitle"),
-      description: t("bundlingDesc"),
+      title: t("bundlingStats"),
+      description: t("bundlingStatsDesc"),
     },
   ];
 

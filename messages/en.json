@@ -59,7 +59,8 @@
     "noAccount": "Don't have an account?",
     "register": "Register",
     "welcomeBack": "Welcome back, {name}!",
-    "errorMessage": "Oops! Something went wrong on our end. Please try again in a moment."
+    "errorMessage": "Oops! Something went wrong on our end. Please try again in a moment.",
+    "google": "Sign in with Google"
   },
   "RegisterPage": {
     "greeting": "Create an account",
@@ -582,7 +583,7 @@
     "form": {
       "serviceData": "Service Data",
       "serviceDataDescription": "Review and modify key Service details...",
-      "serviceName": "Service Name",
+      "serviceName": "Service",
       "serviceNamePlaceholder": "Enter service name",
       "serviceDescription": "Service Description",
       "serviceDescriptionPlaceholder": "Enter service description",
@@ -619,7 +620,7 @@
     "form": {
       "bundlingData": "Bundling Data",
       "bundlingDataDescription": "Review and modify key bundling details...",
-      "bundlingName": "Bundling Name",
+      "bundlingName": "Bundling",
       "bundlingDescription": "Bundling Description",
       "bundlingPrice": "Bundling Price (IDR)",
       "image": "Image",
@@ -1182,6 +1183,23 @@
       "salesCount": "Sales Count",
       "unitsUsed": "Units Used",
       "revenue": "Revenue"
+    }
+  },
+  "Onboarding": {
+    "title": "Welcome!",
+    "subtitle": "Before we continue, lets add your phone number first",
+    "phoneNumber": "Phone Number",
+    "phoneNumberPlaceholder": "81234567890",
+    "submit": "Continue",
+    "submitting": "Saving...",
+    "success": "Phone number saved!",
+    "error": "Failed to save phone number",
+    "validation": {
+      "required": "Phone number is required",
+      "minLength": "Phone number must be at least 7 characters",
+      "maxLength": "Phone number must be at most 15 characters",
+      "invalid": "Invalid phone number",
+      "noLeadingZero": "Phone number should not start with 0"
     }
   }
 }

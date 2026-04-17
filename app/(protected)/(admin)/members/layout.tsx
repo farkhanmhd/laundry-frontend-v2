@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserRole } from "@/hooks/use-user-role";
 
 interface Props {
   cards: React.ReactNode;
@@ -10,13 +10,11 @@ interface Props {
 }
 
 const MemberReportsLayout = ({ header, table, cards }: Props) => {
-  const { data } = authClient.useSession();
+  const role = useUserRole();
 
-  if (!data) {
+  if (!role) {
     return null;
   }
-
-  const role = data.user.role;
 
   return (
     <section className="min-h-[calc(100dvh-128px)] space-y-6 p-6 md:min-h-[calc(100dvh-64px)]">

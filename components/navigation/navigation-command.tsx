@@ -14,8 +14,9 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUserRole } from "@/hooks/use-user-role";
 import { adminNavData, superAdminNavData } from "@/lib/constants";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { MapItems } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -41,8 +42,7 @@ export function NavigationCommand({
   const { push } = useRouter();
   const [commandOpen, setCommandOpen] = useState(false);
   const { setTheme } = useTheme();
-  const { data } = authClient.useSession();
-  const role = data?.user.role;
+  const role = useUserRole();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -81,18 +81,21 @@ export function NavigationCommand({
           <ScrollArea className="h-75">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Menu">
-              {menu.map((item, index) => (
-                <CommandItem
-                  key={`item-${item.url}-${index}`}
-                  onSelect={() => {
-                    push(item.url);
-                    setCommandOpen(false);
-                  }}
-                >
-                  <item.icon />
-                  <span>{item.title}</span>
-                </CommandItem>
-              ))}
+              <MapItems
+                of={menu}
+                render={(item, index) => (
+                  <CommandItem
+                    key={`item-${item.url}-${index}`}
+                    onSelect={() => {
+                      push(item.url);
+                      setCommandOpen(false);
+                    }}
+                  >
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </CommandItem>
+                )}
+              />
             </CommandGroup>
             <CommandGroup heading="Settings">
               <CommandItem

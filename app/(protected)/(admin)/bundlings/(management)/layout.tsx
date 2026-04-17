@@ -1,14 +1,18 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/modules/auth/session";
+import { getCurrentUserData } from "@/lib/modules/auth/session";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const SuperAdminLayout = async ({ children }: Props) => {
-  const role = (await getSession())?.user.role;
+  const userData = await getCurrentUserData();
 
-  if (role !== "superadmin") {
+  if (!userData) {
+    return null;
+  }
+
+  if (userData.role !== "superadmin") {
     redirect("/dashboard");
   }
 

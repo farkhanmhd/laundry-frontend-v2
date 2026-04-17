@@ -1,6 +1,6 @@
 "use client";
 
-import { Triangle } from "lucide-react";
+import { LogOut, Triangle } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type * as React from "react";
@@ -49,7 +49,14 @@ export function AppSidebar({ children, ...props }: Props) {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SignoutDialog />
+              <SignoutDialog>
+                <SidebarMenuButton
+                  className="flex aspect-square items-center p-2 group-data-[collapsible=icon]:size-full! md:justify-center md:text-muted-foreground [&>svg]:size-5"
+                  size="lg"
+                >
+                  <LogOut />
+                </SidebarMenuButton>
+              </SignoutDialog>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

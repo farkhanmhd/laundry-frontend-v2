@@ -7,14 +7,13 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserRole } from "@/hooks/use-user-role";
 import type { Bundling } from "@/lib/modules/bundlings/data";
 import { cn, formatToIDR } from "@/lib/utils";
 
 export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
   const t = useTranslations("Bundlings");
-  const { data } = authClient.useSession();
-  const role = data?.user.role;
+  const role = useUserRole();
 
   const idColumn: ColumnDef<Bundling> = {
     accessorKey: "id",

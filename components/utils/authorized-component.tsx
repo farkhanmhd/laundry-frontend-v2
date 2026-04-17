@@ -1,14 +1,14 @@
 "use client";
 
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { type UserRole, useUserRole } from "@/hooks/use-user-role";
 
 type Props = {
   children: React.ReactNode;
-  requiredRole: "user" | "admin" | "superadmin";
+  requiredRole: UserRole;
 };
 
 export const AuthorizedComponent = ({ children, requiredRole }: Props) => {
-  const sessionRole = authClient.useSession()?.data?.user.role;
+  const sessionRole = useUserRole();
 
   if (!sessionRole) {
     return null;

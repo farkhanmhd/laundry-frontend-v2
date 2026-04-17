@@ -7,7 +7,7 @@ import { TableProvider } from "@/components/table/context";
 import { TableViewProvider } from "@/components/table/table-view-provider";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserRole } from "@/hooks/use-user-role";
 import type { Inventory } from "@/lib/modules/inventories/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
 import { useInventoryColumns } from "./columns";
@@ -18,8 +18,7 @@ interface Props {
 
 export const InventoryTableClient = ({ data }: Props) => {
   const t = useTranslations("Inventories");
-  const { data: session } = authClient.useSession();
-  const role = session?.user.role;
+  const role = useUserRole();
   const columns = useInventoryColumns();
 
   return (

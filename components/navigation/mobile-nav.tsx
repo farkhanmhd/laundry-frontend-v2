@@ -4,12 +4,12 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserRole } from "@/hooks/use-user-role";
 import {
   adminMobileNavData,
   customerMobileNavData,
   superAdminMobileNavData,
 } from "@/lib/constants";
-import { authClient } from "@/lib/modules/auth/auth-client";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { useSidebar } from "../ui/sidebar";
@@ -17,7 +17,7 @@ import { useSidebar } from "../ui/sidebar";
 export function MobileNav() {
   const { toggleSidebar } = useSidebar();
   const isMobile = useIsMobile();
-  const role = authClient.useSession().data?.user.role;
+  const role = useUserRole();
   const pathname = usePathname();
 
   const navData = {

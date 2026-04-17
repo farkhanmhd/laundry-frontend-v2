@@ -11,12 +11,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUserRole } from "@/hooks/use-user-role";
 import {
   adminNavData,
   customerNavData,
   superAdminNavData,
 } from "@/lib/constants";
-import { authClient } from "@/lib/modules/auth/auth-client";
 import { SheetClose } from "../ui/sheet";
 
 const navTitleToKey: Record<string, string> = {
@@ -38,8 +38,7 @@ const navTitleToKey: Record<string, string> = {
 
 export function NavMain() {
   const t = useTranslations("Navigation.nav");
-  const { data } = authClient.useSession();
-  const type = data?.user?.role;
+  const type = useUserRole();
   const selectedMenu = {
     superadmin: superAdminNavData,
     admin: adminNavData,

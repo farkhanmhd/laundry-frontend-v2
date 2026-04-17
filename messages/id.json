@@ -59,7 +59,8 @@
     "noAccount": "Belum punya akun?",
     "register": "Daftar",
     "welcomeBack": "Selamat datang kembali, {name}!",
-    "errorMessage": "Ups! Terjadi kesalahan di pihak kami. Silakan coba lagi sebentar lagi."
+    "errorMessage": "Ups! Terjadi kesalahan di pihak kami. Silakan coba lagi sebentar lagi.",
+    "google": "Sign in with Google"
   },
   "RegisterPage": {
     "greeting": "Buat akun",
@@ -1182,6 +1183,23 @@
       "salesCount": "Jumlah Penjualan",
       "unitsUsed": "Unit Terpakai",
       "revenue": "Pendapatan"
+    }
+  },
+  "Onboarding": {
+    "title": "Selamat Datang!",
+    "subtitle": "Sebelum melanjutkan, silakan tambahkan nomor telepon Anda terlebih dahulu",
+    "phoneNumber": "Nomor Telepon",
+    "phoneNumberPlaceholder": "81234567890",
+    "submit": "Lanjutkan",
+    "submitting": "Menyimpan...",
+    "success": "Nomor telepon berhasil disimpan!",
+    "error": "Gagal menyimpan nomor telepon",
+    "validation": {
+      "required": "Nomor telepon wajib diisi",
+      "minLength": "Nomor telepon minimal 7 karakter",
+      "maxLength": "Nomor telepon maksimal 15 karakter",
+      "invalid": "Nomor telepon tidak valid",
+      "noLeadingZero": "Nomor telepon tidak boleh diawali dengan 0"
     }
   }
 }

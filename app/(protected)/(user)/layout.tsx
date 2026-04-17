@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/modules/auth/session";
+import { getCurrentUserData } from "@/lib/modules/auth/session";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const UserLayout = async ({ children }: Props) => {
-  const role = (await getSession())?.user?.role;
+  const userData = await getCurrentUserData();
 
-  if (role !== "user") {
+  if (userData?.role !== "user" || !userData) {
     redirect("/dashboard");
   }
 

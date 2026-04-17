@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserRole } from "@/hooks/use-user-role";
 import type {
   AdjustmentHistory,
   Inventory,
@@ -62,8 +62,7 @@ const useInventoryTranslations = () => {
 export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
   const t = useInventoryTranslations();
 
-  const { data } = authClient.useSession();
-  const role = data?.user.role;
+  const role = useUserRole();
 
   const columns: ColumnDef<Inventory>[] = [
     {

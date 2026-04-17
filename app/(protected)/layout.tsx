@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { MobilePosOrder } from "@/components/features/pos/mobile-pos-order";
 import { MobileNav } from "@/components/navigation/mobile-nav";
 import NavigationSidebar from "@/components/navigation/navigation-sidebar";
@@ -10,12 +11,19 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import { Client } from "@/components/utils/client";
+import { getCurrentUserData } from "@/lib/modules/auth/session";
 
-export default function EmployeeLayout({
+export default async function EmployeeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUserData();
+
+  if (!currentUser?.phoneNumber && currentUser?.role === "user") {
+    redirect("/onboarding");
+  }
+
   return (
     <SidebarProvider open={false}>
       <AppSidebar>

@@ -6,7 +6,7 @@ import { UserRewards } from "./user-rewards";
 
 export function UserDashboard() {
   return (
-    <div className="p-4 md:p-6">
+    <div className="min-h-[calc(100dvh-128px)] p-4 md:min-h-[calc(100dvh-64px)] md:p-6">
       <div className="mx-auto max-w-5xl space-y-6">
         <UserHero />
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

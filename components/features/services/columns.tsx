@@ -7,14 +7,13 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserRole } from "@/hooks/use-user-role";
 import type { Service } from "@/lib/modules/services/data";
 import { cn, formatToIDR } from "@/lib/utils";
 
 export const useServiceColumns = (): ColumnDef<Service>[] => {
   const t = useTranslations("Services");
-  const { data } = authClient.useSession();
-  const role = data?.user.role;
+  const role = useUserRole();
 
   const columns: ColumnDef<Service>[] = [
     {

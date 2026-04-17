@@ -8,7 +8,7 @@ import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { buttonVariants } from "@/components/ui/button";
-import { AuthorizedComponent } from "@/components/utils/authorize-component";
+import { AuthorizedComponent } from "@/components/utils/authorized-component";
 import { cn } from "@/lib/utils";
 
 const BundlingLayout = ({ children }: { children: React.ReactNode }) => {

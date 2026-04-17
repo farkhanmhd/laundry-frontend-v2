@@ -1,18 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderIcon } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import {
-  type LoginSchema,
-  loginSchema,
-} from "@/components/features/auth/schema";
-import { FormInput } from "@/components/forms/form-input";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import { GoogleIcon } from "@/components/utils/google-icon";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { cn } from "@/lib/utils";
 
@@ -20,104 +11,38 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { push } = useRouter();
   const t = useTranslations("LoginPage");
+  const [isPending, startTransition] = useTransition();
 
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (data: LoginSchema) => {
-    try {
-      const { data: session, error } = await authClient.signIn.username(data);
-
-      if (error) {
-        toast.error(error.statusText, {
-          description: error.message,
-        });
-      } else {
-        toast.success(t("welcomeBack", { name: session.user.name }));
-        push("/dashboard");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(t("errorMessage"));
-      }
-    }
+  const handleLogin = () => {
+    startTransition(async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard`,
+      });
+    });
   };
 
   return (
-    <div className={cn("flex w-full flex-col gap-7", className)} {...props}>
-      {/* Header */}
-      <div className="flex flex-col gap-1.5">
-        <h1 className="font-semibold text-[22px] text-foreground tracking-[-0.02em]">
+    <div className={cn("flex w-full flex-col gap-6", className)} {...props}>
+      <div className="flex flex-col gap-2 text-center">
+        <h1 className="font-semibold text-2xl text-foreground tracking-tight">
           {t("greeting")}
         </h1>
-        <p className="text-[13.5px] text-muted-foreground leading-relaxed">
-          {t("subtitle")}
-        </p>
+        <p className="text-muted-foreground text-sm">{t("subtitle")}</p>
       </div>
 
-      {/* Divider */}
-      <div className="h-px bg-border/60" />
-
-      {/* Form */}
-      <form
-        className="flex w-full flex-col gap-5"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <div className="flex flex-col gap-4">
-          <FormInput
-            autoFocus
-            disabled={form.formState.isSubmitting}
-            form={form}
-            label={t("username")}
-            name="username"
-            placeholder={t("usernamePlaceholder")}
-          />
-          <div className="flex flex-col gap-1.5">
-            <FormInput
-              disabled={form.formState.isSubmitting}
-              form={form}
-              label={t("password")}
-              name="password"
-              placeholder={t("passwordPlaceholder")}
-              type="password"
-            />
-          </div>
-        </div>
-
+      <div className="flex flex-col gap-3">
         <Button
-          className="mt-1 w-full rounded-lg font-medium tracking-[-0.01em] transition-all active:scale-[0.98]"
-          disabled={form.formState.isSubmitting}
-          size="default"
-          type="submit"
+          className="flex h-11 w-full items-center justify-center gap-2 bg-background"
+          disabled={isPending}
+          onClick={handleLogin}
+          variant="outline"
         >
-          {form.formState.isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <LoaderIcon className="animate-spin" />
-              Signing in…
-            </span>
-          ) : (
-            t("signIn")
-          )}
+          <GoogleIcon />
+          <span>Sign in with Google</span>
         </Button>
-      </form>
-
-      {/* Footer */}
-      <p className="text-center text-[12.5px] text-muted-foreground/70">
-        {t("noAccount")}{" "}
-        <Link
-          className="font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
-          href="/register"
-        >
-          {t("register")}
-        </Link>
-      </p>
+      </div>
     </div>
   );
 }

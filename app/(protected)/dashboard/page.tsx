@@ -1,7 +1,7 @@
 import { AdminDashboard } from "@/components/features/dashboard/admin-dashboard";
 import { SuperAdminDashboard } from "@/components/features/dashboard/superadmin-dashboard";
 import { UserDashboard } from "@/components/features/dashboard/user-dashboard";
-import { getSession } from "@/lib/modules/auth/session";
+import { getCurrentUserData } from "@/lib/modules/auth/session";
 import type { DateRangeSearchParams } from "@/lib/utils";
 
 type Props = {
@@ -9,22 +9,22 @@ type Props = {
 };
 
 const DashboardPage = async (props: Props) => {
-  const role = (await getSession())?.user.role;
+  const userData = await getCurrentUserData();
   const searchParams = await props.searchParams;
 
-  if (!role) {
+  if (!userData) {
     return null;
   }
 
-  if (role === "admin") {
+  if (userData.role === "admin") {
     return <AdminDashboard />;
   }
 
-  if (role === "superadmin") {
+  if (userData.role === "superadmin") {
     return <SuperAdminDashboard searchParams={searchParams} />;
   }
 
-  if (role === "user") {
+  if (userData.role === "user") {
     return <UserDashboard />;
   }
 };

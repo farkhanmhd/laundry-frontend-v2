@@ -47,10 +47,12 @@ export const getInventoryHistoryQuery = async (
 ) => {
   const searchParams = await props.searchParams;
   const query: Required<InventoryHistoryQuery> = {
-    rows: Number(searchParams?.rows) || 10,
+    rows: Number(searchParams?.rows) || 50,
     search: searchParams?.search || "",
     page: Number(searchParams?.page) || 1,
     inventoryIds: searchParams?.inventoryIds || [],
+    from: searchParams?.from || "",
+    to: searchParams?.to || "",
   };
 
   return query;

@@ -1,10 +1,10 @@
 "use client";
-
-import { Download } from "lucide-react";
+import { format, startOfMonth } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { ExportButton } from "@/components/features/report/export-button";
 import { SalesReportTitle } from "@/components/features/sales/sales-report-title";
 import { useSalesTab } from "@/components/features/sales/sales-state";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cardShadowStyle, cn, salesTabLists } from "@/lib/utils";
 
@@ -24,7 +24,18 @@ const SalesLayout = ({
   date,
 }: SalesTablesLayoutProps) => {
   const { tab, setTab } = useSalesTab();
+  const searchParams = useSearchParams();
   const t = useTranslations("Sales.tabs");
+
+  const DATE_FORMAT = "dd-MM-yyyy";
+  const from =
+    searchParams.get("from") || format(startOfMonth(new Date()), DATE_FORMAT);
+  const to = searchParams.get("to") || format(new Date(), DATE_FORMAT);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const exportUrl =
+    tab === "overview"
+      ? `${baseUrl}/report/sales/best-sellers?from=${from}&to=${to}`
+      : `${baseUrl}/report/sales/by-order?from=${from}&to=${to}`;
 
   const toolbar = {
     overview,
@@ -33,6 +44,7 @@ const SalesLayout = ({
 
   const selectedToolbar =
     tab === "items" ? toolbar.overview : toolbar[tab as keyof typeof toolbar];
+
   return (
     <section className="min-h-[calc(100dvh-128px)] space-y-6 p-6 md:min-h-[calc(100dvh-64px)]">
       <Tabs
@@ -74,10 +86,7 @@ const SalesLayout = ({
               >
                 {date}
               </div>
-              <Button style={cardShadowStyle} variant="outline">
-                <Download />
-                Export
-              </Button>
+              <ExportButton href={exportUrl} label="Export" />
               {selectedToolbar}
             </div>
           </div>

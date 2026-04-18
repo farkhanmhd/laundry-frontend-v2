@@ -27,7 +27,7 @@ export const InventoryTableClient = ({ data }: Props) => {
         className="gap-0 overflow-hidden p-0 dark:bg-background"
         style={cardShadowStyle}
       >
-        <CardHeader className="border-b px-4 py-3 dark:bg-background">
+        <CardHeader className="gap-0 border-b px-4 pt-6 dark:bg-background [.border-b]:pb-6">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base md:text-lg">{t("title")}</CardTitle>
 

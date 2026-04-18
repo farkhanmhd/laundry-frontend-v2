@@ -1,15 +1,16 @@
-import { Archive, Download } from "lucide-react";
+import { Archive } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { DateRangePicker } from "@/components/date/date-range-picker";
+import { InventoryAdjustmentsExportButton } from "@/components/features/inventories/inventory-adjustments-export-button";
 import { QueryFacetedFilter } from "@/components/table/query-faceted-filter";
 import { TableViewProvider } from "@/components/table/table-view-provider";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { InventoriesApi } from "@/lib/modules/inventories/data";
 import {
   getInventoryHistoryQuery,
   type InventoryHistoryQueryProps,
 } from "@/lib/search-params";
-import { cardShadowStyle } from "@/lib/utils";
+import { cardShadowStyle, getDateRange } from "@/lib/utils";
 
 const Page = async (props: InventoryHistoryQueryProps) => {
   const t = await getTranslations("Inventories");
@@ -18,6 +19,8 @@ const Page = async (props: InventoryHistoryQueryProps) => {
 
   const inventoryOptions = await InventoriesApi.getInventoryOptions();
 
+  const dateRange = getDateRange(query);
+
   return (
     <div className="space-y-6 pb-6">
       <div className="flex items-center justify-between">
@@ -25,10 +28,12 @@ const Page = async (props: InventoryHistoryQueryProps) => {
           {t("logs.adjustmentTitle")}
         </div>
         <div className="flex items-center gap-3">
-          <Button style={cardShadowStyle} variant="outline">
-            <Download />
-            Export
-          </Button>
+          <InventoryAdjustmentsExportButton
+            from={query.from}
+            inventoryIds={query.inventoryIds}
+            to={query.to}
+          />
+          <DateRangePicker dateRange={dateRange} />
           <QueryFacetedFilter
             className="rounded-sm"
             icon={<Archive className="h-4 w-4" />}

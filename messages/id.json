@@ -1,6 +1,6 @@
 {
   "Members": {
-    "title": "Laporan KeMemberan",
+    "title": "Daftar Member",
     "totalMembers": {
       "title": "Total Member",
       "description": "Semua Member yang terdaftar"
@@ -217,7 +217,7 @@
       "tryAgain": "Coba Lagi"
     },
     "nav": {
-      "dashboard": "Dasbor",
+      "dashboard": "Dasboard",
       "pos": "POS",
       "orders": "Pesanan",
       "deliveries": "Pengiriman",
@@ -1085,7 +1085,7 @@
       }
     },
     "superadmin": {
-      "title": "Dasbor",
+      "title": "Dashboard",
       "subtitle": "Selamat datang kembali! Berikut ringkasan bisnis Anda.",
       "keyMetrics": {
         "totalRevenue": "Total Pendapatan",

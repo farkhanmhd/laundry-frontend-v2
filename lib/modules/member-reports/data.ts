@@ -4,6 +4,9 @@ import type { SearchQuery } from "@/lib/search-params";
 import type { DateRangeSearchParams } from "@/lib/utils";
 
 export type MemberReportsQuery = DateRangeSearchParams;
+export interface GetmembersWithSpendingQuery
+  extends DateRangeSearchParams,
+    SearchQuery {}
 
 export type TotalCustomersResponse = {
   totalCustomers: number;
@@ -97,7 +100,7 @@ export abstract class MemberReportsApi extends BaseApi {
     return response?.data;
   }
 
-  static async getMembersWithSpending(query: SearchQuery) {
+  static async getMembersWithSpending(query: GetmembersWithSpendingQuery) {
     const { data: response, error } = await elysia.members.reports[
       "members-spending"
     ].get({

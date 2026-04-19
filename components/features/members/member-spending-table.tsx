@@ -4,13 +4,15 @@ import { TableProvider } from "@/components/table/context";
 import { DataTableQuerySearch } from "@/components/table/data-table-query-search";
 import { TableViewProvider } from "@/components/table/table-view-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MemberReportsApi } from "@/lib/modules/member-reports/data";
-import type { SearchQuery } from "@/lib/search-params";
+import {
+  type GetmembersWithSpendingQuery,
+  MemberReportsApi,
+} from "@/lib/modules/member-reports/data";
 import { cardShadowStyle } from "@/lib/utils";
 import { AddMemberDialog } from "./add-member-dialog";
 
 interface MemberSpendingTableProps {
-  query: SearchQuery;
+  query: GetmembersWithSpendingQuery;
 }
 
 const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {

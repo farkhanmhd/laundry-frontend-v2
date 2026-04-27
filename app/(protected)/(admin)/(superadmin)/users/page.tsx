@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useUserColumns } from "@/components/features/users/columns";
-import { CreateUserDialog } from "@/components/features/users/create-user-dialog";
 import { UpdaterequiredRoleDialog } from "@/components/features/users/user-role-dialog";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
@@ -49,9 +48,7 @@ const UsersTablePage = () => {
 
   return (
     <TableProvider columns={userColumns} manualPagination>
-      <TableToolbar>
-        <CreateUserDialog />
-      </TableToolbar>
+      <TableToolbar />
       <UsersTableContent />
       <TablePagination />
     </TableProvider>

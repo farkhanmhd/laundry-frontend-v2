@@ -1,23 +1,61 @@
-- Create onboarding page at app/(protected)/onboarding/page.tsx
-- this page is very simple. it only show text that Welcoming User like (Before we continue, lets add your phone number first)
-- then add 1 text input and 1 button to submit it. use the useForm hook
-- for the text input
-  - ensure it has +62 and phone number example
-  - ensure the input cannot start with 0
-  - ensure it only allow number input. 
-  - make the input to be type text with inputMode=numeric
-- ensure the page is translated with id.json and en.json
-- use useForm hook (react-hook-form)
-- ensure the request body schema to be equal with this:
-```typescript
-const updatePhoneNumberSchema = t.Object({
-  phoneNumber: t.String({
-    minLength: 7,
-    maxLength: 15,
-    description: "Phone number must be between 7 and 15 characters",
-  }),
-});
-```
-- for the onSubmit it will make a request to elysia.account.phone.post
-- since this is on client side, make sure it use fetch: { credentials: 'include' } on the request
-- write everything on this file only app/(protected)/onboarding/page.tsx
+# Implementation Plan: Phone Number Onboarding Flow
+
+## Objective
+Implement a phone number onboarding flow for newly registered users (OAuth/Social Login) to ensure every user is linked to a record in the `members` table.
+
+## User Flow
+1. **Trigger**: After a user signs in, if their profile lacks a phone number, redirect them to the `/onboarding` page.
+2. **Input**: User enters their phone number (without +62 prefix).
+3. **Lookup**: Call `GET /members/search-by-phone?phone={input}`.
+4. **Branching Logic**:
+   - **Case A: Member Found (200 OK)**
+     - Display: "An existing member account was found with this phone number."
+     - Action: Prompt user to "Connect Account".
+     - API: `POST /users/connect-member`
+       - Body: `{ memberId: string, phoneNumber: string }`
+   - **Case B: Member Not Found (404 Not Found)**
+     - Display: "New member account will be created."
+     - Action: Prompt for "Name" (pre-fill from OAuth if available) and "Confirm".
+     - API: `POST /users/create-member`
+       - Body: `{ name: string, phoneNumber: string }`
+5. **Completion**: Upon success, redirect to the dashboard.
+
+## API Reference
+
+### 1. Search Member by Phone
+- **Endpoint**: `GET /members/search-by-phone`
+- **Query Params**: `phone` (e.g., `8123456789`)
+- **Response (Success)**: 
+  ```json
+  {
+    "status": "success",
+    "data": { "memberId": "m-xxxxxx", "name": "...", "phoneNumber": "..." }
+  }
+  ```
+
+### 2. Connect Existing Member
+- **Endpoint**: `POST /users/connect-member`
+- **Auth**: Required (Bearer Token/Session)
+- **Body**:
+  ```json
+  {
+    "memberId": "m-xxxxxx",
+    "phoneNumber": "8123456789"
+  }
+  ```
+
+### 3. Create New Member Connection
+- **Endpoint**: `POST /users/create-member`
+- **Auth**: Required (Bearer Token/Session)
+- **Body**:
+  ```json
+  {
+    "name": "User Name",
+    "phoneNumber": "8123456789"
+  }
+  ```
+
+## Implementation Notes
+- The backend automatically prepends `+62` to the `phoneNumber` before saving.
+- Ensure the phone number input validation matches the regex: `^\+?[0-9\s\-()]+$`.
+- Handle error states (e.g., network errors, 500s) gracefully with toasts.

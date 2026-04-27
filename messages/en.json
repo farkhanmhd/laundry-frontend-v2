@@ -1200,6 +1200,17 @@
       "maxLength": "Phone number must be at most 15 characters",
       "invalid": "Invalid phone number",
       "noLeadingZero": "Phone number should not start with 0"
+    },
+    "lookup": {
+      "searching": "Checking member status...",
+      "memberFound": "An existing member account was found with this phone number.",
+      "memberNotFound": "New member account will be created.",
+      "connect": "Connect Account",
+      "create": "Confirm & Create",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "nameRequired": "Full name is required",
+      "changePhone": "Change Phone Number"
     }
   }
 }

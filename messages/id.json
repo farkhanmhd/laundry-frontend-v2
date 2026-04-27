@@ -1200,6 +1200,17 @@
       "maxLength": "Nomor telepon maksimal 15 karakter",
       "invalid": "Nomor telepon tidak valid",
       "noLeadingZero": "Nomor telepon tidak boleh diawali dengan 0"
+    },
+    "lookup": {
+      "searching": "Memeriksa status member...",
+      "memberFound": "Akun member yang sudah ada ditemukan dengan nomor telepon ini.",
+      "memberNotFound": "Akun member baru akan dibuat.",
+      "connect": "Hubungkan Akun",
+      "create": "Konfirmasi & Buat",
+      "name": "Nama Lengkap",
+      "namePlaceholder": "Masukkan nama lengkap Anda",
+      "nameRequired": "Nama lengkap wajib diisi",
+      "changePhone": "Ganti Nomor Telepon"
     }
   }
 }

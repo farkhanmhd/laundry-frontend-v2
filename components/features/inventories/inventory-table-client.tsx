@@ -34,9 +34,6 @@ export const InventoryTableClient = ({ data }: Props) => {
             {role === "superadmin" && (
               /* Desktop: single row */
               <div className="hidden items-center gap-2 lg:flex">
-                <Button size="sm" variant="outline">
-                  Export
-                </Button>
                 <Link
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" })

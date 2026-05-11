@@ -131,7 +131,9 @@ export async function OrderInfoSection({ orderId }: { orderId: string }) {
         <Row label="Date" value={formatDate(info.createdAt)} />
         <Row
           label="Order ID"
-          value={<span className="font-mono text-[12px]">{orderId}</span>}
+          value={
+            <span className="font-mono text-[12px] uppercase">{orderId}</span>
+          }
         />
       </div>
     </SectionCard>

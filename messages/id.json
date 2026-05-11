@@ -231,7 +231,9 @@
       "users": "Pengguna",
       "home": "Beranda",
       "account": "Akun"
-    }
+    },
+    "checkReceipt": "Cek Struk",
+    "login": "Masuk"
   },
   "Table": {
     "facetedFilter": {
@@ -1026,7 +1028,7 @@
     "title": "Lacak Pesanan Anda",
     "description": "Masukkan ID pesanan untuk melihat struk dan status pesanan.",
     "orderId": "ID Pesanan",
-    "orderIdPlaceholder": "contoh ORD-2024-001",
+    "orderIdPlaceholder": "contoh O-2024001",
     "validationMinLength": "ID Pesanan minimal 7 karakter.",
     "lookingUp": "Mencari…",
     "findReceipt": "Cari Struk",

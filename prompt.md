@@ -1,61 +1,91 @@
-# Implementation Plan: Phone Number Onboarding Flow
+# Implementation Tasks: Navigation and Localization Enhancements
 
-## Objective
-Implement a phone number onboarding flow for newly registered users (OAuth/Social Login) to ensure every user is linked to a record in the `members` table.
+## Overview
+Enhance the user experience by providing easy navigation between authentication pages and receipt pages, and ensuring translation options and localized strings are available on these routes using `next-intl`.
 
-## User Flow
-1. **Trigger**: After a user signs in, if their profile lacks a phone number, redirect them to the `/onboarding` page.
-2. **Input**: User enters their phone number (without +62 prefix).
-3. **Lookup**: Call `GET /members/search-by-phone?phone={input}`.
-4. **Branching Logic**:
-   - **Case A: Member Found (200 OK)**
-     - Display: "An existing member account was found with this phone number."
-     - Action: Prompt user to "Connect Account".
-     - API: `POST /users/connect-member`
-       - Body: `{ memberId: string, phoneNumber: string }`
-   - **Case B: Member Not Found (404 Not Found)**
-     - Display: "New member account will be created."
-     - Action: Prompt for "Name" (pre-fill from OAuth if available) and "Confirm".
-     - API: `POST /users/create-member`
-       - Body: `{ name: string, phoneNumber: string }`
-5. **Completion**: Upon success, redirect to the dashboard.
+## Tasks
 
-## API Reference
+### 0. Update Translation Messages
+- **Target Files:**
+  - `messages/en.json`
+  - `messages/id.json`
+- **Requirement:** Add navigation keys for the new links.
+- **Implementation Detail:**
+  - In `Navigation` section, add:
+    - `"checkReceipt": "Check Receipt"` (EN) / `"checkReceipt": "Cek Struk"` (ID)
+    - `"login": "Login"` (EN) / `"login": "Masuk"` (ID)
 
-### 1. Search Member by Phone
-- **Endpoint**: `GET /members/search-by-phone`
-- **Query Params**: `phone` (e.g., `8123456789`)
-- **Response (Success)**: 
-  ```json
-  {
-    "status": "success",
-    "data": { "memberId": "m-xxxxxx", "name": "...", "phoneNumber": "..." }
-  }
-  ```
+### 1. Add "Check Receipt" link to Auth Pages
+- **Target Files:**
+  - `app/(auth)/login/page.tsx`
+  - `app/(auth)/register/page.tsx`
+- **Requirement:** Add a localized link to `/receipt` in the top-right corner, positioned next to the `ThemeToggle` and `TranslatorToggle`.
+- **Implementation Detail:**
+  - Use `getTranslations` from `next-intl` to fetch the `Navigation.checkReceipt` string.
+  - Use `Link` from `next/link` and a `Button` component with `variant="ghost"`.
+  - Use the `Receipt` icon from `lucide-react`.
+  - Ensure consistent spacing (gap) with existing toggles.
 
-### 2. Connect Existing Member
-- **Endpoint**: `POST /users/connect-member`
-- **Auth**: Required (Bearer Token/Session)
-- **Body**:
-  ```json
-  {
-    "memberId": "m-xxxxxx",
-    "phoneNumber": "8123456789"
-  }
-  ```
+### 2. Add Login link and Translation Toggle to Receipt Pages
+- **Target Files:**
+  - `app/receipt/page.tsx`
+  - `app/receipt/[id]/page.tsx`
+- **Requirement:**
+  - Add a localized link to `/login` in the top-right corner.
+  - Add the `TranslatorToggle` component next to the `ThemeToggle`.
+- **Implementation Detail:**
+  - Use `getTranslations` from `next-intl` for the `Navigation.login` string.
+  - Import and use `TranslatorToggle` from `@/components/providers/translator`.
+  - Use `Link` from `next/link` and a `Button` component with `variant="ghost"`.
+  - Use the `LogIn` icon from `lucide-react`.
+  - Match the top-bar layout style of the auth pages.
 
-### 3. Create New Member Connection
-- **Endpoint**: `POST /users/create-member`
-- **Auth**: Required (Bearer Token/Session)
-- **Body**:
-  ```json
-  {
-    "name": "User Name",
-    "phoneNumber": "8123456789"
-  }
-  ```
+## Step-by-Step Implementation Guide
 
-## Implementation Notes
-- The backend automatically prepends `+62` to the `phoneNumber` before saving.
-- Ensure the phone number input validation matches the regex: `^\+?[0-9\s\-()]+$`.
-- Handle error states (e.g., network errors, 500s) gracefully with toasts.
+### Step 1: Update Translation Files
+1.  **Edit `messages/en.json`**:
+    Add under `"Navigation"`:
+    ```json
+    "checkReceipt": "Check Receipt",
+    "login": "Login"
+    ```
+2.  **Edit `messages/id.json`**:
+    Add under `"Navigation"`:
+    ```json
+    "checkReceipt": "Cek Struk",
+    "login": "Masuk"
+    ```
+
+### Step 2: Update Auth Pages (`app/(auth)/login/page.tsx` & `app/(auth)/register/page.tsx`)
+1.  Make the page component `async`.
+2.  Import `getTranslations` from `next-intl`.
+3.  Import `Link` from `next/link`, `Button` from `@/components/ui/button`, and `Receipt` from `lucide-react`.
+4.  Initialize translations: `const t = await getTranslations("Navigation");`.
+5.  Add the link before `TranslatorToggle`:
+    ```tsx
+    <Button variant="ghost" size="sm" className="gap-2" asChild>
+      <Link href="/receipt">
+        <Receipt className="h-4 w-4" />
+        <span className="hidden sm:inline">{t("checkReceipt")}</span>
+      </Link>
+    </Button>
+    ```
+
+### Step 3: Update Receipt Pages (`app/receipt/page.tsx` & `app/receipt/[id]/page.tsx`)
+1.  Make the page component `async` (if not already).
+2.  Import `getTranslations` from `next-intl`.
+3.  Import `Link`, `Button`, `LogIn`, and `TranslatorToggle`.
+4.  Initialize translations: `const t = await getTranslations("Navigation");`.
+5.  Update the top bar `div` to include the login link and translation toggle:
+    ```tsx
+    <div className="absolute top-5 right-5 z-10 flex items-center gap-2">
+      <Button variant="ghost" size="sm" className="gap-2" asChild>
+        <Link href="/login">
+          <LogIn className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("login")}</span>
+        </Link>
+      </Button>
+      <TranslatorToggle />
+      <ThemeToggle />
+    </div>
+    ```

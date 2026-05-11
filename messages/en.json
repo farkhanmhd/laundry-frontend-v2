@@ -231,7 +231,9 @@
       "users": "Users",
       "home": "Home",
       "account": "Account"
-    }
+    },
+    "checkReceipt": "Check Receipt",
+    "login": "Login"
   },
   "Table": {
     "facetedFilter": {
@@ -1026,7 +1028,7 @@
     "title": "Track Your Order",
     "description": "Enter your order ID to view your receipt and order status.",
     "orderId": "Order ID",
-    "orderIdPlaceholder": "e.g. ORD-2024-001",
+    "orderIdPlaceholder": "e.g. O-2024001",
     "validationMinLength": "Order ID must be at least 7 characters.",
     "lookingUp": "Looking up…",
     "findReceipt": "Find Receipt",

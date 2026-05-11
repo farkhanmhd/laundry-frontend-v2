@@ -20,7 +20,6 @@ function delay(ms: number) {
 // ---------------------------------------------------------------------------
 
 export async function fetchOrderInfo(orderId: string): Promise<OrderInfo> {
-  console.log(orderId);
   await delay(600);
   return {
     status: "processing",
@@ -31,7 +30,6 @@ export async function fetchOrderInfo(orderId: string): Promise<OrderInfo> {
 export async function fetchOrderCustomer(
   orderId: string
 ): Promise<OrderCustomer> {
-  console.log(orderId);
   await delay(800);
   return {
     name: "Ade Ade Santoso",
@@ -43,7 +41,6 @@ export async function fetchOrderCustomer(
 export async function fetchOrderDeliveries(
   orderId: string
 ): Promise<OrderDelivery[]> {
-  console.log(orderId);
   await delay(1000);
   return [];
 }
@@ -51,7 +48,6 @@ export async function fetchOrderDeliveries(
 export async function fetchOrderPayment(
   orderId: string
 ): Promise<OrderPayment> {
-  console.log(orderId);
   await delay(700);
   return {
     paymentType: "qris",
@@ -62,7 +58,6 @@ export async function fetchOrderPayment(
 }
 
 export async function fetchOrderItems(orderId: string): Promise<OrderItems> {
-  console.log(orderId);
   await delay(900);
   return {
     items: [

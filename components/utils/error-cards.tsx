@@ -55,7 +55,7 @@ const BaseErrorCard = ({
 
       <Separator className="mb-4" />
 
-      <CardContent className="flex min-h-[150px] items-center justify-center p-6 pt-0">
+      <CardContent className="flex min-h-37.5 items-center justify-center p-6 pt-0">
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">

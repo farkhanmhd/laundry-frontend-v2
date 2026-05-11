@@ -1,14 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
-const PUBLIC_PATHS = ["/login", "/register"];
+const PUBLIC_PATHS = ["/login", "/register", "/receipt"];
 
 export async function middleware(request: NextRequest) {
   try {
     const session = await getMiddlewareSession();
     const nextUrl = request.nextUrl.pathname;
 
-    const isPublic = PUBLIC_PATHS.includes(nextUrl);
+    const isPublic = PUBLIC_PATHS.some((path) => nextUrl.startsWith(path));
 
     // Case 1: No session, and not on a public page -> redirect to login
     if (!(session || isPublic)) {

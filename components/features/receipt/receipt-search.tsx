@@ -9,43 +9,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  ReceiptApi,
+  type ReceiptLookupResult,
+} from "@/lib/modules/receipt/data";
 import { cn } from "@/lib/utils";
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-interface ReceiptLookupResult {
-  orderId: string;
-  exists: boolean;
-  customerName?: string;
-  createdAt?: string;
-  status?: string;
-}
-
-// ---------------------------------------------------------------------------
-// Mock API — replace with your real fetch when ready
-// ---------------------------------------------------------------------------
-async function lookupReceipt(orderId: string): Promise<ReceiptLookupResult> {
-  await new Promise((r) => setTimeout(r, 800));
-
-  // TODO: replace with real call:
-  // const res = await fetch(`/api/receipt/lookup?orderId=${encodeURIComponent(orderId)}`);
-  // if (!res.ok) throw new Error("Failed to look up receipt");
-  // return res.json();
-
-  // Mock: IDs ending in "0" do not exist
-  if (orderId.trim().endsWith("0")) {
-    return { orderId, exists: false };
-  }
-
-  return {
-    orderId,
-    exists: true,
-    customerName: "Ade Ade Santoso",
-    createdAt: "2026-02-24 16:08:35.224+07",
-    status: "processing",
-  };
-}
 
 // ---------------------------------------------------------------------------
 // Result card — found
@@ -131,7 +99,7 @@ export function ReceiptSearch() {
 
   const { data, isFetching, isSuccess, isError, error } = useQuery({
     queryKey: ["receipt-lookup", submittedId],
-    queryFn: () => lookupReceipt(submittedId),
+    queryFn: () => ReceiptApi.lookupReceipt(submittedId),
     enabled: submittedId.length >= 7,
     refetchOnWindowFocus: false,
     retry: 1,

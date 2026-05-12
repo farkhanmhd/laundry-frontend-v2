@@ -331,7 +331,9 @@
       "delivery": "Delivery",
       "readyForDelivery": "Ready for Delivery",
       "homeDelivery": "Home Delivery",
-      "requestDelivery": "Request Delivery"
+      "requestDelivery": "Request Delivery",
+      "courier": "Courier",
+      "trackingNumber": "Tracking Number"
     },
     "newOrder": {
       "createNewOrder": "Create New Order",
@@ -1186,6 +1188,20 @@
       "unitsUsed": "Units Used",
       "revenue": "Revenue"
     }
+  },
+  "Status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "washing": "Washing",
+    "drying": "Drying",
+    "ironing": "Ironing",
+    "ready": "Ready for Pickup",
+    "delivering": "Delivering",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "settlement": "Paid",
+    "deny": "Denied",
+    "expire": "Expired"
   },
   "Onboarding": {
     "title": "Welcome!",

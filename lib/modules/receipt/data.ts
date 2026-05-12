@@ -1,4 +1,3 @@
-// lib/modules/receipt/data.ts
 import type {
   OrderCustomer,
   OrderDelivery,
@@ -6,92 +5,82 @@ import type {
   OrderItems,
   OrderPayment,
 } from "@/components/features/receipt/order-types";
+import { elysia } from "@/elysia";
 
-// Simulate a network delay
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+export type ReceiptLookupResult = Partial<
+  NonNullable<
+    Awaited<ReturnType<typeof elysia.receipt.lookup.get>>["data"]
+  >["data"]
+>;
 
-// ---------------------------------------------------------------------------
-// TODO: replace each function body with your real fetch call, e.g.:
-//   const res = await fetch(`/api/orders/${orderId}/info`);
-//   if (!res.ok) throw new Error("Failed to load order info");
-//   return res.json();
-// ---------------------------------------------------------------------------
+export abstract class ReceiptApi {
+  static async lookupReceipt(orderId: string): Promise<ReceiptLookupResult> {
+    const { data: response } = await elysia.receipt.lookup.get({
+      query: { orderId },
+    });
 
-export async function fetchOrderInfo(orderId: string): Promise<OrderInfo> {
-  await delay(600);
-  return {
-    status: "processing",
-    createdAt: "2026-02-24 16:08:35.224+07",
-  };
-}
+    if (!response || response.status !== "success") {
+      return { orderId, exists: false };
+    }
 
-export async function fetchOrderCustomer(
-  orderId: string
-): Promise<OrderCustomer> {
-  await delay(800);
-  return {
-    name: "Ade Ade Santoso",
-    phone: "+627850462",
-    memberId: "m-256276",
-  };
-}
+    return response.data;
+  }
 
-export async function fetchOrderDeliveries(
-  orderId: string
-): Promise<OrderDelivery[]> {
-  await delay(1000);
-  return [];
-}
+  static async fetchOrderInfo(orderId: string): Promise<OrderInfo> {
+    const { data: response } = await elysia.receipt({ id: orderId }).info.get();
 
-export async function fetchOrderPayment(
-  orderId: string
-): Promise<OrderPayment> {
-  await delay(700);
-  return {
-    paymentType: "qris",
-    amountPaid: 25_000,
-    change: 0,
-    transactionStatus: "settlement",
-  };
-}
+    if (!response || response.status !== "success") {
+      throw new Error("Failed to load order info");
+    }
 
-export async function fetchOrderItems(orderId: string): Promise<OrderItems> {
-  await delay(900);
-  return {
-    items: [
-      {
-        id: "item-1",
-        name: "Cuci Setrika",
-        qty: 3,
-        price: 7000,
-        subtotal: 21_000,
-      },
-      {
-        id: "item-2",
-        name: "Cuci Kering",
-        qty: 2,
-        price: 5000,
-        subtotal: 10_000,
-      },
-      {
-        id: "item-3",
-        name: "Setrika Saja",
-        qty: 1,
-        price: 4000,
-        subtotal: 4000,
-      },
-    ],
-    voucher: {
-      id: "od-21101",
-      code: "DISC5RB",
-      description: "Diskon Rp 5.000",
-      discountAmount: -5000,
-    },
-    points: {
-      id: "od-78898",
-      points: -5000,
-    },
-  };
+    return response.data;
+  }
+
+  static async fetchOrderCustomer(orderId: string): Promise<OrderCustomer> {
+    const { data: response } = await elysia
+      .receipt({ id: orderId })
+      .customer.get();
+
+    if (!response || response.status !== "success") {
+      throw new Error("Failed to load customer info");
+    }
+
+    return response.data;
+  }
+
+  static async fetchOrderDeliveries(orderId: string): Promise<OrderDelivery[]> {
+    const { data: response } = await elysia
+      .receipt({ id: orderId })
+      .deliveries.get();
+
+    if (!response || response.status !== "success") {
+      throw new Error("Failed to load deliveries");
+    }
+
+    return response.data;
+  }
+
+  static async fetchOrderPayment(orderId: string): Promise<OrderPayment> {
+    const { data: response } = await elysia
+      .receipt({ id: orderId })
+      .payment.get();
+
+    if (!response || response.status !== "success") {
+      throw new Error("Failed to load payment info");
+    }
+
+    return response.data;
+  }
+
+  static async fetchOrderItems(orderId: string): Promise<OrderItems> {
+    const { data: response } = await elysia
+      .receipt({ id: orderId })
+      .items.get();
+
+    if (!response || response.status !== "success") {
+      throw new Error("Failed to load order items");
+    }
+
+    return response.data;
+  }
 }

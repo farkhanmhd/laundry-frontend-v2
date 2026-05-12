@@ -331,7 +331,9 @@
       "delivery": "Kirim",
       "readyForDelivery": "Siap Dikirim",
       "homeDelivery": "Pengiriman ke Rumah",
-      "requestDelivery": "Minta Pengiriman"
+      "requestDelivery": "Minta Pengiriman",
+      "courier": "Kurir",
+      "trackingNumber": "Nomor Resi"
     },
     "newOrder": {
       "createNewOrder": "Buat Pesanan Baru",
@@ -1186,6 +1188,20 @@
       "unitsUsed": "Unit Terpakai",
       "revenue": "Pendapatan"
     }
+  },
+  "Status": {
+    "pending": "Menunggu",
+    "processing": "Diproses",
+    "washing": "Dicuci",
+    "drying": "Dikeringkan",
+    "ironing": "Disetrika",
+    "ready": "Siap Diambil",
+    "delivering": "Diantar",
+    "completed": "Selesai",
+    "cancelled": "Dibatalkan",
+    "settlement": "Lunas",
+    "deny": "Ditolak",
+    "expire": "Kedaluwarsa"
   },
   "Onboarding": {
     "title": "Selamat Datang!",

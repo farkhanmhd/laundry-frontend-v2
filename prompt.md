@@ -1,91 +1,127 @@
-# Implementation Tasks: Navigation and Localization Enhancements
 
-## Overview
-Enhance the user experience by providing easy navigation between authentication pages and receipt pages, and ensuring translation options and localized strings are available on these routes using `next-intl`.
+# Receipt & Order Detail API Specification
 
-## Tasks
+## Endpoints
 
-### 0. Update Translation Messages
-- **Target Files:**
-  - `messages/en.json`
-  - `messages/id.json`
-- **Requirement:** Add navigation keys for the new links.
-- **Implementation Detail:**
-  - In `Navigation` section, add:
-    - `"checkReceipt": "Check Receipt"` (EN) / `"checkReceipt": "Cek Struk"` (ID)
-    - `"login": "Login"` (EN) / `"login": "Masuk"` (ID)
+### 1. Lookup Receipt
+- **URL:** `GET /receipt/lookup`
+- **Query Parameters:**
+  - `orderId` (string, required): The ID of the order to look up.
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "orderId": "string",
+      "exists": "boolean",
+      "customerName": "string | null",
+      "createdAt": "string | null",
+      "status": "string | null"
+    }
+  }
+  ```
 
-### 1. Add "Check Receipt" link to Auth Pages
-- **Target Files:**
-  - `app/(auth)/login/page.tsx`
-  - `app/(auth)/register/page.tsx`
-- **Requirement:** Add a localized link to `/receipt` in the top-right corner, positioned next to the `ThemeToggle` and `TranslatorToggle`.
-- **Implementation Detail:**
-  - Use `getTranslations` from `next-intl` to fetch the `Navigation.checkReceipt` string.
-  - Use `Link` from `next/link` and a `Button` component with `variant="ghost"`.
-  - Use the `Receipt` icon from `lucide-react`.
-  - Ensure consistent spacing (gap) with existing toggles.
+### 2. Get Order Info
+- **URL:** `GET /receipt/:id/info`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "status": "string",
+      "createdAt": "string"
+    }
+  }
+  ```
 
-### 2. Add Login link and Translation Toggle to Receipt Pages
-- **Target Files:**
-  - `app/receipt/page.tsx`
-  - `app/receipt/[id]/page.tsx`
-- **Requirement:**
-  - Add a localized link to `/login` in the top-right corner.
-  - Add the `TranslatorToggle` component next to the `ThemeToggle`.
-- **Implementation Detail:**
-  - Use `getTranslations` from `next-intl` for the `Navigation.login` string.
-  - Import and use `TranslatorToggle` from `@/components/providers/translator`.
-  - Use `Link` from `next/link` and a `Button` component with `variant="ghost"`.
-  - Use the `LogIn` icon from `lucide-react`.
-  - Match the top-bar layout style of the auth pages.
+### 3. Get Order Customer
+- **URL:** `GET /receipt/:id/customer`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "name": "string",
+      "phone": "string",
+      "memberId": "string | null"
+    }
+  }
+  ```
 
-## Step-by-Step Implementation Guide
+### 4. Get Order Deliveries
+- **URL:** `GET /receipt/:id/deliveries`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "string",
+        "address": "string",
+        "courier": "string",
+        "trackingNumber": "string | null",
+        "status": "string"
+      }
+    ]
+  }
+  ```
 
-### Step 1: Update Translation Files
-1.  **Edit `messages/en.json`**:
-    Add under `"Navigation"`:
-    ```json
-    "checkReceipt": "Check Receipt",
-    "login": "Login"
-    ```
-2.  **Edit `messages/id.json`**:
-    Add under `"Navigation"`:
-    ```json
-    "checkReceipt": "Cek Struk",
-    "login": "Masuk"
-    ```
+### 5. Get Order Payment
+- **URL:** `GET /receipt/:id/payment`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "paymentType": "string",
+      "amountPaid": "number",
+      "change": "number",
+      "transactionStatus": "string"
+    }
+  }
+  ```
 
-### Step 2: Update Auth Pages (`app/(auth)/login/page.tsx` & `app/(auth)/register/page.tsx`)
-1.  Make the page component `async`.
-2.  Import `getTranslations` from `next-intl`.
-3.  Import `Link` from `next/link`, `Button` from `@/components/ui/button`, and `Receipt` from `lucide-react`.
-4.  Initialize translations: `const t = await getTranslations("Navigation");`.
-5.  Add the link before `TranslatorToggle`:
-    ```tsx
-    <Button variant="ghost" size="sm" className="gap-2" asChild>
-      <Link href="/receipt">
-        <Receipt className="h-4 w-4" />
-        <span className="hidden sm:inline">{t("checkReceipt")}</span>
-      </Link>
-    </Button>
-    ```
+### 6. Get Order Items
+- **URL:** `GET /receipt/:id/items`
+- **Response:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "items": [
+        {
+          "id": "string",
+          "name": "string",
+          "qty": "number",
+          "price": "number",
+          "subtotal": "number"
+        }
+      ],
+      "voucher": {
+        "id": "string",
+        "code": "string",
+        "description": "string",
+        "discountAmount": "number"
+      } | null,
+      "points": {
+        "id": "string",
+        "points": "number"
+      } | null
+    }
+  }
+  ```
 
-### Step 3: Update Receipt Pages (`app/receipt/page.tsx` & `app/receipt/[id]/page.tsx`)
-1.  Make the page component `async` (if not already).
-2.  Import `getTranslations` from `next-intl`.
-3.  Import `Link`, `Button`, `LogIn`, and `TranslatorToggle`.
-4.  Initialize translations: `const t = await getTranslations("Navigation");`.
-5.  Update the top bar `div` to include the login link and translation toggle:
-    ```tsx
-    <div className="absolute top-5 right-5 z-10 flex items-center gap-2">
-      <Button variant="ghost" size="sm" className="gap-2" asChild>
-        <Link href="/login">
-          <LogIn className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("login")}</span>
-        </Link>
-      </Button>
-      <TranslatorToggle />
-      <ThemeToggle />
-    </div>
-    ```
+---
+
+# Frontend Implementation Prompt
+
+Implement data fetching for the receipt search and order detail pages using TanStack Query, connecting to the now-available Backend API.
+
+### Requirements:
+1.  **API Client:** Update or implement the `ReceiptApi` class in `lib/modules/receipt/data.ts` to fetch data from the actual backend endpoints defined above.
+2.  **TanStack Query:**
+    - Implement `useReceiptLookup` hook for the search functionality in `components/features/receipt/receipt-search.tsx`.
+    - Implement hooks for each section in the order detail page (`useOrderInfo`, `useOrderCustomer`, `useOrderDeliveries`, `useOrderPayment`, and `useOrderItems`) in `components/features/receipt/order-sections.tsx`.
+3.  **Real Data Integration:** Ensure the application uses live data from the backend. The endpoints are public and do not require authentication.
+4.  **Error Handling:** Ensure proper error states are handled in the components using the existing `SectionErrorBoundary`. Display appropriate messages if an order is not found or if the API is unreachable.
+5.  **Parallel Fetching:** The order detail sections in `app/receipt/[id]/page.tsx` should fetch their data in parallel to optimize loading performance.

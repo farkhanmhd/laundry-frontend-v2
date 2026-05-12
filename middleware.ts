@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
-const PUBLIC_PATHS = ["/login", "/register", "/receipt"];
+const PUBLIC_PATHS = ["/login", "/receipt"];
 
 export async function middleware(request: NextRequest) {
   try {

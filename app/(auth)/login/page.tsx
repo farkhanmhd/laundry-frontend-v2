@@ -1,18 +1,18 @@
-import { Triangle, Receipt } from "lucide-react";
+import { Receipt, Triangle } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { Button } from "@/components/ui/button";
 import { LoginForm } from "@/components/features/auth/login-form";
 import { ThemeToggle } from "@/components/navigation/theme-toggle";
 import { TranslatorToggle } from "@/components/providers/translator";
+import { Button } from "@/components/ui/button";
 
 export default async function LoginPage() {
   const t = await getTranslations("Navigation");
 
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-background px-4">
-      <div className="absolute top-6 right-6 z-10 flex items-center gap-3">
-        <Button variant="ghost" size="sm" className="gap-2" asChild>
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-background">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <Button asChild className="gap-2" size="sm" variant="ghost">
           <Link href="/receipt">
             <Receipt className="h-4 w-4" />
             <span className="hidden sm:inline">{t("checkReceipt")}</span>

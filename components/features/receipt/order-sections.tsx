@@ -1,4 +1,7 @@
 // components/features/receipt/order-sections.tsx
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   BadgeCheck,
   Clock,
@@ -7,14 +10,48 @@ import {
   Truck,
   User,
 } from "lucide-react";
-import {
-  fetchOrderCustomer,
-  fetchOrderDeliveries,
-  fetchOrderInfo,
-  fetchOrderItems,
-  fetchOrderPayment,
-} from "@/lib/modules/receipt/data";
+import { useTranslations } from "next-intl";
+import { ReceiptApi } from "@/lib/modules/receipt/data";
+import { cn } from "@/lib/utils";
 import { SectionCard, SectionHeading } from "./order-ui";
+
+// ---------------------------------------------------------------------------
+// Hooks
+// ---------------------------------------------------------------------------
+export function useOrderInfo(orderId: string) {
+  return useSuspenseQuery({
+    queryKey: ["order-info", orderId],
+    queryFn: () => ReceiptApi.fetchOrderInfo(orderId),
+  });
+}
+
+export function useOrderCustomer(orderId: string) {
+  return useSuspenseQuery({
+    queryKey: ["order-customer", orderId],
+    queryFn: () => ReceiptApi.fetchOrderCustomer(orderId),
+  });
+}
+
+export function useOrderDeliveries(orderId: string) {
+  return useSuspenseQuery({
+    queryKey: ["order-deliveries", orderId],
+    queryFn: () => ReceiptApi.fetchOrderDeliveries(orderId),
+  });
+}
+
+export function useOrderPayment(orderId: string) {
+  return useSuspenseQuery({
+    queryKey: ["order-payment", orderId],
+    queryFn: () => ReceiptApi.fetchOrderPayment(orderId),
+  });
+}
+
+export function useOrderItems(orderId: string) {
+  return useSuspenseQuery({
+    queryKey: ["order-items", orderId],
+    queryFn: () => ReceiptApi.fetchOrderItems(orderId),
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -34,69 +71,60 @@ function formatDate(raw: string) {
   }).format(new Date(raw));
 }
 
-const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  processing: {
-    label: "Processing",
-    className:
-      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  },
-  completed: {
-    label: "Completed",
-    className:
-      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-  },
-  cancelled: {
-    label: "Cancelled",
-    className: "bg-destructive/10 text-destructive border-destructive/20",
-  },
-  pending: {
-    label: "Pending",
-    className: "bg-muted/60 text-muted-foreground border-border",
-  },
+const STATUS_CLASSES: Record<string, string> = {
+  pending: "bg-muted/60 text-muted-foreground border-border",
+  processing:
+    "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  washing: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
+  drying: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+  ironing:
+    "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
+  ready: "bg-primary/10 text-primary border-primary/20",
+  delivering:
+    "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
+  completed:
+    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  cancelled: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.pending;
+  const t = useTranslations("Status");
+  const className = STATUS_CLASSES[status] ?? STATUS_CLASSES.pending;
+
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-medium text-[11.5px] ${cfg.className}`}
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 font-medium text-[11.5px]",
+        className
+      )}
     >
-      {cfg.label}
+      {t(status)}
     </span>
   );
 }
 
-const PAYMENT_STATUS_CONFIG: Record<
-  string,
-  { label: string; className: string }
-> = {
-  settlement: {
-    label: "Paid",
-    className:
-      "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-  },
-  pending: {
-    label: "Pending",
-    className:
-      "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  },
-  deny: {
-    label: "Denied",
-    className: "bg-destructive/10 text-destructive border-destructive/20",
-  },
-  expire: {
-    label: "Expired",
-    className: "bg-muted/60 text-muted-foreground border-border",
-  },
+const PAYMENT_STATUS_CLASSES: Record<string, string> = {
+  settlement:
+    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  pending:
+    "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  deny: "bg-destructive/10 text-destructive border-destructive/20",
+  expire: "bg-muted/60 text-muted-foreground border-border",
 };
 
 function PaymentStatusBadge({ status }: { status: string }) {
-  const cfg = PAYMENT_STATUS_CONFIG[status] ?? PAYMENT_STATUS_CONFIG.pending;
+  const t = useTranslations("Status");
+  const className =
+    PAYMENT_STATUS_CLASSES[status] ?? PAYMENT_STATUS_CLASSES.pending;
+
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-medium text-[11.5px] ${cfg.className}`}
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 font-medium text-[11.5px]",
+        className
+      )}
     >
-      {cfg.label}
+      {t(status)}
     </span>
   );
 }
@@ -115,22 +143,23 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 // ---------------------------------------------------------------------------
 // Order Info Section
 // ---------------------------------------------------------------------------
-export async function OrderInfoSection({ orderId }: { orderId: string }) {
-  const info = await fetchOrderInfo(orderId);
+export function OrderInfoSection({ orderId }: { orderId: string }) {
+  const t = useTranslations("Orders.orderInfo");
+  const { data: info } = useOrderInfo(orderId);
 
   return (
     <SectionCard>
       <SectionHeading>
         <span className="flex items-center gap-1.5">
           <Clock className="size-3" />
-          Order Info
+          {t("orderInformation")}
         </span>
       </SectionHeading>
       <div className="flex flex-col gap-2.5">
-        <Row label="Status" value={<StatusBadge status={info.status} />} />
-        <Row label="Date" value={formatDate(info.createdAt)} />
+        <Row label={t("status")} value={<StatusBadge status={info.status} />} />
+        <Row label={t("createdAt")} value={formatDate(info.createdAt)} />
         <Row
-          label="Order ID"
+          label={t("orderId")}
           value={
             <span className="font-mono text-[12px] uppercase">{orderId}</span>
           }
@@ -143,23 +172,24 @@ export async function OrderInfoSection({ orderId }: { orderId: string }) {
 // ---------------------------------------------------------------------------
 // Customer Section
 // ---------------------------------------------------------------------------
-export async function CustomerSection({ orderId }: { orderId: string }) {
-  const customer = await fetchOrderCustomer(orderId);
+export function CustomerSection({ orderId }: { orderId: string }) {
+  const t = useTranslations("Orders.customer");
+  const { data: customer } = useOrderCustomer(orderId);
 
   return (
     <SectionCard>
       <SectionHeading>
         <span className="flex items-center gap-1.5">
           <User className="size-3" />
-          Customer
+          {t("customerDetails")}
         </span>
       </SectionHeading>
       <div className="flex flex-col gap-2.5">
-        <Row label="Name" value={customer.name} />
-        <Row label="Phone" value={customer.phone} />
+        <Row label={t("customerName")} value={customer.name} />
+        <Row label={t("phoneNumber")} value={customer.phone} />
         {customer.memberId && (
           <Row
-            label="Member"
+            label={t("member")}
             value={
               <span className="flex items-center gap-1 text-primary uppercase">
                 <BadgeCheck className="size-3.5" />
@@ -176,30 +206,34 @@ export async function CustomerSection({ orderId }: { orderId: string }) {
 // ---------------------------------------------------------------------------
 // Deliveries Section
 // ---------------------------------------------------------------------------
-export async function DeliveriesSection({ orderId }: { orderId: string }) {
-  const deliveries = await fetchOrderDeliveries(orderId);
+export function DeliveriesSection({ orderId }: { orderId: string }) {
+  const t = useTranslations("Orders.delivery");
+  const { data: deliveries } = useOrderDeliveries(orderId);
 
   return (
     <SectionCard>
       <SectionHeading>
         <span className="flex items-center gap-1.5">
           <Truck className="size-3" />
-          Delivery
+          {t("logistics")}
         </span>
       </SectionHeading>
       {deliveries.length === 0 ? (
         <p className="text-[13px] text-muted-foreground">
-          Pickup — no delivery scheduled.
+          {t("noDeliveryDescription")}
         </p>
       ) : (
         <div className="flex flex-col gap-3">
           {deliveries.map((d) => (
             <div className="flex flex-col gap-2" key={d.id}>
-              <Row label="Courier" value={d.courier} />
-              <Row label="Status" value={d.status} />
+              <Row label={t("courier")} value={d.courier} />
+              <Row
+                label={t("status")}
+                value={<StatusBadge status={d.status} />}
+              />
               {d.trackingNumber && (
                 <Row
-                  label="Tracking"
+                  label={t("trackingNumber")}
                   value={
                     <span className="font-mono text-[12px]">
                       {d.trackingNumber}
@@ -207,7 +241,7 @@ export async function DeliveriesSection({ orderId }: { orderId: string }) {
                   }
                 />
               )}
-              <Row label="Address" value={d.address} />
+              <Row label={t("address")} value={d.address} />
             </div>
           ))}
         </div>
@@ -219,14 +253,13 @@ export async function DeliveriesSection({ orderId }: { orderId: string }) {
 // ---------------------------------------------------------------------------
 // Payment Section
 // ---------------------------------------------------------------------------
-export async function PaymentSection({ orderId }: { orderId: string }) {
-  const payment = await fetchOrderPayment(orderId);
+export function PaymentSection({ orderId }: { orderId: string }) {
+  const t = useTranslations("Orders.payment");
+  const { data: payment } = useOrderPayment(orderId);
 
   const paymentTypeLabel: Record<string, string> = {
     qris: "QRIS",
-    cash: "Cash",
-    transfer: "Bank Transfer",
-    card: "Card",
+    cash: t("statusValues.pending"), // Cash usually mapped to something, but let's just use labels
   };
 
   return (
@@ -234,25 +267,25 @@ export async function PaymentSection({ orderId }: { orderId: string }) {
       <SectionHeading>
         <span className="flex items-center gap-1.5">
           <CreditCard className="size-3" />
-          Payment
+          {t("paymentInformation")}
         </span>
       </SectionHeading>
       <div className="flex flex-col gap-2.5">
         <Row
-          label="Method"
+          label={t("paymentMethod")}
           value={
             paymentTypeLabel[payment.paymentType] ??
             payment.paymentType.toUpperCase()
           }
         />
         <Row
-          label="Status"
+          label={t("status")}
           value={<PaymentStatusBadge status={payment.transactionStatus} />}
         />
         <div className="my-1 h-px bg-border/60" />
-        <Row label="Amount Paid" value={formatRupiah(payment.amountPaid)} />
+        <Row label={t("amountPaid")} value={formatRupiah(payment.amountPaid)} />
         {payment.change > 0 && (
-          <Row label="Change" value={formatRupiah(payment.change)} />
+          <Row label={t("change")} value={formatRupiah(payment.change)} />
         )}
       </div>
     </SectionCard>
@@ -262,8 +295,10 @@ export async function PaymentSection({ orderId }: { orderId: string }) {
 // ---------------------------------------------------------------------------
 // Items Section
 // ---------------------------------------------------------------------------
-export async function ItemsSection({ orderId }: { orderId: string }) {
-  const { items, voucher, points } = await fetchOrderItems(orderId);
+export function ItemsSection({ orderId }: { orderId: string }) {
+  const t = useTranslations("Orders.items");
+  const { data: orderData } = useOrderItems(orderId);
+  const { items, voucher, points } = orderData;
 
   const subtotal = items.reduce((acc, item) => acc + item.subtotal, 0);
   const voucherDiscount = voucher?.discountAmount ?? 0;
@@ -275,7 +310,7 @@ export async function ItemsSection({ orderId }: { orderId: string }) {
       <SectionHeading>
         <span className="flex items-center gap-1.5">
           <Package className="size-3" />
-          Items
+          {t("orderItems")}
         </span>
       </SectionHeading>
 
@@ -303,11 +338,11 @@ export async function ItemsSection({ orderId }: { orderId: string }) {
 
       {/* Deductions + total */}
       <div className="flex flex-col gap-2">
-        <Row label="Subtotal" value={formatRupiah(subtotal)} />
+        <Row label={t("subtotal")} value={formatRupiah(subtotal)} />
 
         {voucher && (
           <Row
-            label={`Voucher (${voucher.code})`}
+            label={`${t("voucher")} (${voucher.code})`}
             value={
               <span className="text-emerald-600 dark:text-emerald-400">
                 − {formatRupiah(Math.abs(voucherDiscount))}
@@ -318,7 +353,7 @@ export async function ItemsSection({ orderId }: { orderId: string }) {
 
         {points && pointsDiscount !== 0 && (
           <Row
-            label="Points Redeemed"
+            label={t("pointsRedeemed")}
             value={
               <span className="text-emerald-600 dark:text-emerald-400">
                 − {formatRupiah(Math.abs(pointsDiscount))}

@@ -43,14 +43,17 @@ export const getStatusColor = (
   }
 };
 
-export const formatDate = (dateString: string) =>
-  new Date(dateString).toLocaleDateString("en-ID", {
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  date.setHours(date.getHours() + 7);
+  return date.toLocaleDateString("en-ID", {
     day: "numeric",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Asia/Jakarta",
   });
+};
 
 export const cardShadowStyle = {
   boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",

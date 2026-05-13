@@ -39,6 +39,7 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
     },
     cell: ({ row }) => {
       const joinDate = row.getValue("joinDate") as string | null;
+      console.log(joinDate);
       return (
         <div className="text-muted-foreground text-sm">
           {joinDate ? formatDate(joinDate) : "N/A"}

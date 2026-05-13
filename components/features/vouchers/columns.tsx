@@ -1,7 +1,6 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
@@ -9,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { Voucher } from "@/lib/modules/vouchers/data";
-import { cn, formatToIDR } from "@/lib/utils";
+import { cn, formatDate, formatToIDR } from "@/lib/utils";
 
 export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
   const t = useTranslations("Vouchers");
@@ -98,11 +97,9 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
         <DataTableColumnHeader column={column} title={t("table.expiry")} />
       ),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("expiresAt"));
-        const formattedDate = format(date, "PP, HH:mm");
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
+            {formatDate(row.getValue("expiresAt"))}
           </div>
         );
       },
@@ -113,11 +110,9 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
         <DataTableColumnHeader column={column} title={t("table.dateAdded")} />
       ),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        const formattedDate = format(date, "PP, HH:mm");
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
+            {formatDate(row.getValue("createdAt"))}
           </div>
         );
       },

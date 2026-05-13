@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/modules/auth/auth-client";
+import { queryClient } from "@/lib/query-client";
 import { useUserTableDialog } from "./state";
 
 export function UpdaterequiredRoleDialog() {
@@ -22,7 +22,6 @@ export function UpdaterequiredRoleDialog() {
   const { isRoleDialogOpen, isUserAdmin, user, closeUserDialog } =
     useUserTableDialog();
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleUpdateRole = async () => {
     setIsLoading(true);
@@ -45,7 +44,7 @@ export function UpdaterequiredRoleDialog() {
         })
       );
 
-      router.refresh();
+      queryClient.invalidateQueries();
       closeUserDialog();
     } catch {
       toast.error(t("unexpectedError"));

@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL(`${process.env.NEXT_PUBLIC_API_URL}/uploads/**`),
       new URL("https://api.sandbox.midtrans.com/v2/qris/**"),
+      new URL("https://lh3.googleusercontent.com/a/**"),
     ],
   },
   experimental: {

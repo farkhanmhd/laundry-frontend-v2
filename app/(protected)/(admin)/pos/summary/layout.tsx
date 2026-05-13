@@ -20,7 +20,7 @@ const Layout = ({
   points,
 }: Props) => {
   return (
-    <div className="mx-auto max-w-7xl p-4">
+    <div className="mx-auto min-h-[calc(100dvh-128px)] max-w-7xl p-4 md:min-h-[calc(100dvh-64px)]">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
         <div className="space-y-4 lg:col-span-8">
           {customer}

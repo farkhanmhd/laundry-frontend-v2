@@ -398,7 +398,6 @@ async function createDeliveryRequest(body: {
   );
 
   if (error) {
-    console.log(JSON.stringify(error));
     throw new Error(`Error: ${error.value.type}`);
   }
 

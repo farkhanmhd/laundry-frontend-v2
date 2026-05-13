@@ -56,7 +56,6 @@ export default function OnboardingPage() {
   const [existingMember, setExistingMember] = useState<ExistingMember | null>(
     null
   );
-  console.log(existingMember);
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const phoneForm = useForm<PhoneValues>({

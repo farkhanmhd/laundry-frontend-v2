@@ -15,7 +15,6 @@ export const updaterequiredRoleAction = actionClient
     const { data, error } = await UsersApi.updaterequiredRole(parsedInput);
 
     if (error) {
-      console.log(error);
       return errorResponse;
     }
 

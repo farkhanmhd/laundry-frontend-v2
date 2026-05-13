@@ -63,6 +63,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
   const canAddMore = fields.length < 10;
 
   const onSubmit = (data: AddBundlingSchema) => {
+    console.log(data);
     action.execute(data);
   };
 
@@ -72,7 +73,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FormInput
-        disabled={action.isPending || !form.formState.isDirty}
+        disabled={action.isPending}
         form={form}
         label={t("form.bundlingName")}
         name="name"
@@ -80,7 +81,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         as={Textarea}
-        disabled={action.isPending || !form.formState.isDirty}
+        disabled={action.isPending}
         form={form}
         label={t("form.bundlingDescription")}
         name="description"
@@ -88,7 +89,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         className="text-right"
-        disabled={action.isPending || !form.formState.isDirty}
+        disabled={action.isPending}
         form={form}
         label={t("form.bundlingPrice")}
         name="price"
@@ -96,7 +97,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       />
       <FormInput
         accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-        disabled={action.isPending || !form.formState.isDirty}
+        disabled={action.isPending}
         form={form}
         label={t("form.image")}
         name="image"
@@ -108,7 +109,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         <div className="flex flex-col gap-6">
           {fields.map((field, index) => (
             <BundlingItemForm
-              disabled={action.isPending || !form.formState.isDirty}
+              disabled={action.isPending}
               field={field}
               index={index}
               inventories={inventories}
@@ -122,7 +123,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         </div>
         {canAddMore && (
           <Button
-            disabled={action.isPending || !form.formState.isDirty}
+            disabled={action.isPending}
             onClick={() => append({ itemType: "inventory", quantity: 0 })}
             type="button"
             variant="outline"
@@ -133,10 +134,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         )}
       </div>
 
-      <Button
-        disabled={action.isPending || !form.formState.isDirty}
-        type="submit"
-      >
+      <Button disabled={action.isPending} type="submit">
         {t("form.createNew")}
       </Button>
     </form>

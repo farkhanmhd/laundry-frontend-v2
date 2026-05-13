@@ -44,12 +44,14 @@ export abstract class BundlingsApi extends BaseApi {
     formData.append("image", body.image);
     formData.append("items", JSON.stringify(body.items));
 
+    const headers = (await BundlingsApi.getFormDataConfig()).fetch.headers;
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/bundlings`,
       {
         method: "POST",
-        ...(await BundlingsApi.getFormDataConfig()),
         body: formData,
+        headers,
       }
     );
 

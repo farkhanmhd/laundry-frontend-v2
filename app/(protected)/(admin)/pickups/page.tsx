@@ -21,6 +21,7 @@ const PickupsTableContent = () => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["pickups", { search, page, rows }],
     queryFn: () => PickupsApi.getPickups({ search, page, rows }),
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {

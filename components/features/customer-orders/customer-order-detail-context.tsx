@@ -107,6 +107,7 @@ export const CustomerOrderDetailProvider = ({
   const detailQuery = useQuery({
     queryKey: ["customer-order-detail-page", orderId],
     queryFn: () => getCustomerOrderDetailPageData(orderId),
+    refetchOnWindowFocus: true,
   });
 
   const addressesQuery = useQuery({
@@ -166,7 +167,11 @@ export const CustomerOrderDetailProvider = ({
     !!payment &&
     (detail.status === "ready" || detail.status === "processing") &&
     payment.status === "settlement";
-  const canCancelPickupRequest = hasRequestedPickup && !hasDeliveryRequest;
+
+  const canCancelPickupRequest =
+    payment?.status !== "settlement" &&
+    hasRequestedPickup &&
+    !hasDeliveryRequest;
 
   const value = useMemo<CustomerOrderDetailContextValue>(
     () => ({

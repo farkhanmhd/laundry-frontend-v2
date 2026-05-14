@@ -1,14 +1,27 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { OrderPaymentDetailsCard } from "@/components/features/orders/order-payment-details-card";
-import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
+import { elysia } from "@/elysia";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
+async function getOrderPaymentDetails(id: string) {
+  const { data: response } = await elysia
+    .customerorders({ id })
+    .payment_details.get({
+      headers: await headers(),
+    });
+
+  const data = response?.data;
+
+  return data;
+}
+
 const PaymentDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const data = await CustomerOrdersApi.getOrderPaymentDetails(id);
+  const data = await getOrderPaymentDetails(id);
 
   if (!data) {
     redirect(`/customer-orders/${id}`);

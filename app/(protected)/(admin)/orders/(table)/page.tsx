@@ -20,6 +20,7 @@ const OrdersTableContent = () => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["orders", { search, page, rows }],
     queryFn: () => OrdersApi.getOrders({ search, page, rows }),
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {

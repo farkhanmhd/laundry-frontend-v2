@@ -21,6 +21,7 @@ const DeliveriesTableContent = () => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["deliveries", { search, page, rows }],
     queryFn: () => DeliveriesApi.getDeliveries({ search, page, rows }),
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {

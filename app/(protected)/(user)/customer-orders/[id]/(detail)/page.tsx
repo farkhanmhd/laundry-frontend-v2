@@ -196,7 +196,9 @@ const OrderDetailPayment = ({ orderId }: { orderId: string }) => {
   const { payment, deliveries } = useCustomerOrderDetail();
 
   const hasCompletedPickup = deliveries.find(
-    (delivery) => delivery.type === "pickup" && delivery.status === "completed"
+    (delivery) =>
+      delivery.type === "pickup" &&
+      ["completed", "picked_up"].includes(delivery.status)
   );
 
   const canMakePayment =

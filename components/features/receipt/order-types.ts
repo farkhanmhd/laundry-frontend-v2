@@ -13,10 +13,9 @@ export interface OrderCustomer {
 
 export interface OrderDelivery {
   id: string;
+  type: "pickup" | "delivery";
   address: string;
-  courier: string;
-  trackingNumber: string | null;
-  status: string;
+  status: "cancelled" | "completed" | "requested" | "in_progress" | "picked_up";
 }
 
 export interface OrderPayment {

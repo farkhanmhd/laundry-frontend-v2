@@ -328,12 +328,16 @@
       "address": "Address",
       "note": "Note",
       "pickUp": "Pick Up",
-      "delivery": "Delivery",
       "readyForDelivery": "Ready for Delivery",
       "homeDelivery": "Home Delivery",
       "requestDelivery": "Request Delivery",
       "courier": "Courier",
-      "trackingNumber": "Tracking Number"
+      "trackingNumber": "Tracking Number",
+      "status": "Status",
+      "picked_up": "Picked Up",
+      "type": "Type",
+      "pickup": "Pick Up",
+      "delivery": "Delivery"
     },
     "newOrder": {
       "createNewOrder": "Create New Order",
@@ -1197,6 +1201,8 @@
     "ironing": "Ironing",
     "ready": "Ready for Pickup",
     "delivering": "Delivering",
+    "sedang_diantar": "Out for Delivery",
+    "picked_up": "Picked Up",
     "completed": "Completed",
     "cancelled": "Cancelled",
     "settlement": "Paid",

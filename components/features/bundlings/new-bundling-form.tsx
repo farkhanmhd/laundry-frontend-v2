@@ -63,7 +63,6 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
   const canAddMore = fields.length < 10;
 
   const onSubmit = (data: AddBundlingSchema) => {
-    console.log(data);
     action.execute(data);
   };
 

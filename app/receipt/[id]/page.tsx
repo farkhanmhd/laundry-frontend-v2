@@ -63,13 +63,10 @@ export default async function OrderPage({ params }: OrderPageProps) {
         </div>
 
         {/* Page heading */}
-        <div className="mb-6 flex flex-col gap-1">
+        <div className="mb-3 flex flex-col gap-1">
           <h1 className="font-semibold text-[22px] text-foreground tracking-tight">
             Order Detail
           </h1>
-          <p className="font-mono text-[12.5px] text-muted-foreground uppercase">
-            {orderId}
-          </p>
         </div>
 
         {/* Sections — all siblings, fetches run in parallel */}

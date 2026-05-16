@@ -2,14 +2,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  BadgeCheck,
-  Clock,
-  CreditCard,
-  Package,
-  Truck,
-  User,
-} from "lucide-react";
+import { BadgeCheck, Clock, CreditCard, Package, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReceiptApi } from "@/lib/modules/receipt/data";
 import { cn } from "@/lib/utils";
@@ -82,6 +75,8 @@ const STATUS_CLASSES: Record<string, string> = {
   ready: "bg-primary/10 text-primary border-primary/20",
   delivering:
     "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
+  picked_up:
+    "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
   completed:
     "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
   cancelled: "bg-destructive/10 text-destructive border-destructive/20",
@@ -206,6 +201,11 @@ export function CustomerSection({ orderId }: { orderId: string }) {
 // ---------------------------------------------------------------------------
 // Deliveries Section
 // ---------------------------------------------------------------------------
+import { Truck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+
+// ... (keep existing imports and code until DeliveriesSection)
+
 export function DeliveriesSection({ orderId }: { orderId: string }) {
   const t = useTranslations("Orders.delivery");
   const { data: deliveries } = useOrderDeliveries(orderId);
@@ -223,24 +223,36 @@ export function DeliveriesSection({ orderId }: { orderId: string }) {
           {t("noDeliveryDescription")}
         </p>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-8">
           {deliveries.map((d) => (
             <div className="flex flex-col gap-2" key={d.id}>
-              <Row label={t("courier")} value={d.courier} />
               <Row
                 label={t("status")}
-                value={<StatusBadge status={d.status} />}
+                value={
+                  <StatusBadge
+                    status={
+                      d.type === "delivery" && d.status === "picked_up"
+                        ? "sedang_diantar"
+                        : d.status
+                    }
+                  />
+                }
               />
-              {d.trackingNumber && (
-                <Row
-                  label={t("trackingNumber")}
-                  value={
-                    <span className="font-mono text-[12px]">
-                      {d.trackingNumber}
-                    </span>
-                  }
-                />
-              )}
+              <Row
+                label={t("type")}
+                value={
+                  <Badge
+                    className={
+                      d.type === "delivery"
+                        ? "border-blue-500/20 bg-blue-500/10 text-blue-700"
+                        : "border-slate-500/20 bg-slate-500/10 text-slate-700"
+                    }
+                    variant={d.type === "delivery" ? "secondary" : "outline"}
+                  >
+                    {t(d.type)}
+                  </Badge>
+                }
+              />
               <Row label={t("address")} value={d.address} />
             </div>
           ))}

@@ -328,12 +328,16 @@
       "address": "Alamat",
       "note": "Catatan",
       "pickUp": "Jemput",
-      "delivery": "Kirim",
       "readyForDelivery": "Siap Dikirim",
       "homeDelivery": "Pengiriman ke Rumah",
       "requestDelivery": "Minta Pengiriman",
       "courier": "Kurir",
-      "trackingNumber": "Nomor Resi"
+      "trackingNumber": "Nomor Resi",
+      "status": "Status",
+      "picked_up": "Sudah Dijemput",
+      "type": "Tipe",
+      "pickup": "Penjemputan",
+      "delivery": "Pengantaran"
     },
     "newOrder": {
       "createNewOrder": "Buat Pesanan Baru",
@@ -1197,6 +1201,8 @@
     "ironing": "Disetrika",
     "ready": "Siap Diambil",
     "delivering": "Diantar",
+    "sedang_diantar": "Sedang Diantar",
+    "picked_up": "Sudah Dijemput",
     "completed": "Selesai",
     "cancelled": "Dibatalkan",
     "settlement": "Lunas",

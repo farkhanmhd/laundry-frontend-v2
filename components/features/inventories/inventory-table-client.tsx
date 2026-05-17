@@ -73,12 +73,8 @@ export const InventoryTableClient = ({ data }: Props) => {
           </div>
 
           {role === "superadmin" && (
-            /* Mobile: 2x2 grid + full-width add button */
             <div className="mt-3 flex flex-col gap-2 lg:hidden">
-              <div className="grid grid-cols-2 gap-2">
-                <Button className="w-full" size="sm" variant="outline">
-                  Export
-                </Button>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <Link
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" }),

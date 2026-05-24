@@ -1,9 +1,10 @@
 import { MinusIcon, Plus, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { FieldArrayWithId } from "react-hook-form";
+import type { FieldArrayWithId, UseFormReturn } from "react-hook-form";
 import type { SelectOption } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,28 +18,34 @@ type BundlingFormValues = {
   items: BundlingItem[];
 };
 
-type Props = {
+type Props<T extends { items: BundlingItem[] }> = {
   services: SelectOption[];
   inventories: SelectOption[];
   onDeleteClick: () => void;
   removable: boolean;
   field: FieldArrayWithId<BundlingFormValues, "items", "_id">;
+  form: UseFormReturn<T>;
   index: number;
   update: (index: number, item: BundlingItem) => void;
   disabled: boolean;
 };
 
-export function BundlingItemForm({
+export function BundlingItemForm<T extends { items: BundlingItem[] }>({
   services,
   inventories,
   onDeleteClick,
   removable,
   field,
+  form,
   index,
   update,
   disabled,
-}: Props) {
+}: Props<T>) {
   const t = useTranslations("Bundlings");
+
+  const itemsErrors = form.formState.errors.items;
+  const itemErrors =
+    itemsErrors && Array.isArray(itemsErrors) ? itemsErrors[index] : undefined;
 
   const itemTypeOptions: SelectOption[] = [
     {
@@ -107,76 +114,88 @@ export function BundlingItemForm({
   };
 
   return (
-    <ButtonGroup className="w-full">
-      <ButtonGroup className="w-full">
-        <Select
-          disabled={disabled}
-          onValueChange={handleItemTypeChange}
-          value={itemType}
-        >
-          <SelectTrigger className="capitalize">
-            {getItemTypeLabel(itemType)}
-          </SelectTrigger>
-          <SelectContent>
-            {itemTypeOptions.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select
-          disabled={disabled}
-          onValueChange={handleItemSelectionChange}
-          value={selectedItem}
-        >
-          <SelectTrigger className="capitalize">
-            {selectedItemLabel}
-          </SelectTrigger>
-          <SelectContent>
-            {selectedItemOptions.map((opt) => (
-              <SelectItem key={opt.label} value={opt.value}>
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Input
-          className="text-right"
-          disabled={disabled}
-          pattern="[0-9]*"
-          placeholder={t("itemsForm.quantity")}
-          readOnly
-          value={field.quantity === 0 ? "" : field.quantity}
-        />
-        <Button
-          disabled={field.quantity <= 0 || disabled}
-          onClick={handleDecrement}
-          type="button"
-          variant="outline"
-        >
-          <MinusIcon />
-        </Button>
-        <Button
-          disabled={disabled}
-          onClick={handleIncrement}
-          type="button"
-          variant="outline"
-        >
-          <Plus />
-        </Button>
-      </ButtonGroup>
-      {removable && (
-        <ButtonGroup>
-          <Button
+    <ButtonGroup className="flex w-full flex-col gap-2">
+      <div className="flex gap-2">
+        <ButtonGroup className="w-full">
+          <Select
             disabled={disabled}
-            onClick={onDeleteClick}
+            onValueChange={handleItemTypeChange}
+            value={itemType}
+          >
+            <SelectTrigger className="capitalize">
+              {getItemTypeLabel(itemType)}
+            </SelectTrigger>
+            <SelectContent>
+              {itemTypeOptions.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            disabled={disabled}
+            onValueChange={handleItemSelectionChange}
+            value={selectedItem}
+          >
+            <SelectTrigger className="capitalize">
+              {selectedItemLabel}
+            </SelectTrigger>
+            <SelectContent>
+              {selectedItemOptions.map((opt) => (
+                <SelectItem key={opt.label} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input
+            className="text-right"
+            disabled={disabled}
+            pattern="[0-9]*"
+            placeholder={t("itemsForm.quantity")}
+            readOnly
+            value={field.quantity === 0 ? "" : field.quantity}
+          />
+          <Button
+            disabled={field.quantity <= 0 || disabled}
+            onClick={handleDecrement}
             type="button"
             variant="outline"
           >
-            <Trash />
+            <MinusIcon />
+          </Button>
+          <Button
+            disabled={disabled}
+            onClick={handleIncrement}
+            type="button"
+            variant="outline"
+          >
+            <Plus />
           </Button>
         </ButtonGroup>
+        {removable && (
+          <ButtonGroup>
+            <Button
+              disabled={disabled}
+              onClick={onDeleteClick}
+              type="button"
+              variant="outline"
+            >
+              <Trash />
+            </Button>
+          </ButtonGroup>
+        )}
+      </div>
+      {itemErrors && (
+        <FieldError
+          errors={[
+            itemErrors.itemType,
+            itemErrors.inventoryId,
+            itemErrors.serviceId,
+            itemErrors.quantity,
+          ]}
+        />
       )}
     </ButtonGroup>
   );

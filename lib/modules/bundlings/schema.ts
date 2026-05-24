@@ -1,13 +1,28 @@
 import { z } from "zod";
 import { imageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
-const bundlingItem = z.object({
-  id: z.nullable(z.optional(z.string())),
-  serviceId: z.nullable(z.optional(z.string())),
-  inventoryId: z.nullable(z.optional(z.string())),
-  itemType: z.enum(["service", "inventory"]),
-  quantity: z.number({ error: "Quantity required" }),
-});
+const bundlingItem = z
+  .object({
+    id: z.nullable(z.optional(z.string())),
+    serviceId: z.nullable(z.optional(z.string())),
+    inventoryId: z.nullable(z.optional(z.string())),
+    itemType: z.enum(["service", "inventory"]),
+    quantity: z
+      .number({ error: "Quantity required" })
+      .min(1, "Quantity must be at least 1"),
+  })
+  .refine(
+    (data) => {
+      return (
+        (data.serviceId != null && data.serviceId !== "") ||
+        (data.inventoryId != null && data.inventoryId !== "")
+      );
+    },
+    {
+      message: "Either Service or Inventory must be selected",
+      path: ["itemType"],
+    }
+  );
 
 export type BundlingItem = z.infer<typeof bundlingItem>;
 

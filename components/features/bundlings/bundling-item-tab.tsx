@@ -80,6 +80,7 @@ export const BundlingItemTab = ({
             <BundlingItemForm
               disabled={action.isPending || !isEditing}
               field={field}
+              form={form}
               index={index}
               inventories={inventories}
               key={field._id}

@@ -11,6 +11,7 @@ import { BundlingItemForm } from "@/components/features/bundlings/bundling-item-
 import { FormInput } from "@/components/forms/form-input";
 import type { SelectOption } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { addBundlingAction } from "@/lib/modules/bundlings/actions";
 import {
@@ -63,6 +64,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
   const canAddMore = fields.length < 10;
 
   const onSubmit = (data: AddBundlingSchema) => {
+    console.log(action.result);
     action.execute(data);
   };
 
@@ -110,6 +112,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
             <BundlingItemForm
               disabled={action.isPending}
               field={field}
+              form={form}
               index={index}
               inventories={inventories}
               key={field._id}
@@ -131,6 +134,14 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
             <span>{t("itemsForm.addItem")}</span>
           </Button>
         )}
+        <FieldError
+          errors={
+            form.formState.errors.items &&
+            !Array.isArray(form.formState.errors.items)
+              ? [form.formState.errors.items]
+              : undefined
+          }
+        />
       </div>
 
       <Button disabled={action.isPending} type="submit">

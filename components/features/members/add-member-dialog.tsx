@@ -53,6 +53,10 @@ export function AddMemberDialog() {
             form.reset();
             refresh();
           }
+
+          if (data?.status === "error") {
+            toast.error(data.message);
+          }
         },
       },
     }

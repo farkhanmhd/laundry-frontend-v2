@@ -56,6 +56,14 @@ export function AccountDataForm({ data }: Props) {
     }
   );
 
+  const watchValues = form.watch();
+  const isInvalid = !(
+    watchValues.username?.trim() &&
+    watchValues.name?.trim() &&
+    String(watchValues.phone) &&
+    watchValues.email?.trim()
+  );
+
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const submittedData = {
@@ -142,7 +150,7 @@ export function AccountDataForm({ data }: Props) {
           {/* Action Buttons - Only visible when editing */}
           {isEditing && (
             <div className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 pt-2 duration-300">
-              <Button disabled={action.isPending} type="submit">
+              <Button disabled={action.isPending || isInvalid} type="submit">
                 {action.isPending ? t("saving") : t("saveChanges")}
               </Button>
 

@@ -55,8 +55,6 @@ const PaymentDetailPage = ({ params }: Props) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["order-payment-details", id],
     queryFn: () => OrdersApi.getOrderPaymentDetails(id),
-    // Polling could be useful for payment pages, but let's stick to simple useQuery first
-    // refetchInterval: 5000,
   });
 
   useEffect(() => {

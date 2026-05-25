@@ -43,11 +43,18 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
 
     const calculateTimeLeft = () => {
       const now = Date.now();
-      const expiry = new Date(
-        (paymentDetails.expiryTime as string)
+      const expiryDate = new Date(
+        paymentDetails.expiryTime
           .replace(" ", "T")
           .replace(timestampRegex, "$1:00")
-      ).getTime();
+      );
+
+      if (expiryDate.getSeconds() > 0) {
+        expiryDate.setSeconds(1);
+        expiryDate.setMinutes(expiryDate.getMinutes() + 2);
+      }
+
+      const expiry = expiryDate.getTime();
       const diff = expiry - now;
 
       if (diff <= 0) {
@@ -73,7 +80,6 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
     }
 
     if (TERMINAL_STATUSES.includes(transactionStatusRef.current)) {
-      console.log("Already Paid");
       return;
     }
 

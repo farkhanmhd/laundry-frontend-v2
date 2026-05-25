@@ -970,7 +970,7 @@
       "fullName": "Full Name",
       "fullNamePlaceholder": "Enter your full name",
       "phoneNumber": "Phone Number",
-      "phoneNumberPlaceholder": "e.g. 08123456789",
+      "phoneNumberPlaceholder": "e.g. 8123456789",
       "phoneDescription": "Used for delivery coordination and membership points.",
       "email": "Email",
       "emailPlaceholder": "user@gmail.com",

@@ -16,6 +16,8 @@ export type FormInputProps<
   as?: InputType;
   defaultValue?: TFieldValues[Path<TFieldValues>];
   showErrors?: boolean;
+  formatValue?: (value: unknown) => string;
+  parseValue?: (displayValue: string) => unknown;
 } & Omit<React.ComponentProps<InputType>, "form" | "name" | "defaultValue">;
 
 export function FormInput<
@@ -27,6 +29,9 @@ export function FormInput<
   name,
   as,
   showErrors = true,
+  formatValue,
+  parseValue,
+  defaultValue,
   ...props
 }: FormInputProps<TFieldValues, InputType>) {
   const Component = as ?? Input;
@@ -36,26 +41,40 @@ export function FormInput<
       <Controller
         control={form.control}
         name={name}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            {label && (
-              <FieldLabel className="text-base" htmlFor={field.name}>
-                {label}
-              </FieldLabel>
-            )}
-            <Component
-              aria-invalid={fieldState.invalid}
-              autoComplete="off"
-              className="text-sm"
-              id={field.name}
-              {...props}
-              {...form.register(name)}
-            />
-            {showErrors && fieldState.invalid && (
-              <FieldError errors={[fieldState.error]} />
-            )}
-          </Field>
-        )}
+        render={({ field, fieldState }) => {
+          const currentValue = field.value ?? ("" as unknown);
+          const displayValue = formatValue
+            ? formatValue(currentValue)
+            : String(currentValue ?? "");
+
+          return (
+            <Field data-invalid={fieldState.invalid}>
+              {label && (
+                <FieldLabel className="text-base" htmlFor={field.name}>
+                  {label}
+                </FieldLabel>
+              )}
+              <Component
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+                className="text-sm"
+                id={field.name}
+                {...props}
+                value={displayValue}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  field.onChange(parseValue ? parseValue(raw) : raw);
+                }}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                name={field.name}
+              />
+              {showErrors && fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
+          );
+        }}
       />
     </FieldGroup>
   );

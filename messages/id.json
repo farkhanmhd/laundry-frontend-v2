@@ -20,14 +20,15 @@
     "table": {
       "placeholder": "Cari Member"
     },
-    "membersListTitle": "Daftar Member",
+    "membersListTitle": "Member dengan Total Belanja Terbesar",
     "columns": {
       "memberName": "Nama Member",
       "phone": "Telepon",
       "joinDate": "Tanggal Bergabung",
       "orders": "Pesanan",
-      "totalSpending": "Total Pengeluaran",
-      "averageSpending": "Rata-rata Pengeluaran"
+      "totalSpending": "Total Belanja",
+      "averageSpending": "Rata-rata Pengeluaran",
+      "userId": "Akun"
     },
     "addMember": {
       "button": "Member",
@@ -173,7 +174,7 @@
       "qris": "QRIS"
     },
     "voucher": {
-      "off": "% OFF",
+      "off": "OFF",
       "upTo": "Hasta",
       "exp": "Exp:",
       "noExpiry": "Tidak Kedaluwarsa",
@@ -334,7 +335,11 @@
       "courier": "Kurir",
       "trackingNumber": "Nomor Resi",
       "status": "Status",
+      "requested": "Diminta",
+      "in_progress": "Sedang Diproses",
       "picked_up": "Sudah Dijemput",
+      "completed": "Selesai",
+      "cancelled": "Dibatalkan",
       "type": "Tipe",
       "pickup": "Penjemputan",
       "delivery": "Pengantaran"
@@ -493,7 +498,14 @@
       "lastUpdate": "Perbarui Terakhir",
       "inStock": "Tersedia",
       "shortage": "Menipis",
-      "unknown": "Tidak Diketahui"
+      "unknown": "Tidak Diketahui",
+      "actions": "Aksi"
+    },
+    "deleteDialog": {
+      "title": "Hapus Inventaris",
+      "description": "Apakah Anda yakin ingin menghapus inventaris ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
     },
     "categories": {
       "product": "Produk",
@@ -512,7 +524,7 @@
       "safetyStockLabel": "Stok Aman Inventaris",
       "category": "Kategori",
       "cancel": "Batal",
-      "saveChanges": "Simpan Perubahan",
+      "saveChanges": "Simpan",
       "edit": "Edit",
       "createNew": "Buat Inventaris Baru",
       "createDescription": "Masukkan detail di bawah untuk menambahkan inventaris baru.",
@@ -586,7 +598,14 @@
       "name": "Nama",
       "price": "Harga",
       "dateAdded": "Tanggal Ditambahkan",
-      "lastUpdate": "Perbarui Terakhir"
+      "lastUpdate": "Perbarui Terakhir",
+      "actions": "Aksi"
+    },
+    "deleteDialog": {
+      "title": "Hapus Layanan",
+      "description": "Apakah Anda yakin ingin menghapus layanan ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
     },
     "form": {
       "serviceData": "Data Layanan",
@@ -623,7 +642,14 @@
       "id": "ID",
       "name": "Nama",
       "price": "Harga",
-      "dateAdded": "Tanggal Ditambahkan"
+      "dateAdded": "Tanggal Ditambahkan",
+      "actions": "Aksi"
+    },
+    "deleteDialog": {
+      "title": "Hapus Paket",
+      "description": "Apakah Anda yakin ingin menghapus paket ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
     },
     "form": {
       "bundlingData": "Data Paket",
@@ -657,7 +683,8 @@
       "quantity": "Jumlah",
       "cancel": "Batal",
       "updateBundling": "Perbarui Paket",
-      "bundlingItems": "Item Paket"
+      "bundlingItems": "Item Paket",
+      "itemPriceTotal": "Total Harga Item"
     }
   },
   "Vouchers": {
@@ -672,7 +699,14 @@
       "maxDiscount": "Max Diskon",
       "expiry": "Kedaluwarsa",
       "dateAdded": "Tanggal Ditambahkan",
-      "visibility": "Visibilitas"
+      "visibility": "Visibilitas",
+      "actions": "Aksi"
+    },
+    "deleteDialog": {
+      "title": "Hapus Voucher",
+      "description": "Apakah Anda yakin ingin menghapus voucher ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
     },
     "form": {
       "voucherCode": "Kode Voucher",
@@ -704,7 +738,12 @@
       "username": "Nama Pengguna",
       "phone": "Telepon",
       "role": "Peran",
-      "noUsername": "Tanpa nama pengguna"
+      "noUsername": "Tanpa nama pengguna",
+      "noPhone": "Tanpa nomor telepon",
+      "roleSuperadmin": "Superadmin",
+      "roleAdmin": "Admin",
+      "roleDriver": "Kurir",
+      "roleUser": "Pengguna"
     },
     "actions": {
       "buttonLabel": "Perbarui peran",
@@ -712,17 +751,20 @@
       "setAsAdmin": "Beri"
     },
     "roleDialog": {
+      "title": "Ubah Peran",
+      "description": "Pilih peran baru untuk {name}",
+      "placeholder": "Pilih peran",
       "failedUpdate": "Gagal memperbarui peran",
-      "demotedToUser": "{name} diubah menjadi Pengguna",
-      "promotedToAdmin": "{name} diubah menjadi Admin",
+      "successMessage": "{name} diubah menjadi {role}",
       "unexpectedError": "Terjadi kesalahan tak terduga",
-      "revokeAdminTitle": "Cabut akses admin?",
-      "grantAdminTitle": "Berikan akses admin?",
-      "revokeDescription": "Apakah Anda yakin ingin menurunkan {name}? Mereka akan kehilangan akses dasbor.",
-      "grantDescription": "Apakah Anda yakin ingin menaikkan {name}? Mereka akan memiliki hak administratif penuh.",
       "cancel": "Batal",
-      "revokeAccess": "Cabut Akses",
-      "confirmAdmin": "Konfirmasi Admin"
+      "updateRole": "Perbarui Peran",
+      "roles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "driver": "Kurir",
+        "user": "Pengguna"
+      }
     },
     "createUserDialog": {
       "createUser": "Kasir",
@@ -809,7 +851,12 @@
       "needAnythingElse": "Butuh yang Lain?",
       "addOtherItems": "Tambahkan item lain ke pesanan Anda",
       "addMore": "Tambah Lagi",
-      "requestPickup": "Minta Penjemputan"
+      "requestPickup": "Minta Penjemputan",
+      "noAddress": "Pilih alamat penjemputan sebelum meminta penjemputan.",
+      "onlyInventoryItems": "Tambahkan item selain Produk untuk meminta penjemputan.",
+      "service": "Layanan",
+      "inventory": "Produk",
+      "bundling": "Paket"
     },
     "orderSummaryAddress": {
       "label": "Lokasi penjemputan",
@@ -872,7 +919,10 @@
       "cancel": "Batal",
       "payNow": "Bayar Sekarang",
       "confirmAddress": "Konfirmasi Pengiriman",
-      "cancelPickupRequest": "Batalkan Permintaan Jemput"
+      "cancelPickupRequest": "Batalkan Permintaan Jemput",
+      "cancelPickupRequestTitle": "Batalkan Permintaan Jemput",
+      "cancelPickupRequestDescription": "Apakah Anda yakin ingin membatalkan permintaan jemput ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancelPickupRequestConfirm": "Ya, Batalkan"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",
@@ -974,7 +1024,10 @@
       "phoneDescription": "Digunakan untuk koordinasi pengiriman dan poin keMemberan.",
       "email": "Email",
       "emailPlaceholder": "user@gmail.com",
-      "emailDescription": "Digunakan untuk email pengguna."
+      "emailDescription": "Digunakan untuk email pengguna.",
+      "toastSuccess": "Profil berhasil diperbarui",
+      "toastError": "Gagal memperbarui profil",
+      "toastUsernameTaken": "Nama pengguna sudah digunakan"
     },
     "security": {
       "title": "Keamanan",
@@ -1044,7 +1097,7 @@
   },
   "Dashboard": {
     "admin": {
-      "title": "Meja Operasional",
+      "title": "Dashboard",
       "newOrder": "Pesanan Baru",
       "deliveryRequests": {
         "title": "Permintaan Pengiriman",
@@ -1128,7 +1181,7 @@
         "topServicesDesc": "Menampilkan layanan dengan performa terbaik berdasarkan pendapatan",
         "inventoryUsage": "Penggunaan Inventaris",
         "inventoryUsageDesc": "Lacak konsumsi item inventaris utama",
-        "bundlingStats": "Performa Paket",
+        "bundlingStats": "Penggunaan Paket",
         "bundlingStatsDesc": "Pelacakan performa penawaran paket",
         "failedToLoad": "Gagal memuat data",
         "retry": "Coba Lagi"

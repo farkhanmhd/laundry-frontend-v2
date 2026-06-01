@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const updateRoleSchema = z.object({
   userId: z.string(),
-  role: z.union([z.literal("admin"), z.literal("user")]),
+  role: z.enum(["superadmin", "admin", "driver", "user"]),
 });
 
 export const createCashierSchema = z.object({

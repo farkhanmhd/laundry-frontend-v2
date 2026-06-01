@@ -20,14 +20,15 @@
     "table": {
       "placeholder": "Search member"
     },
-    "membersListTitle": "Members List",
+    "membersListTitle": "Most Spending Member",
     "columns": {
       "memberName": "Member Name",
       "phone": "Phone",
       "joinDate": "Join Date",
       "orders": "Orders",
       "totalSpending": "Total Spending",
-      "averageSpending": "Avg. Spending"
+      "averageSpending": "Avg. Spending",
+      "userId": "Account"
     },
     "addMember": {
       "button": "Member",
@@ -173,7 +174,7 @@
       "qris": "QRIS"
     },
     "voucher": {
-      "off": "% OFF",
+      "off": "OFF",
       "upTo": "Up to",
       "exp": "Exp:",
       "noExpiry": "No Expiry",
@@ -334,7 +335,11 @@
       "courier": "Courier",
       "trackingNumber": "Tracking Number",
       "status": "Status",
+      "requested": "Requested",
+      "in_progress": "In Progress",
       "picked_up": "Picked Up",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
       "type": "Type",
       "pickup": "Pick Up",
       "delivery": "Delivery"
@@ -493,7 +498,14 @@
       "lastUpdate": "Last Update",
       "inStock": "In Stock",
       "shortage": "Shortage",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "actions": "Actions"
+    },
+    "deleteDialog": {
+      "title": "Delete Inventory",
+      "description": "Are you sure you want to delete this inventory? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
     },
     "categories": {
       "product": "Product",
@@ -512,7 +524,7 @@
       "safetyStockLabel": "Safety Stock of Inventory",
       "category": "Category",
       "cancel": "Cancel",
-      "saveChanges": "Save Changes",
+      "saveChanges": "Save",
       "edit": "Edit",
       "createNew": "Create New Inventory",
       "createDescription": "Enter details below to add new inventory.",
@@ -586,7 +598,14 @@
       "name": "Name",
       "price": "Price",
       "dateAdded": "Date Added",
-      "lastUpdate": "Last Update"
+      "lastUpdate": "Last Update",
+      "actions": "Actions"
+    },
+    "deleteDialog": {
+      "title": "Delete Service",
+      "description": "Are you sure you want to delete this service? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
     },
     "form": {
       "serviceData": "Service Data",
@@ -623,7 +642,14 @@
       "id": "ID",
       "name": "Name",
       "price": "Price",
-      "dateAdded": "Date Added"
+      "dateAdded": "Date Added",
+      "actions": "Actions"
+    },
+    "deleteDialog": {
+      "title": "Delete Bundling",
+      "description": "Are you sure you want to delete this bundling? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
     },
     "form": {
       "bundlingData": "Bundling Data",
@@ -657,7 +683,8 @@
       "quantity": "Quantity",
       "cancel": "Cancel",
       "updateBundling": "Update Bundling",
-      "bundlingItems": "Bundling Items"
+      "bundlingItems": "Bundling Items",
+      "itemPriceTotal": "Total Items Price"
     }
   },
   "Vouchers": {
@@ -672,7 +699,14 @@
       "maxDiscount": "Max Discount",
       "expiry": "Expiry",
       "dateAdded": "Date Added",
-      "visibility": "Visibility"
+      "visibility": "Visibility",
+      "actions": "Actions"
+    },
+    "deleteDialog": {
+      "title": "Delete Voucher",
+      "description": "Are you sure you want to delete this voucher? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
     },
     "form": {
       "voucherCode": "Voucher Code",
@@ -704,7 +738,12 @@
       "username": "Username",
       "phone": "Phone",
       "role": "Role",
-      "noUsername": "No username"
+      "noUsername": "No username",
+      "noPhone": "No phone number",
+      "roleSuperadmin": "Superadmin",
+      "roleAdmin": "Admin",
+      "roleDriver": "Driver",
+      "roleUser": "User"
     },
     "actions": {
       "buttonLabel": "Update role",
@@ -712,17 +751,20 @@
       "setAsAdmin": "Grant"
     },
     "roleDialog": {
+      "title": "Change Role",
+      "description": "Select a new role for {name}",
+      "placeholder": "Select a role",
       "failedUpdate": "Failed to update role",
-      "demotedToUser": "{name} was changed to User",
-      "promotedToAdmin": "{name} was changed to Admin",
+      "successMessage": "{name} was changed to {role}",
       "unexpectedError": "An unexpected error occurred",
-      "revokeAdminTitle": "Revoke admin access?",
-      "grantAdminTitle": "Grant admin access?",
-      "revokeDescription": "Are you sure you want to demote {name}? They will lose dashboard access.",
-      "grantDescription": "Are you sure you want to promote {name}? They will have full administrative privileges.",
       "cancel": "Cancel",
-      "revokeAccess": "Revoke Access",
-      "confirmAdmin": "Confirm Admin"
+      "updateRole": "Update Role",
+      "roles": {
+        "superadmin": "Superadmin",
+        "admin": "Admin",
+        "driver": "Driver",
+        "user": "User"
+      }
     },
     "createUserDialog": {
       "createUser": "Cashier",
@@ -809,7 +851,12 @@
       "needAnythingElse": "Need Anything Else?",
       "addOtherItems": "Add other items to your order",
       "addMore": "Add More",
-      "requestPickup": "Request Pickup"
+      "requestPickup": "Request Pickup",
+      "noAddress": "Select a pickup address before requesting pickup.",
+      "onlyInventoryItems": "Add laundry items to request pickup.",
+      "service": "Service",
+      "inventory": "Product",
+      "bundling": "Bundling"
     },
     "orderSummaryAddress": {
       "label": "Pickup location",
@@ -872,7 +919,10 @@
       "cancel": "Cancel",
       "payNow": "Pay Now",
       "confirmAddress": "Confirm Delivery",
-      "cancelPickupRequest": "Cancel Pickup Request"
+      "cancelPickupRequest": "Cancel Pickup Request",
+      "cancelPickupRequestTitle": "Cancel Pickup Request",
+      "cancelPickupRequestDescription": "Are you sure you want to cancel this pickup request? This action cannot be undone.",
+      "cancelPickupRequestConfirm": "Yes, Cancel Request"
     },
     "payment": {
       "success": "Payment Successful!",
@@ -974,7 +1024,10 @@
       "phoneDescription": "Used for delivery coordination and membership points.",
       "email": "Email",
       "emailPlaceholder": "user@gmail.com",
-      "emailDescription": "Used for user email."
+      "emailDescription": "Used for user email.",
+      "toastSuccess": "Profile updated successfully",
+      "toastError": "Profile update failed",
+      "toastUsernameTaken": "Username already taken"
     },
     "security": {
       "title": "Security",
@@ -1044,7 +1097,7 @@
   },
   "Dashboard": {
     "admin": {
-      "title": "Operations Desk",
+      "title": "Dashboard",
       "newOrder": "New Order",
       "deliveryRequests": {
         "title": "Delivery Requests",
@@ -1128,7 +1181,7 @@
         "topServicesDesc": "Showing top performing services based on revenue",
         "inventoryUsage": "Inventory Usage",
         "inventoryUsageDesc": "Track consumption of key inventory items",
-        "bundlingStats": "Bundling Performance",
+        "bundlingStats": "Bundling Usage",
         "bundlingStatsDesc": "Performance tracking for bundled offers",
         "failedToLoad": "Failed to load data",
         "retry": "Retry"

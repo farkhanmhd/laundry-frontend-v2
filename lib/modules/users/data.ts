@@ -22,13 +22,6 @@ export abstract class UsersApi {
     const { data, error } = await authClient.admin.setRole({
       userId,
       role,
-      fetchOptions: {
-        credentials: "include",
-        body: {
-          userId,
-          role,
-        },
-      },
     });
 
     return { data, error };

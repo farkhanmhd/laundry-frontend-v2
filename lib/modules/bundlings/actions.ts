@@ -4,6 +4,7 @@ import { actionClient } from "@/lib/safe-action";
 import { BundlingsApi } from "./data";
 import {
   addBundlingSchema,
+  deleteBundlingSchema,
   updateBundlingImageSchema,
   updateBundlingItemsSchema,
   updateBundlingSchema,
@@ -84,5 +85,21 @@ export const updateBundlingImageAction = actionClient
     return {
       status: "success",
       message: "Inventory updated",
+    };
+  });
+
+export const deleteBundlingAction = actionClient
+  .inputSchema(deleteBundlingSchema)
+  .action(async ({ parsedInput }) => {
+    const { id } = parsedInput;
+    const result = await BundlingsApi.deleteBundling(id);
+
+    if (!result || result.error) {
+      return errorResult;
+    }
+
+    return {
+      status: "success",
+      message: "Bundling deleted",
     };
   });

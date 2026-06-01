@@ -5,17 +5,28 @@ import { useCustomerOrder } from "@/components/features/customer-orders/state";
 import { Button } from "@/components/ui/button";
 
 export default function OrderSummaryPage() {
-  const { submitPickupRequest, isPending, canRequestPickup } =
-    useCustomerOrder();
+  const {
+    submitPickupRequest,
+    isPending,
+    canRequestPickup,
+    pickupDisabledReason,
+  } = useCustomerOrder();
 
   const t = useTranslations("CustomerOrders");
   return (
-    <Button
-      className="w-full"
-      disabled={isPending || !canRequestPickup}
-      onClick={submitPickupRequest}
-    >
-      {t("orderSummary.requestPickup")}
-    </Button>
+    <>
+      <Button
+        className="w-full"
+        disabled={isPending || !canRequestPickup}
+        onClick={submitPickupRequest}
+      >
+        {t("orderSummary.requestPickup")}
+      </Button>
+      {pickupDisabledReason && (
+        <p className="mt-1 text-muted-foreground text-sm">
+          {t(`orderSummary.${pickupDisabledReason}`)}
+        </p>
+      )}
+    </>
   );
 }

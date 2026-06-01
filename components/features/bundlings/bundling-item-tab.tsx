@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import type { SelectOption } from "@/components/forms/form-select";
@@ -15,7 +15,17 @@ import {
   type UpdateBundlingItemSchema,
   updateBundlingItemsSchema,
 } from "@/lib/modules/bundlings/schema";
+import { formatToIDR } from "@/lib/utils";
 import { BundlingItemForm } from "./bundling-item-form";
+
+const priceFromLabel = (label: string) => {
+  const openParen = label.lastIndexOf("(");
+  const closeParen = label.lastIndexOf(")");
+  if (openParen === -1 || closeParen === -1) {
+    return 0;
+  }
+  return Number(label.slice(openParen + 1, closeParen).replace(/[^\d]/g, ""));
+};
 
 type Props = {
   bundlingId: string;
@@ -68,6 +78,19 @@ export const BundlingItemTab = ({
     action.execute(data);
   };
 
+  const itemPriceTotal = useMemo(() => {
+    const allOptions = [...(services ?? []), ...(inventories ?? [])];
+    return fields.reduce((acc, field) => {
+      const id =
+        field.itemType === "service" ? field.serviceId : field.inventoryId;
+      const option = allOptions.find((o) => o.value === id);
+      if (!option) {
+        return acc;
+      }
+      return acc + field.quantity * priceFromLabel(option.label);
+    }, 0);
+  }, [fields, services, inventories]);
+
   return (
     <div className="flex flex-col gap-6">
       <p className="font-medium">{t("itemsForm.bundlingItems")}</p>
@@ -91,6 +114,9 @@ export const BundlingItemTab = ({
             />
           ))}
         </div>
+        <p className="text-muted-foreground text-sm">
+          {t("itemsForm.itemPriceTotal")}: {formatToIDR(itemPriceTotal)}
+        </p>
         {canAddMore && isEditing && (
           <Button
             disabled={action.isPending || !isEditing}

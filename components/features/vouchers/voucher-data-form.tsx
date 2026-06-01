@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { formatToIDR } from "@/lib/utils";
 
 type UseHookFormActionResult = ReturnType<typeof useHookFormAction>;
 
@@ -36,7 +37,7 @@ const voucherTypes = ["fixed", "percentage"];
 type Props = {
   submitLabel: string;
   formData: UseHookFormActionResult;
-  onSubmitVoucherAction: (e: React.FormEvent) => void;
+  onSubmitVoucherAction: (e: React.SubmitEvent) => void;
 };
 
 export const VoucherDataForm = ({
@@ -84,10 +85,13 @@ export const VoucherDataForm = ({
       />
 
       <FormInput
+        className="text-right"
         disabled={action.isPending}
         form={form}
+        formatValue={(v: unknown) => formatToIDR(Number(v))}
         label={t("form.minSpend")}
         name="minSpend"
+        parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
         placeholder="Minimum Spend"
       />
 
@@ -112,10 +116,13 @@ export const VoucherDataForm = ({
 
       {voucherType === "fixed" ? (
         <FormInput
+          className="text-right"
           disabled={action.isPending}
           form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
           label={t("form.discountAmount")}
           name="discountAmount"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="Discount Amount"
         />
       ) : (
@@ -128,10 +135,13 @@ export const VoucherDataForm = ({
             placeholder="Discount Percentage (%)"
           />
           <FormInput
+            className="text-right"
             disabled={action.isPending}
             form={form}
+            formatValue={(v: unknown) => formatToIDR(Number(v))}
             label={t("form.maxDiscountAmount")}
             name="maxDiscountAmount"
+            parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
             placeholder="Maximum Discount Amount"
           />
         </>

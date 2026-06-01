@@ -8,18 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
-import { cardShadowStyle, cn, formatDate, getStatusColor } from "@/lib/utils";
+import { cardShadowStyle, formatDate } from "@/lib/utils";
 import { useOrderDetail } from "./order-detail-context";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
-
-// interface OrderInfoProps {
-//   id: string;
-//   deliveries: OrderDelivery[];
-//   data: {
-//     status: "pending" | "processing" | "ready" | "completed" | "cancelled";
-//     createdAt: string;
-//   };
-// }
 
 export const OrderInfoCard = () => {
   const t = useTranslations("Orders.orderInfo");
@@ -76,23 +67,15 @@ export const OrderInfoCard = () => {
       <CardContent className="grid gap-6 sm:grid-cols-3">
         <div className="flex flex-col gap-1">
           <span className="text-muted-foreground text-sm">{t("orderId")}</span>
-          <span className="font-medium font-mono text-foreground text-sm">
-            #{id.toUpperCase()}
+          <span className="font-medium text-foreground text-sm">
+            {id.toUpperCase()}
           </span>
         </div>
 
         <div className="flex flex-col gap-1">
           <span className="text-muted-foreground text-sm">{t("status")}</span>
           <div>
-            <Badge
-              className={cn(
-                "px-2 py-0.5 text-[10px] uppercase shadow-none",
-                getStatusColor(orderInfo?.status || "pending")
-              )}
-              variant="outline"
-            >
-              {orderInfo?.status}
-            </Badge>
+            {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
           </div>
         </div>
 

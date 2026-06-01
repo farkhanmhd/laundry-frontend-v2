@@ -13,6 +13,7 @@ import {
   type UpdateBundlingSchema,
   updateBundlingSchema,
 } from "@/lib/modules/bundlings/schema";
+import { formatToIDR } from "@/lib/utils";
 
 export const BundlingDataForm = ({
   id,
@@ -96,9 +97,11 @@ export const BundlingDataForm = ({
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
           label={t("form.bundlingPrice")}
           name="price"
-          placeholder="10000"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
+          placeholder="Rp 10.000"
         />
 
         <div className="flex justify-end gap-3">

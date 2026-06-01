@@ -59,16 +59,16 @@ export abstract class BundlingsApi extends BaseApi {
     return json;
   }
 
-  // static async deleteBundling(id: string) {
-  //   const result = await elysia.bundlings({ id }).delete(
-  //     {},
-  //     {
-  //       ...(await BundlingsApi.getConfig()),
-  //     }
-  //   );
+  static async deleteBundling(id: string) {
+    const result = await elysia.bundlings({ id }).delete(
+      {},
+      {
+        ...(await BundlingsApi.getConfig()),
+      }
+    );
 
-  //   return result;
-  // }
+    return result;
+  }
 
   static async updateBundlingData(id: string, body: UpdateBundlingBodySchema) {
     const result = await elysia.bundlings({ id }).patch(body, {

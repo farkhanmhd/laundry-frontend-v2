@@ -61,7 +61,9 @@ export const useUserColumns = (): ColumnDef<User>[] => {
         const phone = row.getValue("phone") as string | null;
         if (!phone) {
           return (
-            <span className="text-muted-foreground text-xs italic">-</span>
+            <span className="text-muted-foreground text-xs italic">
+              {t("table.noPhone")}
+            </span>
           );
         }
         return (
@@ -82,14 +84,15 @@ export const useUserColumns = (): ColumnDef<User>[] => {
             case "superadmin":
               return "default";
             case "admin":
+            case "driver":
               return "secondary";
             default:
               return "outline";
           }
         };
         return (
-          <Badge className="capitalize" variant={getVariant(role)}>
-            {role}
+          <Badge variant={getVariant(role)}>
+            {t(`table.role${role.charAt(0).toUpperCase() + role.slice(1)}`)}
           </Badge>
         );
       },

@@ -68,26 +68,21 @@ export function PosPaymentMethod() {
             <Label className="font-semibold text-sm" htmlFor="cash-amount">
               {t("cashAmountReceived")}
             </Label>
-            <div className="relative">
-              <span className="absolute top-2 left-3 text-muted-foreground text-sm">
-                Rp
+            <Input
+              aria-invalid={amountPaidValidation}
+              autoComplete="off"
+              className="mb-1"
+              disabled={isPending}
+              id="cash-amount"
+              onChange={(e) => handleAmountPaidChange(e.target.value)}
+              placeholder="0"
+              value={formatToIDR(posData.amountPaid)}
+            />
+            {amountPaidValidation && (
+              <span className="text-destructive text-sm">
+                {t("amountPaidMustBeEqual")}
               </span>
-              <Input
-                aria-invalid={amountPaidValidation}
-                autoComplete="off"
-                className="mb-1 pl-10"
-                disabled={isPending}
-                id="cash-amount"
-                onChange={(e) => handleAmountPaidChange(e.target.value)}
-                placeholder="0"
-                value={posData.amountPaid}
-              />
-              {amountPaidValidation && (
-                <span className="text-destructive text-sm">
-                  {t("amountPaidMustBeEqual")}
-                </span>
-              )}
-            </div>
+            )}
           </div>
           <ul className="grid w-full grid-cols-2 gap-2 md:grid-cols-3 [&>li>button]:w-full [&>li]:w-full">
             {bankNotes.map((note) => (

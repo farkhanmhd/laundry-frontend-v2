@@ -11,13 +11,24 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { use } from "react";
+import { use, useState } from "react";
 import {
   CustomerOrderDetailProvider,
   useCustomerOrderDetail,
 } from "@/components/features/customer-orders/customer-order-detail-context";
 import { CustomerPaymentDialog } from "@/components/features/customer-orders/customer-payment-dialog";
 import { RequestDeliverySection } from "@/components/features/customer-orders/request-delivery-section";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -398,20 +409,44 @@ const CancelPickupRequestButton = () => {
     handleCancelPickupRequest,
     isCancellingPickupRequest,
   } = useCustomerOrderDetail();
+  const [open, setOpen] = useState(false);
 
   if (!canCancelPickupRequest) {
     return null;
   }
 
   return (
-    <Button
-      className="w-full"
-      disabled={isCancellingPickupRequest}
-      onClick={handleCancelPickupRequest}
-      variant="outline"
-    >
-      {t("cancelPickupRequest")}
-    </Button>
+    <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialogTrigger asChild>
+        <Button
+          className="w-full"
+          disabled={isCancellingPickupRequest}
+          variant="destructive"
+        >
+          {t("cancelPickupRequest")}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("cancelPickupRequestTitle")}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("cancelPickupRequestDescription")}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isCancellingPickupRequest}>
+            {t("cancel")}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            className={buttonVariants({ variant: "destructive" })}
+            disabled={isCancellingPickupRequest}
+            onClick={handleCancelPickupRequest}
+          >
+            {t("cancelPickupRequestConfirm")}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { NotepadText } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import NumberInput from "@/components/forms/number-input";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Client } from "@/components/utils/client";
 import { formatToIDR } from "@/lib/utils";
 import { useCustomerOrder } from "./state";
@@ -29,6 +29,7 @@ interface OrderSummaryItemProps {
 }
 
 export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
+  const t = useTranslations("CustomerOrders");
   const { handleIncrementQuantity, handleDecrementQuantity, isPending } =
     useCustomerOrder();
 
@@ -68,16 +69,9 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
 
       {/* Bottom Row: Actions */}
       <div className="mt-4 flex items-center justify-between">
-        <Button
-          className="h-8"
-          disabled={isPending}
-          // onClick={onNoteClick}
-          size="sm"
-          variant="outline"
-        >
-          <NotepadText />
-          Notes
-        </Button>
+        <Badge className="font-semibold text-xs uppercase">
+          {t(`orderSummary.${item.itemType}`)}
+        </Badge>
 
         <div className="flex items-center">
           <NumberInput

@@ -3,6 +3,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import {
+  Eye,
   PackagePlus,
   ShoppingCart,
   SlidersHorizontal,
@@ -21,6 +22,7 @@ import type {
   UsageHistory,
 } from "@/lib/modules/inventories/data";
 import { cn, formatToIDR, type SelectOption } from "@/lib/utils";
+import { DeleteInventoryDialog } from "./delete-inventory-dialog";
 
 const useInventoryTranslations = () => {
   const t = useTranslations("Inventories");
@@ -38,6 +40,7 @@ const useInventoryTranslations = () => {
       inStock: t("table.inStock"),
       shortage: t("table.shortage"),
       unknown: t("table.unknown"),
+      actions: t("table.actions"),
     },
     categories: {
       waste: t("categories.waste"),
@@ -189,6 +192,30 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     };
 
     columns.splice(1, 0, idColumn);
+
+    const actionColumn: ColumnDef<Inventory> = {
+      accessorKey: "actions",
+      header: t.table.actions,
+      cell: ({ row }) => (
+        <div className="flex items-center gap-1">
+          <Link
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon-sm" })
+            )}
+            href={`/inventories/${row.original.id}`}
+          >
+            <Eye />
+          </Link>
+          {!row.original.isOnBundling && (
+            <DeleteInventoryDialog id={row.original.id} />
+          )}
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    };
+
+    columns.push(actionColumn);
   }
 
   return columns;

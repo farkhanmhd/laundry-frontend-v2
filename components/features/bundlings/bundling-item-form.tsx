@@ -75,7 +75,7 @@ export function BundlingItemForm<T extends { items: BundlingItem[] }>({
   ];
 
   const selectedItemLabel =
-    [...services, ...inventories].find((item) => item.value === selectedItem)
+    [...(services ?? []), ...(inventories ?? [])].find((item) => item.value === selectedItem)
       ?.label || t("itemsForm.selectItem");
 
   const getItemTypeLabel = (type: string) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { useUserRole } from "@/hooks/use-user-role";
 import type { Service } from "@/lib/modules/services/data";
 import { cn, formatToIDR } from "@/lib/utils";
+import { DeleteServiceDialog } from "./delete-service-dialog";
 
 export const useServiceColumns = (): ColumnDef<Service>[] => {
   const t = useTranslations("Services");
@@ -57,36 +58,6 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
         </div>
       ),
     },
-    {
-      accessorKey: "createdAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t("table.dateAdded")} />
-      ),
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        const formattedDate = format(date, "PP, HH:mm");
-        return (
-          <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "updatedAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t("table.lastUpdate")} />
-      ),
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("updatedAt"));
-        const formattedDate = format(date, "PP, HH:mm");
-        return (
-          <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
-          </div>
-        );
-      },
-    },
   ];
 
   if (role === "superadmin") {
@@ -110,6 +81,32 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
     };
 
     columns.splice(1, 0, idColumn);
+
+    const actionColumn: ColumnDef<Service> = {
+      accessorKey: "actions",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={t("table.actions")} />
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center gap-1">
+          <Link
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon-sm" })
+            )}
+            href={`/services/${row.original.id}`}
+          >
+            <Eye />
+          </Link>
+          {!row.original.isOnBundling && (
+            <DeleteServiceDialog id={row.original.id} />
+          )}
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    };
+
+    columns.push(actionColumn);
   }
 
   return columns;

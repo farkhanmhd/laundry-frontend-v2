@@ -10,8 +10,8 @@ export default async function LoginPage() {
   const t = await getTranslations("Navigation");
 
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-background">
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2 rounded-xl bg-background/10 p-2 backdrop-blur-xs">
         <Button asChild className="gap-2" size="sm" variant="ghost">
           <Link href="/receipt">
             <Receipt className="h-4 w-4" />
@@ -23,18 +23,14 @@ export default async function LoginPage() {
       </div>
 
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-[20%] left-1/2 h-150 w-150 -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
-
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0"
           style={{
-            backgroundImage:
-              "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+            backgroundImage: "url(/login-bg.svg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
-
-        <div className="absolute right-0 bottom-0 left-0 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent" />
       </div>
 
       <div className="z-10 flex w-full max-w-sm flex-col items-center gap-8">
@@ -47,7 +43,7 @@ export default async function LoginPage() {
           </span>
         </div>
 
-        <div className="w-full rounded-2xl border bg-background/60 p-8 shadow-black/5 shadow-xl backdrop-blur-md">
+        <div className="w-full rounded-2xl bg-background/60 p-8 shadow-black/5 shadow-xl backdrop-blur-md">
           <LoginForm />
         </div>
       </div>

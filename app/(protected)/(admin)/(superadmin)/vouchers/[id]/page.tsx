@@ -1,6 +1,7 @@
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { UpdateVoucher } from "@/components/features/vouchers/update-voucher";
-import { type Voucher, VouchersApi } from "@/lib/modules/vouchers/data";
+import { VouchersApi } from "@/lib/modules/vouchers/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -9,7 +10,12 @@ type Props = {
 const VoucherDetailPage = async ({ params }: Props) => {
   const { id } = await params;
   const t = await getTranslations("Vouchers");
-  const voucher = (await VouchersApi.getVoucherById(id)) as Voucher;
+  const voucher = await VouchersApi.getVoucherById(id);
+
+  if (!voucher) {
+    notFound();
+  }
+
   return (
     <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">
       <div>

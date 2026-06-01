@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { addServiceAction } from "@/lib/modules/services/actions";
 import { addServiceSchema } from "@/lib/modules/services/schema";
+import { formatToIDR } from "@/lib/utils";
 
 const NewServicePage = () => {
   const t = useTranslations("Services");
@@ -57,10 +58,13 @@ const NewServicePage = () => {
           placeholder={t("form.serviceDescriptionPlaceholder")}
         />
         <FormInput
+          className="text-right"
           disabled={action.isPending}
           form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
           label={t("form.servicePrice")}
           name="price"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder={t("form.servicePricePlaceholder")}
         />
         <FormInput

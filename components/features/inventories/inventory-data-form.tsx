@@ -13,6 +13,7 @@ import {
   type UpdateInventorySchema,
   updateInventorySchema,
 } from "@/lib/modules/inventories/schema";
+import { formatToIDR } from "@/lib/utils";
 
 export const InventoryDataForm = ({
   id,
@@ -103,8 +104,10 @@ export const InventoryDataForm = ({
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
           label={t("form.inventoryPrice")}
           name="price"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="10000"
         />
         <div className="flex flex-col gap-6 md:flex-row">

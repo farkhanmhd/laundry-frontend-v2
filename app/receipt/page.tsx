@@ -1,4 +1,4 @@
-import { LogIn } from "lucide-react";
+import { LogIn, Triangle } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ReceiptSearch } from "@/components/features/receipt/receipt-search";
@@ -10,9 +10,9 @@ export default async function ReceiptSearchPage() {
   const t = await getTranslations("Navigation");
 
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-background">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden">
       {/* Top bar */}
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-background/10 p-2 backdrop-blur-xs">
         <Button asChild className="gap-2" size="sm" variant="ghost">
           <Link href="/login">
             <LogIn className="h-4 w-4" />
@@ -23,18 +23,27 @@ export default async function ReceiptSearchPage() {
         <ThemeToggle />
       </div>
 
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url(/login-bg.svg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </div>
+
       {/* Center layout */}
       <div className="flex min-h-svh flex-col items-center justify-center px-4 py-16">
         {/* Brand */}
-        <div className="mb-8 flex items-center gap-2.5">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <div className="h-3 w-3 rounded-sm bg-primary-foreground" />
-            </div>
-            <span className="font-semibold text-base text-foreground/80 tracking-tight">
-              Beringin Coin Laundry
-            </span>
+        <div className="mb-8 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-sm">
+            <Triangle className="text-white" />
           </div>
+          <span className="font-semibold text-foreground text-lg tracking-tight">
+            Beringin Coin Laundry
+          </span>
         </div>
 
         {/* Card */}

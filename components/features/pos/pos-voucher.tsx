@@ -37,8 +37,7 @@ export const PosVoucherCard: React.FC<VoucherCardProps> = ({
           <div className="flex items-center gap-1.5 text-primary">
             <Percent className="h-5 w-5" />
             <span className="font-bold text-2xl tracking-tight">
-              {formattedPercent}
-              {t("off")}
+              {formattedPercent}% {t("off")}
             </span>
           </div>
           {voucher.maxDiscountAmount && (

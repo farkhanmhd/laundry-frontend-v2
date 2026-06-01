@@ -12,19 +12,16 @@ export abstract class BaseApi {
   protected static async getConfig() {
     const headerList = await headers();
 
-    // 1. Extract only the authentication cookie or token you need.
-    // If you use cookies for auth:
-    const cookieHeader = headerList.get("cookie") || "";
+    const cookieHeader = (headerList.get("cookie") || "")
+      .split(";")
+      .map((c) => c.trim())
+      .filter((c) => !c.startsWith("NEXT_LOCALE="))
+      .join("; ");
 
-    // 2. Construct a clean header object
     return {
       fetch: {
         headers: {
-          // Only forward the cookie so the backend knows who the user is
           Cookie: cookieHeader,
-          // Explicitly set Accept-Language if your backend requires 'id'
-          // or just omit it to let the backend use its default.
-          // "Accept-Language": "id-ID",
         },
       },
     };
@@ -36,13 +33,17 @@ export abstract class BaseApi {
    */
   protected static async getFormDataConfig() {
     const headerList = await headers();
-    const cookieHeader = headerList.get("cookie") || "";
+
+    const cookieHeader = (headerList.get("cookie") || "")
+      .split(";")
+      .map((c) => c.trim())
+      .filter((c) => !c.startsWith("NEXT_LOCALE="))
+      .join("; ");
 
     return {
       fetch: {
         headers: {
           Cookie: cookieHeader,
-          // No Content-Type header - browser will set it with boundary for FormData
         },
       },
     };

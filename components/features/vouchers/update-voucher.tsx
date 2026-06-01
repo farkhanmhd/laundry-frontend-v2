@@ -23,11 +23,16 @@ export const UpdateVoucher = ({ voucher }: Props) => {
     {
       formProps: {
         mode: "onChange",
-        values: {
-          ...voucher,
-          isVisible: voucher.isVisible ? voucher.isVisible : false,
-          expiresAt: new Date(voucher.expiresAt as string),
-        },
+        values: (() => {
+          const expiresAt = new Date(voucher.expiresAt as string);
+          return {
+            ...voucher,
+            isVisible: voucher.isVisible ? voucher.isVisible : false,
+            expiresAt: new Date(
+              expiresAt.getTime() + expiresAt.getTimezoneOffset() * 60_000
+            ),
+          };
+        })(),
       },
       actionProps: {
         onSettled: ({ result: { data } }) => {

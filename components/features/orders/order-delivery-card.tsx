@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { OrderDelivery } from "@/lib/modules/orders/data";
-import { cardShadowStyle, cn } from "@/lib/utils";
+import { cardShadowStyle } from "@/lib/utils";
 import { useOrderDetail } from "./order-detail-context";
 
 type DeliveryStatus = OrderDelivery["status"];
@@ -21,23 +21,13 @@ export const OrderDeliveryCard = () => {
     .sort((a) => (a.type === "pickup" ? -1 : 1))
     .slice(0, 2);
 
-  const getStatusColor = (status: DeliveryStatus) => {
-    const colors: Record<DeliveryStatus, string> = {
-      requested:
-        "text-slate-500 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-900/50 dark:border-slate-800",
-      in_progress:
-        "text-blue-600 bg-blue-50 border-blue-200 dark:text-blue-400 dark:bg-blue-900/50 dark:border-blue-800",
-      picked_up:
-        "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-900/50 dark:border-green-800",
-      completed:
-        "text-green-600 bg-green-50 border-green-200 dark:text-green-400 dark:bg-green-900/50 dark:border-green-800",
-      cancelled:
-        "text-red-600 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/50 dark:border-red-800",
-    };
-    return colors[status] || colors.requested;
+  const deliveryStatusBadge: Record<DeliveryStatus, React.ReactNode> = {
+    requested: <Badge variant="secondary">{t("requested")}</Badge>,
+    in_progress: <Badge variant="default">{t("in_progress")}</Badge>,
+    picked_up: <Badge>{t("picked_up")}</Badge>,
+    completed: <Badge>{t("completed")}</Badge>,
+    cancelled: <Badge variant="destructive">{t("cancelled")}</Badge>,
   };
-
-  const formatStatus = (status: string) => status.replace(/_/g, " ");
 
   return (
     <Card className="w-full" style={cardShadowStyle}>
@@ -83,15 +73,7 @@ export const OrderDeliveryCard = () => {
                     {item.type}
                   </div>
 
-                  <Badge
-                    className={cn(
-                      "px-2 py-0.5 text-[10px] capitalize shadow-none",
-                      getStatusColor(item.status)
-                    )}
-                    variant="outline"
-                  >
-                    {formatStatus(item.status)}
-                  </Badge>
+                  {deliveryStatusBadge[item.status]}
                 </div>
 
                 <div className="flex flex-col gap-4">

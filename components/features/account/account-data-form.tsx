@@ -39,17 +39,19 @@ export function AccountDataForm({ data }: Props) {
           username: data?.username as string,
           name: data?.name,
           phone: data?.phone || "",
-          email: data?.email,
         },
       },
       actionProps: {
         onSettled: ({ result }) => {
           if (result?.data?.status === "success") {
-            toast.success(result.data.message);
-            setIsEditing(false); // Exit edit mode on success
+            toast.success(t("toastSuccess"));
+
+            setIsEditing(false);
             refresh();
-          } else if (result?.serverError) {
-            toast.error("Something went wrong");
+          } else if (result?.data?.message === "Username already taken") {
+            toast.error(t("toastUsernameTaken"));
+          } else {
+            toast.error(t("toastError"));
           }
         },
       },
@@ -60,23 +62,18 @@ export function AccountDataForm({ data }: Props) {
   const isInvalid = !(
     watchValues.username?.trim() &&
     watchValues.name?.trim() &&
-    String(watchValues.phone) &&
-    watchValues.email?.trim()
+    String(watchValues.phone)
   );
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const submittedData = {
-      email: form.watch("email"),
       name: form.watch("name"),
       username: form.watch("username"),
       phone: form.watch("phone"),
     };
 
     action.execute(submittedData);
-
-    form.reset(submittedData);
-    setIsEditing(false);
   };
 
   const handleCancel = () => {
@@ -107,6 +104,13 @@ export function AccountDataForm({ data }: Props) {
 
       <CardContent>
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          {/* Email (read-only) */}
+          <div className="space-y-2">
+            <p className="mb-0 font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("email")}
+            </p>
+            <p className="text-muted-foreground text-sm">{data?.email}</p>
+          </div>
           {/* Username Field */}
           <FormInput
             description={t("usernameDescription")}
@@ -127,25 +131,21 @@ export function AccountDataForm({ data }: Props) {
           />
 
           {/* Phone Number Field */}
-          <FormInput
-            description={t("phoneDescription")}
-            disabled={!isEditing || action.isPending}
-            form={form}
-            label={t("phoneNumber")}
-            name="phone"
-            placeholder={t("phoneNumberPlaceholder")}
-            type="tel"
-          />
-
-          <FormInput
-            description={t("phoneDescription")}
-            disabled={!isEditing || action.isPending}
-            form={form}
-            label={t("email")}
-            name="email"
-            placeholder={t("emailPlaceholder")}
-            type="email"
-          />
+          <div className="relative">
+            <span className="absolute bottom-2 left-2 text-muted-foreground text-sm">
+              +62
+            </span>
+            <FormInput
+              className="pl-9"
+              description={t("phoneDescription")}
+              disabled={!isEditing || action.isPending}
+              form={form}
+              label={t("phoneNumber")}
+              name="phone"
+              placeholder={t("phoneNumberPlaceholder")}
+              type="tel"
+            />
+          </div>
 
           {/* Action Buttons - Only visible when editing */}
           {isEditing && (

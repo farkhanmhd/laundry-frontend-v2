@@ -75,7 +75,7 @@ export const PosCustomerPoints = () => {
                   inputMode="numeric"
                   onChange={(e) => handlePointChange(e)}
                   placeholder={t("amountOfPoints")}
-                  value={posData.points}
+                  value={posData.points?.toLocaleString("id-ID") ?? ""}
                 />
               </Client>
             </div>

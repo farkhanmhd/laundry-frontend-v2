@@ -73,7 +73,7 @@ export const CustomerOrderPoints = () => {
                   inputMode="numeric"
                   onChange={(e) => handlePointChange(e)}
                   placeholder={t("customerPoints.amountOfPoints")}
-                  value={customerCart.points}
+                  value={customerCart.points?.toLocaleString("id-ID") ?? ""}
                 />
               </Client>
             </div>

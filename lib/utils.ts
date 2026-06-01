@@ -29,6 +29,7 @@ export const getStatusColor = (
 ): "default" | "secondary" | "outline" | "destructive" => {
   switch (status.toLowerCase()) {
     case "pending":
+    case "cancelled":
       return "destructive";
     case "processing":
     case "in progress":
@@ -44,9 +45,7 @@ export const getStatusColor = (
 };
 
 export const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  date.setHours(date.getHours() + 7);
-  return date.toLocaleDateString("en-ID", {
+  return new Date(dateString).toLocaleDateString("en-ID", {
     day: "numeric",
     month: "short",
     hour: "2-digit",

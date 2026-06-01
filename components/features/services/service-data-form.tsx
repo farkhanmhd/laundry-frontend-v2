@@ -13,6 +13,7 @@ import {
   type UpdateServiceSchema,
   updateServiceSchema,
 } from "@/lib/modules/services/schema";
+import { formatToIDR } from "@/lib/utils";
 
 export const ServiceDataForm = ({
   id,
@@ -95,8 +96,10 @@ export const ServiceDataForm = ({
           defaultValue={price}
           disabled={!isEditing || action.isPending}
           form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
           label={t("form.servicePrice")}
           name="price"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="10000"
         />
 

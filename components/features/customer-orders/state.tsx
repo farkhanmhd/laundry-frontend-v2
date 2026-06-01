@@ -328,6 +328,22 @@ export const useCustomerOrder = () => {
     return true;
   }, [totalItems, selectedAddress, onlyInventoryItems]);
 
+  const pickupDisabledReason = useMemo(() => {
+    if (totalItems <= 0) {
+      return "cartEmpty";
+    }
+
+    if (!selectedAddress) {
+      return "noAddress";
+    }
+
+    if (onlyInventoryItems) {
+      return "onlyInventoryItems";
+    }
+
+    return null;
+  }, [totalItems, selectedAddress, onlyInventoryItems]);
+
   return {
     customerCart,
     setCustomerCart,
@@ -354,6 +370,7 @@ export const useCustomerOrder = () => {
     isPending: createPickupRequestMutation.isPending,
     submitPickupRequest,
     canRequestPickup,
+    pickupDisabledReason,
   };
 };
 

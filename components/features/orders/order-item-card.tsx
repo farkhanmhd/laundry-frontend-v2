@@ -3,11 +3,12 @@
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Client } from "@/components/utils/client";
 import type { PosItemData } from "@/lib/modules/pos/data";
-import { cardShadowStyle, formatToIDR } from "@/lib/utils";
+import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
 import { useCustomerOrder } from "../customer-orders/state";
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 };
 
 export function OrderItemCard({ item }: Props) {
-  const _t = useTranslations("CustomerOrders");
+  const t = useTranslations("CustomerOrders");
   const { handleAddToCart } = useCustomerOrder();
 
   return (
@@ -24,13 +25,22 @@ export function OrderItemCard({ item }: Props) {
       style={cardShadowStyle}
     >
       <CardContent className="flex flex-1 flex-col justify-between gap-4 px-0">
-        <Image
-          alt="Product Image"
-          className="aspect-square rounded-xl border border-muted object-cover"
-          height={1000}
-          src={item.image ?? "/file.svg"}
-          width={1000}
-        />
+        <div className="relative">
+          <Image
+            alt="Product Image"
+            className="aspect-square rounded-xl border border-muted object-cover"
+            height={1000}
+            src={item.image ?? "/file.svg"}
+            width={1000}
+          />
+          <Badge
+            className={cn(
+              "absolute top-2 left-2 rounded-md px-2 py-0.5 font-semibold uppercase leading-tight"
+            )}
+          >
+            {t(`orderSummary.${item.itemType}`)}
+          </Badge>
+        </div>
 
         <div className="px-2">
           <p className="font-bold lg:text-lg">{item.name}</p>

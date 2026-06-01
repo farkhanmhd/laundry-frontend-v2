@@ -38,7 +38,8 @@ export function useUserTableDialog() {
     });
   };
 
-  const isUserAdmin = data?.user?.role === "admin";
+  const adminRoles = ["superadmin", "admin", "driver"];
+  const isUserAdmin = adminRoles.includes(data?.user?.role ?? "");
   const isRoleDialogOpen = data.open === true && data.dialog === "role";
   const isBanDialogOpen = data.open === true && data.dialog === "ban";
   const user = data.user;

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
@@ -9,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { Voucher } from "@/lib/modules/vouchers/data";
 import { cn, formatDate, formatToIDR } from "@/lib/utils";
+import { DeleteVoucherDialog } from "./delete-voucher-dialog";
 
 export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
   const t = useTranslations("Vouchers");
@@ -97,9 +99,10 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
         <DataTableColumnHeader column={column} title={t("table.expiry")} />
       ),
       cell: ({ row }) => {
+        const date = new Date(row.getValue("expiresAt") as string);
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formatDate(row.getValue("expiresAt"))}
+            {formatDate(new Date(date.getTime() + 7 * 3_600_000).toISOString())}
           </div>
         );
       },
@@ -133,6 +136,27 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
           </div>
         );
       },
+    },
+    {
+      id: "actions",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={t("table.actions")} />
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center gap-1">
+          <Link
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon-sm" })
+            )}
+            href={`/vouchers/${row.original.id}`}
+          >
+            <Eye />
+          </Link>
+          <DeleteVoucherDialog id={row.original.id} />
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
     },
   ];
 };

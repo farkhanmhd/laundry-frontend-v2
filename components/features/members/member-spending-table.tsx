@@ -10,6 +10,7 @@ import {
 } from "@/lib/modules/member-reports/data";
 import { cardShadowStyle } from "@/lib/utils";
 import { AddMemberDialog } from "./add-member-dialog";
+import { MembersSpendingExport } from "./member-spending-export";
 
 interface MemberSpendingTableProps {
   query: GetmembersWithSpendingQuery;
@@ -32,6 +33,13 @@ const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
             <DataTableQuerySearch
               className="w-80 max-w-80"
               placeholder={t("table.placeholder")}
+            />
+            <MembersSpendingExport
+              query={{
+                from: query.from,
+                to: query.to,
+                rows: query.rows ?? 50,
+              }}
             />
             <AddMemberDialog />
           </div>

@@ -7,6 +7,7 @@ import { type Bundling, BundlingsApi } from "@/lib/modules/bundlings/data";
 import type { BundlingItem } from "@/lib/modules/bundlings/schema";
 import { InventoriesApi } from "@/lib/modules/inventories/data";
 import { ServicesApi } from "@/lib/modules/services/data";
+import { formatToIDR } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -20,15 +21,17 @@ const InventoryDetailPage = async ({ params }: Props) => {
     InventoriesApi.getInventories(),
   ]);
 
-  const serviceOptions = services?.map((service) => ({
-    label: service.name,
-    value: service.id,
-  })) as SelectOption[];
+  const serviceOptions: SelectOption[] =
+    services?.map((service) => ({
+      label: `${service.name} (${formatToIDR(service.price)})`,
+      value: service.id,
+    })) ?? [];
 
-  const inventoryOptions = inventories?.map((inventory) => ({
-    label: inventory.name,
-    value: inventory.id,
-  })) as SelectOption[];
+  const inventoryOptions: SelectOption[] =
+    inventories?.map((inventory) => ({
+      label: `${inventory.name} (${formatToIDR(inventory.price)})`,
+      value: inventory.id,
+    })) ?? [];
 
   return (
     <>

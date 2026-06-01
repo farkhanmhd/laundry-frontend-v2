@@ -3,7 +3,7 @@
 import { PackageSearch } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-import { Label, Pie, PieChart } from "recharts";
+import { Label, Legend, Pie, PieChart } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
@@ -18,14 +18,6 @@ const STATUS_COLORS: Record<string, string> = {
   ready: "var(--chart-3)",
   completed: "var(--chart-4)",
 };
-
-const orderStatusConfig = {
-  value: { label: "Orders" },
-  pending: { label: "Pending", color: "var(--chart-1)" },
-  processing: { label: "Processing", color: "var(--chart-2)" },
-  ready: { label: "Ready", color: "var(--chart-3)" },
-  completed: { label: "Completed", color: "var(--chart-4)" },
-} satisfies ChartConfig;
 
 type Props = {
   data: OrderStatusData[];
@@ -47,6 +39,15 @@ export const OrderStatusChart = ({ data }: Props) => {
     fill: STATUS_COLORS[item.name] ?? "var(--chart-5)",
   }));
   const t = useTranslations("Dashboard.charts");
+  const tStatus = useTranslations("Status");
+
+  const orderStatusConfig = {
+    value: { label: t("orders") },
+    pending: { label: tStatus("pending"), color: "var(--chart-1)" },
+    processing: { label: tStatus("processing"), color: "var(--chart-2)" },
+    ready: { label: tStatus("ready"), color: "var(--chart-3)" },
+    completed: { label: tStatus("completed"), color: "var(--chart-4)" },
+  } satisfies ChartConfig;
 
   const totalOrdersCount = useMemo(
     () => data.reduce((acc, curr) => acc + curr.value, 0),
@@ -64,7 +65,7 @@ export const OrderStatusChart = ({ data }: Props) => {
     >
       <PieChart>
         <ChartTooltip
-          content={<ChartTooltipContent hideLabel />}
+          content={<ChartTooltipContent />}
           cursor={false}
         />
         <Pie
@@ -104,6 +105,27 @@ export const OrderStatusChart = ({ data }: Props) => {
             }}
           />
         </Pie>
+        <Legend
+          content={({ payload }) => (
+            <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
+              {payload?.map((entry) => (
+                <div className="flex items-center gap-2 text-sm" key={entry.value}>
+                  <div
+                    className="h-2.5 w-2.5 rounded-full"
+                    style={{ backgroundColor: entry.color }}
+                  />
+                  <span className="text-muted-foreground">
+                    {tStatus(entry.value)}
+                  </span>
+                  <span className="font-medium">
+                    {chartData.find((d) => d.name === entry.value)?.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          verticalAlign="bottom"
+        />
       </PieChart>
     </ChartContainer>
   );

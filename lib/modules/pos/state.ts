@@ -103,8 +103,9 @@ export const getMaxDiscount = (voucher: PosVoucher, totalAmount: number) => {
       ? voucher.discountAmount
       : 0;
 
-  const totalPercentageDiscount =
-    totalAmount - Math.floor(totalAmount * (percentageDiscount / 100));
+  const totalPercentageDiscount = Math.floor(
+    totalAmount * (percentageDiscount / 100)
+  );
 
   const maxDiscountAmount = {
     percentage:

@@ -18,7 +18,7 @@ export abstract class AccountApi extends BaseApi {
   }
 
   static async updateProfile(body: UpdateProfileSchema) {
-    const { data: response } = await elysia.account.info.patch(body, {
+    const response = await elysia.account.info.patch(body, {
       ...(await AccountApi.getConfig()),
     });
 

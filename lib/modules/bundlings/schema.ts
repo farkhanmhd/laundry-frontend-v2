@@ -39,7 +39,7 @@ export const addBundlingSchema = z.object({
 
 export type AddBundlingSchema = z.infer<typeof addBundlingSchema>;
 
-export const deleteInventorySchema = z.object({
+export const deleteBundlingSchema = z.object({
   id: z.string(),
 });
 

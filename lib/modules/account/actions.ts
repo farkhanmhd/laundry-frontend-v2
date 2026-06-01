@@ -13,12 +13,19 @@ import {
 export const updateProfileAction = actionClient
   .inputSchema(updateProfileSchema)
   .action(async ({ parsedInput }) => {
-    const result = await AccountApi.updateProfile(parsedInput);
+    const response = await AccountApi.updateProfile(parsedInput);
 
-    if (result?.status === "success") {
+    if (response?.data?.status === "success") {
       return {
         status: "success",
         message: "Profile updated successfully",
+      };
+    }
+
+    if (response?.status === 409) {
+      return {
+        status: "error",
+        message: "Username already taken",
       };
     }
 

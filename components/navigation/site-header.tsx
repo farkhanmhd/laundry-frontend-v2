@@ -3,6 +3,7 @@
 import { Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { useUserRole } from "@/hooks/use-user-role";
+import { authClient } from "@/lib/modules/auth/auth-client";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cn } from "@/lib/utils";
 import { useCustomerOrder } from "../features/customer-orders/state";
@@ -18,6 +19,7 @@ export function SiteHeader() {
   const { totalItems } = usePOS();
   const { totalItems: customerTotalItems } = useCustomerOrder();
   const role = useUserRole();
+  const { data: session } = authClient.useSession();
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
@@ -64,11 +66,13 @@ export function SiteHeader() {
               </Link>
               <Link
                 className={cn(
-                  buttonVariants({ variant: "ghost", size: "icon" })
+                  buttonVariants({ size: "sm", variant: "outline" }),
+                  "border-primary text-primary text-sm capitalize"
                 )}
                 href="/account"
               >
                 <User />
+                <span>{session?.user.role}</span>
               </Link>
             </>
           )}

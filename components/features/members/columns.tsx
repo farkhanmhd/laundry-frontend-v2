@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
 import { Client } from "@/components/utils/client";
 import type { MemberWithSpending } from "@/lib/modules/member-reports/data";
 import { formatDate, formatToIDR } from "@/lib/utils";
@@ -30,6 +31,29 @@ export const memberSpendingColumns: ColumnDef<MemberWithSpending>[] = [
         {row.getValue("phone")}
       </div>
     ),
+  },
+  {
+    accessorKey: "userId",
+    header: () => {
+      const t = useTranslations("Members.columns");
+      return (
+        <div className="flex w-full items-center justify-center">
+          {t("userId")}
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const userId = row.getValue("userId");
+      return userId ? (
+        <div className="flex w-full items-center justify-center">
+          <Badge className="font-semibold" variant="default">
+            USER
+          </Badge>
+        </div>
+      ) : (
+        <div className="text-center text-muted-foreground text-sm">&mdash;</div>
+      );
+    },
   },
   {
     accessorKey: "joinDate",

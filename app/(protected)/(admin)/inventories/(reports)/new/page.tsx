@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { addInventoryAction } from "@/lib/modules/inventories/actions";
 import { addInventorySchema } from "@/lib/modules/inventories/schema";
+import { formatToIDR } from "@/lib/utils";
 
 const NewInventoryPage = () => {
   const t = useTranslations("Inventories");
@@ -61,8 +62,10 @@ const NewInventoryPage = () => {
             className="text-right"
             disabled={action.isPending}
             form={form}
+            formatValue={(v: unknown) => formatToIDR(Number(v))}
             label={t("form.inventoryPrice")}
             name="price"
+            parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
             placeholder="10000"
           />
         </div>

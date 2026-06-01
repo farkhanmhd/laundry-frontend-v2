@@ -27,10 +27,12 @@ export const CreateVoucher = () => {
         },
       },
       actionProps: {
-        onSettled: ({ result: { data } }) => {
-          if (data?.status === "success") {
-            toast.success(data.message);
+        onSettled: ({ result }) => {
+          if (result.data?.status === "success") {
+            toast.success(result.data.message);
             push("/vouchers");
+          } else {
+            toast.error(result.data?.message);
           }
         },
       },

@@ -18,6 +18,7 @@ import {
   type AddBundlingSchema,
   addBundlingSchema,
 } from "@/lib/modules/bundlings/schema";
+import { formatToIDR } from "@/lib/utils";
 
 type Props = {
   services: SelectOption[];
@@ -64,7 +65,6 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
   const canAddMore = fields.length < 10;
 
   const onSubmit = (data: AddBundlingSchema) => {
-    console.log(action.result);
     action.execute(data);
   };
 
@@ -92,8 +92,10 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         className="text-right"
         disabled={action.isPending}
         form={form}
+        formatValue={(v: unknown) => formatToIDR(Number(v))}
         label={t("form.bundlingPrice")}
         name="price"
+        parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
         placeholder="10000"
       />
       <FormInput

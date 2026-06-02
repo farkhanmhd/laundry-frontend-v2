@@ -1296,5 +1296,92 @@
       "nameRequired": "Nama lengkap wajib diisi",
       "changePhone": "Ganti Nomor Telepon"
     }
+  },
+  "Validation": {
+    "common": {
+      "required": "Bidang ini wajib diisi",
+      "invalid": "Nilai tidak valid"
+    },
+    "images": {
+      "noFile": "Tidak ada file dipilih",
+      "invalidType": "Hanya gambar JPEG atau PNG yang diperbolehkan"
+    },
+    "numeric": {
+      "positiveInt": "Harus bilangan bulat positif dan tidak boleh diawali 0",
+      "nonZeroInt": "Harus bilangan bulat bukan nol dan tidak boleh diawali 0",
+      "percentageFormat": "Harus angka antara 1-100 tanpa diawali 0",
+      "percentageMin": "Persentase minimal 1%",
+      "percentageMax": "Persentase maksimal 100%",
+      "decimalPlaces": "Maksimal 2 angka desimal (contoh: 12.50)"
+    },
+    "account": {
+      "username": { "min": "Nama pengguna minimal 3 karakter" },
+      "name": { "min": "Nama minimal 2 karakter" },
+      "email": { "min": "Email minimal 3 karakter" },
+      "currentPassword": { "required": "Kata sandi saat ini wajib diisi" },
+      "newPassword": { "min": "Kata sandi minimal 8 karakter" },
+      "confirmPassword": { "required": "Silakan konfirmasi kata sandi Anda", "mustMatch": "Kata sandi tidak cocok" },
+      "label": { "min": "Label minimal 3 karakter", "max": "Label maksimal 255 karakter" },
+      "street": { "min": "Alamat minimal 5 karakter", "max": "Alamat maksimal 255 karakter" },
+      "note": { "max": "Catatan maksimal 255 karakter" },
+      "lat": { "range": "Latitude harus antara -90 dan 90", "pinRequired": "Silakan pin lokasi di peta" },
+      "lng": { "range": "Longitude harus antara -180 dan 180", "pinRequired": "Silakan pin lokasi di peta" },
+      "labelOptional": { "min": "Label harus antara 3 dan 255 karakter", "max": "Label harus antara 3 dan 255 karakter" },
+      "streetOptional": { "min": "Alamat harus antara 3 dan 255 karakter", "max": "Alamat harus antara 3 dan 255 karakter" },
+      "id": { "required": "ID Alamat wajib diisi" }
+    },
+    "auth": {
+      "phoneNumber": { "min": "Nomor telepon terlalu pendek", "max": "Nomor telepon terlalu panjang", "regex": "Nomor telepon tidak boleh diawali 0 atau +" },
+      "name": { "min": "Nama minimal 2 karakter" },
+      "username": { "min": "Nama pengguna minimal 3 karakter", "max": "Nama pengguna terlalu panjang", "regex": "Hanya huruf, angka, dan underscore" },
+      "email": { "invalid": "Format email tidak valid" },
+      "password": { "min": "Kata sandi minimal 8 karakter" },
+      "confirmPassword": { "mustMatch": "Kata sandi tidak cocok" }
+    },
+    "bundlings": {
+      "name": { "required": "Nama paket wajib diisi" },
+      "description": { "required": "Deskripsi paket wajib diisi" },
+      "id": { "required": "ID paket tidak boleh kosong" },
+      "quantity": { "required": "Jumlah wajib diisi", "min": "Jumlah minimal 1" },
+      "item": { "required": "Item harus dipilih" },
+      "itemType": { "required": "Pilih tipe item yang valid" },
+      "items": { "min": "Minimal 1 item diperlukan", "max": "Maksimal 10 item paket diperbolehkan" }
+    },
+    "inventories": {
+      "name": { "required": "Nama inventaris wajib diisi" },
+      "description": { "required": "Deskripsi inventaris wajib diisi" },
+      "id": { "required": "ID inventaris tidak boleh kosong" },
+      "adjustmentTime": { "required": "Waktu penyesuaian wajib diisi" },
+      "note": { "min": "Berikan alasan (minimal 5 karakter)", "max": "Alasan maksimal 500 karakter" },
+      "changeAmount": { "different": "Jumlah baru harus berbeda dari jumlah saat ini" },
+      "supplier": { "required": "Nama pemasok wajib diisi" },
+      "restockTime": { "required": "Waktu restok wajib diisi" },
+      "restockNote": { "max": "Catatan maksimal 255 karakter" }
+    },
+    "services": {
+      "name": { "required": "Nama layanan wajib diisi" },
+      "description": { "required": "Deskripsi layanan wajib diisi" },
+      "id": { "required": "ID layanan wajib diisi" }
+    },
+    "members": {
+      "name": { "required": "Nama pelanggan wajib diisi" }
+    },
+    "users": {
+      "phoneNumber": { "format": "Format nomor telepon tidak valid" },
+      "name": { "min": "Nama minimal 2 karakter" },
+      "username": { "regex": "Hanya huruf, angka, dan underscore" },
+      "email": { "invalid": "Format email tidak valid" }
+    },
+    "vouchers": {
+      "id": { "required": "ID Voucher wajib diisi" },
+      "code": { "required": "Kode voucher wajib diisi" },
+      "description": { "required": "Deskripsi voucher wajib diisi" },
+      "expiresAt": { "required": "Tanggal kedaluwarsa wajib diisi" },
+      "isVisible": { "required": "Visibilitas wajib diisi" }
+    },
+    "onboarding": {
+      "phoneNumber": { "min": "Nomor telepon minimal 7 karakter", "max": "Nomor telepon maksimal 15 karakter", "regex": "Nomor telepon tidak boleh diawali 0 dan hanya berisi angka" },
+      "name": { "min": "Nama minimal 2 karakter" }
+    }
   }
 }

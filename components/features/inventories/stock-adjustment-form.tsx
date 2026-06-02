@@ -9,6 +9,7 @@ import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
+import { translateZodError } from "@/lib/translate-zod-error";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -30,6 +31,7 @@ type Props = {
 
 export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   const t = useTranslations("Inventories");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
   const { refresh } = useRouter();
 
@@ -101,6 +103,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
             label={t("stockForm.currentQuantity")}
             name="currentQuantity"
             placeholder={t("stockForm.currentQuantityPlaceholder")}
+            tValidation={tValidation}
             value={currentQuantity}
           />
 
@@ -111,6 +114,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
             label={t("stockForm.changeAmount")}
             name="changeAmount"
             placeholder={t("stockForm.changeAmountPlaceholder")}
+            tValidation={tValidation}
           />
         </div>
 
@@ -128,8 +132,18 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
                   disabled={!isEditing || action.isPending}
                   onChange={field.onChange}
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+                {fieldState.invalid && fieldState.error && (
+                  <FieldError
+                    errors={[
+                      {
+                        ...fieldState.error,
+                        message: translateZodError(
+                          fieldState.error.message || "",
+                          tValidation
+                        ),
+                      },
+                    ]}
+                  />
                 )}
               </Field>
             )}
@@ -143,6 +157,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
           label={t("stockForm.reasonLabel")}
           name="note"
           placeholder={t("stockForm.reasonPlaceholder")}
+          tValidation={tValidation}
         />
 
         <div className="flex justify-end gap-3">

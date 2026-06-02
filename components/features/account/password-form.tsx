@@ -22,6 +22,7 @@ import { cardShadowStyle } from "@/lib/utils";
 
 export function PasswordForm() {
   const t = useTranslations("AccountSettings.security");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action, handleSubmitWithAction } = useHookFormAction(
@@ -88,6 +89,7 @@ export function PasswordForm() {
               label={t("currentPassword")}
               name="currentPassword"
               placeholder={t("currentPasswordPlaceholder")}
+              tValidation={tValidation}
               type="password"
             />
 
@@ -98,6 +100,7 @@ export function PasswordForm() {
               label={t("newPassword")}
               name="newPassword"
               placeholder={t("newPasswordPlaceholder")}
+              tValidation={tValidation}
               type="password"
             />
 
@@ -108,6 +111,7 @@ export function PasswordForm() {
               label={t("confirmNewPassword")}
               name="confirmPassword"
               placeholder={t("confirmNewPasswordPlaceholder")}
+              tValidation={tValidation}
               type="password"
             />
 

@@ -22,16 +22,16 @@ import { authClient } from "@/lib/modules/auth/auth-client";
 const phoneSchema = z.object({
   phoneNumber: z
     .string()
-    .min(7, "Phone number must be at least 7 characters")
-    .max(15, "Phone number must be at most 15 characters")
+    .min(7, "onboarding.phoneNumber.min")
+    .max(15, "onboarding.phoneNumber.max")
     .regex(
       /^[1-9][0-9]*$/,
-      "Phone number must not start with 0 and contain only numbers"
+      "onboarding.phoneNumber.regex"
     ),
 });
 
 const createMemberSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "onboarding.name.min"),
 });
 
 type PhoneValues = z.infer<typeof phoneSchema>;
@@ -47,6 +47,7 @@ interface ExistingMember {
 
 export default function OnboardingPage() {
   const t = useTranslations("Onboarding");
+  const tValidation = useTranslations("Validation");
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -194,6 +195,7 @@ export default function OnboardingPage() {
                 inputMode="numeric"
                 label={t("phoneNumber")}
                 placeholder={t("phoneNumberPlaceholder")}
+                tValidation={tValidation}
                 type="text"
                 {...phoneForm.register("phoneNumber", {
                   onChange: (e) => {
@@ -264,6 +266,7 @@ export default function OnboardingPage() {
                   form={createForm}
                   label={t("lookup.name")}
                   placeholder={t("lookup.namePlaceholder")}
+                  tValidation={tValidation}
                   type="text"
                   {...createForm.register("name")}
                 />

@@ -26,6 +26,7 @@ export const AddressFormInputs = ({
   children,
 }: AddressFormInputsProps) => {
   const t = useTranslations("AccountSettings.addresses");
+  const tValidation = useTranslations("Validation");
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmitWithAction}>
       <FormInput
@@ -34,6 +35,7 @@ export const AddressFormInputs = ({
         label={t("addressLabel")}
         name="label"
         placeholder={t("addressLabelPlaceholder")}
+        tValidation={tValidation}
       />
       <FormInput
         disabled={action.isExecuting}
@@ -41,6 +43,7 @@ export const AddressFormInputs = ({
         label={t("fullAddress")}
         name="street"
         placeholder={t("fullAddressPlaceholder")}
+        tValidation={tValidation}
       />
       <FormInput
         as={Textarea}
@@ -49,6 +52,7 @@ export const AddressFormInputs = ({
         label={t("addressNoteLabel")}
         name="note"
         placeholder={t("addressNotePlaceholder")}
+        tValidation={tValidation}
       />
 
       <div className="space-y-3">

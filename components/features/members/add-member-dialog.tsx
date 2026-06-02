@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
+import { translateZodError } from "@/lib/translate-zod-error";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -34,6 +35,7 @@ export function AddMemberDialog() {
   const [open, setOpen] = useState(false);
   const { refresh } = useRouter();
   const t = useTranslations("Members.addMember");
+  const tValidation = useTranslations("Validation");
   const { form, action } = useHookFormAction(
     addMemberAction,
     zodResolver(addMemberSchema),
@@ -92,6 +94,7 @@ export function AddMemberDialog() {
             label={t("name")}
             name="name"
             placeholder={t("namePlaceholder")}
+            tValidation={tValidation}
           />
           <FieldGroup>
             <Controller
@@ -116,8 +119,18 @@ export function AddMemberDialog() {
                     />
                   </div>
 
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError
+                      errors={[
+                        {
+                          ...fieldState.error,
+                          message: translateZodError(
+                            fieldState.error.message || "",
+                            tValidation
+                          ),
+                        },
+                      ]}
+                    />
                   )}
                 </Field>
               )}

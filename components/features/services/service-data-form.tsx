@@ -22,6 +22,7 @@ export const ServiceDataForm = ({
   price,
 }: UpdateServiceSchema) => {
   const t = useTranslations("Services");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -81,6 +82,7 @@ export const ServiceDataForm = ({
           label={t("form.serviceName")}
           name="name"
           placeholder="Setrika"
+          tValidation={tValidation}
         />
         <FormInput
           as={Textarea}
@@ -90,6 +92,7 @@ export const ServiceDataForm = ({
           label={t("form.serviceDescription")}
           name="description"
           placeholder="Service description"
+          tValidation={tValidation}
         />
         <FormInput
           className="text-right"
@@ -101,6 +104,7 @@ export const ServiceDataForm = ({
           name="price"
           parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="10000"
+          tValidation={tValidation}
         />
 
         <div className="flex justify-end gap-3">

@@ -16,7 +16,7 @@ export type OrderItem = z.infer<typeof orderItemSchema>;
 const newPosOrderBaseSchema = {
   customerName: z
     .string()
-    .min(2, { error: "Minimum 2 character for customer name" }),
+    .min(2, { error: "common.required" }),
   items: z.array(orderItemSchema),
   memberId: z.string().optional(),
   newMember: z.boolean().optional(),
@@ -40,7 +40,7 @@ export const newPosOrderSchema = z
     if (data.newMember && (!data.phone || data.phone.trim() === "")) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Phone number is required when registering a new member",
+        message: "common.required",
         path: ["phone"],
       });
     }

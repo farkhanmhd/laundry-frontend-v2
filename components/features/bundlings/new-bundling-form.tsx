@@ -27,6 +27,7 @@ type Props = {
 
 export const NewBundlingForm = ({ services, inventories }: Props) => {
   const t = useTranslations("Bundlings");
+  const tValidation = useTranslations("Validation");
   const { push } = useRouter();
   const { form, action } = useHookFormAction(
     addBundlingAction,
@@ -79,6 +80,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         label={t("form.bundlingName")}
         name="name"
         placeholder="Paket Cuci"
+        tValidation={tValidation}
       />
       <FormInput
         as={Textarea}
@@ -87,6 +89,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         label={t("form.bundlingDescription")}
         name="description"
         placeholder="Bundlings description"
+        tValidation={tValidation}
       />
       <FormInput
         className="text-right"
@@ -97,6 +100,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         name="price"
         parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
         placeholder="10000"
+        tValidation={tValidation}
       />
       <FormInput
         accept="image/jpeg,image/png,.jpg,.jpeg,.png"
@@ -104,6 +108,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         form={form}
         label={t("form.image")}
         name="image"
+        tValidation={tValidation}
         type="file"
       />
 

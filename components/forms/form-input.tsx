@@ -1,5 +1,6 @@
 import type React from "react";
 import { Controller, type Path, type UseFormReturn } from "react-hook-form";
+import { translateZodError } from "@/lib/translate-zod-error";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 
@@ -18,6 +19,7 @@ export type FormInputProps<
   showErrors?: boolean;
   formatValue?: (value: unknown) => string;
   parseValue?: (displayValue: string) => unknown;
+  tValidation?: (key: string) => string;
 } & Omit<React.ComponentProps<InputType>, "form" | "name" | "defaultValue">;
 
 export function FormInput<
@@ -32,9 +34,11 @@ export function FormInput<
   formatValue,
   parseValue,
   defaultValue,
+  tValidation,
   ...props
 }: FormInputProps<TFieldValues, InputType>) {
   const Component = as ?? Input;
+  const isFileInput = "type" in props && props.type === "file";
 
   return (
     <FieldGroup>
@@ -46,6 +50,17 @@ export function FormInput<
           const displayValue = formatValue
             ? formatValue(currentValue)
             : String(currentValue ?? "");
+
+          const translatedError =
+            tValidation && fieldState.error?.message
+              ? {
+                  ...fieldState.error,
+                  message: translateZodError(
+                    fieldState.error.message,
+                    tValidation
+                  ),
+                }
+              : fieldState.error;
 
           return (
             <Field data-invalid={fieldState.invalid}>
@@ -60,17 +75,27 @@ export function FormInput<
                 className="text-sm"
                 id={field.name}
                 {...props}
-                value={displayValue}
-                onChange={(e) => {
-                  const raw = e.target.value;
-                  field.onChange(parseValue ? parseValue(raw) : raw);
-                }}
-                onBlur={field.onBlur}
-                ref={field.ref}
+                {...(isFileInput ? {} : { value: displayValue })}
                 name={field.name}
+                onBlur={field.onBlur}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  if (isFileInput) {
+                    const file = e.target.files?.[0];
+                    (
+                      props.onChange as React.ChangeEventHandler<HTMLInputElement>
+                    )?.(e);
+                    if (!e.defaultPrevented) {
+                      field.onChange(file);
+                    }
+                  } else {
+                    const raw = e.target.value;
+                    field.onChange(parseValue ? parseValue(raw) : raw);
+                  }
+                }}
+                ref={field.ref}
               />
               {showErrors && fieldState.invalid && (
-                <FieldError errors={[fieldState.error]} />
+                <FieldError errors={[translatedError]} />
               )}
             </Field>
           );

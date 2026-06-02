@@ -2,6 +2,7 @@
 
 import { AlertCircle, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -157,6 +158,7 @@ function PhoneField() {
 function RevealedFields() {
   const { form, fieldsVisible, isMember, isSubmitting, existingMember, t } =
     useRegister();
+  const tValidation = useTranslations("Validation");
 
   return (
     <div
@@ -173,6 +175,7 @@ function RevealedFields() {
         label={t("fullName")}
         name="name"
         placeholder={t("fullNamePlaceholder")}
+        tValidation={tValidation}
       />
       <FormInput
         disabled={isSubmitting}
@@ -180,6 +183,7 @@ function RevealedFields() {
         label={t("username")}
         name="username"
         placeholder={t("usernamePlaceholder")}
+        tValidation={tValidation}
       />
       <FormInput
         disabled={isSubmitting}
@@ -187,6 +191,7 @@ function RevealedFields() {
         label={t("email")}
         name="email"
         placeholder={t("emailPlaceholder")}
+        tValidation={tValidation}
         type="email"
       />
 
@@ -197,6 +202,7 @@ function RevealedFields() {
           label={t("password")}
           name="password"
           placeholder={t("passwordPlaceholder")}
+          tValidation={tValidation}
           type="password"
         />
         <FormInput
@@ -205,6 +211,7 @@ function RevealedFields() {
           label={t("confirmPassword")}
           name="confirmPassword"
           placeholder={t("confirmPasswordPlaceholder")}
+          tValidation={tValidation}
           type="password"
         />
       </div>

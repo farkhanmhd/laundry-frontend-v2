@@ -2,7 +2,7 @@ import { z } from "zod";
 import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
 export const addMemberSchema = z.object({
-  name: z.string().min(3, "Customer name is required"),
+  name: z.string().min(3, "members.name.required"),
   phone: positiveIntNoLeadingZero.transform((val) => String(val)),
 });
 

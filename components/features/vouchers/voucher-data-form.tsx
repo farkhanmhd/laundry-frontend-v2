@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
+import { translateZodError } from "@/lib/translate-zod-error";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -46,6 +47,7 @@ export const VoucherDataForm = ({
   formData,
 }: Props) => {
   const t = useTranslations("Vouchers");
+  const tValidation = useTranslations("Validation");
   const { action, form } = formData;
   const discountPercentage: number = useWatch({
     control: form.control,
@@ -73,6 +75,7 @@ export const VoucherDataForm = ({
         label={t("form.voucherCode")}
         name="code"
         placeholder="Voucher Code"
+        tValidation={tValidation}
       />
 
       <FormInput
@@ -82,6 +85,7 @@ export const VoucherDataForm = ({
         label={t("form.voucherDescription")}
         name="description"
         placeholder="Voucher Description"
+        tValidation={tValidation}
       />
 
       <FormInput
@@ -93,6 +97,7 @@ export const VoucherDataForm = ({
         name="minSpend"
         parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
         placeholder="Minimum Spend"
+        tValidation={tValidation}
       />
 
       <div className="space-y-3">
@@ -124,6 +129,7 @@ export const VoucherDataForm = ({
           name="discountAmount"
           parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="Discount Amount"
+          tValidation={tValidation}
         />
       ) : (
         <>
@@ -133,6 +139,7 @@ export const VoucherDataForm = ({
             label={t("form.discountPercentage")}
             name="discountPercentage"
             placeholder="Discount Percentage (%)"
+            tValidation={tValidation}
           />
           <FormInput
             className="text-right"
@@ -143,6 +150,7 @@ export const VoucherDataForm = ({
             name="maxDiscountAmount"
             parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
             placeholder="Maximum Discount Amount"
+            tValidation={tValidation}
           />
         </>
       )}
@@ -161,7 +169,19 @@ export const VoucherDataForm = ({
                 disablePast
                 onChange={field.onChange}
               />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              {fieldState.invalid && fieldState.error && (
+                <FieldError
+                  errors={[
+                    {
+                      ...fieldState.error,
+                      message: translateZodError(
+                        fieldState.error.message || "",
+                        tValidation
+                      ),
+                    },
+                  ]}
+                />
+              )}
             </Field>
           )}
         />

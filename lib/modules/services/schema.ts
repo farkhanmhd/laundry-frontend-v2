@@ -16,9 +16,9 @@ export const deleteServiceSchema = z.object({
 });
 
 export const updateServiceSchema = z.object({
-  id: z.string().min(1, "Service id is required"),
-  name: z.string().min(1, "Service name is required"),
-  description: z.string().min(1, "Service description is required"),
+  id: z.string().min(1, "services.id.required"),
+  name: z.string().min(1, "services.name.required"),
+  description: z.string().min(1, "services.description.required"),
   price: positiveIntNoLeadingZero,
 });
 
@@ -27,9 +27,9 @@ export type UpdateServiceSchema = z.infer<typeof updateServiceSchema>;
 export const updateServiceImageSchema = z.object({
   id: z
     .string({
-      error: "Service ID is required.",
+      error: "services.id.required",
     })
-    .min(1, { error: "Service ID cannot be empty." }),
+    .min(1, { error: "services.id.required" }),
   image: imageSchema,
 });
 

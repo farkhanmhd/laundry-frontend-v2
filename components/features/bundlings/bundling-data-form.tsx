@@ -22,6 +22,7 @@ export const BundlingDataForm = ({
   price,
 }: UpdateBundlingSchema) => {
   const t = useTranslations("Bundlings");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -82,6 +83,7 @@ export const BundlingDataForm = ({
           label={t("form.bundlingName")}
           name="name"
           placeholder="Paket Cuci Kering Lipat"
+          tValidation={tValidation}
         />
         <FormInput
           as={Textarea}
@@ -91,6 +93,7 @@ export const BundlingDataForm = ({
           label={t("form.bundlingDescription")}
           name="description"
           placeholder="Bundling description"
+          tValidation={tValidation}
         />
         <FormInput
           className="text-right"
@@ -102,6 +105,7 @@ export const BundlingDataForm = ({
           name="price"
           parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="Rp 10.000"
+          tValidation={tValidation}
         />
 
         <div className="flex justify-end gap-3">

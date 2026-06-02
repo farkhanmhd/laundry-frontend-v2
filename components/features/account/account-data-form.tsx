@@ -26,6 +26,7 @@ interface Props {
 
 export function AccountDataForm({ data }: Props) {
   const t = useTranslations("AccountSettings.accountSettings");
+  const tValidation = useTranslations("Validation");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -119,6 +120,7 @@ export function AccountDataForm({ data }: Props) {
             label={t("username")}
             name="username"
             placeholder={t("usernamePlaceholder")}
+            tValidation={tValidation}
           />
 
           {/* Name Field */}
@@ -128,11 +130,12 @@ export function AccountDataForm({ data }: Props) {
             label={t("fullName")}
             name="name"
             placeholder={t("fullNamePlaceholder")}
+            tValidation={tValidation}
           />
 
           {/* Phone Number Field */}
           <div className="relative">
-            <span className="absolute bottom-2 left-2 text-muted-foreground text-sm">
+            <span className="absolute top-11 left-2 text-muted-foreground text-sm">
               +62
             </span>
             <FormInput
@@ -143,6 +146,7 @@ export function AccountDataForm({ data }: Props) {
               label={t("phoneNumber")}
               name="phone"
               placeholder={t("phoneNumberPlaceholder")}
+              tValidation={tValidation}
               type="tel"
             />
           </div>

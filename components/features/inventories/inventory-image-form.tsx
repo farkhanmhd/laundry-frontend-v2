@@ -33,6 +33,8 @@ export const InventoryImageForm = ({ id, src }: Props) => {
   // 🔹 Track current image preview
   const [imageSrc, setImageSrc] = useState(src);
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const { form, action } = useHookFormAction(
     updateInventoryImageAction,
     zodResolver(updateInventoryImageSchema),
@@ -54,8 +56,6 @@ export const InventoryImageForm = ({ id, src }: Props) => {
       },
     }
   );
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleCancel = () => {
     setImageSrc(src);

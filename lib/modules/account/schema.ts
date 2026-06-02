@@ -2,13 +2,13 @@ import { z } from "zod";
 import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
 export const updateProfileSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  username: z.string().min(3, "account.username.min"),
+  name: z.string().min(2, "account.name.min"),
   phone: positiveIntNoLeadingZero,
 });
 
 export const updateAdminSchema = updateProfileSchema.extend({
-  email: z.email().min(3, "Email must be at least 3 characters"),
+  email: z.email().min(3, "account.email.min"),
 });
 
 export type UpdateProfileSchema = z.infer<typeof updateProfileSchema>;
@@ -18,35 +18,35 @@ export const addressSchema = z.object({
   id: z.string(),
   label: z
     .string()
-    .min(3, "Label must be at least 3 characters")
-    .max(255, "Label must be at most 255 characters"),
+    .min(3, "account.label.min")
+    .max(255, "account.label.max"),
   street: z
     .string()
-    .min(3, "Address must be at least 5 characters")
-    .max(255, "Address must be at most 255 characters"),
-  note: z.string().max(255, "Note must be at most 255 characters").nullable(),
+    .min(3, "account.street.min")
+    .max(255, "account.street.max"),
+  note: z.string().max(255, "account.note.max").nullable(),
   lat: z
     .number()
-    .min(-90, "Latitude must be between -90 and 90")
-    .max(90, "Latitude must be between -90 and 90")
-    .refine((val) => val !== 0, "Please pin a location on the map"),
+    .min(-90, "account.lat.range")
+    .max(90, "account.lat.range")
+    .refine((val) => val !== 0, "account.lat.pinRequired"),
   lng: z
     .number()
-    .min(-180, "Longitude must be between -180 and 180")
-    .max(180, "Longitude must be between -180 and 180")
-    .refine((val) => val !== 0, "Please pin a location on the map"),
+    .min(-180, "account.lng.range")
+    .max(180, "account.lng.range")
+    .refine((val) => val !== 0, "account.lng.pinRequired"),
 });
 
 export type AddressSchema = z.infer<typeof addressSchema>;
 
 export const updatePasswordSchema = z
   .object({
-    currentPassword: z.string().min(1, "Current password is required"),
-    newPassword: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+    currentPassword: z.string().min(1, "account.currentPassword.required"),
+    newPassword: z.string().min(8, "account.newPassword.min"),
+    confirmPassword: z.string().min(1, "account.confirmPassword.required"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "account.confirmPassword.mustMatch",
     path: ["confirmPassword"],
   });
 
@@ -58,25 +58,25 @@ export type UpdatePasswordSchema = Omit<
 export const updateAddressSchema = z.object({
   label: z
     .string()
-    .min(3, "Label must be between 3 and 255 characters")
-    .max(255, "Label must be between 3 and 255 characters")
+    .min(3, "account.labelOptional.min")
+    .max(255, "account.labelOptional.max")
     .optional(),
   street: z
     .string()
-    .min(3, "Street must be between 3 and 255 characters")
-    .max(255, "Street must be between 3 and 255 characters")
+    .min(3, "account.streetOptional.min")
+    .max(255, "account.streetOptional.max")
     .optional(),
   lat: z
     .number()
-    .min(-90, "Latitude must be between -90 and 90")
-    .max(90, "Latitude must be between -90 and 90")
+    .min(-90, "account.lat.range")
+    .max(90, "account.lat.range")
     .optional(),
   lng: z
     .number()
-    .min(-180, "Longitude must be between -180 and 180")
-    .max(180, "Longitude must be between -180 and 180")
+    .min(-180, "account.lng.range")
+    .max(180, "account.lng.range")
     .optional(),
-  note: z.string().max(255, "Note must be at most 255 characters").optional(),
+  note: z.string().max(255, "account.note.max").optional(),
 });
 
 export const updateAddressSchemaWithId = updateAddressSchema.extend({

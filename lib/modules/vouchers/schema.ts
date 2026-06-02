@@ -14,15 +14,15 @@ import { percentageSchema, positiveIntNoLeadingZero } from "@/lib/schema-utils";
 //     deletedAt: TUnion<[TString, TNull]>;
 
 export const voucherInsertSchema = z.object({
-  id: z.optional(z.string().min(1, "Voucher ID Required")),
-  code: z.string().min(1, "Voucher code is required"),
-  description: z.string().min(1, "Voucher description is required"),
+  id: z.optional(z.string().min(1, "vouchers.id.required")),
+  code: z.string().min(1, "vouchers.code.required"),
+  description: z.string().min(1, "vouchers.description.required"),
   discountPercentage: z.optional(z.nullable(percentageSchema)),
   discountAmount: z.optional(z.nullable(positiveIntNoLeadingZero)),
   minSpend: positiveIntNoLeadingZero,
   maxDiscountAmount: z.optional(z.nullable(positiveIntNoLeadingZero)),
-  expiresAt: z.date({ error: "Expiry date is required" }),
-  isVisible: z.boolean({ error: "Visibility is required" }),
+  expiresAt: z.date({ error: "vouchers.expiresAt.required" }),
+  isVisible: z.boolean({ error: "vouchers.isVisible.required" }),
 });
 
 export type VoucherInsertSchema = z.infer<typeof voucherInsertSchema>;

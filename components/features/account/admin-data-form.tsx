@@ -29,6 +29,7 @@ type Props = {
 
 export function AdminDataForm({ account }: Props) {
   const t = useTranslations("AccountSettings.accountSettings");
+  const tValidation = useTranslations("Validation");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -95,6 +96,7 @@ export function AdminDataForm({ account }: Props) {
             label={t("username")}
             name="username"
             placeholder={t("usernamePlaceholder")}
+            tValidation={tValidation}
           />
 
           {/* Name Field */}
@@ -104,6 +106,7 @@ export function AdminDataForm({ account }: Props) {
             label={t("fullName")}
             name="name"
             placeholder={t("fullNamePlaceholder")}
+            tValidation={tValidation}
           />
 
           {/* Phone Number Field */}
@@ -114,6 +117,7 @@ export function AdminDataForm({ account }: Props) {
             label={t("phoneNumber")}
             name="phone"
             placeholder={t("phoneNumberPlaceholder")}
+            tValidation={tValidation}
             type="tel"
           />
           <FormInput
@@ -123,6 +127,7 @@ export function AdminDataForm({ account }: Props) {
             label={t("email")}
             name="email"
             placeholder={t("emailPlaceholder")}
+            tValidation={tValidation}
             type="email"
           />
 

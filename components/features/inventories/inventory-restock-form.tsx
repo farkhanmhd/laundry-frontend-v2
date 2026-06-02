@@ -9,6 +9,7 @@ import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
+import { translateZodError } from "@/lib/translate-zod-error";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -30,6 +31,7 @@ type Props = {
 
 export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
   const t = useTranslations("Inventories");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
   const { refresh } = useRouter();
 
@@ -105,6 +107,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
             label={t("stockForm.currentQuantity")}
             name="currentQuantity"
             placeholder={t("stockForm.currentQuantityPlaceholder")}
+            tValidation={tValidation}
             value={currentQuantity}
           />
 
@@ -115,6 +118,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
             label={t("restockForm.restockQuantity")}
             name="restockQuantity"
             placeholder={t("restockForm.restockQuantityPlaceholder")}
+            tValidation={tValidation}
           />
         </div>
 
@@ -124,6 +128,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
           label={t("restockForm.supplier")}
           name="supplier"
           placeholder={t("restockForm.supplierPlaceholder")}
+          tValidation={tValidation}
         />
 
         <FieldGroup>
@@ -140,8 +145,18 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
                   disabled={!isEditing || action.isPending}
                   onChange={field.onChange}
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
+                {fieldState.invalid && fieldState.error && (
+                  <FieldError
+                    errors={[
+                      {
+                        ...fieldState.error,
+                        message: translateZodError(
+                          fieldState.error.message || "",
+                          tValidation
+                        ),
+                      },
+                    ]}
+                  />
                 )}
               </Field>
             )}
@@ -155,6 +170,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
           label={t("restockForm.noteLabel")}
           name="note"
           placeholder={t("restockForm.notePlaceholder")}
+          tValidation={tValidation}
         />
 
         <div className="flex justify-end gap-3">

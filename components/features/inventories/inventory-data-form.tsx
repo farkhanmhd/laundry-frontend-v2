@@ -23,6 +23,7 @@ export const InventoryDataForm = ({
   safetyStock,
 }: UpdateInventorySchema) => {
   const t = useTranslations("Inventories");
+  const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -89,6 +90,7 @@ export const InventoryDataForm = ({
           label={t("form.inventoryName")}
           name="name"
           placeholder="Sabun Cair"
+          tValidation={tValidation}
         />
         <FormInput
           as={Textarea}
@@ -98,6 +100,7 @@ export const InventoryDataForm = ({
           label={t("form.inventoryDescription")}
           name="description"
           placeholder="Inventory description"
+          tValidation={tValidation}
         />
         <FormInput
           className="text-right"
@@ -109,6 +112,7 @@ export const InventoryDataForm = ({
           name="price"
           parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder="10000"
+          tValidation={tValidation}
         />
         <div className="flex flex-col gap-6 md:flex-row">
           <FormInput
@@ -118,6 +122,7 @@ export const InventoryDataForm = ({
             label={t("form.safetyStockLabel")}
             name="safetyStock"
             placeholder="Safety Stock"
+            tValidation={tValidation}
           />
         </div>
 

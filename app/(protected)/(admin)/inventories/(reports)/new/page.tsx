@@ -14,6 +14,7 @@ import { formatToIDR } from "@/lib/utils";
 
 const NewInventoryPage = () => {
   const t = useTranslations("Inventories");
+  const tValidation = useTranslations("Validation");
   const { push } = useRouter();
   const { form, action, handleSubmitWithAction } = useHookFormAction(
     addInventoryAction,
@@ -48,6 +49,7 @@ const NewInventoryPage = () => {
           label={t("form.inventoryName")}
           name="name"
           placeholder="Sabun Cair"
+          tValidation={tValidation}
         />
         <FormInput
           as={Textarea}
@@ -56,6 +58,7 @@ const NewInventoryPage = () => {
           label={t("form.inventoryDescription")}
           name="description"
           placeholder="Inventory description"
+          tValidation={tValidation}
         />
         <div className="flex w-full flex-col gap-6 md:flex-row">
           <FormInput
@@ -67,6 +70,7 @@ const NewInventoryPage = () => {
             name="price"
             parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
             placeholder="10000"
+            tValidation={tValidation}
           />
         </div>
         <div className="flex w-full flex-col gap-6 md:flex-row">
@@ -76,6 +80,7 @@ const NewInventoryPage = () => {
             label={t("form.stock")}
             name="stock"
             placeholder="Quantity"
+            tValidation={tValidation}
           />
           <FormInput
             disabled={action.isPending}
@@ -83,6 +88,7 @@ const NewInventoryPage = () => {
             label={t("form.safetyStock")}
             name="safetyStock"
             placeholder="Safety Stock Quantity"
+            tValidation={tValidation}
           />
         </div>
         <FormInput
@@ -90,6 +96,7 @@ const NewInventoryPage = () => {
           form={form}
           label={t("form.image")}
           name="image"
+          tValidation={tValidation}
           type="file"
         />
         <Button disabled={action.isPending} type="submit">

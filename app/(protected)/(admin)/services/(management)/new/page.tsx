@@ -14,6 +14,7 @@ import { formatToIDR } from "@/lib/utils";
 
 const NewServicePage = () => {
   const t = useTranslations("Services");
+  const tValidation = useTranslations("Validation");
   const { push } = useRouter();
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     addServiceAction,
@@ -48,6 +49,7 @@ const NewServicePage = () => {
           label={t("form.serviceName")}
           name="name"
           placeholder={t("form.serviceNamePlaceholder")}
+          tValidation={tValidation}
         />
         <FormInput
           as={Textarea}
@@ -56,6 +58,7 @@ const NewServicePage = () => {
           label={t("form.serviceDescription")}
           name="description"
           placeholder={t("form.serviceDescriptionPlaceholder")}
+          tValidation={tValidation}
         />
         <FormInput
           className="text-right"
@@ -66,12 +69,14 @@ const NewServicePage = () => {
           name="price"
           parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
           placeholder={t("form.servicePricePlaceholder")}
+          tValidation={tValidation}
         />
         <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"
           form={form}
           label={t("form.image")}
           name="image"
+          tValidation={tValidation}
           type="file"
         />
         <Button disabled={action.isPending} type="submit">

@@ -6,35 +6,41 @@ const bundlingItem = z
     id: z.nullable(z.optional(z.string())),
     serviceId: z.nullable(z.optional(z.string())),
     inventoryId: z.nullable(z.optional(z.string())),
-    itemType: z.enum(["service", "inventory"]),
+    itemType: z.enum(["service", "inventory"], {
+      error: "bundlings.itemType.required",
+    }),
     quantity: z
-      .number({ error: "Quantity required" })
-      .min(1, "Quantity must be at least 1"),
+      .number({ error: "bundlings.quantity.required" })
+      .min(1, "bundlings.quantity.min"),
   })
-  .refine(
-    (data) => {
-      return (
-        (data.serviceId != null && data.serviceId !== "") ||
-        (data.inventoryId != null && data.inventoryId !== "")
-      );
-    },
-    {
-      message: "Either Service or Inventory must be selected",
-      path: ["itemType"],
+  .superRefine((data, ctx) => {
+    if (data.itemType === "inventory" && !data.inventoryId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "bundlings.item.required",
+        path: ["inventoryId"],
+      });
     }
-  );
+    if (data.itemType === "service" && !data.serviceId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "bundlings.item.required",
+        path: ["serviceId"],
+      });
+    }
+  });
 
 export type BundlingItem = z.infer<typeof bundlingItem>;
 
 export const addBundlingSchema = z.object({
-  name: z.string().min(1, "Bundling name is required"),
+  name: z.string().min(1, "bundlings.name.required"),
   image: imageSchema,
-  description: z.string().min(1, "Bundling description is required"),
+  description: z.string().min(1, "bundlings.description.required"),
   price: positiveIntNoLeadingZero,
   items: z
     .array(bundlingItem)
-    .min(1, "At least 1 item is required")
-    .max(10, "Maximum 10 bundling items allowed"),
+    .min(1, "bundlings.items.min")
+    .max(10, "bundlings.items.max"),
 });
 
 export type AddBundlingSchema = z.infer<typeof addBundlingSchema>;
@@ -44,9 +50,9 @@ export const deleteBundlingSchema = z.object({
 });
 
 export const updateBundlingSchema = z.object({
-  id: z.string().min(1, "Bundling id cannot be empty"),
-  name: z.string().min(1, "Bundling name cannot be empty"),
-  description: z.string().min(1, "Bundling description is required"),
+  id: z.string().min(1, "bundlings.id.required"),
+  name: z.string().min(1, "bundlings.name.required"),
+  description: z.string().min(1, "bundlings.description.required"),
   price: positiveIntNoLeadingZero,
 });
 
@@ -59,9 +65,9 @@ export type UpdateBundlingBodySchema = z.infer<typeof updateBundlingBodySchema>;
 export const updateBundlingImageSchema = z.object({
   id: z
     .string({
-      error: "Bundling ID is required.",
+      error: "bundlings.id.required",
     })
-    .min(1, { error: "Bundling ID cannot be empty." }),
+    .min(1, { error: "bundlings.id.required" }),
   image: imageSchema,
 });
 

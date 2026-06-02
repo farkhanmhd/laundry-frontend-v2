@@ -32,6 +32,8 @@ export const ServiceImageForm = ({ id, src }: Props) => {
 
   const [imageSrc, setImageSrc] = useState(src);
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const { form, action } = useHookFormAction(
     updateServiceImageAction,
     zodResolver(updateServiceImageSchema),
@@ -53,8 +55,6 @@ export const ServiceImageForm = ({ id, src }: Props) => {
       },
     }
   );
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleCancel = () => {
     setImageSrc(src);

@@ -30,9 +30,9 @@ export const units: SelectOption[] = [
 ];
 
 export const addInventorySchema = z.object({
-  name: z.string().min(1, "Inventory name is required"),
+  name: z.string().min(1, "inventories.name.required"),
   image: imageSchema,
-  description: z.string().min(1, "Inventory name is required"),
+  description: z.string().min(1, "inventories.description.required"),
   price: positiveIntNoLeadingZero,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
@@ -45,9 +45,9 @@ export const deleteInventorySchema = z.object({
 });
 
 export const updateInventorySchema = z.object({
-  id: z.string().min(1, "Inventory id cannot be empty"),
-  name: z.string().min(1, "Inventory name cannot be empty"),
-  description: z.string().min(1, "Inventory description is required"),
+  id: z.string().min(1, "inventories.id.required"),
+  name: z.string().min(1, "inventories.name.required"),
+  description: z.string().min(1, "inventories.description.required"),
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
 });
@@ -66,41 +66,41 @@ export const adjustQuantitySchema = z
   .object({
     id: z
       .string({
-        error: "Inventory ID is required.",
+        error: "inventories.id.required",
       })
-      .min(1, { error: "Inventory ID cannot be empty." }),
+      .min(1, { error: "inventories.id.required" }),
     currentQuantity: z.int(),
     changeAmount: nonZeroIntegerSchema,
-    adjustmentTime: z.date({ error: "Adjustment Time is required" }),
+    adjustmentTime: z.date({ error: "inventories.adjustmentTime.required" }),
     note: z
       .string({
-        error: "A reason for the adjustment is required.",
+        error: "inventories.note.min",
       })
-      .min(5, { error: "Please provide a reason (at least 5 characters)." })
-      .max(500, { error: "The reason must be 500 characters or less." }),
+      .min(5, { error: "inventories.note.min" })
+      .max(500, { error: "inventories.note.max" }),
   })
   .refine((data) => data.changeAmount !== data.currentQuantity, {
-    error: "New quantity must be different from the current quantity.",
-    path: ["newQuantity"], // Where to display this error
+    error: "inventories.changeAmount.different",
+    path: ["newQuantity"],
   });
 
 export type AdjustQuantitySchema = z.infer<typeof adjustQuantitySchema>;
 
 export const restockInventorySchema = z.object({
   id: z
-    .string({
-      error: "Inventory ID is required.",
-    })
-    .min(1, { error: "Inventory ID cannot be empty." }),
+      .string({
+        error: "inventories.id.required",
+      })
+      .min(1, { error: "inventories.id.required" }),
   currentQuantity: z.int(),
   supplier: z
-    .string({ error: "Supplier name required" })
-    .min(1, { error: "Supplier  cannot be empty" }),
+    .string({ error: "inventories.supplier.required" })
+    .min(1, { error: "inventories.supplier.required" }),
   restockQuantity: positiveIntNoLeadingZero,
-  restockTime: z.date({ error: "Restock Time is required" }),
+  restockTime: z.date({ error: "inventories.restockTime.required" }),
   note: z
     .string()
-    .max(255, { error: "Notes must be 255 characters or less." })
+    .max(255, { error: "inventories.restockNote.max" })
     .optional(),
 });
 
@@ -108,10 +108,10 @@ export type RestockInventorySchema = z.infer<typeof restockInventorySchema>;
 
 export const updateInventoryImageSchema = z.object({
   id: z
-    .string({
-      error: "Inventory ID is required.",
-    })
-    .min(1, { error: "Inventory ID cannot be empty." }),
+      .string({
+        error: "inventories.id.required",
+      })
+      .min(1, { error: "inventories.id.required" }),
   image: imageSchema,
 });
 

@@ -1296,5 +1296,92 @@
       "nameRequired": "Full name is required",
       "changePhone": "Change Phone Number"
     }
+  },
+  "Validation": {
+    "common": {
+      "required": "This field is required",
+      "invalid": "Invalid value"
+    },
+    "images": {
+      "noFile": "No file chosen",
+      "invalidType": "Only JPEG or PNG images are allowed"
+    },
+    "numeric": {
+      "positiveInt": "Must be a positive integer and cannot start with 0",
+      "nonZeroInt": "Must be a non-zero integer and cannot have leading zeros",
+      "percentageFormat": "Must be a number between 1 and 100 without leading zeros",
+      "percentageMin": "Minimum percentage is 1%",
+      "percentageMax": "Maximum percentage is 100%",
+      "decimalPlaces": "Maximum 2 decimal places allowed (e.g., 12.50)"
+    },
+    "account": {
+      "username": { "min": "Username must be at least 3 characters" },
+      "name": { "min": "Name must be at least 2 characters" },
+      "email": { "min": "Email must be at least 3 characters" },
+      "currentPassword": { "required": "Current password is required" },
+      "newPassword": { "min": "Password must be at least 8 characters" },
+      "confirmPassword": { "required": "Please confirm your password", "mustMatch": "Passwords do not match" },
+      "label": { "min": "Label must be at least 3 characters", "max": "Label must be at most 255 characters" },
+      "street": { "min": "Address must be at least 5 characters", "max": "Address must be at most 255 characters" },
+      "note": { "max": "Note must be at most 255 characters" },
+      "lat": { "range": "Latitude must be between -90 and 90", "pinRequired": "Please pin a location on the map" },
+      "lng": { "range": "Longitude must be between -180 and 180", "pinRequired": "Please pin a location on the map" },
+      "labelOptional": { "min": "Label must be between 3 and 255 characters", "max": "Label must be between 3 and 255 characters" },
+      "streetOptional": { "min": "Street must be between 3 and 255 characters", "max": "Street must be between 3 and 255 characters" },
+      "id": { "required": "Address ID is required" }
+    },
+    "auth": {
+      "phoneNumber": { "min": "Phone number is too short", "max": "Phone number is too long", "regex": "Phone number cannot start with 0 or +" },
+      "name": { "min": "Name must be at least 2 characters" },
+      "username": { "min": "Username must be at least 3 characters", "max": "Username is too long", "regex": "Only letters, numbers, and underscores" },
+      "email": { "invalid": "Invalid email address" },
+      "password": { "min": "Password must be at least 8 characters" },
+      "confirmPassword": { "mustMatch": "Passwords do not match" }
+    },
+    "bundlings": {
+      "name": { "required": "Bundling name is required" },
+      "description": { "required": "Bundling description is required" },
+      "id": { "required": "Bundling id cannot be empty" },
+      "quantity": { "required": "Quantity required", "min": "Quantity must be at least 1" },
+      "item": { "required": "Item must be selected" },
+      "itemType": { "required": "Select a valid item type" },
+      "items": { "min": "At least 1 item is required", "max": "Maximum 10 bundling items allowed" }
+    },
+    "inventories": {
+      "name": { "required": "Inventory name is required" },
+      "description": { "required": "Inventory description is required" },
+      "id": { "required": "Inventory id cannot be empty" },
+      "adjustmentTime": { "required": "Adjustment Time is required" },
+      "note": { "min": "Please provide a reason (at least 5 characters)", "max": "The reason must be 500 characters or less" },
+      "changeAmount": { "different": "New quantity must be different from the current quantity" },
+      "supplier": { "required": "Supplier name required" },
+      "restockTime": { "required": "Restock Time is required" },
+      "restockNote": { "max": "Notes must be 255 characters or less" }
+    },
+    "services": {
+      "name": { "required": "Service name is required" },
+      "description": { "required": "Service description is required" },
+      "id": { "required": "Service id is required" }
+    },
+    "members": {
+      "name": { "required": "Customer name is required" }
+    },
+    "users": {
+      "phoneNumber": { "format": "Invalid phone number format" },
+      "name": { "min": "Name must be at least 2 characters" },
+      "username": { "regex": "Only letters, numbers, and underscores" },
+      "email": { "invalid": "Invalid email address" }
+    },
+    "vouchers": {
+      "id": { "required": "Voucher ID Required" },
+      "code": { "required": "Voucher code is required" },
+      "description": { "required": "Voucher description is required" },
+      "expiresAt": { "required": "Expiry date is required" },
+      "isVisible": { "required": "Visibility is required" }
+    },
+    "onboarding": {
+      "phoneNumber": { "min": "Phone number must be at least 7 characters", "max": "Phone number must be at most 15 characters", "regex": "Phone number must not start with 0 and contain only numbers" },
+      "name": { "min": "Name must be at least 2 characters" }
+    }
   }
 }

@@ -13,6 +13,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import type { BundlingItem } from "@/lib/modules/bundlings/schema";
+import { translateZodError } from "@/lib/translate-zod-error";
 
 type BundlingFormValues = {
   items: BundlingItem[];
@@ -42,6 +43,7 @@ export function BundlingItemForm<T extends { items: BundlingItem[] }>({
   disabled,
 }: Props<T>) {
   const t = useTranslations("Bundlings");
+  const tValidation = useTranslations("Validation");
 
   const itemsErrors = form.formState.errors.items;
   const itemErrors =
@@ -75,8 +77,9 @@ export function BundlingItemForm<T extends { items: BundlingItem[] }>({
   ];
 
   const selectedItemLabel =
-    [...(services ?? []), ...(inventories ?? [])].find((item) => item.value === selectedItem)
-      ?.label || t("itemsForm.selectItem");
+    [...(services ?? []), ...(inventories ?? [])].find(
+      (item) => item.value === selectedItem
+    )?.label || t("itemsForm.selectItem");
 
   const getItemTypeLabel = (type: string) => {
     if (type === "inventory") {
@@ -190,10 +193,42 @@ export function BundlingItemForm<T extends { items: BundlingItem[] }>({
       {itemErrors && (
         <FieldError
           errors={[
-            itemErrors.itemType,
-            itemErrors.inventoryId,
-            itemErrors.serviceId,
-            itemErrors.quantity,
+            itemErrors.itemType?.message
+              ? {
+                  ...itemErrors.itemType,
+                  message: translateZodError(
+                    itemErrors.itemType.message,
+                    tValidation
+                  ),
+                }
+              : itemErrors.itemType,
+            itemErrors.inventoryId?.message
+              ? {
+                  ...itemErrors.inventoryId,
+                  message: translateZodError(
+                    itemErrors.inventoryId.message,
+                    tValidation
+                  ),
+                }
+              : itemErrors.inventoryId,
+            itemErrors.serviceId?.message
+              ? {
+                  ...itemErrors.serviceId,
+                  message: translateZodError(
+                    itemErrors.serviceId.message,
+                    tValidation
+                  ),
+                }
+              : itemErrors.serviceId,
+            itemErrors.quantity?.message
+              ? {
+                  ...itemErrors.quantity,
+                  message: translateZodError(
+                    itemErrors.quantity.message,
+                    tValidation
+                  ),
+                }
+              : itemErrors.quantity,
           ]}
         />
       )}

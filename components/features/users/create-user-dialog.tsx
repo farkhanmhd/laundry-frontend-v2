@@ -26,6 +26,7 @@ import {
 
 export function CreateUserDialog() {
   const t = useTranslations("Users.createUserDialog");
+  const tValidation = useTranslations("Validation");
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
@@ -80,6 +81,7 @@ export function CreateUserDialog() {
             label={t("name")}
             name="name"
             placeholder={t("namePlaceholder")}
+            tValidation={tValidation}
           />
           <FormInput
             disabled={form.formState.isSubmitting}
@@ -87,6 +89,7 @@ export function CreateUserDialog() {
             label={t("username")}
             name="username"
             placeholder={t("usernamePlaceholder")}
+            tValidation={tValidation}
           />
           <FormInput
             disabled={form.formState.isSubmitting}
@@ -94,6 +97,7 @@ export function CreateUserDialog() {
             label={t("email")}
             name="email"
             placeholder={t("emailPlaceholder")}
+            tValidation={tValidation}
             type="email"
           />
           <FormInput
@@ -102,6 +106,7 @@ export function CreateUserDialog() {
             label={t("phoneNumber")}
             name="phoneNumber"
             placeholder={t("phoneNumberPlaceholder")}
+            tValidation={tValidation}
             type="tel"
           />
           <AlertDialogFooter className="mt-2">

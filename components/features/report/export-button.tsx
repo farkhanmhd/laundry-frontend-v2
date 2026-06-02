@@ -24,6 +24,7 @@ export function ExportButton({
         href={href}
         onClick={() => toast.success(successMessage)}
         rel="noopener noreferrer"
+        target="_blank"
       >
         <Download />
         {label}

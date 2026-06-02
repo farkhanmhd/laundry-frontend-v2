@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
-import { cardShadowStyle, formatDate } from "@/lib/utils";
+import { cardShadowStyle, formatDate, getStatusColor } from "@/lib/utils";
+import { ExportButton } from "../report/export-button";
 import { useOrderDetail } from "./order-detail-context";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
 
@@ -52,6 +53,10 @@ export const OrderInfoCard = () => {
     return null;
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const receiptUrl = `${baseUrl}/receipt/${id}/pdf`;
+
   return (
     <Card className="w-full" style={cardShadowStyle}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -59,7 +64,14 @@ export const OrderInfoCard = () => {
           <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
           {t("orderInformation")}
         </CardTitle>
-        {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
+        <div className="flex items-center gap-2">
+          <ExportButton
+            href={receiptUrl}
+            label={t("receipt")}
+            successMessage={t("receiptDownloaded")}
+          />
+          {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
+        </div>
       </CardHeader>
 
       <Separator className="mb-4" />
@@ -74,9 +86,12 @@ export const OrderInfoCard = () => {
 
         <div className="flex flex-col gap-1">
           <span className="text-muted-foreground text-sm">{t("status")}</span>
-          <div>
-            {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
-          </div>
+          <Badge
+            className="px-3 py-1.5 capitalize"
+            variant={getStatusColor(orderInfo.status)}
+          >
+            {t(orderInfo.status)}
+          </Badge>
         </div>
 
         <div className="flex flex-col gap-1">

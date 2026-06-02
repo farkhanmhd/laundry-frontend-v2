@@ -269,8 +269,13 @@
       "waitingForPayment": "Waiting for Payment",
       "markAsReady": "Mark as Ready",
       "markAsCompleted": "Mark as Completed",
+      "pending": "Pending",
+      "processing": "Processing",
+      "ready": "Ready",
       "completed": "Completed",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "receipt": "Receipt",
+      "receiptDownloaded": "Receipt downloaded"
     },
     "customer": {
       "customerDetails": "Customer Details",
@@ -919,6 +924,8 @@
       "cancel": "Cancel",
       "payNow": "Pay Now",
       "confirmAddress": "Confirm Delivery",
+      "receipt": "Receipt",
+      "receiptDownloaded": "Receipt downloaded",
       "cancelPickupRequest": "Cancel Pickup Request",
       "cancelPickupRequestTitle": "Cancel Pickup Request",
       "cancelPickupRequestDescription": "Are you sure you want to cancel this pickup request? This action cannot be undone.",

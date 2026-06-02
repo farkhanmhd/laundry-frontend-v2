@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Client } from "@/components/utils/client";
 import type { Order } from "@/lib/modules/orders/data";
-import { cn, formatToIDR } from "@/lib/utils";
+import { cn, formatToIDR, getStatusColor } from "@/lib/utils";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
 
 export const ordersColumns: ColumnDef<Order>[] = [
@@ -94,17 +94,8 @@ export const ordersColumns: ColumnDef<Order>[] = [
     },
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
-      const variants = {
-        pending: "destructive",
-        processing: "outline",
-        ready: "secondary",
-        completed: "default",
-      } as const;
-
-      const variant = variants[status as keyof typeof variants] || "secondary";
-
       return (
-        <Badge className="capitalize" variant={variant}>
+        <Badge className="capitalize" variant={getStatusColor(status)}>
           {status}
         </Badge>
       );

@@ -18,6 +18,7 @@ import {
 } from "@/components/features/customer-orders/customer-order-detail-context";
 import { CustomerPaymentDialog } from "@/components/features/customer-orders/customer-payment-dialog";
 import { RequestDeliverySection } from "@/components/features/customer-orders/request-delivery-section";
+import { ExportButton } from "@/components/features/report/export-button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -99,14 +100,22 @@ const OrderStatusBadge = ({
 const OrderDetailHeader = ({ orderId }: { orderId: string }) => {
   const t = useTranslations("CustomerOrders.orderDetail");
   const { detail } = useCustomerOrderDetail();
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-bold text-foreground text-xl uppercase tracking-tight">
-          {t("orderItems")} {orderId}
-        </h1>
-        <OrderStatusBadge status={detail.status} t={t} />
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <h1 className="font-bold text-foreground text-xl uppercase tracking-tight">
+            {t("orderItems")} {orderId}
+          </h1>
+          <OrderStatusBadge status={detail.status} t={t} />
+        </div>
+        <ExportButton
+          href={`${baseUrl}/receipt/${orderId}/customer-pdf`}
+          label={t("receipt")}
+          successMessage={t("receiptDownloaded")}
+        />
       </div>
       <p className="mt-1 flex items-center gap-2 text-muted-foreground text-sm">
         <Calendar className="h-4 w-4" />

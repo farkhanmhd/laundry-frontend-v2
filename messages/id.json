@@ -270,7 +270,12 @@
       "markAsReady": "Tandai Sudah Siap",
       "markAsCompleted": "Tandai Selesai",
       "completed": "Selesai",
-      "cancelled": "Dibatalkan"
+      "cancelled": "Dibatalkan",
+      "pending": "Menunggu",
+      "processing": "Diproses",
+      "ready": "Siap",
+      "receipt": "Resi",
+      "receiptDownloaded": "Resi berhasil diunduh"
     },
     "customer": {
       "customerDetails": "Detail Pelanggan",
@@ -918,6 +923,8 @@
       "confirmPayment": "Konfirmasi Pembayaran",
       "cancel": "Batal",
       "payNow": "Bayar Sekarang",
+      "receipt": "Resi",
+      "receiptDownloaded": "Resi berhasil diunduh",
       "confirmAddress": "Konfirmasi Pengiriman",
       "cancelPickupRequest": "Batalkan Permintaan Jemput",
       "cancelPickupRequestTitle": "Batalkan Permintaan Jemput",

@@ -18,6 +18,7 @@ import {
 import { updateProfileAction } from "@/lib/modules/account/actions";
 import type { AccountInfo } from "@/lib/modules/account/data";
 import { updateProfileSchema } from "@/lib/modules/account/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle } from "@/lib/utils";
 
 interface Props {
@@ -26,6 +27,7 @@ interface Props {
 
 export function AccountDataForm({ data }: Props) {
   const t = useTranslations("AccountSettings.accountSettings");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
@@ -45,14 +47,11 @@ export function AccountDataForm({ data }: Props) {
       actionProps: {
         onSettled: ({ result }) => {
           if (result?.data?.status === "success") {
-            toast.success(t("toastSuccess"));
-
+            toast.success(toastResponse(tNotifications, result.data));
             setIsEditing(false);
             refresh();
-          } else if (result?.data?.message === "Username already taken") {
-            toast.error(t("toastUsernameTaken"));
           } else {
-            toast.error(t("toastError"));
+            toast.error(toastResponse(tNotifications, result?.data || {}));
           }
         },
       },

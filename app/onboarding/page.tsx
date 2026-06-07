@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 import { authClient } from "@/lib/modules/auth/auth-client";
 
 const phoneSchema = z.object({
@@ -48,6 +49,7 @@ interface ExistingMember {
 export default function OnboardingPage() {
   const t = useTranslations("Onboarding");
   const tValidation = useTranslations("Validation");
+  const tNotifications = useTranslations("Notifications");
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -90,17 +92,16 @@ export default function OnboardingPage() {
       setPhoneNumber(values.phoneNumber);
 
       if (error) {
-        // Case B: Not Found (or other error)
-        // Check if error is 404
         if (error.status === 404) {
           setExistingMember(null);
         } else {
-          toast.error(error.value?.message || "Something went wrong");
+          toast.error(
+            toastResponse(tNotifications, error.value || {})
+          );
           setIsSearching(false);
           return;
         }
       } else if (data?.data) {
-        // Case A: Found
         setExistingMember(data.data as ExistingMember);
       } else {
         setExistingMember(null);
@@ -109,7 +110,10 @@ export default function OnboardingPage() {
       setStep("ACTION");
     } catch (err) {
       toast.error(
-        `Failed to check phone number. ${err instanceof Error ? err.message : ""}`
+        toastResponse(
+          tNotifications,
+          (err as { messageKey?: string; message?: string }) || {}
+        )
       );
     } finally {
       setIsSearching(false);
@@ -123,7 +127,7 @@ export default function OnboardingPage() {
 
     setIsConnecting(true);
     try {
-      const { error } = await elysia.users["connect-member"].post(
+      const { data, error } = await elysia.users["connect-member"].post(
         {
           memberId: existingMember.memberId,
           phoneNumber,
@@ -134,16 +138,21 @@ export default function OnboardingPage() {
       );
 
       if (error) {
-        toast.error(error.value?.message || "Failed to connect member");
+        toast.error(
+          toastResponse(tNotifications, error.value || {})
+        );
         setIsConnecting(false);
         return;
       }
 
-      toast.success(t("success"));
+      toast.success(toastResponse(tNotifications, data || {}));
       router.push("/dashboard");
     } catch (err) {
       toast.error(
-        `An unexpected error occurred. ${err instanceof Error ? err.message : ""}`
+        toastResponse(
+          tNotifications,
+          (err as { messageKey?: string; message?: string }) || {}
+        )
       );
       setIsConnecting(false);
     }
@@ -151,7 +160,7 @@ export default function OnboardingPage() {
 
   const onCreateMember = async (values: CreateMemberValues) => {
     try {
-      const { error } = await elysia.users["create-member"].post(
+      const { data, error } = await elysia.users["create-member"].post(
         {
           name: values.name,
           phoneNumber,
@@ -162,15 +171,20 @@ export default function OnboardingPage() {
       );
 
       if (error) {
-        toast.error(error.value?.message || "Failed to create member");
+        toast.error(
+          toastResponse(tNotifications, error.value || {})
+        );
         return;
       }
 
-      toast.success(t("success"));
+      toast.success(toastResponse(tNotifications, data || {}));
       router.push("/dashboard");
     } catch (err) {
       toast.error(
-        `An unexpected error occurred. ${err instanceof Error ? err.message : ""}`
+        toastResponse(
+          tNotifications,
+          (err as { messageKey?: string; message?: string }) || {}
+        )
       );
     }
   };

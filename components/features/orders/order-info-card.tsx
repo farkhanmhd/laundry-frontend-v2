@@ -70,7 +70,8 @@ export const OrderInfoCard = () => {
             label={t("receipt")}
             successMessage={t("receiptDownloaded")}
           />
-          {orderStatus[orderInfo?.status as keyof typeof orderStatus]}
+          {orderInfo.status !== "completed" &&
+            orderStatus[orderInfo?.status as keyof typeof orderStatus]}
         </div>
       </CardHeader>
 

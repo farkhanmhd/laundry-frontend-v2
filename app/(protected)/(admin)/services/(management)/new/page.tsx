@@ -5,6 +5,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { toastResponse } from "@/lib/toast-helper";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +16,7 @@ import { formatToIDR } from "@/lib/utils";
 const NewServicePage = () => {
   const t = useTranslations("Services");
   const tValidation = useTranslations("Validation");
+  const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     addServiceAction,
@@ -26,7 +28,7 @@ const NewServicePage = () => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             push("/services");
           }
         },

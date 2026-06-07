@@ -13,6 +13,21 @@ import {
 
 export type AddServiceBody = Parameters<typeof elysia.services.post>[0];
 
+function extractErrorDetails(error: unknown) {
+  const err = error as {
+    value?: { messageKey?: string; messageParams?: Record<string, unknown> };
+  };
+  return {
+    messageKey: err?.value?.messageKey,
+    messageParams: err?.value?.messageParams as Record<string, unknown> | undefined,
+  };
+}
+
+const errorResult = {
+  status: "error" as const,
+  message: "Something went wrong",
+};
+
 export const addServiceAction = actionClient
   .inputSchema(addServiceSchema)
   .action(async ({ parsedInput }) => {
@@ -21,25 +36,33 @@ export const addServiceAction = actionClient
     );
 
     if (!result) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
+      return errorResult;
     }
 
     if (result.status !== 201) {
+      const { messageKey, messageParams } = extractErrorDetails(result.error);
       return {
-        status: "error",
+        status: "error" as const,
         message: `Something went wrong. ${result.error?.value?.message}`,
+        messageKey,
+        messageParams,
       };
     }
 
     if (result.data) {
+      const successData = result.data as
+        | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+        | undefined;
+
       return {
-        status: "success",
-        message: "New Service added",
+        status: "success" as const,
+        message: successData?.message,
+        messageKey: successData?.messageKey,
+        messageParams: successData?.messageParams,
       };
     }
+
+    return errorResult;
   });
 
 export const deleteServiceAction = actionClient
@@ -48,29 +71,30 @@ export const deleteServiceAction = actionClient
     const result = await ServicesApi.deleteService(parsedInput.id);
 
     if (!result) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
+      return errorResult;
     }
 
     if (result.status !== 200) {
+      const { messageKey, messageParams } = extractErrorDetails(result.error);
       return {
-        status: "error",
-        message: "Something went wrong",
+        status: "error" as const,
+        message: `Something went wrong`,
+        messageKey,
+        messageParams,
       };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: result.data?.message,
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
-
-const errorResult = {
-  status: "error",
-  message: "Something went wrong",
-};
 
 export const updateServiceAction = actionClient
   .inputSchema(updateServiceSchema)
@@ -80,12 +104,21 @@ export const updateServiceAction = actionClient
     const result = await ServicesApi.updateServiceData(id, data);
 
     if (!result || result.error) {
-      return errorResult;
+      return {
+        ...errorResult,
+        ...extractErrorDetails(result?.error),
+      };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Service updated",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
 
@@ -95,11 +128,20 @@ export const updateServiceImageAction = actionClient
     const { id, ...body } = parsedInput;
     const result = await ServicesApi.updateServiceImage(id, body);
     if (!result || result.error) {
-      return errorResult;
+      return {
+        ...errorResult,
+        ...extractErrorDetails(result?.error),
+      };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Inventory updated",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });

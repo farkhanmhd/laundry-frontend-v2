@@ -10,6 +10,18 @@ import {
   updateProfileSchema,
 } from "./schema";
 
+function extractErrorDetails(error: unknown) {
+  const err = error as {
+    value?: { messageKey?: string; messageParams?: Record<string, unknown> };
+  };
+  return {
+    messageKey: err?.value?.messageKey,
+    messageParams: err?.value?.messageParams as
+      | Record<string, unknown>
+      | undefined,
+  };
+}
+
 export const updateProfileAction = actionClient
   .inputSchema(updateProfileSchema)
   .action(async ({ parsedInput }) => {
@@ -17,20 +29,25 @@ export const updateProfileAction = actionClient
 
     if (response?.data?.status === "success") {
       return {
-        status: "success",
-        message: "Profile updated successfully",
+        status: "success" as const,
+        message: (response.data as { message?: string }).message,
+        messageKey: (response.data as { messageKey?: string }).messageKey,
+        messageParams: (
+          response.data as { messageParams?: Record<string, unknown> }
+        ).messageParams,
       };
     }
 
     if (response?.status === 409) {
       return {
-        status: "error",
+        status: "error" as const,
         message: "Username already taken",
+        ...extractErrorDetails(response.error),
       };
     }
 
     return {
-      status: "error",
+      status: "error" as const,
       message: "Failed to update profile",
     };
   });
@@ -44,7 +61,7 @@ export const updateAdminAction = actionClient
     console.log("Updating user:", parsedInput);
 
     return {
-      status: "success",
+      status: "success" as const,
       message: "Profile updated successfully",
     };
   });
@@ -52,17 +69,20 @@ export const updateAdminAction = actionClient
 export const addAddressAction = actionClient
   .inputSchema(addressSchema)
   .action(async ({ parsedInput }) => {
-    const result = await AccountApi.addAddress(parsedInput);
+    const response = await AccountApi.addAddress(parsedInput);
 
-    if (result?.status === "success") {
+    if ((response as { status?: string })?.status === "success") {
       return {
-        status: "success",
-        message: "Address saved successfully",
+        status: "success" as const,
+        message: (response as { message?: string }).message,
+        messageKey: (response as { messageKey?: string }).messageKey,
+        messageParams: (response as { messageParams?: Record<string, unknown> })
+          .messageParams,
       };
     }
 
     return {
-      status: "error",
+      status: "error" as const,
       message: "Failed to save address",
     };
   });
@@ -71,17 +91,20 @@ export const updateAddressAction = actionClient
   .inputSchema(updateAddressSchemaWithId)
   .action(async ({ parsedInput }) => {
     const { id, ...body } = parsedInput;
-    const result = await AccountApi.updateAddress({ id, body });
+    const response = await AccountApi.updateAddress({ id, body });
 
-    if (result?.status === "success") {
+    if ((response as { status?: string })?.status === "success") {
       return {
-        status: "success",
-        message: "Address updated successfully",
+        status: "success" as const,
+        message: (response as { message?: string }).message,
+        messageKey: (response as { messageKey?: string }).messageKey,
+        messageParams: (response as { messageParams?: Record<string, unknown> })
+          .messageParams,
       };
     }
 
     return {
-      status: "error",
+      status: "error" as const,
       message: "Failed to update address",
     };
   });
@@ -89,7 +112,7 @@ export const updateAddressAction = actionClient
 export const getAddressesAction = actionClient.action(async () => {
   const addresses = await AccountApi.getAddresses();
   return {
-    status: "success",
+    status: "success" as const,
     data: addresses,
   };
 });
@@ -97,17 +120,20 @@ export const getAddressesAction = actionClient.action(async () => {
 export const updatePasswordAction = actionClient
   .inputSchema(updatePasswordSchema)
   .action(async ({ parsedInput }) => {
-    const result = await AccountApi.updatePassword(parsedInput);
+    const response = await AccountApi.updatePassword(parsedInput);
 
-    if (result?.status === "success") {
+    if ((response as { status?: string })?.status === "success") {
       return {
-        status: "success",
-        message: "Password updated successfully",
+        status: "success" as const,
+        message: (response as { message?: string }).message,
+        messageKey: (response as { messageKey?: string }).messageKey,
+        messageParams: (response as { messageParams?: Record<string, unknown> })
+          .messageParams,
       };
     }
 
     return {
-      status: "error",
+      status: "error" as const,
       message: "Failed to update profile",
     };
   });

@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   type ChangeEvent,
   createContext,
@@ -20,6 +21,7 @@ import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
 import type { RequestPickupSchema } from "@/lib/modules/customer-orders/schema";
 import type { PosItemData, PosVoucher } from "@/lib/modules/pos/data";
 import { getMaxDiscount, type PosOrderItem } from "@/lib/modules/pos/state";
+import { toastResponse } from "@/lib/toast-helper";
 import { positiveIntRegex } from "@/lib/utils";
 
 const getUserPoints = async () => {
@@ -57,6 +59,8 @@ const customerOrderAtom = atomWithStorage<CustomerOrderState>(
 
 export const useCustomerOrder = () => {
   const [customerCart, setCustomerCart] = useAtom(customerOrderAtom);
+  const t = useTranslations("CustomerOrders.orderSummary");
+  const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
 
   const createPickupRequestMutation = useMutation({
@@ -64,25 +68,31 @@ export const useCustomerOrder = () => {
       CustomerOrdersApi.createPickupRequest(data),
     onSuccess: (response) => {
       if (!response) {
-        toast.error("Something went wrong");
+        toast.error(toastResponse(tNotifications, {}));
         return;
       }
 
       if (response.status !== 201) {
         toast.error(
-          `Something went wrong. ${response.error?.value.message ?? ""}`.trim()
+          toastResponse(
+            tNotifications,
+            (response.error?.value as {
+              messageKey?: string;
+              message?: string;
+            }) || {}
+          )
         );
         return;
       }
 
       if (response.data) {
-        toast.success(response.data.message);
+        toast.success(toastResponse(tNotifications, response.data));
         push(`/customer-orders/${response.data.data.orderId}`);
         clearCustomerCart();
       }
     },
-    onError: (error) => {
-      toast.error(error instanceof Error ? error.message : String(error));
+    onError: () => {
+      toast.error(toastResponse(tNotifications, {}));
     },
   });
 
@@ -140,9 +150,9 @@ export const useCustomerOrder = () => {
       setCustomerCart((prev) => ({ ...prev, items: [...prev.items, newItem] }));
     }
 
-    toast("1 Item added to cart", {
+    toast(t("itemAdded"), {
       action: {
-        label: "View Cart",
+        label: t("viewCart"),
         onClick: () => push("/customer-orders/new/order-summary"),
       },
     });
@@ -239,7 +249,7 @@ export const useCustomerOrder = () => {
       ...prev,
       selectedVoucher: voucher,
     }));
-    toast.success(`Voucher ${voucher.description} applied!`);
+    toast.success(tNotifications("pos.voucher.applied", { description: voucher.description }));
   };
 
   const handleRemoveVoucher = () => {
@@ -415,12 +425,10 @@ async function createDeliveryRequest(body: {
   );
 
   if (error) {
-    throw new Error(`Error: ${error.value.type}`);
+    throw error.value || new Error("Error creating delivery request");
   }
 
-  if (data) {
-    return data.data.deliveryId;
-  }
+  return data;
 }
 
 export const CustomerOrderAddressProvider = ({
@@ -437,6 +445,7 @@ export const CustomerOrderAddressProvider = ({
   const [selectingAddress, setSelectingAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const { refresh } = useRouter();
+  const tNotifications = useTranslations("Notifications");
 
   const handleSubmit = () => {
     if (!selectedAddress) {
@@ -444,16 +453,21 @@ export const CustomerOrderAddressProvider = ({
     }
     startTransition(async () => {
       try {
-        const deliveryId = await createDeliveryRequest({
+        const data = await createDeliveryRequest({
           addressId: selectedAddress,
           orderId: params.id as string,
         });
-        if (deliveryId) {
-          toast.success("Delivery request submitted successfully");
+        if (data) {
+          toast.success(toastResponse(tNotifications, data));
           refresh();
         }
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : String(error));
+        toast.error(
+          toastResponse(
+            tNotifications,
+            (error as { messageKey?: string; message?: string }) || {}
+          )
+        );
       }
     });
   };

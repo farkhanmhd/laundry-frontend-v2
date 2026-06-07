@@ -16,9 +16,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 
 export const CustomerPaymentDialog = () => {
   const t = useTranslations("CustomerOrders.orderDetail");
+  const tNotifications = useTranslations("Notifications");
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const params = useParams();
@@ -27,21 +29,24 @@ export const CustomerPaymentDialog = () => {
   const handlePayment = () => {
     startTransition(async () => {
       try {
-        const { error } = await elysia
+        const { data, error } = await elysia
           .customerorders({ id: params.id as string })
           .payment.post({}, { fetch: { credentials: "include" } });
 
         if (error) {
-          throw new Error(error.value?.message || "Failed to process payment");
+          throw error.value || new Error("Failed to process payment");
         }
 
-        toast.success("QRIS Payment Created");
+        toast.success(toastResponse(tNotifications, data || {}));
         setOpen(false);
         push(`/customer-orders/${params.id}/payment`);
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        }
+        toast.error(
+          toastResponse(
+            tNotifications,
+            (error as { messageKey?: string; message?: string }) || {}
+          )
+        );
       }
     });
   };

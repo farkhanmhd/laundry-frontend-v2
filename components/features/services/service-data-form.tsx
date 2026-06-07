@@ -5,6 +5,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { toastResponse } from "@/lib/toast-helper";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +24,7 @@ export const ServiceDataForm = ({
 }: UpdateServiceSchema) => {
   const t = useTranslations("Services");
   const tValidation = useTranslations("Validation");
+  const tNotifications = useTranslations("Notifications");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -41,8 +43,8 @@ export const ServiceDataForm = ({
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
-            setIsEditing(false); // exit edit mode after successful save
+            toast.success(toastResponse(tNotifications, data));
+            setIsEditing(false);
           }
         },
       },

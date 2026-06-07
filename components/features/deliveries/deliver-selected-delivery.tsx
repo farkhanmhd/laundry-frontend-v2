@@ -18,9 +18,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 
 export const DeliverSelectedDelivery = () => {
   const t = useTranslations("Deliveries");
+  const tNotifications = useTranslations("Notifications");
   const { table } = useTableContext<{ id: string }>();
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
@@ -46,17 +48,26 @@ export const DeliverSelectedDelivery = () => {
       );
 
       if (error) {
-        throw new Error("Failed to create delivery route");
+        toast.error(
+          toastResponse(tNotifications, error.value || {
+            messageKey: "Notifications.delivery.route.deliverFailed",
+          })
+        );
+        setIsPending(false);
+        return;
       }
 
       if (data?.data?.routeId) {
-        toast.success(data.message || "Delivery route created");
+        toast.success(toastResponse(tNotifications, data));
         router.push(`/routes/${data.data.routeId}`);
       }
     } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
+      toast.error(
+        toastResponse(
+          tNotifications,
+          (err as { messageKey?: string; message?: string }) || {}
+        )
+      );
     } finally {
       setIsPending(false);
     }
@@ -71,16 +82,15 @@ export const DeliverSelectedDelivery = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Create Delivery Route</AlertDialogTitle>
+          <AlertDialogTitle>{t("createRoute")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to create a delivery route for{" "}
-            {selectedIds.length} selected orders?
+            {t("createRouteDescription", { count: selectedIds.length })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction disabled={isPending} onClick={handleDeliver}>
-            {isPending ? "Creating..." : "Confirm"}
+            {isPending ? t("creating") : t("confirm")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

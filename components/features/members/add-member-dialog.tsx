@@ -9,7 +9,6 @@ import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
-import { translateZodError } from "@/lib/translate-zod-error";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -30,11 +29,14 @@ import {
   type AddMemberSchema,
   addMemberSchema,
 } from "@/lib/modules/members/schema";
+import { toastResponse } from "@/lib/toast-helper";
+import { translateZodError } from "@/lib/translate-zod-error";
 
 export function AddMemberDialog() {
   const [open, setOpen] = useState(false);
   const { refresh } = useRouter();
   const t = useTranslations("Members.addMember");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const { form, action } = useHookFormAction(
     addMemberAction,
@@ -50,14 +52,12 @@ export function AddMemberDialog() {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             setOpen(false);
             form.reset();
             refresh();
-          }
-
-          if (data?.status === "error") {
-            toast.error(data.message);
+          } else {
+            toast.error(toastResponse(tNotifications, data || {}));
           }
         },
       },

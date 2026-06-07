@@ -63,6 +63,7 @@ const registerUser = async (body: Omit<RegisterSchema, "confirmPassword">) => {
 export function RegisterProvider({ children }: { children: ReactNode }) {
   const { push } = useRouter();
   const t = useTranslations("RegisterPage");
+  const tNotifications = useTranslations("Notifications");
 
   const [phone, setPhone] = useState("");
   const [debouncedPhone] = useDebounce(phone, 300);
@@ -140,19 +141,23 @@ export function RegisterProvider({ children }: { children: ReactNode }) {
       const result = await registerUser(payload);
 
       if (!result) {
-        toast.error("Registration failed", { description: "Server Error" });
+        toast.error(tNotifications("auth.registration.failed"), {
+          description: tNotifications("auth.registration.serverError"),
+        });
         return;
       }
 
       if (result.newUserId) {
-        toast.success("Account created!", {
-          description: "Welcome aboard. Please sign in.",
+        toast.success(tNotifications("auth.registration.success"), {
+          description: tNotifications("auth.registration.welcome"),
         });
         push("/login");
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error("Registration failed", { description: error.message });
+        toast.error(tNotifications("auth.registration.failed"), {
+          description: error.message,
+        });
       }
     }
   };

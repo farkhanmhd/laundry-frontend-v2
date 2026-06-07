@@ -21,6 +21,7 @@ import {
   type UpdateAdminSchema,
   updateAdminSchema,
 } from "@/lib/modules/account/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle } from "@/lib/utils";
 
 type Props = {
@@ -29,6 +30,7 @@ type Props = {
 
 export function AdminDataForm({ account }: Props) {
   const t = useTranslations("AccountSettings.accountSettings");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const { refresh } = useRouter();
   const [isEditing, setIsEditing] = useState(false);
@@ -49,11 +51,11 @@ export function AdminDataForm({ account }: Props) {
       actionProps: {
         onSettled: ({ result }) => {
           if (result?.data?.status === "success") {
-            toast.success(result.data.message);
-            setIsEditing(false); // Exit edit mode on success
+            toast.success(toastResponse(tNotifications, result.data));
+            setIsEditing(false);
             refresh();
-          } else if (result?.serverError) {
-            toast.error("Something went wrong");
+          } else {
+            toast.error(toastResponse(tNotifications, result?.data || {}));
           }
         },
       },

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { FormInput } from "@/components/forms/form-input";
+import { toastResponse } from "@/lib/toast-helper";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,6 +23,7 @@ import { cardShadowStyle } from "@/lib/utils";
 
 export function PasswordForm() {
   const t = useTranslations("AccountSettings.security");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,11 +42,11 @@ export function PasswordForm() {
       actionProps: {
         onSettled: ({ result }) => {
           if (result?.data?.status === "success") {
-            toast.success(result.data.message);
+            toast.success(toastResponse(tNotifications, result.data));
             setIsEditing(false);
             form.reset();
-          } else if (result?.serverError) {
-            toast.error("Something went wrong");
+          } else {
+            toast.error(toastResponse(tNotifications, result?.data || {}));
           }
         },
       },

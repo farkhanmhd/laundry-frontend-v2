@@ -6,6 +6,17 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +28,7 @@ import {
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import type { UpdateAddressSchemaWithId } from "@/lib/modules/account/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle } from "@/lib/utils";
 import { AddAddressForm } from "./add-address-form";
 import { AddAddressFormProvider } from "./add-address-form-context";
@@ -42,17 +54,21 @@ const deleteAddress = async (id: string) => {
 
 export function AddressManager({ addresses }: AddressManagerProps) {
   const t = useTranslations("AccountSettings.addresses");
+  const tNotifications = useTranslations("Notifications");
   const [isAdding, setIsAdding] = useState(false);
+  const [deletingAddressId, setDeletingAddressId] = useState<string | null>(
+    null
+  );
   const { refresh } = useRouter();
 
   const { mutate: handleDelete, isPending } = useMutation({
     mutationFn: deleteAddress,
-    onSuccess: () => {
-      toast.success("Address deleted successfully");
+    onSuccess: (response) => {
+      toast.success(toastResponse(tNotifications, response || {}));
       refresh();
     },
     onError: () => {
-      toast.error("Failed to delete address");
+      toast.error(toastResponse(tNotifications, {}));
     },
   });
 
@@ -113,13 +129,44 @@ export function AddressManager({ addresses }: AddressManagerProps) {
                     >
                       {t("viewLocation")}
                     </Button>
-                    <Button
-                      disabled={isPending}
-                      onClick={() => handleDelete(addr.id)}
-                      variant="destructive"
+                    <AlertDialog
+                      onOpenChange={(open) =>
+                        !open && setDeletingAddressId(null)
+                      }
+                      open={deletingAddressId === addr.id}
                     >
-                      {t("delete")}
-                    </Button>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          disabled={isPending}
+                          onClick={() => setDeletingAddressId(addr.id)}
+                          variant="destructive"
+                        >
+                          {t("delete")}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {t("deleteConfirmTitle")}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {t("deleteConfirmDescription")}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+                          <AlertDialogAction
+                            disabled={isPending}
+                            onClick={() => {
+                              handleDelete(addr.id);
+                              setDeletingAddressId(null);
+                            }}
+                          >
+                            {t("delete")}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
               ))

@@ -119,3 +119,12 @@ export const isDone = (status: Delivery["status"]) =>
   status === "picked_up" || status === "completed";
 
 export type ResetQuery = ReturnType<typeof useQuery>["refetch"];
+
+export const priceFromLabel = (label: string) => {
+  const openParen = label.lastIndexOf("(");
+  const closeParen = label.lastIndexOf(")");
+  if (openParen === -1 || closeParen === -1) {
+    return 0;
+  }
+  return Number(label.slice(openParen + 1, closeParen).replace(/[^\d]/g, ""));
+};

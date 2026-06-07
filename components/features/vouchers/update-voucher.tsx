@@ -5,6 +5,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { toastResponse } from "@/lib/toast-helper";
 import { updateVoucherAction } from "@/lib/modules/vouchers/actions";
 import type { Voucher } from "@/lib/modules/vouchers/data";
 import { voucherInsertSchema } from "@/lib/modules/vouchers/schema";
@@ -16,6 +17,7 @@ type Props = {
 
 export const UpdateVoucher = ({ voucher }: Props) => {
   const t = useTranslations("Vouchers");
+  const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
   const formData = useHookFormAction(
     updateVoucherAction,
@@ -37,7 +39,7 @@ export const UpdateVoucher = ({ voucher }: Props) => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             push("/vouchers");
           }
         },

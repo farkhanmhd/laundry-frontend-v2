@@ -1,11 +1,13 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { createContext, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
+import { toastResponse } from "@/lib/toast-helper";
 
 const getUserAddresses = async () => {
   const { data: response } = await elysia.account.addresses.get({
@@ -31,10 +33,10 @@ const createDeliveryRequest = async (body: {
   );
 
   if (error) {
-    throw new Error(`Error: ${error.value.type}`);
+    throw error.value || new Error("Error creating delivery request");
   }
 
-  return data?.data.deliveryId;
+  return data;
 };
 
 const getCustomerOrderDetailPageData = async (orderId: string) => {
@@ -101,6 +103,7 @@ export const CustomerOrderDetailProvider = ({
   orderId: string;
 }) => {
   const queryClient = useQueryClient();
+  const tNotifications = useTranslations("Notifications");
   const [selectingAddress, setSelectingAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
 
@@ -117,8 +120,10 @@ export const CustomerOrderDetailProvider = ({
 
   const requestDeliveryMutation = useMutation({
     mutationFn: createDeliveryRequest,
-    onSuccess: async () => {
-      toast.success("Delivery request submitted successfully");
+    onSuccess: async (data) => {
+      if (data) {
+        toast.success(toastResponse(tNotifications, data));
+      }
       setSelectingAddress(false);
       setSelectedAddress(null);
       await queryClient.invalidateQueries({
@@ -126,7 +131,12 @@ export const CustomerOrderDetailProvider = ({
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : String(error));
+      toast.error(
+        toastResponse(
+          tNotifications,
+          (error as { messageKey?: string; message?: string }) || {}
+        )
+      );
     },
   });
 
@@ -134,18 +144,37 @@ export const CustomerOrderDetailProvider = ({
     mutationFn: () => CustomerOrdersApi.cancelCustomerOrder(orderId),
     onSuccess: async (result) => {
       if (result.error) {
-        throw new Error(
-          result.error.value?.message || "Failed to cancel pickup request"
+        toast.error(
+          toastResponse(
+            tNotifications,
+            (result.error.value as { messageKey?: string; message?: string }) || {}
+          )
         );
+        return;
       }
 
-      toast.success("Pickup request cancelled successfully");
+      const responseData = (result.data || {}) as {
+        messageKey?: string;
+        messageParams?: Record<string, unknown>;
+        message?: string;
+      };
+      toast.success(
+        toastResponse(tNotifications, {
+          ...responseData,
+          messageParams: { ...responseData.messageParams, orderId },
+        })
+      );
       await queryClient.invalidateQueries({
         queryKey: ["customer-order-detail-page", orderId],
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : String(error));
+      toast.error(
+        toastResponse(
+          tNotifications,
+          (error as { messageKey?: string; message?: string }) || {}
+        )
+      );
     },
   });
 

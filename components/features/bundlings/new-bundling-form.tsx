@@ -5,6 +5,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import { BundlingItemForm } from "@/components/features/bundlings/bundling-item-form";
@@ -18,7 +19,8 @@ import {
   type AddBundlingSchema,
   addBundlingSchema,
 } from "@/lib/modules/bundlings/schema";
-import { formatToIDR } from "@/lib/utils";
+import { toastResponse } from "@/lib/toast-helper";
+import { formatToIDR, priceFromLabel } from "@/lib/utils";
 
 type Props = {
   services: SelectOption[];
@@ -28,6 +30,7 @@ type Props = {
 export const NewBundlingForm = ({ services, inventories }: Props) => {
   const t = useTranslations("Bundlings");
   const tValidation = useTranslations("Validation");
+  const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
   const { form, action } = useHookFormAction(
     addBundlingAction,
@@ -49,7 +52,7 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             push("/bundlings");
           }
         },
@@ -62,6 +65,19 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
     name: "items",
     keyName: "_id",
   });
+
+  const itemPriceTotal = useMemo(() => {
+    const allOptions = [...(services ?? []), ...(inventories ?? [])];
+    return fields.reduce((acc, field) => {
+      const id =
+        field.itemType === "service" ? field.serviceId : field.inventoryId;
+      const option = allOptions.find((o) => o.value === id);
+      if (!option) {
+        return acc;
+      }
+      return acc + field.quantity * priceFromLabel(option.label);
+    }, 0);
+  }, [fields, services, inventories]);
 
   const canAddMore = fields.length < 10;
 
@@ -130,6 +146,10 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
             />
           ))}
         </div>
+        <p className="text-muted-foreground text-sm">
+          {t("itemsForm.itemPriceTotal")}: {formatToIDR(itemPriceTotal)}
+        </p>
+
         {canAddMore && (
           <Button
             disabled={action.isPending}

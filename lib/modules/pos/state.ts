@@ -2,11 +2,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useAction } from "next-safe-action/hooks";
 import { type ChangeEvent, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { SearchQuery } from "@/lib/search-params";
 import { phoneNumberRegex, positiveIntRegex } from "@/lib/utils";
@@ -125,14 +127,16 @@ export const usePOS = () => {
   const [posData, setPosData] = useAtom(posDataAtom);
   const isLarge = useBreakpoint(1024);
   const { push } = useRouter();
+  const tNotifications = useTranslations("Notifications");
+  const tCustomerOrders = useTranslations("CustomerOrders");
   const { execute, isPending } = useAction(createPosOrderAction, {
     onSuccess: ({ data: result }) => {
       if (result && result.status === "success") {
-        toast.success(result.message);
+        toast.success(toastResponse(tNotifications, result));
         push(`/orders/${result.data?.orderId}/payment`);
         clearPosData();
       } else {
-        toast.error("Failed to create new Order");
+        toast.error(toastResponse(tNotifications, result || {}));
       }
     },
   });
@@ -277,9 +281,9 @@ export const usePOS = () => {
     }
 
     if (!isLarge) {
-      toast("1 Item added to cart", {
+      toast(tCustomerOrders("orderSummary.itemAdded"), {
         action: {
-          label: "View Cart",
+          label: tCustomerOrders("orderSummary.viewCart"),
           onClick: () => setPosData((prev) => ({ ...prev, open: true })),
         },
       });
@@ -345,7 +349,9 @@ export const usePOS = () => {
       ...prev,
       selectedVoucher: voucher,
     }));
-    toast.success(`Voucher ${voucher.description} applied!`);
+    toast.success(
+      tNotifications("pos.voucher.applied", { description: voucher.description })
+    );
   };
 
   const handleRemoveVoucher = () => {

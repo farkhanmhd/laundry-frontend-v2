@@ -9,7 +9,6 @@ import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
-import { translateZodError } from "@/lib/translate-zod-error";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -23,6 +22,8 @@ import {
   type AdjustQuantitySchema,
   adjustQuantitySchema,
 } from "@/lib/modules/inventories/schema";
+import { toastResponse } from "@/lib/toast-helper";
+import { translateZodError } from "@/lib/translate-zod-error";
 
 type Props = {
   id: string;
@@ -31,6 +32,7 @@ type Props = {
 
 export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   const t = useTranslations("Inventories");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
   const { refresh } = useRouter();
@@ -49,14 +51,16 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
     {
       formProps: {
         mode: "onChange",
+        defaultValues,
       },
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
 
             form.reset({
               id,
+              currentQuantity,
               changeAmount: 0,
               note: "",
             });
@@ -68,7 +72,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
     }
   );
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const formData: AdjustQuantitySchema = {
       id,

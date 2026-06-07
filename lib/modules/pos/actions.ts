@@ -20,18 +20,32 @@ export const createPosOrderAction = actionClient
     }
 
     if (response.status !== 201) {
+      const errorValue = response.error?.value as {
+        messageKey?: string;
+        messageParams?: Record<string, unknown>;
+        message?: string;
+      } | undefined;
       return {
         status: "error",
-        message: `Something went wrong. ${response.error?.value?.message}`,
+        messageKey: errorValue?.messageKey,
+        messageParams: errorValue?.messageParams,
+        message: `Something went wrong. ${errorValue?.message}`,
       };
     }
 
     if (response.data) {
+      const resData = response.data as {
+        messageKey?: string;
+        messageParams?: Record<string, unknown>;
+        data: { orderId: string };
+      };
       return {
         status: "success",
+        messageKey: resData.messageKey,
+        messageParams: resData.messageParams,
         message: "New Order Created",
         data: {
-          orderId: response.data.data.orderId,
+          orderId: resData.data.orderId,
         },
       };
     }

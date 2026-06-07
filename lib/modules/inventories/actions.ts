@@ -11,29 +11,47 @@ import {
   updateInventorySchema,
 } from "./schema";
 
+const errorResult = {
+  status: "error" as const,
+  message: "Something went wrong",
+};
+
+function extractErrorDetails(error: { value?: Record<string, unknown> } | undefined | null) {
+  return {
+    messageKey: error?.value?.messageKey as string | undefined,
+    messageParams: error?.value?.messageParams as Record<string, unknown> | undefined,
+  };
+}
+
 export const addInventoryAction = actionClient
   .inputSchema(addInventorySchema)
   .action(async ({ parsedInput }) => {
     const result = await InventoriesApi.addInventory(parsedInput);
 
     if (!result) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
+      return errorResult;
     }
 
     if (result.status !== 201) {
+      const { messageKey, messageParams } = extractErrorDetails(result.error);
       return {
-        status: "error",
+        status: "error" as const,
         message: `Something went wrong. ${result.error?.value?.message}`,
+        messageKey,
+        messageParams,
       };
     }
 
     if (result.data) {
+      const data = result.data as
+        | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+        | undefined;
+
       return {
-        status: "success",
-        message: "New Inventory added",
+        status: "success" as const,
+        message: data?.message,
+        messageKey: data?.messageKey,
+        messageParams: data?.messageParams,
       };
     }
   });
@@ -44,29 +62,30 @@ export const deleteInventoryAction = actionClient
     const result = await InventoriesApi.deleteInventory(parsedInput.id);
 
     if (!result) {
-      return {
-        status: "error",
-        message: "Something went wrong",
-      };
+      return errorResult;
     }
 
     if (result.status !== 200) {
+      const { messageKey, messageParams } = extractErrorDetails(result.error);
       return {
-        status: "error",
-        message: "Something went wrong",
+        status: "error" as const,
+        message: result.error?.value?.message ?? "Something went wrong",
+        messageKey,
+        messageParams,
       };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: result.data?.message,
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
-
-const errorResult = {
-  status: "error",
-  message: "Something went wrong",
-};
 
 export const updateInventoryAction = actionClient
   .inputSchema(updateInventorySchema)
@@ -76,12 +95,18 @@ export const updateInventoryAction = actionClient
     const result = await InventoriesApi.updateInventoryData(id, data);
 
     if (!result || result.error) {
-      return errorResult;
+      return { ...errorResult, ...extractErrorDetails(result?.error) };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Inventory updated",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
 
@@ -96,12 +121,18 @@ export const adjustQuantityAction = actionClient
     });
 
     if (!result || result.error) {
-      return errorResult;
+      return { ...errorResult, ...extractErrorDetails(result?.error) };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Quantity Adjusted",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
 
@@ -111,12 +142,18 @@ export const updateInventoryImageAction = actionClient
     const { id, ...body } = parsedInput;
     const result = await InventoriesApi.updateInventoryImage(id, body);
     if (!result || result.error) {
-      return errorResult;
+      return { ...errorResult, ...extractErrorDetails(result?.error) };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Inventory updated",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });
 
@@ -132,11 +169,17 @@ export const restockInventoryAction = actionClient
     });
 
     if (!result || result.error) {
-      return errorResult;
+      return { ...errorResult, ...extractErrorDetails(result?.error) };
     }
 
+    const successData = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Inventory restocked",
+      status: "success" as const,
+      message: successData?.message,
+      messageKey: successData?.messageKey,
+      messageParams: successData?.messageParams,
     };
   });

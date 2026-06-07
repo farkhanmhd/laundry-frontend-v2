@@ -3,6 +3,7 @@ import { NewBundlingForm } from "@/components/features/bundlings/new-bundling-fo
 import type { SelectOption } from "@/components/forms/form-select";
 import { InventoriesApi } from "@/lib/modules/inventories/data";
 import { ServicesApi } from "@/lib/modules/services/data";
+import { formatToIDR } from "@/lib/utils";
 
 const NewBundlingPage = async () => {
   const t = await getTranslations("Bundlings");
@@ -13,12 +14,12 @@ const NewBundlingPage = async () => {
   ]);
 
   const serviceOptions = services?.map((service) => ({
-    label: service.name,
+    label: `${service.name} (${formatToIDR(service.price)})`,
     value: service.id,
   })) as SelectOption[];
 
   const inventoryOptions = inventories?.map((inventory) => ({
-    label: inventory.name,
+    label: `${inventory.name} (${formatToIDR(inventory.price)})`,
     value: inventory.id,
   })) as SelectOption[];
 

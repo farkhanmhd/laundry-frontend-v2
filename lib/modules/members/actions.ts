@@ -14,22 +14,26 @@ export const addMemberAction = actionClient
 
     if (!result) {
       return {
-        status: "error",
+        status: "error" as const,
         message: "Something went wrong",
       };
     }
 
     if (result.status !== 201) {
       return {
-        status: "error",
+        status: "error" as const,
         message: `Something went wrong. ${result.error?.value?.message}`,
+        messageKey: (result.error?.value as { messageKey?: string })?.messageKey,
+        messageParams: (result.error?.value as { messageParams?: Record<string, unknown> })?.messageParams,
       };
     }
 
     if (result.data) {
       return {
-        status: "success",
+        status: "success" as const,
         message: "New Member added",
+        messageKey: (result.data as { messageKey?: string })?.messageKey,
+        messageParams: (result.data as { messageParams?: Record<string, unknown> })?.messageParams,
       };
     }
   });

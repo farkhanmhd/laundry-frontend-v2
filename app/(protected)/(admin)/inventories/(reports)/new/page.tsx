@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { addInventoryAction } from "@/lib/modules/inventories/actions";
 import { addInventorySchema } from "@/lib/modules/inventories/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { formatToIDR } from "@/lib/utils";
 
 const NewInventoryPage = () => {
   const t = useTranslations("Inventories");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const { push } = useRouter();
   const { form, action, handleSubmitWithAction } = useHookFormAction(
@@ -26,7 +28,7 @@ const NewInventoryPage = () => {
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             push("/inventories");
           }
         },

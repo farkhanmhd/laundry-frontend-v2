@@ -1,6 +1,7 @@
 import { ProgressCard } from "@/components/features/routes/progress-card";
 import { TimelineItem } from "@/components/features/routes/timeline-item";
 import { RoutesApi } from "@/lib/modules/routes/data";
+import { MapItems } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -22,9 +23,12 @@ export default async function RouteDetailPage({ params }: Props) {
         <ProgressCard deliveries={deliveries} routeId={route.id} />
 
         <div className="relative space-y-4">
-          {deliveries.map((delivery) => (
-            <TimelineItem delivery={delivery} key={delivery.id} />
-          ))}
+          <MapItems
+            of={deliveries}
+            render={(delivery) => (
+              <TimelineItem delivery={delivery} key={delivery.id} />
+            )}
+          />
         </div>
       </div>
     </div>

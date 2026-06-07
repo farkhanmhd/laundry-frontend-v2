@@ -1,8 +1,9 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import {
@@ -16,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 
 export interface UpdateOrderStatusData {
   orderId: string;
@@ -24,41 +26,67 @@ export interface UpdateOrderStatusData {
 
 export const UpdateOrderStatusDialog = () => {
   const t = useTranslations("Orders.updateStatus");
-  const router = useRouter();
+  const tNotifications = useTranslations("Notifications");
   const { open, onOpenChange, data } = useAlertDialog<UpdateOrderStatusData>();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-  const handleUpdateStatus = () => {
+  const handleUpdateStatus = async () => {
     if (!data) {
       return;
     }
 
-    startTransition(async () => {
-      try {
-        const { error } = await elysia
-          .orders({ id: data.orderId })
-          .status.patch(
-            {},
-            {
-              fetch: { credentials: "include" },
-            }
-          );
+    setIsPending(true);
+    try {
+      const { error } = await elysia
+        .orders({ id: data.orderId })
+        .status.patch(
+          {},
+          {
+            fetch: { credentials: "include" },
+          }
+        );
 
-        if (error) {
-          throw new Error(
-            error.value?.message || "Failed to update order status"
-          );
-        }
-
-        toast.success(t("statusUpdated"));
-        onOpenChange(false);
-        router.refresh();
-      } catch (err) {
-        if (err instanceof Error) {
-          toast.error(err.message);
-        }
+      if (error) {
+        throw new Error(
+          error.value?.message || "Failed to update order status"
+        );
       }
-    });
+
+      toast.success(
+        toastResponse(tNotifications, {
+          messageKey: "order.statusUpdated",
+        })
+      );
+      onOpenChange(false);
+      await queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["order-status", data.orderId],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["order-payment", data.orderId],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["order-customer", data.orderId],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["order-deliveries", data.orderId],
+        }),
+      ]);
+      router.refresh();
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error(toastResponse(tNotifications, {}));
+      }
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

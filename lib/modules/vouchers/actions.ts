@@ -6,6 +6,18 @@ import { actionClient } from "@/lib/safe-action";
 import { type VoucherInsert, VouchersApi } from "./data";
 import { voucherInsertSchema } from "./schema";
 
+const errorResult = {
+  status: "error" as const,
+  message: "Something went wrong",
+};
+
+function extractErrorDetails(error: { value?: Record<string, unknown> } | undefined | null) {
+  return {
+    messageKey: error?.value?.messageKey as string | undefined,
+    messageParams: error?.value?.messageParams as Record<string, unknown> | undefined,
+  };
+}
+
 export const addVoucherAction = actionClient
   .inputSchema(voucherInsertSchema)
   .action(async ({ parsedInput }) => {
@@ -22,14 +34,21 @@ export const addVoucherAction = actionClient
 
     if (result.error) {
       return {
-        status: "error",
-        message: result.error.value.message || "Something went wrong",
+        ...errorResult,
+        message: result.error.value.message || errorResult.message,
+        ...extractErrorDetails(result.error),
       };
     }
 
+    const data = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "New voucher added successfully",
+      status: "success" as const,
+      message: data?.message,
+      messageKey: data?.messageKey,
+      messageParams: data?.messageParams,
     };
   });
 
@@ -44,14 +63,21 @@ export const deleteVoucherAction = actionClient
 
     if (result.error) {
       return {
-        status: "error",
-        message: "Failed to delete voucher. Something went wrong.",
+        ...errorResult,
+        message: result.error.value.message || "Failed to delete voucher.",
+        ...extractErrorDetails(result.error),
       };
     }
 
+    const data = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: result.data?.message || "Voucher deleted successfully",
+      status: "success" as const,
+      message: data?.message,
+      messageKey: data?.messageKey,
+      messageParams: data?.messageParams,
     };
   });
 
@@ -75,13 +101,20 @@ export const updateVoucherAction = actionClient
 
     if (result.error) {
       return {
-        status: "error",
+        ...errorResult,
         message: result.error.value.message || "Failed to update voucher.",
+        ...extractErrorDetails(result.error),
       };
     }
 
+    const data = result.data as
+      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | undefined;
+
     return {
-      status: "success",
-      message: "Voucher updated successfully",
+      status: "success" as const,
+      message: data?.message,
+      messageKey: data?.messageKey,
+      messageParams: data?.messageParams,
     };
   });

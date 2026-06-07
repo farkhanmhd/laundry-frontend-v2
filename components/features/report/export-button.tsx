@@ -1,6 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { cardShadowStyle } from "@/lib/utils";
@@ -14,15 +15,18 @@ interface ExportButtonProps extends React.ComponentProps<typeof Button> {
 export function ExportButton({
   href,
   label = "Export",
-  successMessage = "Report download started",
+  successMessage,
   ...props
 }: ExportButtonProps) {
+  const t = useTranslations("Notifications");
+  const message = successMessage ?? t("report.download.started");
+
   return (
     <Button asChild style={cardShadowStyle} variant="outline" {...props}>
       <a
         download
         href={href}
-        onClick={() => toast.success(successMessage)}
+        onClick={() => toast.success(message)}
         rel="noopener noreferrer"
         target="_blank"
       >

@@ -401,7 +401,12 @@
       "viewRoute": "Lihat Rute",
       "requestTime": "Waktu Permintaan"
     },
-    "selectedRows": "Kirim {count} Pesanan"
+    "selectedRows": "Kirim {count} Pesanan",
+    "createRoute": "Buat Rute Pengiriman",
+    "createRouteDescription": "Apakah Anda yakin ingin membuat rute pengiriman untuk {count} pesanan terpilih?",
+    "creating": "Membuat...",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi"
   },
   "Pickups": {
     "table": {
@@ -415,7 +420,12 @@
       "requestTime": "Waktu Permintaan",
       "status": "Status"
     },
-    "selectedRows": "Jemput {count} Pesanan"
+    "selectedRows": "Jemput {count} Pesanan",
+    "createRoute": "Buat Rute Penjemputan",
+    "createRouteDescription": "Apakah Anda yakin ingin membuat rute penjemputan untuk {count} pesanan terpilih?",
+    "creating": "Membuat...",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi"
   },
   "Routes": {
     "routeProgress": "Progres Rute",
@@ -436,7 +446,9 @@
     "completed": "Selesai",
     "delivery": "Pengiriman",
     "pickup": "Penjemputan",
-    "noNote": null
+    "noNote": null,
+    "cancel": "Batal",
+    "confirm": "Konfirmasi"
   },
   "Sales": {
     "title": "Laporan Penjualan",
@@ -861,7 +873,9 @@
       "onlyInventoryItems": "Tambahkan item selain Produk untuk meminta penjemputan.",
       "service": "Layanan",
       "inventory": "Produk",
-      "bundling": "Paket"
+      "bundling": "Paket",
+      "itemAdded": "1 Item ditambahkan ke keranjang",
+      "viewCart": "Lihat Keranjang"
     },
     "orderSummaryAddress": {
       "label": "Lokasi penjemputan",
@@ -1071,6 +1085,8 @@
       "noAddresses": "Belum ada alamat tersimpan.",
       "viewLocation": "Lihat Lokasi",
       "delete": "Hapus",
+      "deleteConfirmTitle": "Hapus Alamat",
+      "deleteConfirmDescription": "Yakin ingin menghapus alamat ini? Tindakan ini tidak dapat dibatalkan.",
       "addressRemoved": "Alamat dihapus",
       "laundryLocation": "Lokasi Laundry",
       "locationDetails": "Detail Lokasi",
@@ -1269,6 +1285,9 @@
     "deny": "Ditolak",
     "expire": "Kedaluwarsa"
   },
+  "Toast": {
+    "somethingWentWrong": "Terjadi kesalahan"
+  },
   "Onboarding": {
     "title": "Selamat Datang!",
     "subtitle": "Sebelum melanjutkan, silakan tambahkan nomor telepon Anda terlebih dahulu",
@@ -1382,6 +1401,190 @@
     "onboarding": {
       "phoneNumber": { "min": "Nomor telepon minimal 7 karakter", "max": "Nomor telepon maksimal 15 karakter", "regex": "Nomor telepon tidak boleh diawali 0 dan hanya berisi angka" },
       "name": { "min": "Nama minimal 2 karakter" }
+    }
+  },
+  "Notifications": {
+    "inventory": {
+      "retrieved": "Inventaris berhasil diambil",
+      "created": "Inventaris {name} berhasil dibuat",
+      "updated": "Inventaris berhasil diperbarui",
+      "deleted": "Inventaris berhasil dihapus",
+      "notFound": "Inventaris {id} tidak ditemukan",
+      "inUse": "Inventaris {id} sedang digunakan oleh bundling dan tidak dapat dihapus",
+      "image": {
+        "updated": "Gambar inventaris berhasil diperbarui"
+      },
+      "stock": {
+        "adjusted": "Jumlah stok berhasil disesuaikan"
+      },
+      "restocked": "Inventaris {id} berhasil di-restock",
+      "report": {
+        "totalItems": "Jumlah total item berhasil diambil",
+        "lowStock": "Item dengan stok rendah berhasil diambil",
+        "usage": "Total penggunaan berhasil diambil",
+        "averageUsage": "Rata-rata penggunaan per pesanan berhasil diambil"
+      },
+      "adjustments": {
+        "retrieved": "Riwayat penyesuaian berhasil diambil"
+      },
+      "usage": {
+        "retrieved": "Riwayat penggunaan berhasil diambil"
+      },
+      "restockHistory": {
+        "retrieved": "Riwayat restock berhasil diambil"
+      },
+      "options": {
+        "retrieved": "Opsi inventaris berhasil diambil"
+      }
+    },
+    "voucher": {
+      "retrieved": "Voucher berhasil diambil",
+      "created": "Voucher {code} berhasil dibuat",
+      "updated": "Voucher berhasil diperbarui",
+      "deleted": "Voucher berhasil dinonaktifkan",
+      "notFound": "Voucher {id} tidak ditemukan",
+      "codeTaken": "Kode voucher {code} sudah digunakan"
+    },
+    "service": {
+      "retrieved": "Layanan berhasil diambil",
+      "created": "Layanan {name} berhasil dibuat",
+      "updated": "Layanan berhasil diperbarui",
+      "deleted": "Layanan berhasil dihapus",
+      "notFound": "Layanan {id} tidak ditemukan",
+      "inUse": "Layanan {id} sedang digunakan oleh bundling dan tidak dapat dihapus",
+      "image": {
+        "updated": "Gambar layanan berhasil diperbarui"
+      }
+    },
+    "bundling": {
+      "retrieved": "Paket berhasil diambil",
+      "created": "Paket {name} berhasil dibuat",
+      "updated": "Paket berhasil diperbarui",
+      "deleted": "Paket berhasil dihapus",
+      "notFound": "Paket {id} tidak ditemukan",
+      "items": {
+        "updated": "Item paket berhasil diperbarui"
+      },
+      "image": {
+        "updated": "Gambar paket berhasil diperbarui"
+      }
+    },
+    "member": {
+      "retrieved": "Member berhasil diambil",
+      "created": "Member {name} berhasil ditambahkan",
+      "notFound": "Member dengan nomor {phone} tidak ditemukan",
+      "phoneTaken": "Nomor telepon {phone} sudah terdaftar",
+      "points": {
+        "retrieved": "Poin member berhasil diambil"
+      },
+      "report": {
+        "totalCustomers": "Total pelanggan berhasil diambil",
+        "averageOrderValue": "Rata-rata nilai pesanan berhasil diambil",
+        "activeMembers": "Member aktif berhasil diambil",
+        "totalMemberOrders": "Total pesanan member berhasil diambil",
+        "membersSpending": "Data pengeluaran member berhasil diambil"
+      }
+    },
+    "profile": {
+      "retrieved": "Profil berhasil diambil",
+      "updated": "Profil berhasil diperbarui",
+      "phone": {
+        "updated": "Nomor telepon berhasil diperbarui"
+      },
+      "phoneTaken": "Nomor telepon {phone} sudah digunakan"
+    },
+    "password": {
+      "updated": "Kata sandi berhasil diperbarui"
+    },
+    "address": {
+      "added": "Alamat berhasil ditambahkan",
+      "updated": "Alamat berhasil diperbarui",
+      "deleted": "Alamat berhasil dihapus",
+      "retrieved": "Alamat berhasil diambil",
+      "notFound": "Alamat {id} tidak ditemukan",
+      "limitReached": "Maksimal 3 alamat per pengguna"
+    },
+    "common": {
+      "unexpectedError": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi.",
+      "notFound": "Data tidak ditemukan",
+      "forbidden": "Anda tidak memiliki izin untuk melakukan tindakan ini"
+    },
+    "validation": {
+      "alreadyExists": "Data sudah ada",
+      "required": "Validasi gagal"
+    },
+    "auth": {
+      "unauthorized": "Tidak memiliki akses",
+      "sessionExpired": "Sesi telah berakhir",
+      "registration": {
+        "failed": "Pendaftaran gagal",
+        "serverError": "Kesalahan Server",
+        "success": "Akun berhasil dibuat!",
+        "welcome": "Selamat datang. Silakan masuk."
+      }
+    },
+    "order": {
+      "notification": { "received": "Notifikasi diterima" },
+      "retrieved": "Pesanan berhasil diambil",
+      "status": {
+        "retrieved": "Status pesanan berhasil diambil",
+        "updated": "Status pesanan berhasil diperbarui"
+      },
+      "statusUpdated": "Status pesanan berhasil diperbarui",
+      "items": { "retrieved": "Item pesanan berhasil diambil" },
+      "payment": { "retrieved": "Pembayaran pesanan berhasil diambil", "created": "Pembayaran berhasil dibuat" },
+      "customer": { "retrieved": "Pelanggan pesanan berhasil diambil" },
+      "deliveries": { "retrieved": "Pengiriman pesanan berhasil diambil" },
+      "paymentDetails": {
+        "retrieved": "Detail pembayaran pesanan berhasil diambil",
+        "notFound": "Detail pembayaran tidak ditemukan"
+      },
+      "created": "Pesanan baru berhasil dibuat",
+      "updated": "Pesanan berhasil diperbarui",
+      "cancelled": "Pesanan {orderId} berhasil dibatalkan",
+      "notFound": "Pesanan tidak ditemukan",
+      "pickupRequested": "Permintaan penjemputan berhasil dikirim",
+      "deliveryRequested": "Permintaan pengiriman berhasil dikirim",
+      "qris": { "charged": "Pembayaran QRIS berhasil dikenakan" },
+      "report": {
+        "orderSummary": "Ringkasan pesanan berhasil diambil",
+        "dailyRevenue": "Pendapatan harian berhasil diambil",
+        "paymentMethodStats": "Statistik metode pembayaran berhasil diambil"
+      }
+    },
+    "route": {
+      "completed": "Rute berhasil diselesaikan"
+    },
+    "delivery": {
+      "route": {
+        "created": "Rute penjemputan baru berhasil dibuat",
+        "createNotFound": "Beberapa pengiriman tidak ditemukan",
+        "pickupFailed": "Gagal membuat rute penjemputan",
+        "deliverFailed": "Gagal membuat rute pengiriman"
+      },
+      "pickups": { "retrieved": "Data penjemputan berhasil diambil" },
+      "deliveries": { "retrieved": "Data pengiriman berhasil diambil" },
+      "status": { "updated": "Status pengiriman berhasil diperbarui" },
+      "notFound": "Pengiriman tidak ditemukan"
+    },
+    "pos": {
+      "items": { "retrieved": "Item POS berhasil diambil" },
+      "order": {
+        "failed": "Gagal membuat Pesanan baru",
+        "created": "Pesanan POS baru berhasil dibuat"
+      },
+      "members": { "retrieved": "Pencarian member berhasil" },
+      "vouchers": { "retrieved": "Voucher POS berhasil diambil" },
+      "voucher": {
+        "retrieved": "Voucher berhasil ditambahkan",
+        "notFound": "Voucher tidak ditemukan",
+        "applied": "Voucher {description} diterapkan!"
+      }
+    },
+    "report": {
+      "download": {
+        "started": "Unduhan laporan dimulai"
+      }
     }
   }
 }

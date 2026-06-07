@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toastResponse } from "@/lib/toast-helper";
 import { deleteServiceAction } from "@/lib/modules/services/actions";
 import type { Service } from "@/lib/modules/services/data";
 
@@ -29,17 +30,19 @@ export function DeleteServiceDialog({ id }: DeleteServiceDialogProps) {
   const [isPending, setIsPending] = useState(false);
   const { setInternalData } = useTableContext<Service>();
   const t = useTranslations("Services");
+  const tNotifications = useTranslations("Notifications");
+  const tToast = useTranslations("Toast");
 
   const handleDelete = async () => {
     setIsPending(true);
     const result = await deleteServiceAction({ id });
 
     if (result?.data?.status === "success") {
-      toast.success(result.data.message);
+      toast.success(toastResponse(tNotifications, result.data));
       setInternalData((prev) => prev.filter((item) => item.id !== id));
       setOpen(false);
     } else {
-      toast.error(result?.data?.message ?? "Something went wrong");
+      toast.error(result?.data?.message ?? tToast("somethingWentWrong"));
     }
 
     setIsPending(false);

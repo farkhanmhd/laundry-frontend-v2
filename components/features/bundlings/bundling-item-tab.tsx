@@ -15,17 +15,9 @@ import {
   type UpdateBundlingItemSchema,
   updateBundlingItemsSchema,
 } from "@/lib/modules/bundlings/schema";
-import { formatToIDR } from "@/lib/utils";
+import { toastResponse } from "@/lib/toast-helper";
+import { formatToIDR, priceFromLabel } from "@/lib/utils";
 import { BundlingItemForm } from "./bundling-item-form";
-
-const priceFromLabel = (label: string) => {
-  const openParen = label.lastIndexOf("(");
-  const closeParen = label.lastIndexOf(")");
-  if (openParen === -1 || closeParen === -1) {
-    return 0;
-  }
-  return Number(label.slice(openParen + 1, closeParen).replace(/[^\d]/g, ""));
-};
 
 type Props = {
   bundlingId: string;
@@ -41,6 +33,7 @@ export const BundlingItemTab = ({
   items,
 }: Props) => {
   const t = useTranslations("Bundlings");
+  const tNotifications = useTranslations("Notifications");
   const [isEditing, setIsEditing] = useState(false);
 
   const { form, action } = useHookFormAction(
@@ -56,10 +49,8 @@ export const BundlingItemTab = ({
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             form.reset(form.control._formValues);
-          } else {
-            toast.error(data?.message);
           }
         },
       },

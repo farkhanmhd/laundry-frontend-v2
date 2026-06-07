@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { LngLat } from "maplibre-gl";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { createContext, use, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
@@ -10,6 +11,7 @@ import {
   type UpdateAddressSchemaWithId,
   updateAddressSchemaWithId,
 } from "@/lib/modules/account/schema";
+import { toastResponse } from "@/lib/toast-helper";
 
 interface UpdateAddressContextState {
   action: ReturnType<typeof useHookFormAction>["action"];
@@ -45,6 +47,7 @@ export const UpdateAddressFormProvider = ({
   onCancel,
 }: UpdateAddressFormProviderProps) => {
   const { refresh } = useRouter();
+  const tNotifications = useTranslations("Notifications");
   const { action, form, handleSubmitWithAction } = useHookFormAction(
     updateAddressAction,
     zodResolver(updateAddressSchemaWithId),
@@ -56,11 +59,11 @@ export const UpdateAddressFormProvider = ({
       actionProps: {
         onSettled: ({ result }) => {
           if (result?.data?.status === "success") {
-            toast.success(result.data.message);
+            toast.success(toastResponse(tNotifications, result.data));
             onCancel();
             refresh();
-          } else if (result?.serverError) {
-            toast.error("Something went wrong");
+          } else {
+            toast.error(toastResponse(tNotifications, result?.data || {}));
           }
         },
       },

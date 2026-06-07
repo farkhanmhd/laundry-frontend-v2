@@ -4,6 +4,7 @@ import { Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { toastResponse } from "@/lib/toast-helper";
 import { useTableContext } from "@/components/table/context";
 import {
   AlertDialog,
@@ -29,17 +30,19 @@ export function DeleteInventoryDialog({ id }: DeleteInventoryDialogProps) {
   const [isPending, setIsPending] = useState(false);
   const { setInternalData } = useTableContext<Inventory>();
   const t = useTranslations("Inventories");
+  const tNotifications = useTranslations("Notifications");
+  const tToast = useTranslations("Toast");
 
   const handleDelete = async () => {
     setIsPending(true);
     const result = await deleteInventoryAction({ id });
 
     if (result?.data?.status === "success") {
-      toast.success(result.data.message);
+      toast.success(toastResponse(tNotifications, result.data));
       setInternalData((prev) => prev.filter((item) => item.id !== id));
       setOpen(false);
     } else {
-      toast.error(result?.data?.message ?? "Something went wrong");
+      toast.error(result?.data?.message ?? tToast("somethingWentWrong"));
     }
 
     setIsPending(false);

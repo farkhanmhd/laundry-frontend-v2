@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
+import { toastResponse } from "@/lib/toast-helper";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { updateInventoryAction } from "@/lib/modules/inventories/actions";
@@ -23,6 +24,7 @@ export const InventoryDataForm = ({
   safetyStock,
 }: UpdateInventorySchema) => {
   const t = useTranslations("Inventories");
+  const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,7 +45,7 @@ export const InventoryDataForm = ({
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
-            toast.success(data.message);
+            toast.success(toastResponse(tNotifications, data));
             setIsEditing(false); // exit edit mode after successful save
           }
         },

@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { toastResponse } from "@/lib/toast-helper";
 import { UsersApi } from "@/lib/modules/users/data";
 import {
   type CreateCashierSchema,
@@ -27,6 +28,7 @@ import {
 export function CreateUserDialog() {
   const t = useTranslations("Users.createUserDialog");
   const tValidation = useTranslations("Validation");
+  const tNotifications = useTranslations("Notifications");
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
@@ -45,16 +47,23 @@ export function CreateUserDialog() {
       const response = await UsersApi.createCashier(data);
 
       if (response.error) {
-        toast.error(response.error.value?.message || t("errorMessage"));
+        toast.error(
+          toastResponse(tNotifications, response.error.value || {})
+        );
         return;
       }
 
-      toast.success(t("successMessage"));
+      toast.success(toastResponse(tNotifications, response.data || {}));
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setOpen(false);
       form.reset();
-    } catch {
-      toast.error(t("errorMessage"));
+    } catch (err) {
+      toast.error(
+        toastResponse(
+          tNotifications,
+          (err as { messageKey?: string; message?: string }) || {}
+        )
+      );
     }
   };
 

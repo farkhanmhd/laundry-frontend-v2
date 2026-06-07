@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/map";
 import { Progress } from "@/components/ui/progress";
 import { elysia } from "@/elysia";
+import { toastResponse } from "@/lib/toast-helper";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { cardShadowStyle, isDone } from "@/lib/utils";
@@ -218,6 +219,7 @@ type Props = {
 
 export function ProgressCard({ routeId, deliveries }: Props) {
   const t = useTranslations("Routes");
+  const tNotifications = useTranslations("Notifications");
   const [showMap, setShowMap] = useState(false);
   const { refresh } = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -229,25 +231,23 @@ export function ProgressCard({ routeId, deliveries }: Props) {
   const isCompleted = deliveries.every((d) => d.status === "completed");
 
   const handleFinishRoute = () => {
-    startTransition(() => {
-      startTransition(async () => {
-        try {
-          const { error } = await elysia
-            .routes({ id: routeId })
-            .patch({}, { fetch: { credentials: "include" } });
+    startTransition(async () => {
+      try {
+        const { error } = await elysia
+          .routes({ id: routeId })
+          .patch({}, { fetch: { credentials: "include" } });
 
-          if (error) {
-            throw new Error(error.value?.message || "Failed to complete route");
-          }
-
-          toast.success("Route completed successfully");
-          refresh();
-        } catch (err) {
-          if (err instanceof Error) {
-            toast.error(err.message);
-          }
+        if (error) {
+          throw new Error(error.value?.message || "Failed to complete route");
         }
-      });
+
+        toast.success(toastResponse(tNotifications, { messageKey: "Notifications.route.completed" }));
+        refresh();
+      } catch (err) {
+        if (err instanceof Error) {
+          toast.error(err.message);
+        }
+      }
     });
   };
 

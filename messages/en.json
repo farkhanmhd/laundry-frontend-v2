@@ -401,7 +401,12 @@
       "viewRoute": "View Route",
       "requestTime": "Request Time"
     },
-    "selectedRows": "Deliver {count} Order(s)"
+    "selectedRows": "Deliver {count} Order(s)",
+    "createRoute": "Create Delivery Route",
+    "createRouteDescription": "Are you sure you want to create a delivery route for {count} selected orders?",
+    "creating": "Creating...",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "Pickups": {
     "table": {
@@ -415,7 +420,12 @@
       "requestTime": "Request Time",
       "status": "Status"
     },
-    "selectedRows": "Pick Up {count} Order(s)"
+    "selectedRows": "Pick Up {count} Order(s)",
+    "createRoute": "Create Pickup Route",
+    "createRouteDescription": "Are you sure you want to create a pickup route for {count} selected orders?",
+    "creating": "Creating...",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "Routes": {
     "routeProgress": "Route Progress",
@@ -436,7 +446,9 @@
     "completed": "Completed",
     "delivery": "Delivery",
     "pickup": "Pickup",
-    "noNote": null
+    "noNote": null,
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "Sales": {
     "title": "Sales Report",
@@ -861,7 +873,9 @@
       "onlyInventoryItems": "Add laundry items to request pickup.",
       "service": "Service",
       "inventory": "Product",
-      "bundling": "Bundling"
+      "bundling": "Bundling",
+      "itemAdded": "1 Item added to cart",
+      "viewCart": "View Cart"
     },
     "orderSummaryAddress": {
       "label": "Pickup location",
@@ -1071,6 +1085,8 @@
       "noAddresses": "No addresses saved yet.",
       "viewLocation": "View Location",
       "delete": "Delete",
+      "deleteConfirmTitle": "Delete Address",
+      "deleteConfirmDescription": "Are you sure you want to delete this address? This action cannot be undone.",
       "addressRemoved": "Address removed",
       "laundryLocation": "Laundry Location",
       "locationDetails": "Location Details",
@@ -1269,6 +1285,9 @@
     "deny": "Denied",
     "expire": "Expired"
   },
+  "Toast": {
+    "somethingWentWrong": "Something went wrong"
+  },
   "Onboarding": {
     "title": "Welcome!",
     "subtitle": "Before we continue, lets add your phone number first",
@@ -1382,6 +1401,190 @@
     "onboarding": {
       "phoneNumber": { "min": "Phone number must be at least 7 characters", "max": "Phone number must be at most 15 characters", "regex": "Phone number must not start with 0 and contain only numbers" },
       "name": { "min": "Name must be at least 2 characters" }
+    }
+  },
+  "Notifications": {
+    "inventory": {
+      "retrieved": "Inventories retrieved",
+      "created": "Inventory {name} created successfully",
+      "updated": "Inventory updated successfully",
+      "deleted": "Inventory deleted successfully",
+      "notFound": "Inventory {id} not found",
+      "inUse": "Inventory {id} is in use by a bundling and cannot be deleted",
+      "image": {
+        "updated": "Inventory image updated successfully"
+      },
+      "stock": {
+        "adjusted": "Stock quantity adjusted successfully"
+      },
+      "restocked": "Inventory {id} restocked successfully",
+      "report": {
+        "totalItems": "Total items retrieved",
+        "lowStock": "Low stock items retrieved",
+        "usage": "Total usage retrieved",
+        "averageUsage": "Average usage per order retrieved"
+      },
+      "adjustments": {
+        "retrieved": "Adjustment history retrieved"
+      },
+      "usage": {
+        "retrieved": "Usage history retrieved"
+      },
+      "restockHistory": {
+        "retrieved": "Restock history retrieved"
+      },
+      "options": {
+        "retrieved": "Inventory options retrieved"
+      }
+    },
+    "voucher": {
+      "retrieved": "Vouchers retrieved",
+      "created": "Voucher {code} created successfully",
+      "updated": "Voucher updated successfully",
+      "deleted": "Voucher deactivated successfully",
+      "notFound": "Voucher {id} not found",
+      "codeTaken": "Voucher code {code} is already taken"
+    },
+    "service": {
+      "retrieved": "Services retrieved",
+      "created": "Service {name} created successfully",
+      "updated": "Service updated successfully",
+      "deleted": "Service deleted successfully",
+      "notFound": "Service {id} not found",
+      "inUse": "Service {id} is in use by a bundling and cannot be deleted",
+      "image": {
+        "updated": "Service image updated successfully"
+      }
+    },
+    "bundling": {
+      "retrieved": "Bundlings retrieved",
+      "created": "Bundling {name} created successfully",
+      "updated": "Bundling updated successfully",
+      "deleted": "Bundling deleted successfully",
+      "notFound": "Bundling {id} not found",
+      "items": {
+        "updated": "Bundling items updated successfully"
+      },
+      "image": {
+        "updated": "Bundling image updated successfully"
+      }
+    },
+    "member": {
+      "retrieved": "Member retrieved successfully",
+      "created": "Member {name} added successfully",
+      "notFound": "Member with phone {phone} not found",
+      "phoneTaken": "Phone number {phone} already registered",
+      "points": {
+        "retrieved": "Member points retrieved successfully"
+      },
+      "report": {
+        "totalCustomers": "Total customers retrieved successfully",
+        "averageOrderValue": "Average order value retrieved successfully",
+        "activeMembers": "Active members retrieved successfully",
+        "totalMemberOrders": "Total member orders retrieved successfully",
+        "membersSpending": "Members spending data retrieved successfully"
+      }
+    },
+    "profile": {
+      "retrieved": "Profile retrieved successfully",
+      "updated": "Profile updated successfully",
+      "phone": {
+        "updated": "Phone number updated successfully"
+      },
+      "phoneTaken": "Phone number {phone} is already taken"
+    },
+    "password": {
+      "updated": "Password updated successfully"
+    },
+    "address": {
+      "added": "Address added successfully",
+      "updated": "Address updated successfully",
+      "deleted": "Address deleted successfully",
+      "retrieved": "Addresses retrieved successfully",
+      "notFound": "Address {id} not found",
+      "limitReached": "Maximum of 3 addresses allowed per user"
+    },
+    "common": {
+      "unexpectedError": "An unexpected error occurred. Please try again.",
+      "notFound": "Resource not found",
+      "forbidden": "You don't have permission to perform this action"
+    },
+    "validation": {
+      "alreadyExists": "Resource already exists",
+      "required": "Validation failed"
+    },
+    "auth": {
+      "unauthorized": "Unauthorized",
+      "sessionExpired": "Session expired",
+      "registration": {
+        "failed": "Registration failed",
+        "serverError": "Server Error",
+        "success": "Account created!",
+        "welcome": "Welcome aboard. Please sign in."
+      }
+    },
+    "order": {
+      "notification": { "received": "Notification Received" },
+      "retrieved": "Orders retrieved successfully",
+      "status": {
+        "retrieved": "Order Status Retrieved",
+        "updated": "Order Status Updated"
+      },
+      "statusUpdated": "Order status updated successfully",
+      "items": { "retrieved": "Order Items Retrieved" },
+      "payment": { "retrieved": "Order Payment Retrieved", "created": "Payment created successfully" },
+      "customer": { "retrieved": "Order Customer Retrieved" },
+      "deliveries": { "retrieved": "Order Deliveries Retrieved" },
+      "paymentDetails": {
+        "retrieved": "Order Payment Details Retrieved",
+        "notFound": "Payment details not found"
+      },
+      "created": "New order created successfully",
+      "updated": "Order updated successfully",
+      "cancelled": "Order {orderId} cancelled successfully",
+      "notFound": "Order not found",
+      "pickupRequested": "Pickup request submitted successfully",
+      "deliveryRequested": "Delivery request submitted successfully",
+      "qris": { "charged": "QRIS payment charged successfully" },
+      "report": {
+        "orderSummary": "Order summary retrieved successfully",
+        "dailyRevenue": "Daily revenue retrieved successfully",
+        "paymentMethodStats": "Payment method statistics retrieved successfully"
+      }
+    },
+    "route": {
+      "completed": "Route completed successfully"
+    },
+    "delivery": {
+      "route": {
+        "created": "New pickup route created",
+        "createNotFound": "Some deliveries could not be found",
+        "pickupFailed": "Failed to create pickup route",
+        "deliverFailed": "Failed to create delivery route"
+      },
+      "pickups": { "retrieved": "Pickups retrieved successfully" },
+      "deliveries": { "retrieved": "Deliveries retrieved successfully" },
+      "status": { "updated": "Delivery status updated" },
+      "notFound": "Delivery not found"
+    },
+    "pos": {
+      "items": { "retrieved": "Pos Items Retrieved" },
+      "order": {
+        "failed": "Failed to create new Order",
+        "created": "New Pos Order Created"
+      },
+      "members": { "retrieved": "Member search success" },
+      "vouchers": { "retrieved": "Pos Vouchers Retrieved" },
+      "voucher": {
+        "retrieved": "Voucher Added",
+        "notFound": "Voucher not found",
+        "applied": "Voucher {description} applied!"
+      }
+    },
+    "report": {
+      "download": {
+        "started": "Report download started"
+      }
     }
   }
 }

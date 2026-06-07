@@ -19,7 +19,9 @@ function extractErrorDetails(error: unknown) {
   };
   return {
     messageKey: err?.value?.messageKey,
-    messageParams: err?.value?.messageParams as Record<string, unknown> | undefined,
+    messageParams: err?.value?.messageParams as
+      | Record<string, unknown>
+      | undefined,
   };
 }
 
@@ -51,7 +53,11 @@ export const addServiceAction = actionClient
 
     if (result.data) {
       const successData = result.data as
-        | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+        | {
+            message?: string;
+            messageKey?: string;
+            messageParams?: Record<string, unknown>;
+          }
         | undefined;
 
       return {
@@ -78,14 +84,18 @@ export const deleteServiceAction = actionClient
       const { messageKey, messageParams } = extractErrorDetails(result.error);
       return {
         status: "error" as const,
-        message: `Something went wrong`,
+        message: "Something went wrong",
         messageKey,
         messageParams,
       };
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -111,7 +121,11 @@ export const updateServiceAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -135,7 +149,11 @@ export const updateServiceImageAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {

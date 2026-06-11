@@ -1,18 +1,22 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { enUS, id } from "date-fns/locale";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Delivery } from "@/lib/modules/deliveries/data";
+import type { Pickup } from "@/lib/modules/deliveries/data";
 import { cn } from "@/lib/utils";
 
 export const usePickupColumns = () => {
   const t = useTranslations("Pickups");
+  const locale = useLocale();
+  const dateLocale = locale === "id" ? id : enUS;
 
-  const columns: ColumnDef<Delivery>[] = [
+  const columns: ColumnDef<Pickup>[] = [
     {
       id: "select",
       cell: ({ row }) => {
@@ -70,27 +74,38 @@ export const usePickupColumns = () => {
       ),
     },
     {
-      accessorKey: "routeId",
-      header: t("table.route"),
+      accessorKey: "driverName",
+      header: t("table.driver"),
       cell: ({ row }) => {
-        const routeId = row.getValue("routeId");
-        if (!routeId) {
-          return (
-            <span className="text-muted-foreground text-sm italic">
-              {t("table.unassigned")}
-            </span>
-          );
-        }
+        const name = row.getValue("driverName") as string | null;
         return (
-          <Link
-            className={cn(
-              buttonVariants({ variant: "secondary" }),
-              "h-8 text-xs"
-            )}
-            href={`/routes/${row.getValue("routeId")}`}
-          >
-            {t("table.viewRoute")}
-          </Link>
+          <div className="text-sm">
+            {name ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "vehicleName",
+      header: t("table.vehicle"),
+      cell: ({ row }) => {
+        const name = row.getValue("vehicleName") as string | null;
+        return (
+          <div className="text-sm">
+            {name ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "licensePlate",
+      header: t("table.licensePlate"),
+      cell: ({ row }) => {
+        const plate = row.getValue("licensePlate") as string | null;
+        return (
+          <div className="text-sm uppercase">
+            {plate ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
         );
       },
     },
@@ -128,17 +143,17 @@ export const usePickupColumns = () => {
       },
     },
     {
-      accessorKey: "requestedAt",
+      accessorKey: "requestTime",
       header: t("table.requestTime"),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("requestedAt"));
+        const value = row.getValue<string | null>("requestTime");
+        if (!value) {
+          return <span className="text-muted-foreground text-sm">-</span>;
+        }
         return (
-          <div className="text-muted-foreground text-sm">
-            {date.toLocaleDateString("en-ID", {
-              day: "2-digit",
-              month: "short",
-              hour: "2-digit",
-              minute: "2-digit",
+          <div className="text-sm">
+            {format(new Date(value), "EEEE, dd MMMM yyyy", {
+              locale: dateLocale,
             })}
           </div>
         );

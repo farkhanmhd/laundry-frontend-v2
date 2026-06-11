@@ -1,3 +1,4 @@
+import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
 import type { SearchQuery } from "@/lib/search-params";
 
@@ -37,24 +38,10 @@ export abstract class DeliveriesApi {
   }
 }
 
-export type Pickup = {
-  id: string;
-  orderId: string;
-  routeId: string | null;
-  customerName: string;
-  customerPhone: string;
-  address: string;
-  status: "requested" | "assigned" | "in_progress" | "completed" | "cancelled";
-  requestedAt: string;
-};
+export type Pickup = Prettify<
+  NonNullable<Awaited<ReturnType<typeof PickupsApi.getPickups>>>[number]
+>;
 
-export type Delivery = {
-  id: string;
-  orderId: string;
-  routeId: string | null;
-  customerName: string;
-  customerPhone: string;
-  address: string;
-  status: "requested" | "assigned" | "in_progress" | "completed" | "cancelled";
-  requestedAt: string;
-};
+export type Delivery = Prettify<
+  NonNullable<Awaited<ReturnType<typeof DeliveriesApi.getDeliveries>>>[number]
+>;

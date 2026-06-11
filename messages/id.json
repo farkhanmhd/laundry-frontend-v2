@@ -218,7 +218,7 @@
       "tryAgain": "Coba Lagi"
     },
     "nav": {
-      "dashboard": "Dasboard",
+      "dashboard": "Dashboard",
       "pos": "POS",
       "orders": "Pesanan",
       "deliveries": "Pengiriman",
@@ -228,6 +228,8 @@
       "inventories": "Inventaris",
       "services": "Layanan",
       "vouchers": "Voucher",
+      "assets": "Aset",
+      "drivers": "Driver",
       "bundlings": "Paket",
       "users": "Pengguna",
       "home": "Beranda",
@@ -399,6 +401,9 @@
       "route": "Rute",
       "unassigned": "Belum Ditugaskan",
       "viewRoute": "Lihat Rute",
+      "driver": "Driver",
+      "vehicle": "Kendaraan",
+      "licensePlate": "Nomor Plat",
       "requestTime": "Waktu Permintaan"
     },
     "selectedRows": "Kirim {count} Pesanan",
@@ -406,7 +411,11 @@
     "createRouteDescription": "Apakah Anda yakin ingin membuat rute pengiriman untuk {count} pesanan terpilih?",
     "creating": "Membuat...",
     "cancel": "Batal",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "driver": "Driver",
+    "selectDriver": "Pilih Driver",
+    "asset": "Aset",
+    "selectAsset": "Pilih aset"
   },
   "Pickups": {
     "table": {
@@ -417,6 +426,9 @@
       "route": "Rute",
       "unassigned": "Belum Ditugaskan",
       "viewRoute": "Lihat Rute",
+      "driver": "Driver",
+      "vehicle": "Kendaraan",
+      "licensePlate": "Nomor Plat",
       "requestTime": "Waktu Permintaan",
       "status": "Status"
     },
@@ -425,9 +437,22 @@
     "createRouteDescription": "Apakah Anda yakin ingin membuat rute penjemputan untuk {count} pesanan terpilih?",
     "creating": "Membuat...",
     "cancel": "Batal",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "driver": "Driver",
+    "selectDriver": "Pilih Driver",
+    "asset": "Aset",
+    "selectAsset": "Pilih aset"
   },
   "Routes": {
+    "table": {
+      "id": "ID",
+      "driver": "Kurir",
+      "asset": "Kendaraan",
+      "licensePlate": "Plat Nomor",
+      "deliveries": "Pengiriman",
+      "completed": "Selesai",
+      "actions": "Aksi"
+    },
     "routeProgress": "Progres Rute",
     "stopsVisited": "{completed} dari {total} pemberhentian dikunjungi",
     "startNavigation": "Lihat Rute",
@@ -438,9 +463,16 @@
     "confirmCompletion": "Konfirmasi Penyelesaian",
     "markPickedUp": "Tandai Diambil",
     "confirmPickup": "Konfirmasi Pengambilan",
-    "confirmPickupDescription": "Apakah Anda yakin telah mengumpulkan/mengirimkan item untuk {customerName}? Ini akan memperbarui status menjadi Diambil.",
+    "confirmPickupDescription": "Ambil foto barang yang telah dikumpulkan/dikirim untuk {customerName} sebagai konfirmasi.",
+    "photoRequired": "Foto diperlukan untuk konfirmasi pengambilan",
+    "openCamera": "Buka Kamera",
+    "retakePhoto": "Ambil Ulang",
+    "cameraError": "Gagal mengakses kamera",
+    "capturePhoto": "Ambil",
+    "photoCaptured": "Foto berhasil diambil",
     "viewOrder": "Lihat Pesanan",
     "call": "Hubungi",
+    "viewPhoto": "Lihat Foto",
     "map": "Peta",
     "pickedUp": "Diambil",
     "completed": "Selesai",
@@ -868,12 +900,17 @@
       "needAnythingElse": "Butuh yang Lain?",
       "addOtherItems": "Tambahkan item lain ke pesanan Anda",
       "addMore": "Tambah Lagi",
+      "date": "Tanggal Jemput",
+      "selectDate": "Pilih tanggal",
+      "time": "Waktu",
       "requestPickup": "Minta Penjemputan",
       "noAddress": "Pilih alamat penjemputan sebelum meminta penjemputan.",
       "onlyInventoryItems": "Tambahkan item selain Produk untuk meminta penjemputan.",
+      "noRequestTime": "Pilih tanggal dan waktu penjemputan sebelum meminta penjemputan.",
       "service": "Layanan",
       "inventory": "Produk",
       "bundling": "Paket",
+      "voucher": "Voucher",
       "itemAdded": "1 Item ditambahkan ke keranjang",
       "viewCart": "Lihat Keranjang"
     },
@@ -915,6 +952,10 @@
       "total": "Total",
       "payWithQris": "Bayar dengan QRIS",
       "deliveryDetails": "Detail Pengiriman",
+      "deliveryDate": "Tanggal Pengantaran",
+      "driver": "Driver",
+      "vehicle": "Kendaraan",
+      "licensePlate": "Plat Nomor",
       "pickUp": "Jemput",
       "delivery": "Kirim",
       "address": "Alamat",
@@ -924,6 +965,7 @@
       "readyForDeliveryDescription": "Item Anda sudah siap. Minta driver sekarang?",
       "homeDeliveryDescription": "Minta pengiriman sekarang dan kami akan menugaskan driver setelah pesanan Anda siap.",
       "requestDelivery": "Minta Pengiriman",
+      "waitingForPickup": "Menunggu Penjemputan",
       "noDeliveryDetails": "Tidak ada detail pengiriman",
       "noDeliveryServices": "Pesanan ini diselesaikan tanpa layanan pengiriman.",
       "paymentRequired": "Menunggu Pembayaran",
@@ -1007,6 +1049,7 @@
       "requestedTime": "Waktu Permintaan",
       "selectedAddress": "Alamat Terpilih",
       "locationNote": "Catatan Lokasi",
+      "viewPhoto": "Lihat Foto",
       "instructionsForDriver": "Instruksi untuk Driver:",
       "pickup": "Penjemputan",
       "delivery": "Pengiriman",
@@ -1334,73 +1377,191 @@
       "decimalPlaces": "Maksimal 2 angka desimal (contoh: 12.50)"
     },
     "account": {
-      "username": { "min": "Nama pengguna minimal 3 karakter" },
-      "name": { "min": "Nama minimal 2 karakter" },
-      "email": { "min": "Email minimal 3 karakter" },
-      "currentPassword": { "required": "Kata sandi saat ini wajib diisi" },
-      "newPassword": { "min": "Kata sandi minimal 8 karakter" },
-      "confirmPassword": { "required": "Silakan konfirmasi kata sandi Anda", "mustMatch": "Kata sandi tidak cocok" },
-      "label": { "min": "Label minimal 3 karakter", "max": "Label maksimal 255 karakter" },
-      "street": { "min": "Alamat minimal 5 karakter", "max": "Alamat maksimal 255 karakter" },
-      "note": { "max": "Catatan maksimal 255 karakter" },
-      "lat": { "range": "Latitude harus antara -90 dan 90", "pinRequired": "Silakan pin lokasi di peta" },
-      "lng": { "range": "Longitude harus antara -180 dan 180", "pinRequired": "Silakan pin lokasi di peta" },
-      "labelOptional": { "min": "Label harus antara 3 dan 255 karakter", "max": "Label harus antara 3 dan 255 karakter" },
-      "streetOptional": { "min": "Alamat harus antara 3 dan 255 karakter", "max": "Alamat harus antara 3 dan 255 karakter" },
-      "id": { "required": "ID Alamat wajib diisi" }
+      "username": {
+        "min": "Nama pengguna minimal 3 karakter"
+      },
+      "name": {
+        "min": "Nama minimal 2 karakter"
+      },
+      "email": {
+        "min": "Email minimal 3 karakter"
+      },
+      "currentPassword": {
+        "required": "Kata sandi saat ini wajib diisi"
+      },
+      "newPassword": {
+        "min": "Kata sandi minimal 8 karakter"
+      },
+      "confirmPassword": {
+        "required": "Silakan konfirmasi kata sandi Anda",
+        "mustMatch": "Kata sandi tidak cocok"
+      },
+      "label": {
+        "min": "Label minimal 3 karakter",
+        "max": "Label maksimal 255 karakter"
+      },
+      "street": {
+        "min": "Alamat minimal 5 karakter",
+        "max": "Alamat maksimal 255 karakter"
+      },
+      "note": {
+        "max": "Catatan maksimal 255 karakter"
+      },
+      "lat": {
+        "range": "Latitude harus antara -90 dan 90",
+        "pinRequired": "Silakan pin lokasi di peta"
+      },
+      "lng": {
+        "range": "Longitude harus antara -180 dan 180",
+        "pinRequired": "Silakan pin lokasi di peta"
+      },
+      "labelOptional": {
+        "min": "Label harus antara 3 dan 255 karakter",
+        "max": "Label harus antara 3 dan 255 karakter"
+      },
+      "streetOptional": {
+        "min": "Alamat harus antara 3 dan 255 karakter",
+        "max": "Alamat harus antara 3 dan 255 karakter"
+      },
+      "id": {
+        "required": "ID Alamat wajib diisi"
+      }
     },
     "auth": {
-      "phoneNumber": { "min": "Nomor telepon terlalu pendek", "max": "Nomor telepon terlalu panjang", "regex": "Nomor telepon tidak boleh diawali 0 atau +" },
-      "name": { "min": "Nama minimal 2 karakter" },
-      "username": { "min": "Nama pengguna minimal 3 karakter", "max": "Nama pengguna terlalu panjang", "regex": "Hanya huruf, angka, dan underscore" },
-      "email": { "invalid": "Format email tidak valid" },
-      "password": { "min": "Kata sandi minimal 8 karakter" },
-      "confirmPassword": { "mustMatch": "Kata sandi tidak cocok" }
+      "phoneNumber": {
+        "min": "Nomor telepon terlalu pendek",
+        "max": "Nomor telepon terlalu panjang",
+        "regex": "Nomor telepon tidak boleh diawali 0 atau +"
+      },
+      "name": {
+        "min": "Nama minimal 2 karakter"
+      },
+      "username": {
+        "min": "Nama pengguna minimal 3 karakter",
+        "max": "Nama pengguna terlalu panjang",
+        "regex": "Hanya huruf, angka, dan underscore"
+      },
+      "email": {
+        "invalid": "Format email tidak valid"
+      },
+      "password": {
+        "min": "Kata sandi minimal 8 karakter"
+      },
+      "confirmPassword": {
+        "mustMatch": "Kata sandi tidak cocok"
+      }
     },
     "bundlings": {
-      "name": { "required": "Nama paket wajib diisi" },
-      "description": { "required": "Deskripsi paket wajib diisi" },
-      "id": { "required": "ID paket tidak boleh kosong" },
-      "quantity": { "required": "Jumlah wajib diisi", "min": "Jumlah minimal 1" },
-      "item": { "required": "Item harus dipilih" },
-      "itemType": { "required": "Pilih tipe item yang valid" },
-      "items": { "min": "Minimal 1 item diperlukan", "max": "Maksimal 10 item paket diperbolehkan" }
+      "name": {
+        "required": "Nama paket wajib diisi"
+      },
+      "description": {
+        "required": "Deskripsi paket wajib diisi"
+      },
+      "id": {
+        "required": "ID paket tidak boleh kosong"
+      },
+      "quantity": {
+        "required": "Jumlah wajib diisi",
+        "min": "Jumlah minimal 1"
+      },
+      "item": {
+        "required": "Item harus dipilih"
+      },
+      "itemType": {
+        "required": "Pilih tipe item yang valid"
+      },
+      "items": {
+        "min": "Minimal 1 item diperlukan",
+        "max": "Maksimal 10 item paket diperbolehkan"
+      }
     },
     "inventories": {
-      "name": { "required": "Nama inventaris wajib diisi" },
-      "description": { "required": "Deskripsi inventaris wajib diisi" },
-      "id": { "required": "ID inventaris tidak boleh kosong" },
-      "adjustmentTime": { "required": "Waktu penyesuaian wajib diisi" },
-      "note": { "min": "Berikan alasan (minimal 5 karakter)", "max": "Alasan maksimal 500 karakter" },
-      "changeAmount": { "different": "Jumlah baru harus berbeda dari jumlah saat ini" },
-      "supplier": { "required": "Nama pemasok wajib diisi" },
-      "restockTime": { "required": "Waktu restok wajib diisi" },
-      "restockNote": { "max": "Catatan maksimal 255 karakter" }
+      "name": {
+        "required": "Nama inventaris wajib diisi"
+      },
+      "description": {
+        "required": "Deskripsi inventaris wajib diisi"
+      },
+      "id": {
+        "required": "ID inventaris tidak boleh kosong"
+      },
+      "adjustmentTime": {
+        "required": "Waktu penyesuaian wajib diisi"
+      },
+      "note": {
+        "min": "Berikan alasan (minimal 5 karakter)",
+        "max": "Alasan maksimal 500 karakter"
+      },
+      "changeAmount": {
+        "different": "Jumlah baru harus berbeda dari jumlah saat ini"
+      },
+      "supplier": {
+        "required": "Nama pemasok wajib diisi"
+      },
+      "restockTime": {
+        "required": "Waktu restok wajib diisi"
+      },
+      "restockNote": {
+        "max": "Catatan maksimal 255 karakter"
+      }
     },
     "services": {
-      "name": { "required": "Nama layanan wajib diisi" },
-      "description": { "required": "Deskripsi layanan wajib diisi" },
-      "id": { "required": "ID layanan wajib diisi" }
+      "name": {
+        "required": "Nama layanan wajib diisi"
+      },
+      "description": {
+        "required": "Deskripsi layanan wajib diisi"
+      },
+      "id": {
+        "required": "ID layanan wajib diisi"
+      }
     },
     "members": {
-      "name": { "required": "Nama pelanggan wajib diisi" }
+      "name": {
+        "required": "Nama pelanggan wajib diisi"
+      }
     },
     "users": {
-      "phoneNumber": { "format": "Format nomor telepon tidak valid" },
-      "name": { "min": "Nama minimal 2 karakter" },
-      "username": { "regex": "Hanya huruf, angka, dan underscore" },
-      "email": { "invalid": "Format email tidak valid" }
+      "phoneNumber": {
+        "format": "Format nomor telepon tidak valid"
+      },
+      "name": {
+        "min": "Nama minimal 2 karakter"
+      },
+      "username": {
+        "regex": "Hanya huruf, angka, dan underscore"
+      },
+      "email": {
+        "invalid": "Format email tidak valid"
+      }
     },
     "vouchers": {
-      "id": { "required": "ID Voucher wajib diisi" },
-      "code": { "required": "Kode voucher wajib diisi" },
-      "description": { "required": "Deskripsi voucher wajib diisi" },
-      "expiresAt": { "required": "Tanggal kedaluwarsa wajib diisi" },
-      "isVisible": { "required": "Visibilitas wajib diisi" }
+      "id": {
+        "required": "ID Voucher wajib diisi"
+      },
+      "code": {
+        "required": "Kode voucher wajib diisi"
+      },
+      "description": {
+        "required": "Deskripsi voucher wajib diisi"
+      },
+      "expiresAt": {
+        "required": "Tanggal kedaluwarsa wajib diisi"
+      },
+      "isVisible": {
+        "required": "Visibilitas wajib diisi"
+      }
     },
     "onboarding": {
-      "phoneNumber": { "min": "Nomor telepon minimal 7 karakter", "max": "Nomor telepon maksimal 15 karakter", "regex": "Nomor telepon tidak boleh diawali 0 dan hanya berisi angka" },
-      "name": { "min": "Nama minimal 2 karakter" }
+      "phoneNumber": {
+        "min": "Nomor telepon minimal 7 karakter",
+        "max": "Nomor telepon maksimal 15 karakter",
+        "regex": "Nomor telepon tidak boleh diawali 0 dan hanya berisi angka"
+      },
+      "name": {
+        "min": "Nama minimal 2 karakter"
+      }
     }
   },
   "Notifications": {
@@ -1505,7 +1666,7 @@
       "limitReached": "Maksimal 3 alamat per pengguna"
     },
     "common": {
-      "unexpectedError": "Terjadi kesalahan yang tidak terduga. Silakan coba lagi.",
+      "unexpectedError": "Terjadi kesalahan. Silakan coba beberapa saat lagi.",
       "notFound": "Data tidak ditemukan",
       "forbidden": "Anda tidak memiliki izin untuk melakukan tindakan ini"
     },
@@ -1524,17 +1685,28 @@
       }
     },
     "order": {
-      "notification": { "received": "Notifikasi diterima" },
+      "notification": {
+        "received": "Notifikasi diterima"
+      },
       "retrieved": "Pesanan berhasil diambil",
       "status": {
         "retrieved": "Status pesanan berhasil diambil",
         "updated": "Status pesanan berhasil diperbarui"
       },
       "statusUpdated": "Status pesanan berhasil diperbarui",
-      "items": { "retrieved": "Item pesanan berhasil diambil" },
-      "payment": { "retrieved": "Pembayaran pesanan berhasil diambil", "created": "Pembayaran berhasil dibuat" },
-      "customer": { "retrieved": "Pelanggan pesanan berhasil diambil" },
-      "deliveries": { "retrieved": "Pengiriman pesanan berhasil diambil" },
+      "items": {
+        "retrieved": "Item pesanan berhasil diambil"
+      },
+      "payment": {
+        "retrieved": "Pembayaran pesanan berhasil diambil",
+        "created": "Pembayaran berhasil dibuat"
+      },
+      "customer": {
+        "retrieved": "Pelanggan pesanan berhasil diambil"
+      },
+      "deliveries": {
+        "retrieved": "Pengiriman pesanan berhasil diambil"
+      },
       "paymentDetails": {
         "retrieved": "Detail pembayaran pesanan berhasil diambil",
         "notFound": "Detail pembayaran tidak ditemukan"
@@ -1545,7 +1717,9 @@
       "notFound": "Pesanan tidak ditemukan",
       "pickupRequested": "Permintaan penjemputan berhasil dikirim",
       "deliveryRequested": "Permintaan pengiriman berhasil dikirim",
-      "qris": { "charged": "Pembayaran QRIS berhasil dikenakan" },
+      "qris": {
+        "charged": "Pembayaran QRIS berhasil dikenakan"
+      },
       "report": {
         "orderSummary": "Ringkasan pesanan berhasil diambil",
         "dailyRevenue": "Pendapatan harian berhasil diambil",
@@ -1562,29 +1736,130 @@
         "pickupFailed": "Gagal membuat rute penjemputan",
         "deliverFailed": "Gagal membuat rute pengiriman"
       },
-      "pickups": { "retrieved": "Data penjemputan berhasil diambil" },
-      "deliveries": { "retrieved": "Data pengiriman berhasil diambil" },
-      "status": { "updated": "Status pengiriman berhasil diperbarui" },
+      "pickups": {
+        "retrieved": "Data penjemputan berhasil diambil"
+      },
+      "deliveries": {
+        "retrieved": "Data pengiriman berhasil diambil"
+      },
+      "status": {
+        "updated": "Status pengiriman berhasil diperbarui"
+      },
       "notFound": "Pengiriman tidak ditemukan"
     },
     "pos": {
-      "items": { "retrieved": "Item POS berhasil diambil" },
+      "items": {
+        "retrieved": "Item POS berhasil diambil"
+      },
       "order": {
         "failed": "Gagal membuat Pesanan baru",
         "created": "Pesanan POS baru berhasil dibuat"
       },
-      "members": { "retrieved": "Pencarian member berhasil" },
-      "vouchers": { "retrieved": "Voucher POS berhasil diambil" },
+      "members": {
+        "retrieved": "Pencarian member berhasil"
+      },
+      "vouchers": {
+        "retrieved": "Voucher POS berhasil diambil"
+      },
       "voucher": {
         "retrieved": "Voucher berhasil ditambahkan",
         "notFound": "Voucher tidak ditemukan",
-        "applied": "Voucher {description} diterapkan!"
+        "applied": "Voucher {description} digunakan!"
       }
     },
     "report": {
       "download": {
         "started": "Unduhan laporan dimulai"
       }
+    },
+    "asset": {
+      "retrieved": "Aset berhasil diambil",
+      "created": "Aset berhasil dibuat",
+      "updated": "Aset berhasil diperbarui",
+      "deleted": "Aset berhasil dihapus",
+      "notFound": "Aset {id} tidak ditemukan"
+    },
+    "driver": {
+      "retrieved": "Driver berhasil diambil"
+    }
+  },
+  "Assets": {
+    "title": "Aset",
+    "table": {
+      "searchPlaceholder": "Cari aset...",
+      "id": "ID",
+      "name": "Nama",
+      "licensePlate": "Nomor Plat",
+      "actions": "Aksi"
+    },
+    "deleteDialog": {
+      "title": "Hapus Aset",
+      "description": "Apakah Anda yakin ingin menghapus aset ini? Tindakan ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
+    },
+    "form": {
+      "name": "Nama Aset",
+      "namePlaceholder": "Masukkan nama aset",
+      "licensePlate": "Nomor Plat",
+      "licensePlatePlaceholder": "Masukkan nomor plat",
+      "createNew": "Buat Aset Baru",
+      "createDescription": "Masukkan detail di bawah untuk menambah aset baru.",
+      "updateAsset": "Perbarui Aset",
+      "updateDescription": "Masukkan detail di bawah untuk mengubah aset."
+    }
+  },
+  "Drivers": {
+    "title": "Driver",
+    "table": {
+      "searchPlaceholder": "Cari Driver...",
+      "id": "ID",
+      "name": "Nama"
+    }
+  },
+  "driverDashboard": {
+    "title": "Dashboard",
+    "retry": "Coba Lagi",
+    "metrics": {
+      "totalRoutes": "Total Rute",
+      "totalPickups": "Total Penjemputan",
+      "totalDeliveries": "Total Pengiriman",
+      "inProgress": "Sedang Berjalan"
+    },
+    "activeRoute": {
+      "title": "Rute Aktif",
+      "viewDetails": "Lihat Detail Rute",
+      "empty": "Tidak ada rute aktif. Tunggu admin memberikan rute."
+    },
+    "recentDeliveries": {
+      "title": "Pengiriman Terbaru",
+      "customer": "Pelanggan",
+      "address": "Alamat",
+      "type": "Tipe",
+      "status": "Status",
+      "time": "Waktu",
+      "empty": "Belum ada pengiriman"
+    },
+    "deliveryType": {
+      "pickup": "Penjemputan",
+      "delivery": "Pengiriman"
+    },
+    "status": {
+      "requested": "Diminta",
+      "in_progress": "Sedang Berjalan",
+      "picked_up": "Sudah Diambil",
+      "completed": "Selesai",
+      "cancelled": "Dibatalkan"
+    },
+    "statusChart": {
+      "title": "Status Pengiriman",
+      "empty": "Belum ada data pengiriman"
+    },
+    "error": {
+      "metrics": "Gagal memuat metrik",
+      "activeRoute": "Gagal memuat rute aktif",
+      "recentDeliveries": "Gagal memuat pengiriman terbaru",
+      "statusChart": "Gagal memuat status pengiriman"
     }
   }
 }

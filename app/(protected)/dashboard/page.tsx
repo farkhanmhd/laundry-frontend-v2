@@ -1,4 +1,5 @@
 import { AdminDashboard } from "@/components/features/dashboard/admin-dashboard";
+import { DriverDashboard } from "@/components/features/dashboard/driver/driver-dashboard";
 import { SuperAdminDashboard } from "@/components/features/dashboard/superadmin-dashboard";
 import { UserDashboard } from "@/components/features/dashboard/user-dashboard";
 import { getCurrentUserData } from "@/lib/modules/auth/session";
@@ -26,6 +27,10 @@ const DashboardPage = async (props: Props) => {
 
   if (userData.role === "user") {
     return <UserDashboard />;
+  }
+
+  if (userData.role === "driver") {
+    return <DriverDashboard />;
   }
 };
 

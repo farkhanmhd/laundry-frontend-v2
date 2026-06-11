@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import {
   type ChangeEvent,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -42,6 +43,7 @@ export interface CustomerOrderState {
   selectedVoucher: PosVoucher | null;
   points?: number | null;
   selectedAddress: string | null;
+  requestTime: string | null;
 }
 
 const initialState: CustomerOrderState = {
@@ -50,6 +52,7 @@ const initialState: CustomerOrderState = {
   selectedVoucher: null,
   points: null,
   selectedAddress: null,
+  requestTime: null,
 };
 
 const customerOrderAtom = atomWithStorage<CustomerOrderState>(
@@ -97,26 +100,29 @@ export const useCustomerOrder = () => {
   });
 
   const submitPickupRequest = () => {
-    if (selectedAddress) {
-      const data: RequestPickupSchema = {
-        items: customerCart.items,
-        addressId: selectedAddress,
-      };
-
-      if (customerCart.points) {
-        data.points = customerCart.points;
-      }
-
-      if (customerCart.selectedVoucher) {
-        data.items.push({
-          itemType: "voucher",
-          voucherId: customerCart.selectedVoucher.id,
-          quantity: 1,
-        });
-      }
-
-      createPickupRequestMutation.mutate(data);
+    if (!(selectedAddress && customerCart.requestTime)) {
+      return;
     }
+
+    const data: RequestPickupSchema = {
+      items: customerCart.items,
+      addressId: selectedAddress,
+      requestTime: customerCart.requestTime,
+    };
+
+    if (customerCart.points) {
+      data.points = customerCart.points;
+    }
+
+    if (customerCart.selectedVoucher) {
+      data.items.push({
+        itemType: "voucher",
+        voucherId: customerCart.selectedVoucher.id,
+        quantity: 1,
+      });
+    }
+
+    createPickupRequestMutation.mutate(data);
   };
 
   const handleAddToCart = (item: PosItemData) => {
@@ -249,7 +255,11 @@ export const useCustomerOrder = () => {
       ...prev,
       selectedVoucher: voucher,
     }));
-    toast.success(tNotifications("pos.voucher.applied", { description: voucher.description }));
+    toast.success(
+      tNotifications("pos.voucher.applied", {
+        description: voucher.description,
+      })
+    );
   };
 
   const handleRemoveVoucher = () => {
@@ -302,6 +312,7 @@ export const useCustomerOrder = () => {
       selectedAddress: null,
       selectedVoucher: null,
       points: null,
+      requestTime: null,
       voucherList: customerCart.voucherList,
     });
   }
@@ -312,6 +323,16 @@ export const useCustomerOrder = () => {
       selectedAddress: addressId,
     }));
   };
+
+  const handleRequestTimeChange = useCallback(
+    (requestTime: string) => {
+      setCustomerCart((prev) => ({
+        ...prev,
+        requestTime,
+      }));
+    },
+    [setCustomerCart]
+  );
 
   const { voucherList, selectedAddress } = customerCart;
 
@@ -331,12 +352,21 @@ export const useCustomerOrder = () => {
       return false;
     }
 
+    if (!customerCart.requestTime) {
+      return false;
+    }
+
     if (onlyInventoryItems) {
       return false;
     }
 
     return true;
-  }, [totalItems, selectedAddress, onlyInventoryItems]);
+  }, [
+    totalItems,
+    selectedAddress,
+    customerCart.requestTime,
+    onlyInventoryItems,
+  ]);
 
   const pickupDisabledReason = useMemo(() => {
     if (totalItems <= 0) {
@@ -347,12 +377,21 @@ export const useCustomerOrder = () => {
       return "noAddress";
     }
 
+    if (!customerCart.requestTime) {
+      return "noRequestTime";
+    }
+
     if (onlyInventoryItems) {
       return "onlyInventoryItems";
     }
 
     return null;
-  }, [totalItems, selectedAddress, onlyInventoryItems]);
+  }, [
+    totalItems,
+    selectedAddress,
+    customerCart.requestTime,
+    onlyInventoryItems,
+  ]);
 
   return {
     customerCart,
@@ -376,6 +415,7 @@ export const useCustomerOrder = () => {
     clearCustomerCart,
     selectedAddress,
     handleSelectAddress,
+    handleRequestTimeChange,
     execute: createPickupRequestMutation.mutate,
     isPending: createPickupRequestMutation.isPending,
     submitPickupRequest,
@@ -414,6 +454,7 @@ async function getUserAddresses() {
 async function createDeliveryRequest(body: {
   addressId: string;
   orderId: string;
+  requestTime: string;
 }) {
   const { data, error } = await elysia.customerorders["request-delivery"].post(
     body,
@@ -456,6 +497,7 @@ export const CustomerOrderAddressProvider = ({
         const data = await createDeliveryRequest({
           addressId: selectedAddress,
           orderId: params.id as string,
+          requestTime: new Date().toISOString(),
         });
         if (data) {
           toast.success(toastResponse(tNotifications, data));

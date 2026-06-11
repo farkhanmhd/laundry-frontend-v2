@@ -1,8 +1,10 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { enUS, id } from "date-fns/locale";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,6 +13,8 @@ import { cn } from "@/lib/utils";
 
 export const useDeliveryColumns = () => {
   const t = useTranslations("Deliveries.table");
+  const locale = useLocale();
+  const dateLocale = locale === "id" ? id : enUS;
 
   const columns: ColumnDef<Delivery>[] = [
     {
@@ -70,27 +74,38 @@ export const useDeliveryColumns = () => {
       ),
     },
     {
-      accessorKey: "routeId",
-      header: t("route"),
+      accessorKey: "driverName",
+      header: t("driver"),
       cell: ({ row }) => {
-        const routeId = row.getValue("routeId");
-        if (!routeId) {
-          return (
-            <span className="text-muted-foreground text-sm italic">
-              {t("unassigned")}
-            </span>
-          );
-        }
+        const name = row.getValue("driverName") as string | null;
         return (
-          <Link
-            className={cn(
-              buttonVariants({ variant: "secondary" }),
-              "h-8 text-xs"
-            )}
-            href={`/routes/${row.getValue("routeId")}`}
-          >
-            {t("viewRoute")}
-          </Link>
+          <div className="text-sm">
+            {name ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "vehicleName",
+      header: t("vehicle"),
+      cell: ({ row }) => {
+        const name = row.getValue("vehicleName") as string | null;
+        return (
+          <div className="text-sm">
+            {name ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "licensePlate",
+      header: t("licensePlate"),
+      cell: ({ row }) => {
+        const plate = row.getValue("licensePlate") as string | null;
+        return (
+          <div className="text-sm uppercase">
+            {plate ?? <span className="text-muted-foreground italic">-</span>}
+          </div>
         );
       },
     },
@@ -128,17 +143,17 @@ export const useDeliveryColumns = () => {
       },
     },
     {
-      accessorKey: "requestedAt",
+      accessorKey: "requestTime",
       header: t("requestTime"),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("requestedAt"));
+        const value = row.getValue<string | null>("requestTime");
+        if (!value) {
+          return <span className="text-muted-foreground text-sm">-</span>;
+        }
         return (
-          <div className="text-muted-foreground text-sm">
-            {date.toLocaleDateString("en-ID", {
-              day: "2-digit",
-              month: "short",
-              hour: "2-digit",
-              minute: "2-digit",
+          <div className="text-sm">
+            {format(new Date(value), "EEEE, dd MMMM yyyy", {
+              locale: dateLocale,
             })}
           </div>
         );

@@ -3,6 +3,7 @@
 import { MapPin, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { CustomerOrderDateTimePicker } from "./customer-order-date-time-picker";
 import { useCustomerOrderDetail } from "./customer-order-detail-context";
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
     requestDelivery: string;
     confirmAddress: string;
     cancel: string;
+    deliveryDate: string;
   };
   isReady: boolean;
 };
@@ -30,6 +32,8 @@ export function RequestDeliverySection({
     setSelectingAddress,
     selectedAddress,
     setSelectedAddress,
+    requestTime,
+    setRequestTime,
     isRequestingDelivery,
     requestDelivery,
   } = useCustomerOrderDetail();
@@ -64,6 +68,11 @@ export function RequestDeliverySection({
               </button>
             ))}
           </div>
+          <CustomerOrderDateTimePicker
+            date={requestTime}
+            label={labels.deliveryDate}
+            onDateChange={setRequestTime}
+          />
           <div className="flex gap-2 pt-1">
             <Button
               className="flex-1"

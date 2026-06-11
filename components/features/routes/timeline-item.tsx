@@ -16,6 +16,7 @@ import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PickupImageDialog } from "@/components/features/routes/pickup-image-dialog";
 import {
   Map as MapComponent,
   MapMarker,
@@ -256,6 +257,12 @@ export function TimelineItem({ delivery }: Props) {
               {t("viewOrder")}
             </Link>
             <div className="flex gap-2">
+              {delivery.pickupImage && (
+                <PickupImageDialog
+                  label={t("viewPhoto")}
+                  src={delivery.pickupImage}
+                />
+              )}
               <Button asChild size="sm" variant="outline">
                 <a href={`tel:${delivery.customerPhone}`}>
                   <Phone className="h-3.5 w-3.5" />

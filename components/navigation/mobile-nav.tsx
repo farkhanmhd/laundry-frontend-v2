@@ -8,6 +8,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import {
   adminMobileNavData,
   customerMobileNavData,
+  driverNavData,
   superAdminMobileNavData,
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ export function MobileNav() {
     admin: adminMobileNavData,
     superadmin: superAdminMobileNavData,
     user: customerMobileNavData,
+    driver: driverNavData,
   };
 
   const selectedNavData = navData[role as keyof typeof navData] || [];

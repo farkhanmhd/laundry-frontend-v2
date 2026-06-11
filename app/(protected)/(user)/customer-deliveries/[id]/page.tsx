@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { PickupImageDialog } from "@/components/features/routes/pickup-image-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -83,10 +84,18 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
         </CardTitle>
       </div>
       <CardContent className="space-y-6">
-        <Alert>
-          <Info className="h-4 w-4 text-primary" />
-          <DeliveryStatusBadge status={delivery.status} t={t} />
+        <Alert className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Info className="h-4 w-4 text-primary" />
+            <DeliveryStatusBadge status={delivery.status} t={t} />
+          </div>
           <AlertDescription>{statusMessage}</AlertDescription>
+          {delivery.pickupImage && (
+            <PickupImageDialog
+              label={t("viewPhoto")}
+              src={delivery.pickupImage}
+            />
+          )}
         </Alert>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-6">

@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
@@ -22,6 +22,7 @@ const getUserAddresses = async () => {
 const createDeliveryRequest = async (body: {
   addressId: string;
   orderId: string;
+  requestTime: string;
 }) => {
   const { data, error } = await elysia.customerorders["request-delivery"].post(
     body,
@@ -84,6 +85,8 @@ interface CustomerOrderDetailContextValue extends CustomerOrderDetailPageData {
   selectedAddress: string | null;
   setSelectingAddress: (value: boolean) => void;
   setSelectedAddress: (value: string | null) => void;
+  requestTime: Date | undefined;
+  setRequestTime: (date: Date | undefined) => void;
   requestDelivery: () => void;
   isRequestingDelivery: boolean;
   canRequestDelivery: boolean;
@@ -106,6 +109,7 @@ export const CustomerOrderDetailProvider = ({
   const tNotifications = useTranslations("Notifications");
   const [selectingAddress, setSelectingAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const [requestTime, setRequestTime] = useState<Date | undefined>(undefined);
 
   const detailQuery = useQuery({
     queryKey: ["customer-order-detail-page", orderId],
@@ -147,7 +151,8 @@ export const CustomerOrderDetailProvider = ({
         toast.error(
           toastResponse(
             tNotifications,
-            (result.error.value as { messageKey?: string; message?: string }) || {}
+            (result.error.value as { messageKey?: string; message?: string }) ||
+              {}
           )
         );
         return;
@@ -216,14 +221,21 @@ export const CustomerOrderDetailProvider = ({
       selectedAddress,
       setSelectingAddress,
       setSelectedAddress,
+      requestTime,
+      setRequestTime,
       requestDelivery: () => {
         if (!selectedAddress) {
           return;
         }
 
+        const deliveryTime = requestTime ?? new Date();
+        const endOfDay = new Date(deliveryTime);
+        endOfDay.setHours(23, 59, 59, 0);
+
         requestDeliveryMutation.mutate({
           addressId: selectedAddress,
           orderId,
+          requestTime: endOfDay.toISOString(),
         });
       },
       isRequestingDelivery: requestDeliveryMutation.isPending,
@@ -250,6 +262,7 @@ export const CustomerOrderDetailProvider = ({
       payment,
       cancelPickupRequestMutation,
       requestDeliveryMutation,
+      requestTime,
       selectedAddress,
       selectingAddress,
     ]

@@ -15,6 +15,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import {
   adminNavData,
   customerNavData,
+  driverNavData,
   superAdminNavData,
 } from "@/lib/constants";
 import { SheetClose } from "../ui/sheet";
@@ -30,6 +31,8 @@ const navTitleToKey: Record<string, string> = {
   Inventories: "inventories",
   Services: "services",
   Vouchers: "vouchers",
+  Assets: "assets",
+  Drivers: "drivers",
   Bundlings: "bundlings",
   Users: "users",
   Home: "home",
@@ -43,6 +46,7 @@ export function NavMain() {
     superadmin: superAdminNavData,
     admin: adminNavData,
     user: customerNavData,
+    driver: driverNavData,
   };
   const isMobile = useIsMobile();
   const pathname = usePathname();

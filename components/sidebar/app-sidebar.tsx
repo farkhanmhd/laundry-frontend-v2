@@ -55,6 +55,7 @@ export function AppSidebar({ children, ...props }: Props) {
                   size="lg"
                 >
                   <LogOut />
+                  <span className="md:hidden">Logout</span>
                 </SidebarMenuButton>
               </SignoutDialog>
             </SidebarMenuItem>

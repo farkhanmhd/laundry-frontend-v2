@@ -99,7 +99,13 @@ const OrderStatusBadge = ({
 
 const OrderDetailHeader = ({ orderId }: { orderId: string }) => {
   const t = useTranslations("CustomerOrders.orderDetail");
-  const { detail } = useCustomerOrderDetail();
+  const { detail, deliveries } = useCustomerOrderDetail();
+  const waitingForPickup = deliveries.some(
+    (d) =>
+      (d.status === "requested" || d.status === "in_progress") &&
+      d.type === "pickup"
+  );
+
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   return (
@@ -109,7 +115,13 @@ const OrderDetailHeader = ({ orderId }: { orderId: string }) => {
           <h1 className="font-bold text-foreground text-xl uppercase tracking-tight">
             {t("orderItems")} {orderId}
           </h1>
-          <OrderStatusBadge status={detail.status} t={t} />
+          <div className="flex flex-wrap items-center gap-2">
+            {waitingForPickup ? (
+              <Badge variant="secondary">{t("waitingForPickup")}</Badge>
+            ) : (
+              <OrderStatusBadge status={detail.status} t={t} />
+            )}
+          </div>
         </div>
         <ExportButton
           href={`${baseUrl}/receipt/${orderId}/customer-pdf`}
@@ -215,7 +227,7 @@ const OrderDetailPayment = ({ orderId }: { orderId: string }) => {
   const t = useTranslations("CustomerOrders.orderDetail");
   const { payment, deliveries } = useCustomerOrderDetail();
 
-  const hasCompletedPickup = deliveries.find(
+  const hasCompletedPickup = deliveries.some(
     (delivery) =>
       delivery.type === "pickup" &&
       ["completed", "picked_up"].includes(delivery.status)
@@ -369,6 +381,24 @@ const OrderDetailDeliveries = () => {
                       )}
                     </div>
                   </div>
+                  {(delivery.driverName ||
+                    delivery.vehicleName ||
+                    delivery.driverName) && (
+                    <div>
+                      {delivery.driverName && (
+                        <p className="font-semibold text-sm">
+                          {delivery.driverName}
+                        </p>
+                      )}
+                      {delivery.vehicleName && (
+                        <div className="flex gap-2 text-sm">
+                          <p>{delivery.vehicleName}</p>
+                          <span>&mdash;</span>
+                          <p>{delivery.licensePlate}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -387,6 +417,7 @@ const OrderDetailDeliveries = () => {
               requestDelivery: t("requestDelivery"),
               confirmAddress: t("confirmAddress"),
               cancel: t("cancel"),
+              deliveryDate: t("deliveryDate"),
             }}
           />
         )}

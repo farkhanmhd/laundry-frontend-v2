@@ -19,7 +19,7 @@ export default function OrderSummaryItems() {
         <ul className="flex flex-col divide-y divide-solid divide-accent p-4">
           {customerCart.items.length > 0 ? (
             customerCart.items.map((item) => (
-              <li className="py-4 first:pt-0" key={item.id}>
+              <li className="py-4 first:pt-0" key={`${item.itemType}-${item.id}`}>
                 <CustomerOrderItem item={item as PosOrderItem} />
               </li>
             ))

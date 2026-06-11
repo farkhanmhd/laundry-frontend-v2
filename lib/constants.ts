@@ -1,12 +1,14 @@
 import {
   Archive,
   Blocks,
+  Car,
   ChartColumnIncreasing,
   ChartNoAxesCombined,
   HandPlatter,
   Home,
   ListTodo,
   type LucideIcon,
+  MapPin,
   Monitor,
   Motorbike,
   ShieldUser,
@@ -73,6 +75,16 @@ export const adminNavData: NavItem[] = [
 export const superAdminNavData: NavItem[] = [
   ...adminNavData,
   {
+    title: "Routes",
+    url: "/routes",
+    icon: MapPin,
+  },
+  {
+    title: "Assets",
+    url: "/assets",
+    icon: Car,
+  },
+  {
     title: "Vouchers",
     url: "/vouchers",
     icon: Ticket,
@@ -86,6 +98,24 @@ export const superAdminNavData: NavItem[] = [
     title: "Users",
     url: "/users",
     icon: ShieldUser,
+  },
+];
+
+export const driverNavData: NavItem[] = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: Home,
+  },
+  {
+    title: "Routes",
+    url: "/routes",
+    icon: MapPin,
+  },
+  {
+    title: "Account", // Based on the 'user' table
+    url: "/account",
+    icon: User,
   },
 ];
 

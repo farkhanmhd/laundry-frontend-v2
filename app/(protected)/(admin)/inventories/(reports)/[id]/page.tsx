@@ -1,9 +1,10 @@
+import { notFound } from "next/navigation";
 import { InventoryDataForm } from "@/components/features/inventories/inventory-data-form";
 import { InventoryImageForm } from "@/components/features/inventories/inventory-image-form";
 import { InventoryRestockForm } from "@/components/features/inventories/inventory-restock-form";
 import { StockAdjustmentForm } from "@/components/features/inventories/stock-adjustment-form";
 import { TabsContent } from "@/components/ui/tabs";
-import { InventoriesApi, type Inventory } from "@/lib/modules/inventories/data";
+import { InventoriesApi } from "@/lib/modules/inventories/data";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -11,7 +12,12 @@ type Props = {
 
 const InventoryDetailPage = async ({ params }: Props) => {
   const { id } = await params;
-  const inventory = (await InventoriesApi.getInventoryById(id)) as Inventory;
+  const inventory = await InventoriesApi.getInventoryById(id);
+
+  if (!inventory) {
+    notFound();
+  }
+
   return (
     <>
       <TabsContent
@@ -19,7 +25,14 @@ const InventoryDetailPage = async ({ params }: Props) => {
         forceMount
         value="inventory"
       >
-        <InventoryDataForm {...inventory} />
+        <InventoryDataForm
+          description={inventory.description}
+          id={inventory.id}
+          name={inventory.name}
+          price={inventory.price}
+          safetyStock={inventory.safetyStock}
+          unit={inventory.unit ?? "pieces"}
+        />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"

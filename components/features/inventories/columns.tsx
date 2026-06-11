@@ -41,6 +41,7 @@ const useInventoryTranslations = () => {
       shortage: t("table.shortage"),
       unknown: t("table.unknown"),
       actions: t("table.actions"),
+      unit: t("table.unit"),
     },
     categories: {
       waste: t("categories.waste"),
@@ -118,6 +119,15 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           {row.getValue("safetyStock")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "unit",
+      header: t.table.unit,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max font-medium">
+          {row.getValue("unit")}
         </div>
       ),
     },

@@ -27,7 +27,7 @@ export const units: SelectOption[] = [
     label: "milliliter",
     value: "milliliter",
   },
-];
+] as const;
 
 export const addInventorySchema = z.object({
   name: z.string().min(1, "inventories.name.required"),
@@ -36,6 +36,13 @@ export const addInventorySchema = z.object({
   price: positiveIntNoLeadingZero,
   stock: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
+  unit: z.union([
+    z.literal("kilogram"),
+    z.literal("gram"),
+    z.literal("litre"),
+    z.literal("milliliter"),
+    z.literal("pieces"),
+  ]),
 });
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
@@ -50,6 +57,13 @@ export const updateInventorySchema = z.object({
   description: z.string().min(1, "inventories.description.required"),
   price: positiveIntNoLeadingZero,
   safetyStock: positiveIntNoLeadingZero,
+  unit: z.union([
+    z.literal("kilogram"),
+    z.literal("gram"),
+    z.literal("litre"),
+    z.literal("milliliter"),
+    z.literal("pieces"),
+  ]),
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({
@@ -88,10 +102,10 @@ export type AdjustQuantitySchema = z.infer<typeof adjustQuantitySchema>;
 
 export const restockInventorySchema = z.object({
   id: z
-      .string({
-        error: "inventories.id.required",
-      })
-      .min(1, { error: "inventories.id.required" }),
+    .string({
+      error: "inventories.id.required",
+    })
+    .min(1, { error: "inventories.id.required" }),
   currentQuantity: z.int(),
   supplier: z
     .string({ error: "inventories.supplier.required" })
@@ -108,10 +122,10 @@ export type RestockInventorySchema = z.infer<typeof restockInventorySchema>;
 
 export const updateInventoryImageSchema = z.object({
   id: z
-      .string({
-        error: "inventories.id.required",
-      })
-      .min(1, { error: "inventories.id.required" }),
+    .string({
+      error: "inventories.id.required",
+    })
+    .min(1, { error: "inventories.id.required" }),
   image: imageSchema,
 });
 

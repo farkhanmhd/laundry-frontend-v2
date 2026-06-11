@@ -548,7 +548,8 @@
       "inStock": "Tersedia",
       "shortage": "Menipis",
       "unknown": "Tidak Diketahui",
-      "actions": "Aksi"
+      "actions": "Aksi",
+      "unit": "Satuan"
     },
     "deleteDialog": {
       "title": "Hapus Inventaris",
@@ -579,6 +580,7 @@
       "createDescription": "Masukkan detail di bawah untuk menambahkan inventaris baru.",
       "stock": "Jumlah Inventaris",
       "safetyStock": "Jumlah Stok Aman",
+      "unit": "Satuan",
       "image": "Gambar",
       "addInventory": "Tambah Inventaris"
     },

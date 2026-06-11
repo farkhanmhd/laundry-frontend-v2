@@ -4,16 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
-import { toastResponse } from "@/lib/toast-helper";
+import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { updateInventoryAction } from "@/lib/modules/inventories/actions";
 import {
   type UpdateInventorySchema,
+  units,
   updateInventorySchema,
 } from "@/lib/modules/inventories/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { formatToIDR } from "@/lib/utils";
 
 export const InventoryDataForm = ({
@@ -21,6 +25,7 @@ export const InventoryDataForm = ({
   name,
   description,
   price,
+  unit,
   safetyStock,
 }: UpdateInventorySchema) => {
   const t = useTranslations("Inventories");
@@ -39,6 +44,7 @@ export const InventoryDataForm = ({
           description,
           price,
           safetyStock,
+          unit,
           id,
         },
       },
@@ -53,7 +59,7 @@ export const InventoryDataForm = ({
     }
   );
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const formData: UpdateInventorySchema = {
       id,
@@ -61,6 +67,7 @@ export const InventoryDataForm = ({
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
       safetyStock: Number(form.getValues("safetyStock")),
+      unit: form.getValues("unit"),
     };
 
     action.execute(formData);
@@ -126,6 +133,24 @@ export const InventoryDataForm = ({
             placeholder="Safety Stock"
             tValidation={tValidation}
           />
+          <div className="flex flex-col gap-3">
+            <Label className="text-base" htmlFor="unit">
+              {t("form.unit")}
+            </Label>
+            <Controller
+              control={form.control}
+              name="unit"
+              render={({ field }) => (
+                <FormSelect
+                  disabled={!isEditing || action.isPending}
+                  id="unit"
+                  onValueChange={field.onChange}
+                  options={units}
+                  value={field.value}
+                />
+              )}
+            />
+          </div>
         </div>
 
         <div className="flex justify-end gap-3">

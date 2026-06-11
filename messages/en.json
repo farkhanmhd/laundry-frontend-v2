@@ -548,7 +548,8 @@
       "inStock": "In Stock",
       "shortage": "Shortage",
       "unknown": "Unknown",
-      "actions": "Actions"
+      "actions": "Actions",
+      "unit": "Unit"
     },
     "deleteDialog": {
       "title": "Delete Inventory",
@@ -579,6 +580,7 @@
       "createDescription": "Enter details below to add new inventory.",
       "stock": "Quantity of Inventory",
       "safetyStock": "Safety Stock Quantity",
+      "unit": "Unit",
       "image": "Image",
       "addInventory": "Add Inventory"
     },

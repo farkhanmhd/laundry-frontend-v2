@@ -16,10 +16,14 @@ const errorResult = {
   message: "Something went wrong",
 };
 
-function extractErrorDetails(error: { value?: Record<string, unknown> } | undefined | null) {
+function extractErrorDetails(
+  error: { value?: Record<string, unknown> } | undefined | null
+) {
   return {
     messageKey: error?.value?.messageKey as string | undefined,
-    messageParams: error?.value?.messageParams as Record<string, unknown> | undefined,
+    messageParams: error?.value?.messageParams as
+      | Record<string, unknown>
+      | undefined,
   };
 }
 
@@ -44,7 +48,11 @@ export const addInventoryAction = actionClient
 
     if (result.data) {
       const data = result.data as
-        | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+        | {
+            message?: string;
+            messageKey?: string;
+            messageParams?: Record<string, unknown>;
+          }
         | undefined;
 
       return {
@@ -76,7 +84,11 @@ export const deleteInventoryAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -99,7 +111,11 @@ export const updateInventoryAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -125,7 +141,11 @@ export const adjustQuantityAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -146,7 +166,11 @@ export const updateInventoryImageAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -173,7 +197,11 @@ export const restockInventoryAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {

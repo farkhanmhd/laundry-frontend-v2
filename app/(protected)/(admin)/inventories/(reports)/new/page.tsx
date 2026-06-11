@@ -4,12 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
+import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { addInventoryAction } from "@/lib/modules/inventories/actions";
-import { addInventorySchema } from "@/lib/modules/inventories/schema";
+import { addInventorySchema, units } from "@/lib/modules/inventories/schema";
 import { toastResponse } from "@/lib/toast-helper";
 import { formatToIDR } from "@/lib/utils";
 
@@ -62,6 +65,7 @@ const NewInventoryPage = () => {
           placeholder="Inventory description"
           tValidation={tValidation}
         />
+
         <div className="flex w-full flex-col gap-6 md:flex-row">
           <FormInput
             className="text-right"
@@ -92,6 +96,24 @@ const NewInventoryPage = () => {
             placeholder="Safety Stock Quantity"
             tValidation={tValidation}
           />
+          <div className="flex flex-col gap-3">
+            <Label className="text-base" htmlFor="unit">
+              {t("form.unit")}
+            </Label>
+            <Controller
+              control={form.control}
+              name="unit"
+              render={({ field }) => (
+                <FormSelect
+                  disabled={action.isPending}
+                  id="unit"
+                  onValueChange={field.onChange}
+                  options={units}
+                  value={field.value}
+                />
+              )}
+            />
+          </div>
         </div>
         <FormInput
           accept="image/jpeg,image/png,.jpg,.jpeg,.png"

@@ -11,6 +11,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import type { Inventory } from "@/lib/modules/inventories/data";
 import { cardShadowStyle, cn } from "@/lib/utils";
 import { useInventoryColumns } from "./columns";
+import { InventoryMonthlyExportDialog } from "./inventory-monthly-export-dialog";
 
 interface Props {
   data: Inventory[];
@@ -34,6 +35,7 @@ export const InventoryTableClient = ({ data }: Props) => {
             {role === "superadmin" && (
               /* Desktop: single row */
               <div className="hidden items-center gap-2 lg:flex">
+                <InventoryMonthlyExportDialog />
                 <Link
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" })

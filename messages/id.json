@@ -647,6 +647,16 @@
       "restockPrice": "Harga Restok",
       "type": "Tipe",
       "reference": "Referensi"
+    },
+    "monthlyReport": {
+      "buttonLabel": "Laporan Bulanan",
+      "title": "Laporan Stok Bulanan",
+      "description": "Lihat performa stok inventori per bulan dalam rentang waktu tertentu.",
+      "fromMonth": "Bulan Dari",
+      "toMonth": "Bulan Sampai",
+      "monthLabel": "Bulan",
+      "yearLabel": "Tahun",
+      "download": "Unduh"
     }
   },
   "Services": {

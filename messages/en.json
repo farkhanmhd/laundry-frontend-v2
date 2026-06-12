@@ -647,6 +647,16 @@
       "restockPrice": "Restock Price",
       "type": "Type",
       "reference": "Reference"
+    },
+    "monthlyReport": {
+      "buttonLabel": "Monthly Report",
+      "title": "Monthly Stock Report",
+      "description": "View inventory stock performance per month within a date range.",
+      "fromMonth": "From Month",
+      "toMonth": "To Month",
+      "monthLabel": "Month",
+      "yearLabel": "Year",
+      "download": "Download"
     }
   },
   "Services": {

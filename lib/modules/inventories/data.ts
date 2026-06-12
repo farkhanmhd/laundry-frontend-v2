@@ -38,6 +38,15 @@ export type InventoryHistoryQuery = NonNullable<
   Parameters<typeof elysia.inventories.adjustments.get>[0]
 >["query"];
 
+export type InventoryMovementQuery = {
+  page?: number;
+  rows?: number;
+};
+
+export type MovementHistory = NonNullable<
+  Awaited<ReturnType<typeof InventoriesApi.getInventoryMovement>>
+>["movementHistory"][number];
+
 export abstract class InventoriesApi extends BaseApi {
   static async getInventories() {
     const { data: response } = await elysia.inventories.get({
@@ -153,5 +162,18 @@ export abstract class InventoriesApi extends BaseApi {
     });
 
     return result;
+  }
+
+  static async getInventoryMovement(
+    id: string,
+    query?: InventoryMovementQuery
+  ) {
+    const { data: response } = await elysia.inventories({ id }).movement.get({
+      ...(await InventoriesApi.getConfig()),
+      query,
+    });
+
+    const data = response?.data;
+    return data;
   }
 }

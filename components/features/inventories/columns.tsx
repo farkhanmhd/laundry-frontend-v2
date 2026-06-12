@@ -18,6 +18,7 @@ import { useUserRole } from "@/hooks/use-user-role";
 import type {
   AdjustmentHistory,
   Inventory,
+  MovementHistory,
   RestockHistory,
   UsageHistory,
 } from "@/lib/modules/inventories/data";
@@ -48,6 +49,7 @@ const useInventoryTranslations = () => {
       adjustment: t("categories.adjustment"),
       restock: t("categories.restock"),
       order: t("categories.order"),
+      usage: t("categories.usage"),
     },
     logs: {
       product: t("logs.product"),
@@ -60,6 +62,8 @@ const useInventoryTranslations = () => {
       time: t("logs.time"),
       supplier: t("logs.supplier"),
       note: t("logs.note"),
+      type: t("logs.type"),
+      reference: t("logs.reference"),
     },
   };
 };
@@ -431,6 +435,151 @@ export const useInventoryUsageHistoryColumns =
       },
     ];
   };
+
+export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
+  const t = useInventoryTranslations();
+
+  return [
+    {
+      accessorKey: "inventoryName",
+      header: t.logs.product,
+      cell: ({ row }) => {
+        const inventoryId = row.original.inventoryId;
+        return (
+          <Link
+            className={cn(
+              "line-clamp-1 min-w-max font-medium",
+              buttonVariants({ variant: "link", size: "sm" })
+            )}
+            href={inventoryId ? `/inventories/${inventoryId}` : "#"}
+          >
+            {row.getValue("inventoryName") || t.table.unknown}
+          </Link>
+        );
+      },
+    },
+    {
+      accessorKey: "type",
+      header: t.logs.type,
+      cell: ({ row }) => {
+        const type = row.getValue("type") as string;
+        const variant =
+          type === "restock"
+            ? "default"
+            : type === "waste"
+              ? "destructive"
+              : type === "adjustment"
+                ? "secondary"
+                : "outline";
+        const label =
+          type === "restock"
+            ? t.categories.restock
+            : type === "waste"
+              ? t.categories.waste
+              : type === "adjustment"
+                ? t.categories.adjustment
+                : type === "order"
+                  ? t.categories.order
+                  : type === "usage"
+                    ? t.categories.usage
+                    : type;
+        return (
+          <Badge className="rounded-md font-bold capitalize" variant={variant}>
+            {label}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "changeAmount",
+      header: t.logs.change,
+      cell: ({ row }) => {
+        const amount = row.getValue("changeAmount") as number;
+        const isPositive = amount > 0;
+        return (
+          <div
+            className={cn(
+              "min-w-max font-medium",
+              isPositive && "text-green-600",
+              !isPositive && "text-destructive"
+            )}
+          >
+            {isPositive ? "+" : ""}
+            {amount}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "stockRemaining",
+      header: t.logs.remaining,
+      cell: ({ row }) => (
+        <div className="min-w-max font-medium">
+          {row.getValue("stockRemaining") as number}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "reference",
+      header: t.logs.reference,
+      cell: ({ row }) => {
+        const reference = row.getValue("reference") as string | null;
+        if (!reference) {
+          return <span className="text-muted-foreground">-</span>;
+        }
+        const isOrderRef = reference.startsWith("O-");
+        if (isOrderRef) {
+          return (
+            <Link
+              className={cn(
+                buttonVariants({ variant: "link" }),
+                "p-0 uppercase"
+              )}
+              href={`/orders/${reference}`}
+            >
+              {reference}
+            </Link>
+          );
+        }
+        return (
+          <div className="min-w-max text-muted-foreground">{reference}</div>
+        );
+      },
+      enableSorting: false,
+    },
+    {
+      accessorKey: "note",
+      header: t.logs.note,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {(row.getValue("note") as string) || "-"}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "actorName",
+      header: t.logs.user,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {(row.getValue("actorName") as string) || "System"}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: t.logs.time,
+      cell: ({ row }) => {
+        const dateValue = row.getValue("createdAt") as string | Date;
+        const date = new Date(dateValue);
+        return (
+          <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+            {format(date, "PP, HH:mm")}
+          </div>
+        );
+      },
+    },
+  ];
+};
 
 export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
   const t = useInventoryTranslations();

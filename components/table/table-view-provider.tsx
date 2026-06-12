@@ -11,12 +11,14 @@ interface ProductsTableProps<TData extends { id: string }> {
   data: TData[] | undefined;
   total?: number;
   withPagination?: boolean;
+  className?: string;
 }
 
 export const TableViewProvider = <TData extends { id: string }>({
   data,
   total,
   withPagination = false,
+  className,
 }: ProductsTableProps<TData>) => {
   const { table, setInternalData, columns, setTotalRow } = useTableContext();
 
@@ -34,7 +36,8 @@ export const TableViewProvider = <TData extends { id: string }>({
     <div>
       <ScrollArea
         className={cn(
-          "w-[calc(100svw-48px)] max-w-[calc(100svw-48px)] overflow-hidden md:w-[calc(100svw-128px)] md:max-w-[calc(100svw-1w8px)]"
+          "w-[calc(100svw-48px)] max-w-[calc(100svw-48px)] overflow-hidden md:w-[calc(100svw-128px)] md:max-w-[calc(100svw-1w8px)]",
+          className
         )}
       >
         <DataTableRaw columns={columns} selectableRows={false} table={table} />

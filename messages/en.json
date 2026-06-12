@@ -562,7 +562,8 @@
       "waste": "Waste",
       "adjustment": "Adjustment",
       "restock": "Restock",
-      "order": "Order"
+      "order": "Order",
+      "usage": "Usage"
     },
     "form": {
       "product": "Product",
@@ -634,12 +635,18 @@
       "category": "Category",
       "change": "Change",
       "remaining": "Remaining",
+      "movementTab": "Movement",
+      "movementTitle": "Movement History",
+      "movementDescription": "View the complete history of stock movements for this inventory item.",
+      "dateRange": "Date Range",
       "note": "Note",
       "orderRef": "Order Ref",
       "user": "User",
       "time": "Time",
       "supplier": "Supplier",
-      "restockPrice": "Restock Price"
+      "restockPrice": "Restock Price",
+      "type": "Type",
+      "reference": "Reference"
     }
   },
   "Services": {

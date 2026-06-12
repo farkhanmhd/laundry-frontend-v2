@@ -562,7 +562,8 @@
       "waste": "Sampah",
       "adjustment": "Penyesuaian",
       "restock": "Restok",
-      "order": "Pesanan"
+      "order": "Pesanan",
+      "usage": "Pemakaian"
     },
     "form": {
       "product": "Produk",
@@ -634,12 +635,18 @@
       "category": "Kategori",
       "change": "Perubahan",
       "remaining": "Sisa",
+      "movementTab": "Riwayat",
+      "movementTitle": "Riwayat Pergerakan",
+      "movementDescription": "Lihat riwayat lengkap pergerakan stok untuk item inventaris ini.",
+      "dateRange": "Rentang Tanggal",
       "note": "Catatan",
       "orderRef": "Ref Pesanan",
       "user": "Pengguna",
       "time": "Waktu",
       "supplier": "Pemasok",
-      "restockPrice": "Harga Restok"
+      "restockPrice": "Harga Restok",
+      "type": "Tipe",
+      "reference": "Referensi"
     }
   },
   "Services": {

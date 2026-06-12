@@ -533,7 +533,7 @@
     }
   },
   "Inventories": {
-    "title": "Persediaan",
+    "title": "Daftar Inventaris",
     "table": {
       "searchPlaceholder": "Cari inventaris...",
       "image": "Gambar",
@@ -616,7 +616,8 @@
       "restockQuantityPlaceholder": "Masukkan jumlah yang akan ditambahkan",
       "restockTime": "Waktu Restok",
       "noteLabel": "Catatan",
-      "notePlaceholder": "Catatan opsional untuk restok ini"
+      "notePlaceholder": "Catatan opsional untuk restok ini",
+      "restockPrice": "Harga Restok / Item"
     },
     "logs": {
       "title": "Laporan Penyesuaian Persediaan",
@@ -637,7 +638,8 @@
       "orderRef": "Ref Pesanan",
       "user": "Pengguna",
       "time": "Waktu",
-      "supplier": "Pemasok"
+      "supplier": "Pemasok",
+      "restockPrice": "Harga Restok"
     }
   },
   "Services": {
@@ -857,7 +859,7 @@
     }
   },
   "InventoryReports": {
-    "title": "Laporan Persediaan",
+    "title": "Inventaris",
     "totalItems": {
       "title": "Total Barang",
       "description": "Semua item inventaris dalam stok"

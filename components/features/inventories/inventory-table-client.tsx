@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { TableProvider } from "@/components/table/context";
 import { TableViewProvider } from "@/components/table/table-view-provider";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useUserRole } from "@/hooks/use-user-role";
 import type { Inventory } from "@/lib/modules/inventories/data";
@@ -74,7 +74,7 @@ export const InventoryTableClient = ({ data }: Props) => {
 
           {role === "superadmin" && (
             <div className="mt-3 flex flex-col gap-2 lg:hidden">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
                 <Link
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" }),

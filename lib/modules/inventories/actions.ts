@@ -184,8 +184,10 @@ export const updateInventoryImageAction = actionClient
 export const restockInventoryAction = actionClient
   .inputSchema(restockInventorySchema)
   .action(async ({ parsedInput }) => {
-    const { id, restockQuantity, restockTime, supplier, note } = parsedInput;
+    const { id, restockPrice, restockQuantity, restockTime, supplier, note } =
+      parsedInput;
     const result = await InventoriesApi.restockInventory(id, {
+      restockPrice,
       restockQuantity,
       restockTime,
       supplier,

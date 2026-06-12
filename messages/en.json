@@ -533,7 +533,7 @@
     }
   },
   "Inventories": {
-    "title": "Inventories",
+    "title": "List of Inventories",
     "table": {
       "searchPlaceholder": "Search inventories...",
       "image": "Image",
@@ -616,7 +616,8 @@
       "restockQuantityPlaceholder": "Enter quantity to add",
       "restockTime": "Restock Time",
       "noteLabel": "Notes",
-      "notePlaceholder": "Optional notes for this restock"
+      "notePlaceholder": "Optional notes for this restock",
+      "restockPrice": "Restock Price / Item"
     },
     "logs": {
       "title": "Inventory Adjustment Report",
@@ -637,7 +638,8 @@
       "orderRef": "Order Ref",
       "user": "User",
       "time": "Time",
-      "supplier": "Supplier"
+      "supplier": "Supplier",
+      "restockPrice": "Restock Price"
     }
   },
   "Services": {
@@ -857,7 +859,7 @@
     }
   },
   "InventoryReports": {
-    "title": "Inventory Reports",
+    "title": "Inventories",
     "totalItems": {
       "title": "Total Items",
       "description": "All inventory items in stock"

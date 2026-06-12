@@ -16,9 +16,7 @@ export const useAssetColumns = (): ColumnDef<Asset>[] => {
   return [
     {
       accessorKey: "name",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={t("table.name")} />
-      ),
+      header: t("table.name"),
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium">
           {row.getValue("name")}
@@ -27,12 +25,7 @@ export const useAssetColumns = (): ColumnDef<Asset>[] => {
     },
     {
       accessorKey: "licensePlate",
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={t("table.licensePlate")}
-        />
-      ),
+      header: t("table.licensePlate"),
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max font-medium uppercase">
           {row.getValue("licensePlate")}

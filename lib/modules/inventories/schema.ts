@@ -112,6 +112,7 @@ export const restockInventorySchema = z.object({
     .min(1, { error: "inventories.supplier.required" }),
   restockQuantity: positiveIntNoLeadingZero,
   restockTime: z.date({ error: "inventories.restockTime.required" }),
+  restockPrice: positiveIntNoLeadingZero,
   note: z
     .string()
     .max(255, { error: "inventories.restockNote.max" })

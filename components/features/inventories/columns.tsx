@@ -54,6 +54,7 @@ const useInventoryTranslations = () => {
       category: t("logs.category"),
       change: t("logs.change"),
       remaining: t("logs.remaining"),
+      restockPrice: t("logs.restockPrice"),
       orderRef: t("logs.orderRef"),
       user: t("logs.user"),
       time: t("logs.time"),
@@ -468,6 +469,15 @@ export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
       cell: ({ row }) => (
         <div className="min-w-max font-medium">
           {row.getValue("stockRemaining") as number}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "restockPrice",
+      header: t.logs.restockPrice,
+      cell: ({ row }) => (
+        <div className="min-w-max font-medium">
+          {row.getValue("restockPrice") ?? 0}
         </div>
       ),
     },

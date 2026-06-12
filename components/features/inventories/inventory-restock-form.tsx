@@ -24,6 +24,7 @@ import {
 } from "@/lib/modules/inventories/schema";
 import { toastResponse } from "@/lib/toast-helper";
 import { translateZodError } from "@/lib/translate-zod-error";
+import { formatToIDR } from "@/lib/utils";
 
 type Props = {
   id: string;
@@ -42,6 +43,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
     currentQuantity,
     supplier: "",
     restockQuantity: 0,
+    restockPrice: 0,
     restockTime: new Date(),
     note: "",
   };
@@ -82,6 +84,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
       supplier: form.watch("supplier"),
       restockQuantity: Number(form.watch("restockQuantity")),
       restockTime: form.watch("restockTime"),
+      restockPrice: Number(form.watch("restockPrice")),
       note: form.watch("note"),
     };
 
@@ -131,6 +134,18 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
           label={t("restockForm.supplier")}
           name="supplier"
           placeholder={t("restockForm.supplierPlaceholder")}
+          tValidation={tValidation}
+        />
+
+        <FormInput
+          className="text-right"
+          disabled={!isEditing || action.isPending}
+          form={form}
+          formatValue={(v: unknown) => formatToIDR(Number(v))}
+          label={t("restockForm.restockPrice")}
+          name="restockPrice"
+          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
+          placeholder="Harga Restock"
           tValidation={tValidation}
         />
 

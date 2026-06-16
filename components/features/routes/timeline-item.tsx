@@ -12,11 +12,11 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { PickupImageDialog } from "@/components/features/routes/pickup-image-dialog";
 import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PickupImageDialog } from "@/components/features/routes/pickup-image-dialog";
 import {
   Map as MapComponent,
   MapMarker,

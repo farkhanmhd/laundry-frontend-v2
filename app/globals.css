@@ -164,8 +164,7 @@
     --shadow-2xl: var(--shadow-2xl);
 }*/
 
-:root {
-    --background: #ffffff;
+:root { --background: #ffffff;
     --foreground: #0f1419;
     --card: #ffffff;
     --card-foreground: #0f1419;

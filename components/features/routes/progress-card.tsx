@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CheckCircle2,
   Clock,
@@ -8,7 +8,6 @@ import {
   Navigation,
   Route as RouteIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -34,9 +33,9 @@ import {
 } from "@/components/ui/map";
 import { Progress } from "@/components/ui/progress";
 import { elysia } from "@/elysia";
-import { toastResponse } from "@/lib/toast-helper";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import type { Delivery } from "@/lib/modules/routes/data";
+import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle, isDone } from "@/lib/utils";
 
 interface RouteData {
@@ -221,7 +220,6 @@ export function ProgressCard({ routeId, deliveries }: Props) {
   const t = useTranslations("Routes");
   const tNotifications = useTranslations("Notifications");
   const [showMap, setShowMap] = useState(false);
-  const { refresh } = useRouter();
   const [isPending, startTransition] = useTransition();
   const [routeFinishDialog, setRouteFinishDialog] = useState(false);
   const totalStops = deliveries.length;
@@ -229,6 +227,7 @@ export function ProgressCard({ routeId, deliveries }: Props) {
   const progressPercentage = Math.round((completedCount / totalStops) * 100);
   const isRouteFinished = progressPercentage === 100;
   const isCompleted = deliveries.every((d) => d.status === "completed");
+  const queryClient = useQueryClient();
 
   const handleFinishRoute = () => {
     startTransition(async () => {
@@ -241,8 +240,12 @@ export function ProgressCard({ routeId, deliveries }: Props) {
           throw new Error(error.value?.message || "Failed to complete route");
         }
 
-        toast.success(toastResponse(tNotifications, { messageKey: "Notifications.route.completed" }));
-        refresh();
+        toast.success(
+          toastResponse(tNotifications, {
+            messageKey: "Notifications.route.completed",
+          })
+        );
+        queryClient.invalidateQueries({ queryKey: ["route-detail", routeId] });
       } catch (err) {
         if (err instanceof Error) {
           toast.error(err.message);

@@ -2,7 +2,6 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { Camera, Check, RotateCw } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -36,7 +35,6 @@ export const UpdateDeliveryDialog = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { refresh } = useRouter();
 
   useEffect(() => {
     if (!(showCamera && videoRef.current && stream)) {
@@ -143,7 +141,6 @@ export const UpdateDeliveryDialog = () => {
       queryClient.invalidateQueries({ queryKey: ["route-detail"] });
       onOpenChange(false);
       cleanup();
-      refresh();
     } catch (err) {
       toast.error(
         toastResponse(

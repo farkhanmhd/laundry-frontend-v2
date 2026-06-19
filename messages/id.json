@@ -112,8 +112,8 @@
     },
     "customerSearch": {
       "searchMember": "Cari Member",
-      "description": "Temukan pelanggan berdasarkan nomor telepon",
-      "phonePlaceholder": "81234567890",
+      "description": "Temukan pelanggan berdasarkan nama atau nomor telepon",
+      "searchPlaceholder": "Nama atau Nomor Telepon",
       "emptySearch": {
         "noMemberFound": "Member tidak ditemukan",
         "confirmAdd": "Konfirmasi untuk menambahkan \"{phone}\" sebagai Member baru",
@@ -652,8 +652,7 @@
       "buttonLabel": "Laporan Bulanan",
       "title": "Laporan Stok Bulanan",
       "description": "Lihat performa stok inventori per bulan dalam rentang waktu tertentu.",
-      "fromMonth": "Bulan Dari",
-      "toMonth": "Bulan Sampai",
+      "month": "Bulan",
       "monthLabel": "Bulan",
       "yearLabel": "Tahun",
       "download": "Unduh"
@@ -833,7 +832,7 @@
         "superadmin": "Superadmin",
         "admin": "Admin",
         "driver": "Kurir",
-        "user": "Pengguna"
+        "user": "Customer"
       }
     },
     "createUserDialog": {
@@ -1582,6 +1581,14 @@
       },
       "name": {
         "min": "Nama minimal 2 karakter"
+      }
+    },
+    "assets": {
+      "name": {
+        "required": "Nama aset wajib diisi"
+      },
+      "licensePlate": {
+        "required": "Plat nomor wajib diisi"
       }
     }
   },

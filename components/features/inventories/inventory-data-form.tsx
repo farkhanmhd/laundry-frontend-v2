@@ -86,7 +86,7 @@ export const InventoryDataForm = ({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">{t("form.inventoryData")}</h2>
+        <h2 className="font-semibold text-xl">{`${t("form.inventoryData")} - ${name}`}</h2>
         <p className="text-muted-foreground text-sm">
           {t("form.inventoryDataDescription")}
         </p>

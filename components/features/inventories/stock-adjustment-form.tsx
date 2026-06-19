@@ -27,10 +27,11 @@ import { translateZodError } from "@/lib/translate-zod-error";
 
 type Props = {
   id: string;
+  name: string;
   currentQuantity: number;
 };
 
-export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
+export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
   const t = useTranslations("Inventories");
   const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
@@ -92,7 +93,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity }: Props) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">{t("stockForm.title")}</h2>
+        <h2 className="font-semibold text-xl">{`${t("stockForm.title")} - ${name}`}</h2>
         <p className="text-muted-foreground text-sm">
           {t("stockForm.description")}
         </p>

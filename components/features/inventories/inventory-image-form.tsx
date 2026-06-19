@@ -23,10 +23,11 @@ import {
 
 type Props = {
   id: string;
+  name: string;
   src: string;
 };
 
-export const InventoryImageForm = ({ id, src }: Props) => {
+export const InventoryImageForm = ({ id, name, src }: Props) => {
   const t = useTranslations("Inventories");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -87,7 +88,7 @@ export const InventoryImageForm = ({ id, src }: Props) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-semibold text-xl">{t("imageForm.title")}</h2>
+        <h2 className="font-semibold text-xl">{`${t("imageForm.title")} - ${name}`}</h2>
         <p className="text-muted-foreground text-sm">
           {t("imageForm.description")}
         </p>

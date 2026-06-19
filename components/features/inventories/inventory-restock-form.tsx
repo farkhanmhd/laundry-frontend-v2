@@ -28,10 +28,11 @@ import { formatToIDR } from "@/lib/utils";
 
 type Props = {
   id: string;
+  name: string;
   currentQuantity: number;
 };
 
-export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
+export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
   const t = useTranslations("Inventories");
   const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
@@ -99,7 +100,7 @@ export const InventoryRestockForm = ({ id, currentQuantity }: Props) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-semibold text-xl">{t("restockForm.title")}</h2>
+        <h2 className="font-semibold text-xl">{`${t("restockForm.title")} - ${name}`}</h2>
         <p className="text-muted-foreground text-sm">
           {t("restockForm.description")}
         </p>

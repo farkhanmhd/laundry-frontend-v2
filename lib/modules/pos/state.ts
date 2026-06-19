@@ -8,10 +8,10 @@ import { type ChangeEvent, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { elysia } from "@/elysia";
-import { toastResponse } from "@/lib/toast-helper";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { SearchQuery } from "@/lib/search-params";
-import { phoneNumberRegex, positiveIntRegex } from "@/lib/utils";
+import { toastResponse } from "@/lib/toast-helper";
+import { positiveIntRegex } from "@/lib/utils";
 import { createPosOrderAction } from "./actions";
 import type { PosItemData, PosVoucher } from "./data";
 import type { NewOrderSchema, OrderItem } from "./schema";
@@ -63,6 +63,7 @@ export interface PosDataState {
   paymentMethod: PaymentMethod;
   customerType: CustomerType;
   phone: string;
+  search: string;
   member?: PosCustomer | null;
   newMember: boolean;
   voucherList: PosVoucher[];
@@ -78,6 +79,7 @@ const initialData: PosDataState = {
   paymentMethod: "cash",
   customerType: "guest",
   phone: "",
+  search: "",
   newMember: false,
   voucherList: [],
   selectedVoucher: null,
@@ -141,7 +143,7 @@ export const usePOS = () => {
     },
   });
 
-  const [debouncedSearch] = useDebounce(posData.phone, 300);
+  const [debouncedSearch] = useDebounce(posData.search, 300);
 
   const {
     data: members,
@@ -210,10 +212,10 @@ export const usePOS = () => {
     execute(payload);
   };
 
-  const handlePhoneChange = (value: string) => {
+  const handleSearchChange = (value: string) => {
     setPosData((prev) => ({
       ...prev,
-      phone: value.replace(phoneNumberRegex, ""),
+      search: value,
     }));
   };
 
@@ -350,7 +352,9 @@ export const usePOS = () => {
       selectedVoucher: voucher,
     }));
     toast.success(
-      tNotifications("pos.voucher.applied", { description: voucher.description })
+      tNotifications("pos.voucher.applied", {
+        description: voucher.description,
+      })
     );
   };
 
@@ -454,6 +458,13 @@ export const usePOS = () => {
     }));
   };
 
+  const handlePhoneChange = (value: string) => {
+    setPosData((prev) => ({
+      ...prev,
+      phone: value,
+    }));
+  };
+
   const clearSelectedCustomer = () => {
     setPosData((prev) => ({
       ...prev,
@@ -484,7 +495,7 @@ export const usePOS = () => {
   const phoneNumberValidation = posData.phone.length < 7;
   const voucherList = posData.voucherList;
   const points = posData.points;
-  const { customerType, phone } = posData;
+  const { customerType, search, phone } = posData;
 
   const orderItems = posData.items.filter(
     (item) => item.itemType !== "voucher"
@@ -540,7 +551,9 @@ export const usePOS = () => {
     isLoadingMembers,
     members,
     isFetchingMembers,
+    handleSearchChange,
     handlePhoneChange,
+    search,
     phone,
     handleSelectMember,
     clearSelectedCustomer,

@@ -45,7 +45,7 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         forceMount
         value="image"
       >
-        <InventoryImageForm id={inventory.id} src={inventory.image as string} />
+        <InventoryImageForm id={inventory.id} name={inventory.name} src={inventory.image as string} />
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
@@ -55,6 +55,7 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         <StockAdjustmentForm
           currentQuantity={inventory.stock}
           id={inventory.id}
+          name={inventory.name}
         />
       </TabsContent>
       <TabsContent
@@ -65,6 +66,7 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         <InventoryRestockForm
           currentQuantity={inventory.stock}
           id={inventory.id}
+          name={inventory.name}
         />
       </TabsContent>
       <TabsContent
@@ -72,7 +74,7 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         forceMount
         value="movement"
       >
-        <InventoryMovementTab id={inventory.id} page={page} rows={rows} />
+        <InventoryMovementTab id={inventory.id} name={inventory.name} page={page} rows={rows} />
       </TabsContent>
     </>
   );

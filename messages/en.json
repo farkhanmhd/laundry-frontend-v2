@@ -112,8 +112,8 @@
     },
     "customerSearch": {
       "searchMember": "Search Member",
-      "description": "Find a customer by phone number",
-      "phonePlaceholder": "81234567890",
+      "description": "Find a customer by name or phone number",
+      "searchPlaceholder": "Name or Phone Number",
       "emptySearch": {
         "noMemberFound": "No member found",
         "confirmAdd": "Confirm to add \"{phone}\" as a new member",
@@ -652,8 +652,7 @@
       "buttonLabel": "Monthly Report",
       "title": "Monthly Stock Report",
       "description": "View inventory stock performance per month within a date range.",
-      "fromMonth": "From Month",
-      "toMonth": "To Month",
+      "month": "Month",
       "monthLabel": "Month",
       "yearLabel": "Year",
       "download": "Download"
@@ -833,7 +832,7 @@
         "superadmin": "Superadmin",
         "admin": "Admin",
         "driver": "Driver",
-        "user": "User"
+        "user": "Customer"
       }
     },
     "createUserDialog": {
@@ -1582,6 +1581,14 @@
       },
       "name": {
         "min": "Name must be at least 2 characters"
+      }
+    },
+    "assets": {
+      "name": {
+        "required": "Asset name is required"
+      },
+      "licensePlate": {
+        "required": "License plate is required"
       }
     }
   },

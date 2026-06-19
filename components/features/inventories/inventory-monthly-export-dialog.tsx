@@ -40,26 +40,15 @@ export function InventoryMonthlyExportDialog() {
   const [open, setOpen] = useState(false);
   const [fromMonth, setFromMonth] = useState<number>(1);
   const [fromYear, setFromYear] = useState<number>(currentYear);
-  const [toMonth, setToMonth] = useState<number>(currentYear);
-  const [toYear, setToYear] = useState<number>(currentYear);
 
   const monthNames = Array.from({ length: 12 }, (_, i) =>
     format(new Date(2024, i, 1), "MMMM", { locale: dateLocale })
   );
 
   const handleDownload = () => {
-    if (
-      fromYear > toYear ||
-      (fromYear === toYear && fromMonth > toMonth)
-    ) {
-      toast.error("\"From\" date must be before \"To\" date");
-      return;
-    }
-
-    const from = monthValue(fromMonth, fromYear);
-    const to = monthValue(toMonth, toYear);
+    const month = monthValue(fromMonth, fromYear);
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const href = `${baseUrl}/report/inventory/monthly?from=${from}&to=${to}`;
+    const href = `${baseUrl}/report/inventory/monthly?month=${month}`;
 
     window.open(href, "_blank");
     toast.success(tn("report.download.started"));
@@ -84,7 +73,7 @@ export function InventoryMonthlyExportDialog() {
 
         <div className="space-y-6 py-4">
           <div className="space-y-2">
-            <Label>{t("monthlyReport.fromMonth")}</Label>
+            <Label>{t("monthlyReport.month")}</Label>
             <div className="flex gap-2">
               <Select
                 onValueChange={(v) => setFromMonth(Number(v))}
@@ -95,7 +84,7 @@ export function InventoryMonthlyExportDialog() {
                 </SelectTrigger>
                 <SelectContent>
                   {monthNames.map((name, i) => (
-                    <SelectItem key={i} value={String(i + 1)}>
+                    <SelectItem key={name} value={String(i + 1)}>
                       {name}
                     </SelectItem>
                   ))}
@@ -104,42 +93,6 @@ export function InventoryMonthlyExportDialog() {
               <Select
                 onValueChange={(v) => setFromYear(Number(v))}
                 value={String(fromYear)}
-              >
-                <SelectTrigger className="w-28">
-                  <SelectValue placeholder={t("monthlyReport.yearLabel")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {years.map((y) => (
-                    <SelectItem key={y} value={String(y)}>
-                      {y}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>{t("monthlyReport.toMonth")}</Label>
-            <div className="flex gap-2">
-              <Select
-                onValueChange={(v) => setToMonth(Number(v))}
-                value={String(toMonth)}
-              >
-                <SelectTrigger className="flex-1">
-                  <SelectValue placeholder={t("monthlyReport.monthLabel")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {monthNames.map((name, i) => (
-                    <SelectItem key={i} value={String(i + 1)}>
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select
-                onValueChange={(v) => setToYear(Number(v))}
-                value={String(toYear)}
               >
                 <SelectTrigger className="w-28">
                   <SelectValue placeholder={t("monthlyReport.yearLabel")} />

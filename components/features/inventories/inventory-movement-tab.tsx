@@ -5,11 +5,12 @@ import { MovementTableClient } from "./movement-table-client";
 
 interface Props {
   id: string;
+  name: string;
   page?: number;
   rows?: number;
 }
 
-const InventoryMovementTab = async ({ id, page, rows }: Props) => {
+const InventoryMovementTab = async ({ id, name, page, rows }: Props) => {
   const t = await getTranslations("Inventories");
   const movementData = await InventoriesApi.getInventoryMovement(id, {
     page,
@@ -20,7 +21,7 @@ const InventoryMovementTab = async ({ id, page, rows }: Props) => {
     <div className="space-y-4">
       <div className="flex justify-between">
         <div>
-          <h2 className="font-semibold text-lg">{t("logs.movementTitle")}</h2>
+          <h2 className="font-semibold text-lg">{`${t("logs.movementTitle")} - ${name}`}</h2>
           <p className="text-muted-foreground text-sm">
             {t("logs.movementDescription")}
           </p>

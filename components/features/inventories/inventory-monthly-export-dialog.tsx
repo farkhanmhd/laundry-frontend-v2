@@ -58,8 +58,11 @@ export function InventoryMonthlyExportDialog() {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <TableOfContents className="h-3.5 w-3.5" />
+        <Button
+          className="w-full justify-start p-2 px-2 py-2 font-normal has-[>svg]:px-2"
+          variant="ghost"
+        >
+          <TableOfContents className="h-3.5 w-3.5 text-muted-foreground" />
           {t("monthlyReport.buttonLabel")}
         </Button>
       </DialogTrigger>

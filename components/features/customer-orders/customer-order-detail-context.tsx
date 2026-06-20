@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { elysia } from "@/elysia";
 import type { AccountAddress } from "@/lib/modules/account/data";
@@ -224,18 +224,16 @@ export const CustomerOrderDetailProvider = ({
       requestTime,
       setRequestTime,
       requestDelivery: () => {
-        if (!selectedAddress) {
+        if (!(selectedAddress && requestTime)) {
           return;
         }
 
-        const deliveryTime = requestTime ?? new Date();
-        const endOfDay = new Date(deliveryTime);
-        endOfDay.setHours(23, 59, 59, 0);
+        const isoRequestTime = new Date(requestTime);
 
         requestDeliveryMutation.mutate({
           addressId: selectedAddress,
           orderId,
-          requestTime: endOfDay.toISOString(),
+          requestTime: isoRequestTime.toISOString(),
         });
       },
       isRequestingDelivery: requestDeliveryMutation.isPending,

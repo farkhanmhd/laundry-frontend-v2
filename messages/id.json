@@ -61,7 +61,22 @@
     "register": "Daftar",
     "welcomeBack": "Selamat datang kembali, {name}!",
     "errorMessage": "Ups! Terjadi kesalahan di pihak kami. Silakan coba lagi sebentar lagi.",
-    "google": "Sign in with Google"
+    "google": "Sign in with Google",
+    "heroTitle": "Cuci tuntas, poin terkumpul otomatis.",
+    "heroDescription": "Masuk untuk lihat riwayat pesanan, kelola antar-jemput, dan pakai voucher yang sedang aktif.",
+    "activePromo": "Promo aktif",
+    "availableVouchers": "Voucher Tersedia",
+    "noExpiry": "Tanpa batas waktu",
+    "noActiveVouchers": "Belum ada voucher aktif saat ini.",
+    "expiresToday": "Berakhir hari ini",
+    "expiresInDays": "{days} hari lagi",
+    "voucherErrorTitle": "Gagal memuat voucher",
+    "voucherRetry": "Coba lagi",
+    "voucherRetrying": "Mencoba lagi...",
+    "voucherErrorGeneric": "Terjadi kesalahan.",
+    "viewVoucher": "Lihat voucher {code}",
+    "minSpend": "Min. belanja",
+    "maxDiscount": "maks."
   },
   "RegisterPage": {
     "greeting": "Buat akun",
@@ -534,6 +549,7 @@
   },
   "Inventories": {
     "title": "Daftar Inventaris",
+    "report": "Laporan",
     "table": {
       "searchPlaceholder": "Cari inventaris...",
       "image": "Gambar",
@@ -566,7 +582,7 @@
       "usage": "Pemakaian"
     },
     "form": {
-      "product": "Produk",
+      "inventory": "Inventaris",
       "inventoryData": "Data Inventaris",
       "inventoryDataDescription": "Tinjau dan modifikasi detail inventaris utama...",
       "inventoryName": "Nama Inventaris",
@@ -920,7 +936,7 @@
       "needAnythingElse": "Butuh yang Lain?",
       "addOtherItems": "Tambahkan item lain ke pesanan Anda",
       "addMore": "Tambah Lagi",
-      "date": "Tanggal Jemput",
+      "date": "Tanggal dan Waktu Jemput",
       "selectDate": "Pilih tanggal",
       "time": "Waktu",
       "requestPickup": "Minta Penjemputan",

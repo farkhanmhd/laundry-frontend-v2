@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 
 export type UserRole = "user" | "admin" | "superadmin";
 
-export const useUserRole = () => {
-  const { data: sessionRole } = useQuery({
+export const useUserData = () => {
+  const { data } = useQuery({
     queryFn: clientgetCurrentUserData,
     queryKey: ["user-role"],
   });
 
-  return sessionRole as UserRole | undefined | null;
+  return data;
 };

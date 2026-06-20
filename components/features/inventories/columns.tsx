@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import type {
   AdjustmentHistory,
   Inventory,
@@ -71,7 +71,7 @@ const useInventoryTranslations = () => {
 export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
   const t = useInventoryTranslations();
 
-  const role = useUserRole();
+  const userData = useUserData();
 
   const columns: ColumnDef<Inventory>[] = [
     {
@@ -188,7 +188,7 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
     },
   ];
 
-  if (role === "superadmin") {
+  if (userData?.role === "superadmin") {
     const idColumn: ColumnDef<Inventory> = {
       accessorKey: "id",
       header: t.table.id,

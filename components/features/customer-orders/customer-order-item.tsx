@@ -17,6 +17,7 @@ export interface PosOrderItem {
   stock?: number | null;
   itemType: "service" | "inventory" | "bundling" | "voucher" | "points";
   quantity: number;
+  description: string;
   serviceId?: string | null | undefined;
   inventoryId?: string | null | undefined;
   bundlingId?: string | null | undefined;
@@ -38,13 +39,12 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
       <div className="flex items-start justify-between gap-4">
         {/* Left Column: Text Details */}
         <div className="flex flex-1 flex-col gap-1">
-          <h3 className="font-medium text-sm">{item.name}</h3>
+          <h3 className="font-bold text-sm">{item.name}</h3>
 
           {/* Conditional Note Rendering */}
           {item.note && (
             <div className="text-muted-foreground text-sm">
-              <span className="font-semibold text-foreground">Notes :</span>{" "}
-              {item.note}
+              <span className="text-foreground">Notes :</span> {item.note}
             </div>
           )}
 
@@ -53,6 +53,8 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
               {formatToIDR(item.price)}
             </p>
           </Client>
+
+          <div className="font-medium text-sm">{item.description}</div>
         </div>
 
         {/* Right Column: Image */}

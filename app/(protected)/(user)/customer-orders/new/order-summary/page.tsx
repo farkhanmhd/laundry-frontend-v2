@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
 import { CustomerOrderDateTimePicker } from "@/components/features/customer-orders/customer-order-date-time-picker";
 import { useCustomerOrder } from "@/components/features/customer-orders/state";
 import { Button } from "@/components/ui/button";
@@ -13,28 +12,25 @@ export default function OrderSummaryPage() {
     canRequestPickup,
     pickupDisabledReason,
     handleRequestTimeChange,
+    customerCart, // to derive `date` from the single source of truth
   } = useCustomerOrder();
 
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const handleRequestTimeChangeRef = useRef(handleRequestTimeChange);
-  handleRequestTimeChangeRef.current = handleRequestTimeChange;
-
-  useEffect(() => {
-    if (date) {
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 0);
-      handleRequestTimeChangeRef.current(endOfDay.toISOString());
-    }
-  }, [date]);
-
   const t = useTranslations("CustomerOrders");
+
+  const date = customerCart.requestTime
+    ? new Date(customerCart.requestTime)
+    : undefined;
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    handleRequestTimeChange(newDate ? newDate.toISOString() : "");
+  };
 
   return (
     <>
       <CustomerOrderDateTimePicker
         date={date}
         error={date ? undefined : t("orderSummary.noRequestTime")}
-        onDateChange={setDate}
+        onDateChange={handleDateChange}
       />
       <Button
         className="w-full"

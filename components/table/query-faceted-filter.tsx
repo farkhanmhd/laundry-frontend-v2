@@ -19,6 +19,7 @@ import {
 import { useQuerySearchParam } from "@/hooks/use-query-search-param";
 import type { SelectOption } from "@/lib/utils";
 import { cardShadowStyle, cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
 
 interface Props {
   title: string;
@@ -66,6 +67,9 @@ export const QueryFacetedFilter = ({
               <span className="mr-2 flex h-4 w-4 items-center">{icon}</span>
             )}
             <span>{title}</span>
+            {selectedValues.size > 0 && (
+              <Badge variant="secondary">{selectedValues.size}</Badge>
+            )}
           </Button>
         )}
       </PopoverTrigger>

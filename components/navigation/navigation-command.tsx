@@ -14,7 +14,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import { adminNavData, superAdminNavData } from "@/lib/constants";
 import { MapItems } from "@/lib/utils";
 
@@ -42,7 +42,7 @@ export function NavigationCommand({
   const { push } = useRouter();
   const [commandOpen, setCommandOpen] = useState(false);
   const { setTheme } = useTheme();
-  const role = useUserRole();
+  const userData = useUserData();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -55,11 +55,12 @@ export function NavigationCommand({
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  if (role === "user") {
+  if (userData?.role === "user") {
     return null;
   }
 
-  const menu = role === "superadmin" ? superAdminNavData : adminNavData;
+  const menu =
+    userData?.role === "superadmin" ? superAdminNavData : adminNavData;
 
   return (
     <>

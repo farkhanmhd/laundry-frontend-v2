@@ -121,39 +121,39 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
             placeholder={t("stockForm.changeAmountPlaceholder")}
             tValidation={tValidation}
           />
-        </div>
 
-        <FieldGroup>
-          <Controller
-            control={form.control}
-            name="adjustmentTime"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className="text-base" htmlFor={field.name}>
-                  {t("stockForm.adjustmentTime")}
-                </FieldLabel>
-                <DateTimePicker
-                  date={field.value}
-                  disabled={!isEditing || action.isPending}
-                  onChange={field.onChange}
-                />
-                {fieldState.invalid && fieldState.error && (
-                  <FieldError
-                    errors={[
-                      {
-                        ...fieldState.error,
-                        message: translateZodError(
-                          fieldState.error.message || "",
-                          tValidation
-                        ),
-                      },
-                    ]}
+          <FieldGroup>
+            <Controller
+              control={form.control}
+              name="adjustmentTime"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-base" htmlFor={field.name}>
+                    {t("stockForm.adjustmentTime")}
+                  </FieldLabel>
+                  <DateTimePicker
+                    date={field.value}
+                    disabled={!isEditing || action.isPending}
+                    onChange={field.onChange}
                   />
-                )}
-              </Field>
-            )}
-          />
-        </FieldGroup>
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError
+                      errors={[
+                        {
+                          ...fieldState.error,
+                          message: translateZodError(
+                            fieldState.error.message || "",
+                            tValidation
+                          ),
+                        },
+                      ]}
+                    />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+        </div>
 
         <FormInput
           as={Textarea}

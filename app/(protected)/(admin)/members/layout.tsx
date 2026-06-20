@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 
 interface Props {
   cards: React.ReactNode;
@@ -10,15 +10,15 @@ interface Props {
 }
 
 const MemberReportsLayout = ({ header, table, cards }: Props) => {
-  const role = useUserRole();
+  const userData = useUserData();
 
-  if (!role) {
+  if (!userData) {
     return null;
   }
 
   return (
     <section className="min-h-[calc(100dvh-128px)] space-y-6 p-6 md:min-h-[calc(100dvh-64px)]">
-      {role === "superadmin" && (
+      {userData.role === "superadmin" && (
         <>
           {header}
           {cards}

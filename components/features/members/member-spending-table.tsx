@@ -11,6 +11,7 @@ import {
 import { cardShadowStyle } from "@/lib/utils";
 import { AddMemberDialog } from "./add-member-dialog";
 import { MembersSpendingExport } from "./member-spending-export";
+import { MemberTypeFilter } from "./member-type-filter";
 
 interface MemberSpendingTableProps {
   query: GetmembersWithSpendingQuery;
@@ -34,6 +35,7 @@ const MemberSpendingTable = async ({ query }: MemberSpendingTableProps) => {
               className="w-80 max-w-80"
               placeholder={t("table.placeholder")}
             />
+            <MemberTypeFilter />
             <MembersSpendingExport
               query={{
                 from: query.from,

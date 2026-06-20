@@ -50,6 +50,7 @@ export interface PosOrderItem extends OrderItem {
   name: string;
   price: number;
   stock?: number | null;
+  description: string;
 }
 
 export type CustomerType = ("guest" | "member") & string;

@@ -62,7 +62,13 @@ export function InventoryMovementExportDialog({ id }: Props) {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button variant="outline">Export</Button>
+        <Button
+          className="bg-background"
+          style={cardShadowStyle}
+          variant="outline"
+        >
+          Export
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

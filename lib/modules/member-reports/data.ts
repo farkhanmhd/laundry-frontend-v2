@@ -3,10 +3,15 @@ import { BaseApi } from "@/lib/modules/base-api";
 import type { SearchQuery } from "@/lib/search-params";
 import type { DateRangeSearchParams } from "@/lib/utils";
 
+export const memberType = ["user" as const, "non-user" as const];
+export type MemberType = (typeof memberType)[number];
+
 export type MemberReportsQuery = DateRangeSearchParams;
 export interface GetmembersWithSpendingQuery
   extends DateRangeSearchParams,
-    SearchQuery {}
+    SearchQuery {
+  type?: MemberType[] | undefined;
+}
 
 export type TotalCustomersResponse = {
   totalCustomers: number;

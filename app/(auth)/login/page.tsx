@@ -13,6 +13,7 @@ import LoginBackground from "@/public/laundry-login-bg.jpg";
 
 export default function LoginPage() {
   const t = useTranslations("Navigation");
+  const tp = useTranslations("LoginPage");
 
   return (
     <div className="relative min-h-screen">
@@ -38,7 +39,7 @@ export default function LoginPage() {
             src={LoginBackground}
           />
           {/* Dark overlay for text contrast */}
-          <div aria-hidden="true" className="absolute inset-0 bg-black/65" />
+          <div aria-hidden="true" className="absolute inset-0 bg-black/75" />
 
           <div className="relative z-10">
             <div className="mb-16 flex items-center gap-2.5">
@@ -47,12 +48,11 @@ export default function LoginPage() {
               </span>
             </div>
 
-            <h1 className="mb-3 max-w-sm font-semibold text-4xl text-white leading-tight tracking-tight">
-              Cuci tuntas, poin terkumpul otomatis.
+            <h1 className="mb-3 font-semibold text-4xl text-white leading-tight tracking-tight">
+              {tp("heroTitle")}
             </h1>
-            <p className="mb-12 max-w-sm text-[15px] text-white/75 leading-relaxed">
-              Masuk untuk lihat riwayat pesanan, kelola antar-jemput, dan pakai
-              voucher yang sedang aktif.
+            <p className="mb-12 text-[15px] text-white/75 leading-relaxed">
+              {tp("heroDescription")}
             </p>
 
             <LoginForm />
@@ -60,12 +60,20 @@ export default function LoginPage() {
         </section>
 
         {/* RIGHT: Vouchers */}
-        <section className="flex flex-col justify-center border-border border-t px-8 py-16 md:border-t-0 md:border-l md:px-20">
-          <p className="mb-3 font-semibold text-primary text-xs uppercase tracking-wide">
-            Promo aktif
-          </p>
-          <h2 className="mb-10 max-w-xs font-semibold text-2xl text-foreground leading-snug">
-            Voucher menanti dipakai
+        <section className="relative flex flex-col items-center justify-center border-border border-t px-8 py-16 md:border-t-0 md:border-l md:px-20">
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: "url(/login-bg.svg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </div>
+
+          <h2 className="mb-10 font-semibold text-2xl text-foreground leading-snug">
+            {tp("availableVouchers")}
           </h2>
 
           <div className="max-w-sm">

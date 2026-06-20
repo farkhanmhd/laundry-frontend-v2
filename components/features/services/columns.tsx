@@ -7,14 +7,14 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import type { Service } from "@/lib/modules/services/data";
 import { cn, formatToIDR } from "@/lib/utils";
 import { DeleteServiceDialog } from "./delete-service-dialog";
 
 export const useServiceColumns = (): ColumnDef<Service>[] => {
   const t = useTranslations("Services");
-  const role = useUserRole();
+  const userData = useUserData();
 
   const columns: ColumnDef<Service>[] = [
     {
@@ -60,7 +60,7 @@ export const useServiceColumns = (): ColumnDef<Service>[] => {
     },
   ];
 
-  if (role === "superadmin") {
+  if (userData?.role === "superadmin") {
     const idColumn: ColumnDef<Service> = {
       accessorKey: "id",
       header: ({ column }) => (

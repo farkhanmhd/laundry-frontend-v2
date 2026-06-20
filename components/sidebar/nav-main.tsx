@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import {
   adminNavData,
   customerNavData,
@@ -41,7 +41,7 @@ const navTitleToKey: Record<string, string> = {
 
 export function NavMain() {
   const t = useTranslations("Navigation.nav");
-  const type = useUserRole();
+  const userData = useUserData();
   const selectedMenu = {
     superadmin: superAdminNavData,
     admin: adminNavData,
@@ -60,62 +60,59 @@ export function NavMain() {
     <SidebarGroup>
       <SidebarGroupContent className="px-1.5 md:px-0">
         <SidebarMenu>
-          {(selectedMenu[type as keyof typeof selectedMenu] ?? []).map(
-            (item) => {
-              const isActive =
-                pathname.split("/")[1] === item.url.split("/")[1];
+          {(
+            selectedMenu[userData?.role as keyof typeof selectedMenu] ?? []
+          ).map((item) => {
+            const isActive = pathname.split("/")[1] === item.url.split("/")[1];
 
-              return (
-                <SidebarMenuItem key={item.title}>
-                  {isMobile ? (
-                    <SheetClose asChild>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isActive}
-                        tooltip={translateTitle(item.title)}
-                      >
-                        <Link
-                          href={item.url}
-                          prefetch={
-                            item.url === "/dashboard" ? false : undefined
-                          }
-                        >
-                          {item.icon && <item.icon />}
-                          <span>{translateTitle(item.title)}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SheetClose>
-                  ) : (
+            return (
+              <SidebarMenuItem key={item.title}>
+                {isMobile ? (
+                  <SheetClose asChild>
                     <SidebarMenuButton
                       asChild
-                      className="flex aspect-square flex-col items-center justify-center p-2 text-muted-foreground group-data-[collapsible=icon]:size-full! [&>svg]:size-5"
                       isActive={isActive}
-                      size="lg"
+                      tooltip={translateTitle(item.title)}
                     >
                       <Link
                         href={item.url}
                         prefetch={item.url === "/dashboard" ? false : undefined}
                       >
                         {item.icon && <item.icon />}
-                        {item.title.length > 8 &&
-                        item.title.split(" ").length > 1 ? (
-                          <span className="text-[10px]">
-                            {translateTitle(item.title).split(" ")[0]}
-                            <br />
-                            {translateTitle(item.title).split(" ")[1]}{" "}
-                          </span>
-                        ) : (
-                          <span className="text-[10px]">
-                            {translateTitle(item.title)}
-                          </span>
-                        )}
+                        <span>{translateTitle(item.title)}</span>
                       </Link>
                     </SidebarMenuButton>
-                  )}
-                </SidebarMenuItem>
-              );
-            }
-          )}
+                  </SheetClose>
+                ) : (
+                  <SidebarMenuButton
+                    asChild
+                    className="flex aspect-square flex-col items-center justify-center p-2 text-muted-foreground group-data-[collapsible=icon]:size-full! [&>svg]:size-5"
+                    isActive={isActive}
+                    size="lg"
+                  >
+                    <Link
+                      href={item.url}
+                      prefetch={item.url === "/dashboard" ? false : undefined}
+                    >
+                      {item.icon && <item.icon />}
+                      {item.title.length > 8 &&
+                      item.title.split(" ").length > 1 ? (
+                        <span className="text-[10px]">
+                          {translateTitle(item.title).split(" ")[0]}
+                          <br />
+                          {translateTitle(item.title).split(" ")[1]}{" "}
+                        </span>
+                      ) : (
+                        <span className="text-[10px]">
+                          {translateTitle(item.title)}
+                        </span>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                )}
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

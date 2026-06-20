@@ -2,20 +2,20 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Eye } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import type { Bundling } from "@/lib/modules/bundlings/data";
 import { cn, formatToIDR } from "@/lib/utils";
 import { DeleteBundlingDialog } from "./delete-bundling-dialog";
 
 export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
   const t = useTranslations("Bundlings");
-  const role = useUserRole();
+  const userData = useUserData();
 
   const idColumn: ColumnDef<Bundling> = {
     accessorKey: "id",
@@ -99,24 +99,24 @@ export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
         <DataTableColumnHeader column={column} title={t("table.actions")} />
       ),
       cell: ({ row }) => (
-          <div className="flex items-center gap-1">
-            <Link
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon-sm" })
-              )}
-              href={`/bundlings/${row.original.id}`}
-            >
-              <Eye />
-            </Link>
-            <DeleteBundlingDialog id={row.original.id} />
-          </div>
-        ),
+        <div className="flex items-center gap-1">
+          <Link
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon-sm" })
+            )}
+            href={`/bundlings/${row.original.id}`}
+          >
+            <Eye />
+          </Link>
+          <DeleteBundlingDialog id={row.original.id} />
+        </div>
+      ),
       enableSorting: false,
       enableHiding: false,
     },
   ];
 
-  if (role === "superadmin") {
+  if (userData?.role === "superadmin") {
     columns.splice(1, 0, idColumn);
   }
 

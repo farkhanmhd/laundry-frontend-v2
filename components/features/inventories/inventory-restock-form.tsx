@@ -138,49 +138,51 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
           tValidation={tValidation}
         />
 
-        <FormInput
-          className="text-right"
-          disabled={!isEditing || action.isPending}
-          form={form}
-          formatValue={(v: unknown) => formatToIDR(Number(v))}
-          label={t("restockForm.restockPrice")}
-          name="restockPrice"
-          parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
-          placeholder="Harga Restock"
-          tValidation={tValidation}
-        />
-
-        <FieldGroup>
-          <Controller
-            control={form.control}
-            name="restockTime"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel className="text-base" htmlFor={field.name}>
-                  {t("restockForm.restockTime")}
-                </FieldLabel>
-                <DateTimePicker
-                  date={field.value}
-                  disabled={!isEditing || action.isPending}
-                  onChange={field.onChange}
-                />
-                {fieldState.invalid && fieldState.error && (
-                  <FieldError
-                    errors={[
-                      {
-                        ...fieldState.error,
-                        message: translateZodError(
-                          fieldState.error.message || "",
-                          tValidation
-                        ),
-                      },
-                    ]}
-                  />
-                )}
-              </Field>
-            )}
+        <div className="flex gap-6">
+          <FormInput
+            className="text-right"
+            disabled={!isEditing || action.isPending}
+            form={form}
+            formatValue={(v: unknown) => formatToIDR(Number(v))}
+            label={t("restockForm.restockPrice")}
+            name="restockPrice"
+            parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
+            placeholder="Harga Restock"
+            tValidation={tValidation}
           />
-        </FieldGroup>
+
+          <FieldGroup>
+            <Controller
+              control={form.control}
+              name="restockTime"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel className="text-base" htmlFor={field.name}>
+                    {t("restockForm.restockTime")}
+                  </FieldLabel>
+                  <DateTimePicker
+                    date={field.value}
+                    disabled={!isEditing || action.isPending}
+                    onChange={field.onChange}
+                  />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError
+                      errors={[
+                        {
+                          ...fieldState.error,
+                          message: translateZodError(
+                            fieldState.error.message || "",
+                            tValidation
+                          ),
+                        },
+                      ]}
+                    />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+        </div>
 
         <FormInput
           as={Textarea}

@@ -2,8 +2,7 @@
 
 import { Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { useUserRole } from "@/hooks/use-user-role";
-import { authClient } from "@/lib/modules/auth/auth-client";
+import { useUserData } from "@/hooks/use-user-data";
 import { usePOS } from "@/lib/modules/pos/state";
 import { cn } from "@/lib/utils";
 import { useCustomerOrder } from "../features/customer-orders/state";
@@ -18,8 +17,7 @@ import { ThemeToggle } from "./theme-toggle";
 export function SiteHeader() {
   const { totalItems } = usePOS();
   const { totalItems: customerTotalItems } = useCustomerOrder();
-  const role = useUserRole();
-  const { data: session } = authClient.useSession();
+  const userData = useUserData();
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
@@ -33,7 +31,7 @@ export function SiteHeader() {
           </NavigationCommand>
           <ThemeToggle />
           <TranslatorToggle />
-          {role === "user" ? (
+          {userData?.role === "user" ? (
             <Link
               className={cn(
                 buttonVariants({ variant: "ghost" }),
@@ -72,7 +70,9 @@ export function SiteHeader() {
                 href="/account"
               >
                 <User />
-                <span>{session?.user.role}</span>
+                <span>
+                  {userData?.name.split(" ")[0]} - {userData?.role}
+                </span>
               </Link>
             </>
           )}

@@ -4,7 +4,7 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserRole } from "@/hooks/use-user-role";
+import { useUserData } from "@/hooks/use-user-data";
 import {
   adminMobileNavData,
   customerMobileNavData,
@@ -18,7 +18,7 @@ import { useSidebar } from "../ui/sidebar";
 export function MobileNav() {
   const { toggleSidebar } = useSidebar();
   const isMobile = useIsMobile();
-  const role = useUserRole();
+  const userData = useUserData();
   const pathname = usePathname();
 
   const navData = {
@@ -28,7 +28,7 @@ export function MobileNav() {
     driver: driverNavData,
   };
 
-  const selectedNavData = navData[role as keyof typeof navData] || [];
+  const selectedNavData = navData[userData?.role as keyof typeof navData] || [];
 
   if (isMobile) {
     return (

@@ -11,5 +11,5 @@ export const clientgetCurrentUserData = async () => {
     return null;
   }
 
-  return data.data.role;
+  return data.data;
 };

@@ -2,8 +2,18 @@ import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
 import type { SearchQuery } from "@/lib/search-params";
 
+export const orderStatus = [
+  "cancelled" as const,
+  "pending" as const,
+  "processing" as const,
+  "ready" as const,
+  "completed" as const,
+];
+
+export type OrderStatus = (typeof orderStatus)[number];
+
 export abstract class OrdersApi {
-  static async getOrders(query: SearchQuery) {
+  static async getOrders(query: SearchQuery & { status?: OrderStatus[] }) {
     const { data: response } = await elysia.orders.get({
       fetch: {
         credentials: "include",

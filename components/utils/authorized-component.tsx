@@ -1,6 +1,6 @@
 "use client";
 
-import { type UserRole, useUserRole } from "@/hooks/use-user-role";
+import { type UserRole, useUserData } from "@/hooks/use-user-data";
 
 type Props = {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const AuthorizedComponent = ({ children, requiredRole }: Props) => {
-  const sessionRole = useUserRole();
+  const sessionRole = useUserData();
 
   if (!sessionRole) {
     return null;

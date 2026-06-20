@@ -2,12 +2,22 @@ import type { Prettify } from "better-auth";
 import { elysia } from "@/elysia";
 import type { SearchQuery } from "@/lib/search-params";
 
+export const deliveryStatus = [
+  "requested" as const,
+  "picked_up" as const,
+  "in_progress" as const,
+  "completed" as const,
+  "cancelled" as const,
+];
+
+export type DeliveryStatus = (typeof deliveryStatus)[number];
+
 export type PickupsQuery = SearchQuery & {
-  status?: "cancelled" | "completed" | "requested" | "in_progress" | "assigned";
+  status?: DeliveryStatus[] | undefined;
 };
 
 export type DeliveriesQuery = SearchQuery & {
-  status?: "cancelled" | "completed" | "requested" | "in_progress" | "assigned";
+  status?: DeliveryStatus[] | undefined;
 };
 
 export abstract class PickupsApi {
@@ -26,6 +36,7 @@ export abstract class PickupsApi {
 
 export abstract class DeliveriesApi {
   static async getDeliveries(query: DeliveriesQuery) {
+    console.log({ query });
     const { data: response } = await elysia.deliveries.deliveries.get({
       fetch: {
         credentials: "include",

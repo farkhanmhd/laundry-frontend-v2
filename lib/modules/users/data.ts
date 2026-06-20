@@ -3,8 +3,23 @@ import type { SearchQuery } from "@/lib/search-params";
 import { authClient } from "../auth/auth-client";
 import type { CreateCashierSchema, UpdateRoleSchema } from "./schema";
 
+export type User = NonNullable<
+  Awaited<ReturnType<typeof UsersApi.getUsers>>
+>["users"][0];
+
+export type UserRole = NonNullable<User["role"]>;
+
+export const userRoles: UserRole[] = [
+  "superadmin" as const,
+  "admin" as const,
+  "driver" as const,
+  "user" as const,
+];
+
 export abstract class UsersApi {
-  static async getUsers(query: SearchQuery) {
+  static async getUsers(
+    query: SearchQuery & { role?: UserRole[] | undefined }
+  ) {
     const { data: response } = await elysia.users.get({
       fetch: {
         credentials: "include",
@@ -37,7 +52,3 @@ export abstract class UsersApi {
     return response;
   }
 }
-
-export type User = NonNullable<
-  Awaited<ReturnType<typeof UsersApi.getUsers>>
->["users"][0];

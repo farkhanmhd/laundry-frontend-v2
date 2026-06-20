@@ -61,7 +61,22 @@
     "register": "Register",
     "welcomeBack": "Welcome back, {name}!",
     "errorMessage": "Oops! Something went wrong on our end. Please try again in a moment.",
-    "google": "Sign in with Google"
+    "google": "Sign in with Google",
+    "heroTitle": "Complete washing, points collected automatically.",
+    "heroDescription": "Sign in to view order history, manage pickups and deliveries, and use active vouchers.",
+    "activePromo": "Active promos",
+    "availableVouchers": "Available Vouchers",
+    "noExpiry": "No Expiry",
+    "noActiveVouchers": "No active vouchers at the moment.",
+    "expiresToday": "Expires today",
+    "expiresInDays": "{days} days left",
+    "voucherErrorTitle": "Failed to load vouchers",
+    "voucherRetry": "Retry",
+    "voucherRetrying": "Retrying...",
+    "voucherErrorGeneric": "Something went wrong.",
+    "viewVoucher": "View voucher {code}",
+    "minSpend": "Min. spend",
+    "maxDiscount": "max."
   },
   "RegisterPage": {
     "greeting": "Create an account",
@@ -534,6 +549,7 @@
   },
   "Inventories": {
     "title": "List of Inventories",
+    "report": "Report",
     "table": {
       "searchPlaceholder": "Search inventories...",
       "image": "Image",
@@ -566,7 +582,7 @@
       "usage": "Usage"
     },
     "form": {
-      "product": "Product",
+      "inventory": "Inventory",
       "inventoryData": "Inventory Data",
       "inventoryDataDescription": "Review and modify key inventory details...",
       "inventoryName": "Inventory Name",
@@ -920,7 +936,7 @@
       "needAnythingElse": "Need Anything Else?",
       "addOtherItems": "Add other items to your order",
       "addMore": "Add More",
-      "date": "Pickup Date",
+      "date": "Pickup Date and Time",
       "selectDate": "Select date",
       "time": "Time",
       "requestPickup": "Request Pickup",

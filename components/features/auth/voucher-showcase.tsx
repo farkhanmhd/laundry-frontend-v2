@@ -5,6 +5,7 @@ import { differenceInCalendarDays, format } from "date-fns";
 import { id } from "date-fns/locale";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { elysia } from "@/elysia";
@@ -61,16 +62,16 @@ function formatDiscountValue(voucher: Voucher) {
   return "-";
 }
 
-function formatExpiry(expiresAt: string | null) {
+function formatExpiry(expiresAt: string | null, t: (key: string, params?: Record<string, string | number>) => string) {
   if (!expiresAt) {
-    return "Tanpa batas waktu";
+    return t("noExpiry");
   }
   const daysLeft = differenceInCalendarDays(new Date(expiresAt), new Date());
   if (daysLeft <= 0) {
-    return "Berakhir hari ini";
+    return t("expiresToday");
   }
   if (daysLeft <= 7) {
-    return `${daysLeft} hari lagi`;
+    return t("expiresInDays", { days: daysLeft });
   }
   return format(new Date(expiresAt), "d MMM yyyy", { locale: id });
 }
@@ -104,11 +105,12 @@ function VoucherShowcaseError({
   message: string;
   onRetry: () => void;
 }) {
+  const t = useTranslations("LoginPage");
   return (
     <div className="rounded-lg border border-border px-5 py-6">
       <div className="mb-2 flex items-center gap-2 text-destructive">
         <AlertCircle className="h-4 w-4" />
-        <p className="font-semibold text-sm">Gagal memuat voucher</p>
+        <p className="font-semibold text-sm">{t("voucherErrorTitle")}</p>
       </div>
       <p className="mb-4 text-[13px] text-muted-foreground">{message}</p>
       <Button
@@ -121,21 +123,23 @@ function VoucherShowcaseError({
         <RefreshCw
           className={cn("h-3.5 w-3.5", isRetrying && "animate-spin")}
         />
-        {isRetrying ? "Mencoba lagi..." : "Coba lagi"}
+        {isRetrying ? t("voucherRetrying") : t("voucherRetry")}
       </Button>
     </div>
   );
 }
 
 function VoucherShowcaseEmpty() {
+  const t = useTranslations("LoginPage");
   return (
     <p className="rounded-lg border border-border border-dashed px-6 py-10 text-center text-muted-foreground text-sm">
-      Belum ada voucher aktif saat ini.
+      {t("noActiveVouchers")}
     </p>
   );
 }
 
 export function VoucherShowcase() {
+  const t = useTranslations("LoginPage");
   const [index, setIndex] = useState(0);
   const {
     data: vouchers,
@@ -164,7 +168,7 @@ export function VoucherShowcase() {
     return (
       <VoucherShowcaseError
         isRetrying={isFetching}
-        message={error instanceof Error ? error.message : "Terjadi kesalahan."}
+        message={error instanceof Error ? error.message : t("voucherErrorGeneric")}
         onRetry={() => refetch()}
       />
     );
@@ -189,17 +193,17 @@ export function VoucherShowcase() {
           {voucher.description}
         </p>
         <p className="mb-6 text-[13px] text-muted-foreground">
-          Min. belanja {formatRupiah(voucher.minSpend)}
+          {t("minSpend")} {formatRupiah(voucher.minSpend)}
           {voucher.discountPercentage
-            ? ` · maks. ${formatRupiah(voucher.maxDiscountAmount)}`
+            ? ` · ${t("maxDiscount")} ${formatRupiah(voucher.maxDiscountAmount)}`
             : null}
         </p>
         <div className="flex items-baseline gap-3 border-border border-t pt-4">
-          <span className="font-mono text-[12.5px] text-foreground">
+          <span className="font-mono text-[12.5px] text-foreground uppercase">
             {voucher.code}
           </span>
           <span className="text-[11px] text-muted-foreground uppercase tracking-wide">
-            {formatExpiry(voucher.expiresAt)}
+            {formatExpiry(voucher.expiresAt, t)}
           </span>
         </div>
       </div>
@@ -209,7 +213,7 @@ export function VoucherShowcase() {
           {vouchers.map((v, i) => (
             <button
               aria-current={i === index}
-              aria-label={`Lihat voucher ${v.code}`}
+              aria-label={t("viewVoucher", { code: v.code })}
               className={cn(
                 "h-1 rounded-full transition-all duration-300",
                 i === index

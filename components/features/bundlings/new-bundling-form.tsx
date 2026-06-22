@@ -6,13 +6,21 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-import { useFieldArray } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import { toast } from "sonner";
 import { BundlingItemForm } from "@/components/features/bundlings/bundling-item-form";
 import { FormInput } from "@/components/forms/form-input";
 import type { SelectOption } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
-import { FieldError } from "@/components/ui/field";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { addBundlingAction } from "@/lib/modules/bundlings/actions";
 import {
@@ -127,6 +135,41 @@ export const NewBundlingForm = ({ services, inventories }: Props) => {
         tValidation={tValidation}
         type="file"
       />
+
+      <div className="flex flex-col gap-6 md:flex-row">
+        <FormInput
+          disabled={action.isPending}
+          form={form}
+          label={t("form.maxWeight")}
+          name="maxWeight"
+          placeholder="10"
+          tValidation={tValidation}
+          type="number"
+        />
+      </div>
+
+      <FieldGroup>
+        <Controller
+          control={form.control}
+          name="isCustomerOrderable"
+          render={({ field, fieldState }) => (
+            <FieldLabel>
+              <Field data-invalid={fieldState.invalid} orientation="horizontal">
+                <Checkbox
+                  checked={!!field.value}
+                  disabled={action.isPending}
+                  id={field.name}
+                  name={field.name}
+                  onCheckedChange={(checked) => field.onChange(checked || null)}
+                />
+                <FieldContent>
+                  <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>
+                </FieldContent>
+              </Field>
+            </FieldLabel>
+          )}
+        />
+      </FieldGroup>
 
       <div className="flex flex-col gap-6">
         <p className="font-medium">{t("itemsForm.bundlingItems")}</p>

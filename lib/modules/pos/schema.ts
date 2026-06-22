@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { positiveIntNoLeadingZero } from "@/lib/schema-utils";
 
 export const orderItemSchema = z.object({
   itemType: z.enum(["service", "inventory", "bundling", "voucher", "points"]),
@@ -8,7 +7,7 @@ export const orderItemSchema = z.object({
   bundlingId: z.optional(z.nullable(z.string())),
   voucherId: z.optional(z.nullable(z.string())),
   note: z.optional(z.nullable(z.string())),
-  quantity: positiveIntNoLeadingZero,
+  quantity: z.optional(z.nullable(z.number().positive())),
 });
 
 export type OrderItem = z.infer<typeof orderItemSchema>;

@@ -164,7 +164,7 @@ export const usePOS = () => {
       customerName: posData.customerName,
       items: posData.items.map((item) => ({
         itemType: item.itemType,
-        quantity: item.quantity,
+        quantity: item.quantity ?? 1,
         serviceId: item.serviceId || null,
         inventoryId: item.inventoryId || null,
         bundlingId: item.bundlingId || null,
@@ -228,7 +228,7 @@ export const usePOS = () => {
     setPosData({
       ...posData,
       items: posData.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === itemId ? { ...item, quantity: (item.quantity ?? 1) + 1 } : item
       ),
     });
   };
@@ -238,8 +238,8 @@ export const usePOS = () => {
       ...posData,
       items: currentProducts.items.reduce((newArray, item) => {
         if (item.id === itemId) {
-          if (item.quantity > 1) {
-            newArray.push({ ...item, quantity: item.quantity - 1 });
+          if ((item.quantity ?? 1) > 1) {
+            newArray.push({ ...item, quantity: (item.quantity ?? 1) - 1 });
           }
         } else {
           newArray.push(item);
@@ -256,7 +256,7 @@ export const usePOS = () => {
       setPosData((prev) => ({
         ...prev,
         items: posData.items.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, quantity: (i.quantity ?? 1) + 1 } : i
         ),
       }));
     } else {
@@ -304,12 +304,12 @@ export const usePOS = () => {
     () =>
       posData.items
         .filter((item) => item.itemType !== "voucher")
-        .reduce((acc, curr) => acc + curr.quantity * curr.price, 0),
+        .reduce((acc, curr) => acc + (curr.quantity ?? 0) * curr.price, 0),
     [posData.items]
   );
 
   const totalItems = useMemo(
-    () => posData.items.reduce((total, item) => total + item.quantity, 0),
+    () => posData.items.reduce((total, item) => total + (item.quantity ?? 0), 0),
     [posData.items]
   );
 

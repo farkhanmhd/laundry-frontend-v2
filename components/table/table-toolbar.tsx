@@ -24,7 +24,7 @@ export function TableToolbar({ children, searchPlaceholder }: Props) {
   const placeholder = searchPlaceholder || t("searchPlaceholder");
 
   return (
-    <div className="flex w-full items-center">
+    <div className="flex w-full items-center bg-background">
       <DataTableSearch
         className="rounded-none border-none dark:bg-background"
         placeholder={placeholder}

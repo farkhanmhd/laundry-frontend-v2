@@ -573,6 +573,14 @@
       "cancel": "Cancel",
       "confirm": "Delete"
     },
+    "adjustmentDeleteDialog": {
+      "title": "Delete Adjustment",
+      "description": "Are you sure you want to delete this adjustment record? This action cannot be undone."
+    },
+    "restockDeleteDialog": {
+      "title": "Delete Restock",
+      "description": "Are you sure you want to delete this restock record? This action cannot be undone."
+    },
     "categories": {
       "product": "Product",
       "waste": "Waste",
@@ -599,6 +607,8 @@
       "safetyStock": "Safety Stock Quantity",
       "unit": "Unit",
       "image": "Image",
+      "maxWeight": "Max Weight (kg)",
+      "isCustomerOrderable": "Can be ordered by customer",
       "addInventory": "Add Inventory"
     },
     "imageForm": {
@@ -634,7 +644,10 @@
       "restockTime": "Restock Time",
       "noteLabel": "Notes",
       "notePlaceholder": "Optional notes for this restock",
-      "restockPrice": "Restock Price / Item"
+      "restockPrice": "Restock Price / Item",
+      "updatePrice": "Update Price",
+      "updatePriceDescription": "Update the inventory selling price",
+      "newPrice": "New Price"
     },
     "logs": {
       "title": "Inventory Adjustment Report",
@@ -710,6 +723,8 @@
       "createNew": "Create New Service",
       "createDescription": "Enter details below to add new service.",
       "image": "Image",
+      "maxWeight": "Max Weight (kg)",
+      "isCustomerOrderable": "Can be ordered by customer",
       "addService": "Add Service"
     },
     "imageForm": {
@@ -720,6 +735,34 @@
       "fileTypeError": "Only JPEG or PNG images are allowed",
       "save": "Save",
       "saveSuccess": "Image updated successfully"
+    }
+  },
+  "WeightRanges": {
+    "title": "Weight Ranges",
+    "table": {
+      "label": "Label",
+      "minWeight": "Min Weight",
+      "maxWeight": "Max Weight",
+      "isActive": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "form": {
+      "createNew": "Add Weight Range",
+      "createDescription": "Create a new weight range for laundry pricing",
+      "editTitle": "Edit Weight Range",
+      "editDescription": "Update the weight range details",
+      "label": "Label",
+      "labelPlaceholder": "e.g. Small, Medium, Large",
+      "minWeight": "Minimum Weight",
+      "maxWeight": "Maximum Weight",
+      "overlapError": "Weight range overlaps with existing range",
+      "isActive": "Active",
+      "addNew": "Add Weight Range",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel"
     }
   },
   "Bundlings": {
@@ -750,7 +793,9 @@
       "saveChanges": "Save Changes",
       "edit": "Edit",
       "createNew": "Create New Bundling",
-      "createDescription": "Enter details below to add new bundling."
+      "createDescription": "Enter details below to add new bundling.",
+      "maxWeight": "Max Weight (kg)",
+      "isCustomerOrderable": "Can be ordered by customer"
     },
     "imageForm": {
       "title": "Bundling Image",
@@ -946,13 +991,17 @@
       "noAddress": "Select a pickup address before requesting pickup.",
       "onlyInventoryItems": "Add laundry items to request pickup.",
       "noRequestTime": "Select a pickup date and time before requesting pickup.",
+      "noWeightRange": "Choose a weight range",
       "service": "Service",
       "inventory": "Product",
       "bundling": "Bundling",
       "voucher": "Voucher",
       "bundleIncludes": "Bundle includes",
       "itemAdded": "1 Item added to cart",
-      "viewCart": "View Cart"
+      "viewCart": "View Cart",
+      "weightRange": "Weight Range",
+      "customWeight": "Custom Weight (optional)",
+      "weightOutOfRange": "Weight must be between {minWeight} and {maxWeight} kg"
     },
     "orderSummaryAddress": {
       "label": "Pickup location",
@@ -1661,6 +1710,10 @@
       "deleted": "Voucher deactivated successfully",
       "notFound": "Voucher {id} not found",
       "codeTaken": "Voucher code {code} is already taken"
+    },
+    "weightRange": {
+      "created": "Weight range created successfully",
+      "updated": "Weight range updated successfully"
     },
     "service": {
       "retrieved": "Services retrieved",

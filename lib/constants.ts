@@ -16,6 +16,7 @@ import {
   Truck,
   User,
   Users,
+  Weight,
 } from "lucide-react";
 
 export type NavItem = {
@@ -74,6 +75,11 @@ export const adminNavData: NavItem[] = [
 
 export const superAdminNavData: NavItem[] = [
   ...adminNavData,
+  {
+    title: "Weights",
+    url: "/weight-ranges",
+    icon: Weight,
+  },
   {
     title: "Routes",
     url: "/routes",

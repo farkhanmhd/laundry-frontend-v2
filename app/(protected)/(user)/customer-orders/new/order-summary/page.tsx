@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { CustomerOrderDateTimePicker } from "@/components/features/customer-orders/customer-order-date-time-picker";
 import { useCustomerOrder } from "@/components/features/customer-orders/state";
+import { WeightRangePicker } from "@/components/features/customer-orders/weight-range-picker";
 import { Button } from "@/components/ui/button";
 
 export default function OrderSummaryPage() {
@@ -12,7 +13,11 @@ export default function OrderSummaryPage() {
     canRequestPickup,
     pickupDisabledReason,
     handleRequestTimeChange,
-    customerCart, // to derive `date` from the single source of truth
+    customerCart,
+    weightRanges,
+    selectedWeightRange,
+    setWeightRange,
+    setWeight,
   } = useCustomerOrder();
 
   const t = useTranslations("CustomerOrders");
@@ -27,6 +32,15 @@ export default function OrderSummaryPage() {
 
   return (
     <>
+      {weightRanges && (
+        <WeightRangePicker
+          onWeightChange={setWeight}
+          onWeightRangeChange={(range) => setWeightRange(range?.id ?? null)}
+          selectedWeightRange={selectedWeightRange}
+          weight={customerCart.weight}
+          weightRanges={weightRanges}
+        />
+      )}
       <CustomerOrderDateTimePicker
         date={date}
         error={date ? undefined : t("orderSummary.noRequestTime")}

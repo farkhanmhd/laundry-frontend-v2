@@ -43,6 +43,8 @@ const InventoryDetailPage = async ({ params }: Props) => {
         <BundlingDataForm
           description={bundling.description as string}
           id={bundling.id}
+          isCustomerOrderable={bundling.isCustomerOrderable}
+          maxWeight={bundling.maxWeight ? Number(bundling.maxWeight) : null}
           name={bundling.name}
           price={bundling.price}
         />

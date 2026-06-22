@@ -4,13 +4,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
-import { toastResponse } from "@/lib/toast-helper";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { addServiceAction } from "@/lib/modules/services/actions";
 import { addServiceSchema } from "@/lib/modules/services/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { formatToIDR } from "@/lib/utils";
 
 const NewServicePage = () => {
@@ -81,6 +90,44 @@ const NewServicePage = () => {
           tValidation={tValidation}
           type="file"
         />
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormInput
+            disabled={action.isPending}
+            form={form}
+            label={t("form.maxWeight")}
+            name="maxWeight"
+            placeholder="10"
+            tValidation={tValidation}
+            type="number"
+          />
+        </div>
+        <FieldGroup>
+          <Controller
+            control={form.control}
+            name="isCustomerOrderable"
+            render={({ field, fieldState }) => (
+              <FieldLabel>
+                <Field
+                  data-invalid={fieldState.invalid}
+                  orientation="horizontal"
+                >
+                  <Checkbox
+                    checked={!!field.value}
+                    disabled={action.isPending}
+                    id={field.name}
+                    name={field.name}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked || null)
+                    }
+                  />
+                  <FieldContent>
+                    <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>
+                  </FieldContent>
+                </Field>
+              </FieldLabel>
+            )}
+          />
+        </FieldGroup>
         <Button disabled={action.isPending} type="submit">
           {t("form.addService")}
         </Button>

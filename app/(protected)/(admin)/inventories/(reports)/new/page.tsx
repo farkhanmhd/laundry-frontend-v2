@@ -9,6 +9,14 @@ import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { addInventoryAction } from "@/lib/modules/inventories/actions";
@@ -123,6 +131,44 @@ const NewInventoryPage = () => {
           tValidation={tValidation}
           type="file"
         />
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormInput
+            disabled={action.isPending}
+            form={form}
+            label={t("form.maxWeight")}
+            name="maxWeight"
+            placeholder="10"
+            tValidation={tValidation}
+            type="number"
+          />
+        </div>
+        <FieldGroup>
+          <Controller
+            control={form.control}
+            name="isCustomerOrderable"
+            render={({ field, fieldState }) => (
+              <FieldLabel>
+                <Field
+                  data-invalid={fieldState.invalid}
+                  orientation="horizontal"
+                >
+                  <Checkbox
+                    checked={!!field.value}
+                    disabled={action.isPending}
+                    id={field.name}
+                    name={field.name}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked || null)
+                    }
+                  />
+                  <FieldContent>
+                    <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>
+                  </FieldContent>
+                </Field>
+              </FieldLabel>
+            )}
+          />
+        </FieldGroup>
         <Button disabled={action.isPending} type="submit">
           {t("form.addInventory")}
         </Button>

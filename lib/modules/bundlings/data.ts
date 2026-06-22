@@ -1,12 +1,15 @@
 import { elysia } from "@/elysia";
 import { BaseApi } from "@/lib/modules/base-api";
-import type { UpdateBundlingBodySchema } from "./schema";
+import type { AddBundlingSchema, UpdateBundlingBodySchema } from "./schema";
 
 export type Bundling = NonNullable<
   Awaited<ReturnType<typeof BundlingsApi.getBundlingById>>
 >;
 
-type AddBundlingBody = Parameters<typeof elysia.bundlings.post>[0];
+type AddBundlingBody = Parameters<typeof elysia.bundlings.post>[0] & {
+  maxWeight?: number | null;
+  isCustomerOrderable?: boolean | null;
+};
 
 type UpdateBundlingItemBody = Parameters<
   ReturnType<typeof elysia.bundlings>["items"]["patch"]
@@ -43,6 +46,12 @@ export abstract class BundlingsApi extends BaseApi {
     formData.append("description", body.description);
     formData.append("image", body.image);
     formData.append("items", JSON.stringify(body.items));
+    if (body.maxWeight !== undefined && body.maxWeight !== null) {
+      formData.append("maxWeight", String(body.maxWeight));
+    }
+    if (body.isCustomerOrderable !== undefined && body.isCustomerOrderable !== null) {
+      formData.append("isCustomerOrderable", String(body.isCustomerOrderable));
+    }
 
     const headers = (await BundlingsApi.getFormDataConfig()).fetch.headers;
 

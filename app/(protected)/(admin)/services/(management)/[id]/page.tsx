@@ -20,6 +20,8 @@ const ServiceDetailPage = async ({ params }: Props) => {
         <ServiceDataForm
           description={service.description}
           id={id}
+          isCustomerOrderable={service.isCustomerOrderable}
+          maxWeight={service.maxWeight ? Number(service.maxWeight) : null}
           name={service.name}
           price={service.price}
         />

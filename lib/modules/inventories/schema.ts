@@ -43,6 +43,8 @@ export const addInventorySchema = z.object({
     z.literal("milliliter"),
     z.literal("pieces"),
   ]),
+  maxWeight: z.optional(positiveIntNoLeadingZero),
+  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
 });
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
@@ -64,6 +66,8 @@ export const updateInventorySchema = z.object({
     z.literal("milliliter"),
     z.literal("pieces"),
   ]),
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({
@@ -81,6 +85,13 @@ export const adjustQuantityBodySchema = z.object({
   adjustmentTime: z.date({ error: "inventories.adjustmentTime.required" }),
   note: z.string().max(500, { error: "inventories.note.max" }).optional(),
 });
+
+export const updateAdjustmentSchema = z.object({
+  changeAmount: positiveIntNoLeadingZero,
+  note: z.string().max(500, { error: "inventories.note.max" }).optional(),
+});
+
+export type UpdateAdjustmentSchema = z.infer<typeof updateAdjustmentSchema>;
 
 export type AdjustQuantityBodySchema = z.infer<typeof adjustQuantityBodySchema>;
 
@@ -116,6 +127,7 @@ export const restockInventorySchema = z.object({
   restockQuantity: positiveIntNoLeadingZero,
   restockTime: z.date({ error: "inventories.restockTime.required" }),
   restockPrice: positiveIntNoLeadingZero,
+  price: z.optional(positiveIntNoLeadingZero),
   note: z
     .string()
     .max(255, { error: "inventories.restockNote.max" })
@@ -126,15 +138,10 @@ export type RestockInventorySchema = z.infer<typeof restockInventorySchema>;
 
 export const updateRestockQuantity = z.object({
   restockQuantity: positiveIntNoLeadingZero,
-  restockTime: z.date({ error: "inventories.restockTime.required" }),
   note: z
     .string()
     .max(255, { error: "inventories.restockNote.max" })
     .optional(),
-  supplier: z
-    .string({ error: "inventories.supplier.required" })
-    .min(1, { error: "inventories.supplier.required" }),
-  restockPrice: positiveIntNoLeadingZero,
 });
 
 export type UpdateRestockQuantity = z.infer<typeof updateRestockQuantity>;

@@ -4,7 +4,7 @@ import { Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { useUserData } from "@/hooks/use-user-data";
 import { usePOS } from "@/lib/modules/pos/state";
-import { cardShadowStyle, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useCustomerOrder } from "../features/customer-orders/state";
 import { TranslatorToggle } from "../providers/translator";
 import { Badge } from "../ui/badge";
@@ -20,10 +20,7 @@ export function SiteHeader() {
   const userData = useUserData();
 
   return (
-    <header
-      className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-background px-4"
-      style={cardShadowStyle}
-    >
+    <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-background px-4">
       <div className="flex items-center gap-2">
         <BreadcrumbNav />
       </div>

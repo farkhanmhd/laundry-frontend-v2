@@ -60,9 +60,9 @@ export function DeleteRestock({ id }: DeleteRestockProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
+          <AlertDialogTitle>{t("restockDeleteDialog.title")}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t("deleteDialog.description")}
+            {t("restockDeleteDialog.description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

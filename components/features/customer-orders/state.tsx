@@ -44,6 +44,8 @@ export interface CustomerOrderState {
   points?: number | null;
   selectedAddress: string | null;
   requestTime: string | null;
+  weightRangeId: number | null;
+  weight: number | null | undefined;
 }
 
 const initialState: CustomerOrderState = {
@@ -53,6 +55,8 @@ const initialState: CustomerOrderState = {
   points: null,
   selectedAddress: null,
   requestTime: null,
+  weightRangeId: null,
+  weight: null,
 };
 
 const customerOrderAtom = atomWithStorage<CustomerOrderState>(
@@ -100,14 +104,25 @@ export const useCustomerOrder = () => {
   });
 
   const submitPickupRequest = () => {
-    if (!(selectedAddress && customerCart.requestTime)) {
+    if (
+      !(
+        selectedAddress &&
+        customerCart.requestTime &&
+        customerCart.weightRangeId
+      )
+    ) {
       return;
     }
 
     const data: RequestPickupSchema = {
-      items: customerCart.items,
+      items: customerCart.items.map((item) => ({
+        ...item,
+        quantity: item.quantity ?? 1,
+      })),
       addressId: selectedAddress,
       requestTime: customerCart.requestTime,
+      weightRangeId: customerCart.weightRangeId,
+      weight: customerCart.weight ?? null,
     };
 
     if (customerCart.points) {
@@ -132,7 +147,7 @@ export const useCustomerOrder = () => {
       setCustomerCart((prev) => ({
         ...prev,
         items: prev.items.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, quantity: i.quantity ?? 0 } : i
         ),
       }));
     } else {
@@ -169,11 +184,72 @@ export const useCustomerOrder = () => {
     queryFn: getUserPoints,
   });
 
+  const { data: weightRanges } = useQuery({
+    queryKey: ["weight-ranges"],
+    queryFn: async () => {
+      const { data: response } = await elysia["weight-ranges"].get({
+        fetch: {
+          credentials: "include",
+        },
+      });
+      return response?.data;
+    },
+  });
+
+  const selectedWeightRange = useMemo(
+    () =>
+      weightRanges?.find((r) => r.id === customerCart.weightRangeId) ?? null,
+    [weightRanges, customerCart.weightRangeId]
+  );
+
+  const setWeightRange = useCallback(
+    (id: number | null) => {
+      setCustomerCart((prev) => {
+        if (id === null) {
+          return { ...prev, weightRangeId: id };
+        }
+
+        const range = weightRanges?.find((r) => r.id === id);
+        if (!range) {
+          return { ...prev, weightRangeId: id };
+        }
+
+        const rangeMax = Number(range.maxWeight);
+
+        return {
+          ...prev,
+          weightRangeId: id,
+          items: prev.items.map((item) => {
+            const itemMaxWeight = (item as unknown as Record<string, unknown>)
+              .maxWeight as string | null | undefined;
+            if (itemMaxWeight != null) {
+              const maxWeight = Number(itemMaxWeight);
+              if (maxWeight > 0) {
+                return { ...item, quantity: Math.ceil(rangeMax / maxWeight) };
+              }
+            }
+            return item;
+          }),
+        };
+      });
+    },
+    [setCustomerCart, weightRanges]
+  );
+
+  const setWeight = useCallback(
+    (w: number | null | undefined) => {
+      setCustomerCart((prev) => ({ ...prev, weight: w }));
+    },
+    [setCustomerCart]
+  );
+
   const handleIncrementQuantity = (itemId: string) => {
     setCustomerCart((prev) => ({
       ...prev,
       items: prev.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === itemId
+          ? { ...item, quantity: (item.quantity ?? 0) + 1 }
+          : item
       ),
     }));
   };
@@ -183,8 +259,8 @@ export const useCustomerOrder = () => {
       ...currentProducts,
       items: currentProducts.items.reduce((newArray, item) => {
         if (item.id === itemId) {
-          if (item.quantity > 1) {
-            newArray.push({ ...item, quantity: item.quantity - 1 });
+          if ((item.quantity ?? 1) > 1) {
+            newArray.push({ ...item, quantity: (item.quantity ?? 1) - 1 });
           }
         } else {
           newArray.push(item);
@@ -198,12 +274,13 @@ export const useCustomerOrder = () => {
     () =>
       customerCart.items
         .filter((item) => item.itemType !== "voucher")
-        .reduce((acc, curr) => acc + curr.quantity * curr.price, 0),
+        .reduce((acc, curr) => acc + (curr.quantity ?? 0) * curr.price, 0),
     [customerCart.items]
   );
 
   const totalItems = useMemo(
-    () => customerCart.items.reduce((acc, curr) => acc + curr.quantity, 0),
+    () =>
+      customerCart.items.reduce((acc, curr) => acc + (curr.quantity ?? 0), 0),
     [customerCart.items]
   );
 
@@ -313,6 +390,8 @@ export const useCustomerOrder = () => {
       selectedVoucher: null,
       points: null,
       requestTime: null,
+      weightRangeId: null,
+      weight: null,
       voucherList: customerCart.voucherList,
     });
   }
@@ -356,6 +435,10 @@ export const useCustomerOrder = () => {
       return false;
     }
 
+    if (customerCart.weightRangeId === null) {
+      return false;
+    }
+
     if (onlyInventoryItems) {
       return false;
     }
@@ -365,6 +448,7 @@ export const useCustomerOrder = () => {
     totalItems,
     selectedAddress,
     customerCart.requestTime,
+    customerCart.weightRangeId,
     onlyInventoryItems,
   ]);
 
@@ -381,6 +465,10 @@ export const useCustomerOrder = () => {
       return "noRequestTime";
     }
 
+    if (customerCart.weightRangeId === null) {
+      return "noWeightRange";
+    }
+
     if (onlyInventoryItems) {
       return "onlyInventoryItems";
     }
@@ -390,6 +478,7 @@ export const useCustomerOrder = () => {
     totalItems,
     selectedAddress,
     customerCart.requestTime,
+    customerCart.weightRangeId,
     onlyInventoryItems,
   ]);
 
@@ -421,6 +510,10 @@ export const useCustomerOrder = () => {
     submitPickupRequest,
     canRequestPickup,
     pickupDisabledReason,
+    weightRanges,
+    selectedWeightRange,
+    setWeightRange,
+    setWeight,
   };
 };
 

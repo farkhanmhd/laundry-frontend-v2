@@ -35,7 +35,7 @@ export function PosOrderItem({ item }: Props) {
             <NumberInput
               onDecrement={() => handleDecrementQuantity(item.id)}
               onIncrement={() => handleIncrementQuantity(item.id)}
-              value={item.quantity}
+               value={item.quantity ?? 1}
             />
           </div>
         </div>

@@ -4,16 +4,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { toast } from "sonner";
-import { toastResponse } from "@/lib/toast-helper";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { updateBundlingAction } from "@/lib/modules/bundlings/actions";
 import {
   type UpdateBundlingSchema,
   updateBundlingSchema,
 } from "@/lib/modules/bundlings/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { formatToIDR } from "@/lib/utils";
 
 export const BundlingDataForm = ({
@@ -21,6 +30,8 @@ export const BundlingDataForm = ({
   name,
   description,
   price,
+  maxWeight,
+  isCustomerOrderable,
 }: UpdateBundlingSchema) => {
   const t = useTranslations("Bundlings");
   const tValidation = useTranslations("Validation");
@@ -38,6 +49,8 @@ export const BundlingDataForm = ({
           description,
           price,
           id,
+          maxWeight: maxWeight ?? null,
+          isCustomerOrderable: isCustomerOrderable ?? null,
         },
       },
       actionProps: {
@@ -59,13 +72,15 @@ export const BundlingDataForm = ({
       name: form.getValues("name"),
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
+      maxWeight: form.getValues("maxWeight") || null,
+      isCustomerOrderable: form.getValues("isCustomerOrderable") || null,
     };
 
     action.execute(formData);
   };
 
   const handleCancel = () => {
-    form.reset({ name, description, price });
+    form.reset({ name, description, price, maxWeight, isCustomerOrderable });
     setIsEditing(false);
   };
 
@@ -109,6 +124,46 @@ export const BundlingDataForm = ({
           placeholder="Rp 10.000"
           tValidation={tValidation}
         />
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormInput
+            defaultValue={maxWeight ?? undefined}
+            disabled={!isEditing || action.isPending}
+            form={form}
+            label={t("form.maxWeight")}
+            name="maxWeight"
+            placeholder="10"
+            tValidation={tValidation}
+            type="number"
+          />
+        </div>
+
+        <FieldGroup>
+          <Controller
+            control={form.control}
+            name="isCustomerOrderable"
+            render={({ field, fieldState }) => (
+              <FieldLabel>
+                <Field
+                  data-invalid={fieldState.invalid}
+                  orientation="horizontal"
+                >
+                  <Checkbox
+                    checked={!!field.value}
+                    disabled={!isEditing || action.isPending}
+                    id={field.name}
+                    name={field.name}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked || null)
+                    }
+                  />
+                  <FieldContent>
+                    <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>
+                  </FieldContent>
+                </Field>
+              </FieldLabel>
+            )}
+          />
+        </FieldGroup>
 
         <div className="flex justify-end gap-3">
           {isEditing ? (

@@ -12,7 +12,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Client } from "@/components/utils/client";
-import type { PosItemData } from "@/lib/modules/pos/data";
+import type { PriceItemData } from "@/lib/modules/prices/data";
 import {
   cardShadowStyle,
   cn,
@@ -22,7 +22,7 @@ import {
 import { useCustomerOrder } from "../customer-orders/state";
 
 type Props = {
-  item: PosItemData;
+  item: PriceItemData;
 };
 
 export function OrderItemCard({ item }: Props) {
@@ -98,14 +98,16 @@ export function OrderItemCard({ item }: Props) {
                   </HoverCardContent>
                 </HoverCard>
               )}
-              <Button
-                className="rounded-full text-sm"
-                onClick={() => handleAddToCart(item)}
-                size="icon"
-                type="button"
-              >
-                <ShoppingCart />
-              </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  className="rounded-full text-sm"
+                  onClick={() => handleAddToCart(item)}
+                  size="icon"
+                  type="button"
+                >
+                  <ShoppingCart />
+                </Button>
+              </div>
             </div>
           </div>
         </CardFooter>

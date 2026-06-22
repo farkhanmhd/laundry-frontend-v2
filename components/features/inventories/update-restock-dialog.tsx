@@ -4,9 +4,8 @@ import { SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Controller, type Resolver, useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
 import {
   AlertDialog,
@@ -17,12 +16,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { elysia } from "@/elysia";
 import {
@@ -30,26 +23,14 @@ import {
   updateRestockQuantity,
 } from "@/lib/modules/inventories/schema";
 import { toastResponse } from "@/lib/toast-helper";
-import { translateZodError } from "@/lib/translate-zod-error";
-import { formatToIDR } from "@/lib/utils";
 
 interface Props {
   id: string;
   note: string;
   restockQuantity: number;
-  restockPrice: number;
-  restockTime: Date;
-  supplier: string;
 }
 
-export function UpdateRestockDialog({
-  id,
-  note,
-  restockQuantity,
-  restockPrice,
-  restockTime,
-  supplier,
-}: Props) {
+export function UpdateRestockDialog({ id, note, restockQuantity }: Props) {
   const t = useTranslations("Inventories");
   const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
@@ -65,9 +46,6 @@ export function UpdateRestockDialog({
     defaultValues: {
       note,
       restockQuantity,
-      restockPrice,
-      restockTime,
-      supplier,
     },
   });
 
@@ -78,9 +56,6 @@ export function UpdateRestockDialog({
       }).patch(
         {
           restockQuantity: data.restockQuantity,
-          restockPrice: data.restockPrice,
-          restockTime: data.restockTime,
-          supplier: data.supplier,
           note: data.note,
         },
         { fetch: { credentials: "include" } }
@@ -123,61 +98,6 @@ export function UpdateRestockDialog({
               placeholder={t("restockForm.restockQuantityPlaceholder")}
               tValidation={tValidation}
             />
-          </div>
-
-          <FormInput
-            disabled={isPending}
-            form={form}
-            label={t("restockForm.supplier")}
-            name="supplier"
-            placeholder={t("restockForm.supplierPlaceholder")}
-            tValidation={tValidation}
-          />
-
-          <div className="flex gap-6">
-            <FormInput
-              className="text-right"
-              disabled={isPending}
-              form={form}
-              formatValue={(v: unknown) => formatToIDR(Number(v))}
-              label={t("restockForm.restockPrice")}
-              name="restockPrice"
-              parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
-              placeholder="Harga Restock"
-              tValidation={tValidation}
-            />
-
-            <FieldGroup>
-              <Controller
-                control={form.control}
-                name="restockTime"
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="text-base" htmlFor={field.name}>
-                      {t("restockForm.restockTime")}
-                    </FieldLabel>
-                    <DateTimePicker
-                      date={field.value}
-                      disabled={isPending}
-                      onChange={field.onChange}
-                    />
-                    {fieldState.invalid && fieldState.error && (
-                      <FieldError
-                        errors={[
-                          {
-                            ...fieldState.error,
-                            message: translateZodError(
-                              fieldState.error.message || "",
-                              tValidation
-                            ),
-                          },
-                        ]}
-                      />
-                    )}
-                  </Field>
-                )}
-              />
-            </FieldGroup>
           </div>
 
           <FormInput

@@ -184,7 +184,7 @@ export const updateInventoryImageAction = actionClient
 export const restockInventoryAction = actionClient
   .inputSchema(restockInventorySchema)
   .action(async ({ parsedInput }) => {
-    const { id, restockPrice, restockQuantity, restockTime, supplier, note } =
+    const { id, restockPrice, restockQuantity, restockTime, supplier, note, price } =
       parsedInput;
     const result = await InventoriesApi.restockInventory(id, {
       restockPrice,
@@ -192,6 +192,7 @@ export const restockInventoryAction = actionClient
       restockTime,
       supplier,
       note,
+      ...(price !== undefined ? { price } : {}),
     });
 
     if (!result || result.error) {

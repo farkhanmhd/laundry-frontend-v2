@@ -7,7 +7,6 @@ import { CustomerOrderItem } from "@/components/features/customer-orders/custome
 import { useCustomerOrder } from "@/components/features/customer-orders/state";
 import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
-import type { PosOrderItem } from "@/lib/modules/pos/state";
 import { cardShadowStyle } from "@/lib/utils";
 
 export default function OrderSummaryItems() {
@@ -19,8 +18,11 @@ export default function OrderSummaryItems() {
         <ul className="flex flex-col divide-y divide-solid divide-accent p-4">
           {customerCart.items.length > 0 ? (
             customerCart.items.map((item) => (
-              <li className="py-4 first:pt-0" key={`${item.itemType}-${item.id}`}>
-                <CustomerOrderItem item={item as PosOrderItem} />
+              <li
+                className="py-4 first:pt-0"
+                key={`${item.itemType}-${item.id}`}
+              >
+                <CustomerOrderItem item={item} />
               </li>
             ))
           ) : (

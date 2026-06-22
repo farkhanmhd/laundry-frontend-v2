@@ -573,6 +573,14 @@
       "cancel": "Batal",
       "confirm": "Hapus"
     },
+    "adjustmentDeleteDialog": {
+      "title": "Hapus Penyesuaian",
+      "description": "Apakah Anda yakin ingin menghapus catatan penyesuaian ini? Tindakan ini tidak dapat dibatalkan."
+    },
+    "restockDeleteDialog": {
+      "title": "Hapus Restok",
+      "description": "Apakah Anda yakin ingin menghapus catatan restok ini? Tindakan ini tidak dapat dibatalkan."
+    },
     "categories": {
       "product": "Produk",
       "waste": "Sampah",
@@ -599,6 +607,8 @@
       "safetyStock": "Jumlah Stok Aman",
       "unit": "Satuan",
       "image": "Gambar",
+      "maxWeight": "Berat Maks (kg)",
+      "isCustomerOrderable": "Dapat dipesan oleh pelanggan",
       "addInventory": "Tambah Inventaris"
     },
     "imageForm": {
@@ -634,7 +644,10 @@
       "restockTime": "Waktu Restok",
       "noteLabel": "Catatan",
       "notePlaceholder": "Catatan opsional untuk restok ini",
-      "restockPrice": "Harga Restok / Item"
+      "restockPrice": "Harga Restok / Item",
+      "updatePrice": "Perbarui Harga",
+      "updatePriceDescription": "Perbarui harga jual inventaris",
+      "newPrice": "Harga Baru"
     },
     "logs": {
       "title": "Laporan Penyesuaian Persediaan",
@@ -710,6 +723,8 @@
       "createNew": "Buat Layanan Baru",
       "createDescription": "Masukkan detail di bawah untuk menambahkan layanan baru.",
       "image": "Gambar",
+      "maxWeight": "Berat Maks (kg)",
+      "isCustomerOrderable": "Dapat dipesan oleh pelanggan",
       "addService": "Tambah Layanan"
     },
     "imageForm": {
@@ -720,6 +735,34 @@
       "fileTypeError": "Hanya gambar JPEG atau PNG yang diperbolehkan",
       "save": "Simpan",
       "saveSuccess": "Gambar berhasil diperbarui"
+    }
+  },
+  "WeightRanges": {
+    "title": "Rentang Berat",
+    "table": {
+      "label": "Label",
+      "minWeight": "Berat Min",
+      "maxWeight": "Berat Maks",
+      "isActive": "Status",
+      "active": "Aktif",
+      "inactive": "Nonaktif",
+      "createdAt": "Tanggal Dibuat",
+      "actions": "Aksi"
+    },
+    "form": {
+      "createNew": "Tambah Rentang Berat",
+      "createDescription": "Buat rentang berat baru untuk harga laundry",
+      "editTitle": "Edit Rentang Berat",
+      "editDescription": "Perbarui detail rentang berat",
+      "label": "Label",
+      "labelPlaceholder": "Contoh: Kecil, Sedang, Besar",
+      "minWeight": "Berat Minimum",
+      "maxWeight": "Berat Maksimum",
+      "overlapError": "Rentang berat tumpang tindih dengan rentang yang sudah ada",
+      "isActive": "Aktif",
+      "addNew": "Tambah Rentang Berat",
+      "saveChanges": "Simpan Perubahan",
+      "cancel": "Batal"
     }
   },
   "Bundlings": {
@@ -750,7 +793,9 @@
       "saveChanges": "Simpan Perubahan",
       "edit": "Edit",
       "createNew": "Buat Paket Baru",
-      "createDescription": "Masukkan detail di bawah untuk menambahkan paket baru."
+      "createDescription": "Masukkan detail di bawah untuk menambahkan paket baru.",
+      "maxWeight": "Berat Maks (kg)",
+      "isCustomerOrderable": "Dapat dipesan oleh pelanggan"
     },
     "imageForm": {
       "title": "Gambar Paket",
@@ -946,13 +991,17 @@
       "noAddress": "Pilih alamat penjemputan sebelum meminta penjemputan.",
       "onlyInventoryItems": "Tambahkan item selain Produk untuk meminta penjemputan.",
       "noRequestTime": "Pilih tanggal dan waktu penjemputan sebelum meminta penjemputan.",
+      "noWeightRange": "Pilih salah satu rentang berat yang tersedia.",
       "service": "Layanan",
       "inventory": "Produk",
       "bundling": "Paket",
       "voucher": "Voucher",
       "bundleIncludes": "Termasuk dalam paket",
       "itemAdded": "1 Item ditambahkan ke keranjang",
-      "viewCart": "Lihat Keranjang"
+      "viewCart": "Lihat Keranjang",
+      "weightRange": "Rentang Berat",
+      "customWeight": "Berat Custom (opsional)",
+      "weightOutOfRange": "Berat harus antara {minWeight} dan {maxWeight} kg"
     },
     "orderSummaryAddress": {
       "label": "Lokasi penjemputan",
@@ -1661,6 +1710,10 @@
       "deleted": "Voucher berhasil dinonaktifkan",
       "notFound": "Voucher {id} tidak ditemukan",
       "codeTaken": "Kode voucher {code} sudah digunakan"
+    },
+    "weightRange": {
+      "created": "Rentang berat berhasil dibuat",
+      "updated": "Rentang berat berhasil diperbarui"
     },
     "service": {
       "retrieved": "Layanan berhasil diambil",

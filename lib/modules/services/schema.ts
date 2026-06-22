@@ -7,6 +7,8 @@ export const addServiceSchema = z.object({
   description: z.string().min(1, "Service description is required"),
   price: positiveIntNoLeadingZero,
   image: imageSchema,
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
 });
 
 export type AddServiceSchema = z.infer<typeof addServiceSchema>;
@@ -20,6 +22,8 @@ export const updateServiceSchema = z.object({
   name: z.string().min(1, "services.name.required"),
   description: z.string().min(1, "services.description.required"),
   price: positiveIntNoLeadingZero,
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
 });
 
 export type UpdateServiceSchema = z.infer<typeof updateServiceSchema>;

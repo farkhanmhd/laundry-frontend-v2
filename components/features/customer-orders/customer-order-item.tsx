@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import NumberInput from "@/components/forms/number-input";
@@ -16,7 +17,7 @@ export interface PosOrderItem {
   price: number;
   stock?: number | null;
   itemType: "service" | "inventory" | "bundling" | "voucher" | "points";
-  quantity: number;
+  quantity?: number | null | undefined;
   description: string;
   serviceId?: string | null | undefined;
   inventoryId?: string | null | undefined;
@@ -31,16 +32,33 @@ interface OrderSummaryItemProps {
 
 export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
   const t = useTranslations("CustomerOrders");
-  const { handleIncrementQuantity, handleDecrementQuantity, isPending } =
-    useCustomerOrder();
+  const {
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+    setCustomerCart,
+    isPending,
+  } = useCustomerOrder();
 
   return (
-    <div className="w-full">
+    <div className="relative flex w-full flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-sm">{item.name}</h3>
+        <button
+          className="text-muted-foreground transition-colors hover:text-destructive"
+          onClick={() =>
+            setCustomerCart((prev) => ({
+              ...prev,
+              items: prev.items.filter((i) => i.id !== item.id),
+            }))
+          }
+          type="button"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
       <div className="flex items-start justify-between gap-4">
         {/* Left Column: Text Details */}
         <div className="flex flex-1 flex-col gap-1">
-          <h3 className="font-bold text-sm">{item.name}</h3>
-
           {/* Conditional Note Rendering */}
           {item.note && (
             <div className="text-muted-foreground text-sm">
@@ -70,7 +88,7 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
       </div>
 
       {/* Bottom Row: Actions */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <Badge className="font-semibold text-xs uppercase">
           {t(`orderSummary.${item.itemType}`)}
         </Badge>
@@ -80,7 +98,7 @@ export function CustomerOrderItem({ item }: OrderSummaryItemProps) {
             disabled={isPending}
             onDecrement={() => handleDecrementQuantity(item.id)}
             onIncrement={() => handleIncrementQuantity(item.id)}
-            value={item.quantity}
+            value={item.quantity ?? 1}
           />
         </div>
       </div>

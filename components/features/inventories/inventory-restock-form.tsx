@@ -10,11 +10,15 @@ import { toast } from "sonner";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
 import { FormInput } from "@/components/forms/form-input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
+  FieldContent,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldTitle,
 } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { restockInventoryAction } from "@/lib/modules/inventories/actions";
@@ -37,7 +41,8 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
   const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
-  const { refresh } = useRouter();
+  const [updatePrice, setUpdatePrice] = useState(false);
+  const { push } = useRouter();
 
   const defaultValues: RestockInventorySchema = {
     id,
@@ -70,7 +75,7 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
               note: "",
             });
             setIsEditing(false);
-            refresh();
+            push("/inventories");
           }
         },
       },
@@ -87,6 +92,7 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
       restockTime: form.watch("restockTime"),
       restockPrice: Number(form.watch("restockPrice")),
       note: form.watch("note"),
+      ...(updatePrice ? { price: Number(form.watch("price")) } : {}),
     };
 
     action.execute(formData);
@@ -193,6 +199,40 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
           placeholder={t("restockForm.notePlaceholder")}
           tValidation={tValidation}
         />
+
+        <FieldGroup>
+          <FieldLabel>
+            <Field orientation="horizontal">
+              <Checkbox
+                checked={updatePrice}
+                disabled={!isEditing || action.isPending}
+                id="updatePrice"
+                name="updatePrice"
+                onCheckedChange={(checked) => setUpdatePrice(!!checked)}
+              />
+              <FieldContent>
+                <FieldTitle>{t("restockForm.updatePrice")}</FieldTitle>
+                <FieldDescription>
+                  {t("restockForm.updatePriceDescription")}
+                </FieldDescription>
+              </FieldContent>
+            </Field>
+          </FieldLabel>
+        </FieldGroup>
+
+        {updatePrice && (
+          <FormInput
+            className="text-right"
+            disabled={!isEditing || action.isPending}
+            form={form}
+            formatValue={(v: unknown) => formatToIDR(Number(v))}
+            label={t("restockForm.newPrice")}
+            name="price"
+            parseValue={(v: string) => Number(v.replace(/[^0-9]/g, ""))}
+            placeholder="Harga Jual Baru"
+            tValidation={tValidation}
+          />
+        )}
 
         <div className="flex justify-end gap-3">
           {isEditing ? (

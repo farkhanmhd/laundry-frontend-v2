@@ -607,7 +607,6 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
               {rowType === "adjustment" && (
                 <>
                   <UpdateAdjustmentDialog
-                    adjustmentTime={new Date(row.original.inputTime)}
                     changeAmount={row.original.changeAmount}
                     id={row.original.id}
                     note={row.original.note ?? ""}
@@ -620,10 +619,7 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
                   <UpdateRestockDialog
                     id={row.original.id}
                     note={row.original.note ?? ""}
-                    restockPrice={0}
                     restockQuantity={row.original.changeAmount}
-                    restockTime={new Date(row.original.inputTime)}
-                    supplier={row.original.reference ?? ""}
                   />
                   <DeleteRestock id={row.original.id} />
                 </>

@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { DateTimePicker } from "@/components/forms/date-time-picker";
+import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { cardShadowStyle } from "@/lib/utils";
 
@@ -21,18 +22,22 @@ export function CustomerOrderDateTimePicker({
   const t = useTranslations("CustomerOrders.orderSummary");
 
   return (
-    <Field className="my-6" data-invalid={!!error}>
-      <FieldLabel htmlFor="date-picker-optional">
-        {label ?? t("date")}
-      </FieldLabel>
-      <DateTimePicker
-        date={date}
-        disablePast
-        id="date-picker-optional"
-        onChange={onDateChange}
-        style={cardShadowStyle}
-      />
-      {error && <FieldError>{error}</FieldError>}
-    </Field>
+    <Card className="p-0" style={cardShadowStyle}>
+      <CardContent>
+        <Field className="my-6" data-invalid={!!error}>
+          <FieldLabel htmlFor="date-picker-optional">
+            {label ?? t("date")}
+          </FieldLabel>
+          <DateTimePicker
+            date={date}
+            disablePast
+            id="date-picker-optional"
+            onChange={onDateChange}
+            style={cardShadowStyle}
+          />
+          {error && <FieldError>{error}</FieldError>}
+        </Field>
+      </CardContent>
+    </Card>
   );
 }

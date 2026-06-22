@@ -9,6 +9,14 @@ import { toast } from "sonner";
 import { FormInput } from "@/components/forms/form-input";
 import { FormSelect } from "@/components/forms/form-select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Field,
+  FieldContent,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { updateInventoryAction } from "@/lib/modules/inventories/actions";
@@ -27,6 +35,8 @@ export const InventoryDataForm = ({
   price,
   unit,
   safetyStock,
+  maxWeight,
+  isCustomerOrderable,
 }: UpdateInventorySchema) => {
   const t = useTranslations("Inventories");
   const tNotifications = useTranslations("Notifications");
@@ -46,6 +56,8 @@ export const InventoryDataForm = ({
           safetyStock,
           unit,
           id,
+          maxWeight,
+          isCustomerOrderable: isCustomerOrderable ?? null,
         },
       },
       actionProps: {
@@ -68,6 +80,8 @@ export const InventoryDataForm = ({
       price: Number(form.getValues("price")),
       safetyStock: Number(form.getValues("safetyStock")),
       unit: form.getValues("unit"),
+      maxWeight: Number(form.getValues("maxWeight")) || null,
+      isCustomerOrderable: form.getValues("isCustomerOrderable") ?? false,
     };
 
     action.execute(formData);
@@ -79,6 +93,8 @@ export const InventoryDataForm = ({
       description,
       price,
       safetyStock,
+      maxWeight,
+      isCustomerOrderable,
     });
     setIsEditing(false);
   };
@@ -152,6 +168,46 @@ export const InventoryDataForm = ({
             />
           </div>
         </div>
+        <div className="flex flex-col gap-6 md:flex-row">
+          <FormInput
+            defaultValue={maxWeight ?? undefined}
+            disabled={!isEditing || action.isPending}
+            form={form}
+            label={t("form.maxWeight")}
+            name="maxWeight"
+            placeholder="10"
+            tValidation={tValidation}
+            type="number"
+          />
+        </div>
+
+        <FieldGroup>
+          <Controller
+            control={form.control}
+            name="isCustomerOrderable"
+            render={({ field, fieldState }) => (
+              <FieldLabel>
+                <Field
+                  data-invalid={fieldState.invalid}
+                  orientation="horizontal"
+                >
+                  <Checkbox
+                    checked={!!field.value}
+                    disabled={!isEditing || action.isPending}
+                    id={field.name}
+                    name={field.name}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked || null)
+                    }
+                  />
+                  <FieldContent>
+                    <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>
+                  </FieldContent>
+                </Field>
+              </FieldLabel>
+            )}
+          />
+        </FieldGroup>
 
         <div className="flex justify-end gap-3">
           {isEditing ? (

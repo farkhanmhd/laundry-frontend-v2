@@ -1,16 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -21,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import type { RecentDelivery } from "@/lib/modules/driver-dashboard/data";
 import { DriverDashboardApi } from "@/lib/modules/driver-dashboard/data";
-import { cardShadowStyle, cn } from "@/lib/utils";
+import { cardShadowStyle, cn, formatDate, MapItems } from "@/lib/utils";
 import { ErrorSection } from "./error-section";
 import { StatusBadge } from "./status-badge";
 
@@ -42,9 +36,10 @@ export function DriverRecentDeliveries() {
           <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-10 w-full" />
-          ))}
+          <MapItems
+            of={Array.from({ length: 5 })}
+            render={() => <Skeleton className="h-10 w-full" />}
+          />
         </CardContent>
       </Card>
     );
@@ -101,27 +96,19 @@ export function DriverRecentDeliveries() {
                     {delivery.customerName}
                   </TableCell>
                   <TableCell
-                    className={cn(
-                      "max-w-[200px] truncate",
-                      "text-muted-foreground"
-                    )}
+                    className={cn("max-w-50 truncate", "text-muted-foreground")}
                     title={delivery.address}
                   >
                     {delivery.address}
                   </TableCell>
                   <TableCell>
-                    <Badge variant="secondary">
-                      {tType(delivery.type)}
-                    </Badge>
+                    <Badge variant="secondary">{tType(delivery.type)}</Badge>
                   </TableCell>
                   <TableCell>
                     <StatusBadge status={delivery.status} />
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {format(
-                      new Date(delivery.requestedAt),
-                      "dd MMM yyyy HH:mm"
-                    )}
+                    {formatDate(delivery.requestedAt)}
                   </TableCell>
                 </TableRow>
               ))

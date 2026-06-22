@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatDate } from "@/lib/utils";
 
 const mockTransactions = [
   {
@@ -109,11 +110,7 @@ export function TransactionHistory() {
                 {txn.points.toLocaleString()}
               </TableCell>
               <TableCell className="text-right text-muted-foreground">
-                {new Date(txn.date).toLocaleDateString("id-ID", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+                {formatDate(txn.date)}
               </TableCell>
             </TableRow>
           ))}

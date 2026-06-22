@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
 import { DeliveryRequestsError } from "./delivery-requests-error";
 import { DeliveryRequestsSkeleton } from "./delivery-requests-skeleton";
+import { formatDate } from "@/lib/utils";
 
 const getBadgeVariant = (
   status: string
@@ -77,12 +78,7 @@ export function DeliveryRequestsContent() {
                   className="h-5 px-1.5 font-normal text-[10px]"
                   variant="secondary"
                 >
-                  {new Date(item.requestedAt).toLocaleString("id-ID", {
-                    month: "short",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {formatDate(item.requestedAt)}
                 </Badge>
                 <Badge
                   className="h-5 px-2 text-[10px]"

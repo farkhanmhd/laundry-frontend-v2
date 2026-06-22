@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cardShadowStyle } from "@/lib/utils";
 
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 7 }, (_, i) => currentYear - 5 + i);
@@ -59,8 +60,9 @@ export function InventoryMonthlyExportDialog() {
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button
-          className="w-full justify-start p-2 px-2 py-2 font-normal has-[>svg]:px-2"
-          variant="ghost"
+          className="bg-background"
+          style={cardShadowStyle}
+          variant="outline"
         >
           <TableOfContents className="h-3.5 w-3.5 text-muted-foreground" />
           {t("monthlyReport.buttonLabel")}

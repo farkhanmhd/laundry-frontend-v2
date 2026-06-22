@@ -1,13 +1,12 @@
 "use client";
 
-import { format } from "date-fns";
 import { Coins, Percent, Ticket } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { PosVoucher } from "@/lib/modules/pos/data";
-import { cn, formatToIDR } from "@/lib/utils";
+import { cn, formatDate, formatToIDR } from "@/lib/utils";
 import { useCustomerOrder } from "./state";
 
 interface VoucherCardProps {
@@ -83,7 +82,7 @@ export const CustomerOrderVoucherCard: React.FC<VoucherCardProps> = ({
 
         {voucher.expiresAt ? (
           <span className="font-medium text-muted-foreground text-xs">
-            {t("exp")} {format(new Date(voucher.expiresAt), "dd MMM yyyy")}
+            {t("exp")} {formatDate(voucher.expiresAt)}
           </span>
         ) : (
           <span className="font-medium text-[10px] text-emerald-600">

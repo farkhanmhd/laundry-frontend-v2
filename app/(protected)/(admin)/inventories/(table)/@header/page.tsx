@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { DateRangePicker } from "@/components/date/date-range-picker";
+import { InventoryMonthlyExportDialog } from "@/components/features/inventories/inventory-monthly-export-dialog";
 import { type DateRangeSearchParams, getDateRange } from "@/lib/utils";
 
 interface Props {
@@ -16,7 +17,8 @@ const InventoryHeader = async (props: Props) => {
       <div className="w-full space-y-2">
         <h1 className="font-semibold text-2xl">{t("title")}</h1>
       </div>
-      <div className="w-full md:w-sm">
+      <div className="flex w-full gap-2 md:w-sm">
+        <InventoryMonthlyExportDialog />
         <DateRangePicker dateRange={dateRange} />
       </div>
     </div>

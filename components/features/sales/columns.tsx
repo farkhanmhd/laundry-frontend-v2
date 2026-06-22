@@ -210,10 +210,9 @@ export const useSalesByOrderColumns = () => {
       accessorKey: "createdAt",
       header: t("columns.salesByOrder.date"),
       cell: ({ row }) => {
-        const date = formatDate(row.getValue("createdAt"));
         return (
           <div className="text-muted-foreground text-sm">
-            <Client>{date}</Client>
+            <Client>{formatDate(row.getValue("createdAt"))}</Client>
           </div>
         );
       },
@@ -281,10 +280,9 @@ export const useSalesItemLogsColumns = () => {
       accessorKey: "createdAt",
       header: t("columns.salesItemLogs.date"),
       cell: ({ row }) => {
-        const date = formatDate(row.getValue("createdAt"));
         return (
           <div className="text-muted-foreground text-sm">
-            <Client>{date}</Client>
+            <Client>{formatDate(row.getValue("createdAt"))}</Client>
           </div>
         );
       },

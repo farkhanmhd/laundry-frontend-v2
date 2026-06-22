@@ -1,6 +1,6 @@
 import type { useQuery } from "@tanstack/react-query";
 import { type ClassValue, clsx } from "clsx";
-import { parse, startOfMonth } from "date-fns";
+import { format, parse, startOfMonth } from "date-fns";
 import { Children, type ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { twMerge } from "tailwind-merge";
@@ -45,13 +45,8 @@ export const getStatusColor = (
 };
 
 export const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("en-ID", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Asia/Jakarta",
-  });
+  const date = new Date(dateString);
+  return format(date, "dd-MM-yyyy, HH:mm");
 };
 
 export const cardShadowStyle = {
@@ -114,6 +109,7 @@ export const salesTabLists: SelectOption[] = [
 ];
 
 import type { Delivery } from "@/lib/modules/routes/data";
+import type { PosItemData } from "./modules/pos/data";
 
 export const isDone = (status: Delivery["status"]) =>
   status === "picked_up" || status === "completed";
@@ -128,3 +124,9 @@ export const priceFromLabel = (label: string) => {
   }
   return Number(label.slice(openParen + 1, closeParen).replace(/[^\d]/g, ""));
 };
+
+export const isBundlingPosItem = (
+  i: PosItemData
+): i is PosItemData & {
+  items: { id: string; quantity: number; name: string }[];
+} => "items" in i;

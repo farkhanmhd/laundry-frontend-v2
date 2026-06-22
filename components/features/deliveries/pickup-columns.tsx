@@ -1,22 +1,16 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { enUS, id } from "date-fns/locale";
-import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Pickup } from "@/lib/modules/deliveries/data";
-import { cn } from "@/lib/utils";
-
-const dateRegex = /[+-]\d\d$/;
+import { cn, formatDate } from "@/lib/utils";
 
 export const usePickupColumns = () => {
   const t = useTranslations("Pickups");
-  const locale = useLocale();
-  const dateLocale = locale === "id" ? id : enUS;
 
   const columns: ColumnDef<Pickup>[] = [
     {
@@ -152,16 +146,9 @@ export const usePickupColumns = () => {
         if (!value) {
           return <span className="text-muted-foreground text-sm">-</span>;
         }
-        const date = new Date(value.replace(dateRegex, "$&:00"));
-        console.log({ date, value });
-        if (Number.isNaN(date.getTime())) {
-          return <span className="text-muted-foreground text-sm">-</span>;
-        }
         return (
           <div className="text-sm">
-            {formatInTimeZone(date, "UTC", "EEEE, dd MMMM yyyy, HH:mm", {
-              locale: dateLocale,
-            })}
+            {formatDate(value)}
           </div>
         );
       },

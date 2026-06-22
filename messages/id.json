@@ -659,10 +659,13 @@
       "orderRef": "Ref Pesanan",
       "user": "Pengguna",
       "time": "Waktu",
+      "inputTime": "Waktu Perubahan",
+      "createdAt": "Waktu Sistem",
       "supplier": "Pemasok",
       "restockPrice": "Harga Restok",
       "type": "Tipe",
-      "reference": "Referensi"
+      "reference": "Referensi",
+      "previous": "Stok Sebelum"
     },
     "monthlyReport": {
       "buttonLabel": "Laporan Bulanan",
@@ -947,6 +950,7 @@
       "inventory": "Produk",
       "bundling": "Paket",
       "voucher": "Voucher",
+      "bundleIncludes": "Termasuk dalam paket",
       "itemAdded": "1 Item ditambahkan ke keranjang",
       "viewCart": "Lihat Keranjang"
     },
@@ -1622,12 +1626,20 @@
       "stock": {
         "adjusted": "Jumlah stok berhasil disesuaikan"
       },
+      "restock": {
+        "deleted": "Restok berhasil dihapus",
+        "updated": "Restok berhasil diperbarui"
+      },
       "restocked": "Inventaris {id} berhasil di-restock",
       "report": {
         "totalItems": "Jumlah total item berhasil diambil",
         "lowStock": "Item dengan stok rendah berhasil diambil",
         "usage": "Total penggunaan berhasil diambil",
         "averageUsage": "Rata-rata penggunaan per pesanan berhasil diambil"
+      },
+      "adjustment": {
+        "deleted": "Penyesuaian berhasil dihapus",
+        "updated": "Penyesuaian berhasil diperbarui"
       },
       "adjustments": {
         "retrieved": "Riwayat penyesuaian berhasil diambil"

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Client } from "@/components/utils/client";
 import type { Order } from "@/lib/modules/orders/data";
-import { cn, formatToIDR, getStatusColor } from "@/lib/utils";
+import { cn, formatDate, formatToIDR, getStatusColor } from "@/lib/utils";
 import type { UpdateOrderStatusData } from "./update-status-dialog";
 
 export const ordersColumns: ColumnDef<Order>[] = [
@@ -108,8 +108,7 @@ export const ordersColumns: ColumnDef<Order>[] = [
       return t("date");
     },
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt") as string);
-      return <div className="text-sm">{date.toLocaleDateString("id-ID")}</div>;
+      return <div className="text-sm">{formatDate(row.getValue("createdAt") as string)}</div>;
     },
   },
   {

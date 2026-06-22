@@ -17,18 +17,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { elysia } from "@/elysia";
-import { toastResponse } from "@/lib/toast-helper";
 import { authClient } from "@/lib/modules/auth/auth-client";
+import { toastResponse } from "@/lib/toast-helper";
 
 const phoneSchema = z.object({
   phoneNumber: z
     .string()
     .min(7, "onboarding.phoneNumber.min")
     .max(15, "onboarding.phoneNumber.max")
-    .regex(
-      /^[1-9][0-9]*$/,
-      "onboarding.phoneNumber.regex"
-    ),
+    .regex(/^[1-9][0-9]*$/, "onboarding.phoneNumber.regex"),
 });
 
 const createMemberSchema = z.object({
@@ -95,9 +92,7 @@ export default function OnboardingPage() {
         if (error.status === 404) {
           setExistingMember(null);
         } else {
-          toast.error(
-            toastResponse(tNotifications, error.value || {})
-          );
+          toast.error(toastResponse(tNotifications, error.value || {}));
           setIsSearching(false);
           return;
         }
@@ -138,9 +133,7 @@ export default function OnboardingPage() {
       );
 
       if (error) {
-        toast.error(
-          toastResponse(tNotifications, error.value || {})
-        );
+        toast.error(toastResponse(tNotifications, error.value || {}));
         setIsConnecting(false);
         return;
       }
@@ -171,9 +164,7 @@ export default function OnboardingPage() {
       );
 
       if (error) {
-        toast.error(
-          toastResponse(tNotifications, error.value || {})
-        );
+        toast.error(toastResponse(tNotifications, error.value || {}));
         return;
       }
 

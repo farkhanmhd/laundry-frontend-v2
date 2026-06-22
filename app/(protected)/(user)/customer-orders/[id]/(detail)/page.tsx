@@ -156,6 +156,12 @@ const OrderDetailItems = () => {
   const isItemDiscount = (itemType: (typeof items)[number]["itemType"]) =>
     ["voucher", "points"].includes(itemType);
 
+  const isBundling = (
+    item: (typeof items)[number]
+  ): item is (typeof items)[number] & {
+    items: { id: string; quantity: number; name: string }[];
+  } => item.itemType === "bundling" && "items" in item;
+
   return (
     <Card className="shadow-card-shadow" style={cardShadowStyle}>
       <CardHeader>
@@ -181,6 +187,21 @@ const OrderDetailItems = () => {
                     </p>
                   )}
                 </div>
+                {isBundling(item) && (
+                  <div className="mt-3 space-y-1.5 border-muted border-l-2 pl-3">
+                    {item.items.map((subItem) => (
+                      <div
+                        className="flex items-center gap-2 text-muted-foreground text-xs"
+                        key={subItem.id}
+                      >
+                        <span className="font-medium">{subItem.name}</span>
+                        <span className="tabular-nums">
+                          x{subItem.quantity}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {!isItemDiscount(item.itemType) && !!item.note && (
                   <div className="mt-3 flex items-start gap-2 rounded-md bg-muted/30 p-2 text-muted-foreground text-xs">
                     <span className="italic">"{item.note}"</span>

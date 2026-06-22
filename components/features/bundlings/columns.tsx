@@ -1,7 +1,6 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +9,7 @@ import { DataTableColumnHeader } from "@/components/table/data-table-column-head
 import { buttonVariants } from "@/components/ui/button";
 import { useUserData } from "@/hooks/use-user-data";
 import type { Bundling } from "@/lib/modules/bundlings/data";
-import { cn, formatToIDR } from "@/lib/utils";
+import { cn, formatDate, formatToIDR } from "@/lib/utils";
 import { DeleteBundlingDialog } from "./delete-bundling-dialog";
 
 export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
@@ -84,11 +83,9 @@ export const useBundlingColumns = (): ColumnDef<Bundling>[] => {
         <DataTableColumnHeader column={column} title={t("table.dateAdded")} />
       ),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        const formattedDate = format(date, "PP, HH:mm");
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
+            {formatDate(row.getValue("createdAt"))}
           </div>
         );
       },

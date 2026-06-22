@@ -1,13 +1,19 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
+import { List, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Client } from "@/components/utils/client";
 import type { PosItemData } from "@/lib/modules/pos/data";
 import { usePOS } from "@/lib/modules/pos/state";
-import { formatToIDR } from "@/lib/utils";
+import { formatToIDR, isBundlingPosItem } from "@/lib/utils";
 
 interface Props {
   item: PosItemData;
@@ -15,6 +21,7 @@ interface Props {
 
 export function PosItemCard({ item }: Props) {
   const { handleAddToCart } = usePOS();
+  const t = useTranslations("CustomerOrders");
 
   return (
     <Card
@@ -46,14 +53,47 @@ export function PosItemCard({ item }: Props) {
                 {formatToIDR(item.price)}
               </div>
             </Client>
-            <Button
-              className="rounded-full text-sm"
-              onClick={() => handleAddToCart(item)}
-              size="icon"
-              type="button"
-            >
-              <ShoppingCart />
-            </Button>
+            <div className="flex items-center gap-2">
+              {isBundlingPosItem(item) && (
+                <HoverCard closeDelay={100} openDelay={10}>
+                  <HoverCardTrigger asChild>
+                    <Button
+                      className="rounded-full"
+                      size="icon"
+                      variant="secondary"
+                    >
+                      <List />
+                    </Button>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="flex w-64 flex-col gap-1.5">
+                    <p className="font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+                      {t("orderSummary.bundleIncludes")}
+                    </p>
+                    <ul className="space-y-1">
+                      {item.items.map((subItem) => (
+                        <li
+                          className="flex items-center justify-between text-sm"
+                          key={subItem.id}
+                        >
+                          <span className="font-medium">{subItem.name}</span>
+                          <span className="text-muted-foreground tabular-nums">
+                            x{subItem.quantity}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </HoverCardContent>
+                </HoverCard>
+              )}
+              <Button
+                className="rounded-full text-sm"
+                onClick={() => handleAddToCart(item)}
+                size="icon"
+                type="button"
+              >
+                <ShoppingCart />
+              </Button>
+            </div>
           </div>
         </CardFooter>
       </CardContent>

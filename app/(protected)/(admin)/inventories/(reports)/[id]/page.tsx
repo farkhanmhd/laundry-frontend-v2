@@ -31,50 +31,67 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         forceMount
         value="inventory"
       >
-        <InventoryDataForm
-          description={inventory.description}
-          id={inventory.id}
-          name={inventory.name}
-          price={inventory.price}
-          safetyStock={inventory.safetyStock}
-          unit={inventory.unit ?? "pieces"}
-        />
+        <div className="lg:mx-auto lg:max-w-5xl">
+          <InventoryDataForm
+            description={inventory.description}
+            id={inventory.id}
+            name={inventory.name}
+            price={inventory.price}
+            safetyStock={inventory.safetyStock}
+            unit={inventory.unit ?? "pieces"}
+          />
+        </div>
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
         forceMount
         value="image"
       >
-        <InventoryImageForm id={inventory.id} name={inventory.name} src={inventory.image as string} />
+        <div className="lg:mx-auto lg:max-w-5xl">
+          <InventoryImageForm
+            id={inventory.id}
+            name={inventory.name}
+            src={inventory.image as string}
+          />
+        </div>
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
         forceMount
         value="stock"
       >
-        <StockAdjustmentForm
-          currentQuantity={inventory.stock}
-          id={inventory.id}
-          name={inventory.name}
-        />
+        <div className="lg:mx-auto lg:max-w-5xl">
+          <StockAdjustmentForm
+            currentQuantity={inventory.stock}
+            id={inventory.id}
+            name={inventory.name}
+          />
+        </div>
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
         forceMount
         value="restock"
       >
-        <InventoryRestockForm
-          currentQuantity={inventory.stock}
-          id={inventory.id}
-          name={inventory.name}
-        />
+        <div className="lg:mx-auto lg:max-w-5xl">
+          <InventoryRestockForm
+            currentQuantity={inventory.stock}
+            id={inventory.id}
+            name={inventory.name}
+          />
+        </div>
       </TabsContent>
       <TabsContent
         className="data-[state=inactive]:hidden"
         forceMount
         value="movement"
       >
-        <InventoryMovementTab id={inventory.id} name={inventory.name} page={page} rows={rows} />
+        <InventoryMovementTab
+          id={inventory.id}
+          name={inventory.name}
+          page={page}
+          rows={rows}
+        />
       </TabsContent>
     </>
   );

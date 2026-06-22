@@ -13,18 +13,14 @@ import {
   ReceiptApi,
   type ReceiptLookupResult,
 } from "@/lib/modules/receipt/data";
+import { formatDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Result card — found
 // ---------------------------------------------------------------------------
 function FoundResult({ data }: { data: ReceiptLookupResult }) {
-  const formattedDate = data.createdAt
-    ? new Intl.DateTimeFormat("id-ID", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(data.createdAt))
-    : null;
+  const formattedDate = data.createdAt ? formatDate(data.createdAt) : null;
 
   return (
     <Link

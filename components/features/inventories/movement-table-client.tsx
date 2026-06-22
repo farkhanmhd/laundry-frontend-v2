@@ -22,12 +22,7 @@ export const MovementTableClient = ({ data, total }: Props) => {
         style={cardShadowStyle}
       >
         <CardContent className="p-0 dark:bg-background">
-          <TableViewProvider
-            className="md:max-w-[calc(100svw-640px)]"
-            data={data}
-            total={total}
-            withPagination
-          />
+          <TableViewProvider data={data} total={total} withPagination />
         </CardContent>
       </Card>
     </TableProvider>

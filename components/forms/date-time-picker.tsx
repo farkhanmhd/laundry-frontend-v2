@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 type Props = {
   date: Date | undefined;
@@ -117,9 +117,7 @@ export function DateTimePicker({
             variant="outline"
           >
             {date
-              ? `${date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })} ${String(date.getHours()).padStart(2, "0")}:${String(
-                  date.getMinutes()
-                ).padStart(2, "0")}`
+              ? formatDate(date.toISOString())
               : "Select date"}
             <ChevronDownIcon />
           </Button>

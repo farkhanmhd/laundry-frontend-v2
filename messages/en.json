@@ -659,10 +659,13 @@
       "orderRef": "Order Ref",
       "user": "User",
       "time": "Time",
+      "inputTime": "Change Time",
+      "createdAt": "System Time",
       "supplier": "Supplier",
       "restockPrice": "Restock Price",
       "type": "Type",
-      "reference": "Reference"
+      "reference": "Reference",
+      "previous": "Previous Stok"
     },
     "monthlyReport": {
       "buttonLabel": "Monthly Report",
@@ -947,6 +950,7 @@
       "inventory": "Product",
       "bundling": "Bundling",
       "voucher": "Voucher",
+      "bundleIncludes": "Bundle includes",
       "itemAdded": "1 Item added to cart",
       "viewCart": "View Cart"
     },
@@ -1622,12 +1626,20 @@
       "stock": {
         "adjusted": "Stock quantity adjusted successfully"
       },
+      "restock": {
+        "deleted": "Restock deleted successfully",
+        "updated": "Restock updated successfully"
+      },
       "restocked": "Inventory {id} restocked successfully",
       "report": {
         "totalItems": "Total items retrieved",
         "lowStock": "Low stock items retrieved",
         "usage": "Total usage retrieved",
         "averageUsage": "Average usage per order retrieved"
+      },
+      "adjustment": {
+        "deleted": "Adjustment deleted successfully",
+        "updated": "Adjustment updated successfully"
       },
       "adjustments": {
         "retrieved": "Adjustment history retrieved"

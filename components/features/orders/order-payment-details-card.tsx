@@ -1,6 +1,5 @@
 "use client";
 
-import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
 import { motion, type Variants } from "framer-motion";
 import { CheckCircle2, QrCode } from "lucide-react";
 import Image from "next/image";
@@ -10,14 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Client } from "@/components/utils/client";
 import type { OrderPaymentDetails } from "@/lib/modules/orders/data";
-import { cardShadowStyle, cn, formatToIDR } from "@/lib/utils";
+import { cardShadowStyle, cn, formatDate, formatToIDR } from "@/lib/utils";
 import { usePaymentDetail } from "./use-payment-detail";
 
 interface OrderPaymentDetailsCardProps {
   initialData: OrderPaymentDetails;
 }
-
-const withoutOffsetRegex = /\+\d{2}$/;
 
 const successVariants: Variants = {
   hidden: { opacity: 0 },
@@ -145,14 +142,7 @@ export const OrderPaymentDetailsCard = ({
             <span className="text-muted-foreground">{t("paidAt")}</span>
             <Client>
               <span className="font-semibold">
-                {formatInTimeZone(
-                  fromZonedTime(
-                    paymentDetails.updatedAt.replace(withoutOffsetRegex, ""),
-                    "UTC"
-                  ),
-                  "Asia/Jakarta",
-                  "dd MMM yyyy HH:mm"
-                )}
+                {formatDate(paymentDetails.updatedAt)}
               </span>
             </Client>
           </div>
@@ -283,11 +273,7 @@ export const OrderPaymentDetailsCard = ({
                   <span className="font-semibold">
                     {isPaid
                       ? paymentDetails.updatedAt
-                      : formatInTimeZone(
-                          paymentDetails.transactionTime,
-                          "UTC",
-                          "dd MMM yyyy HH:mm"
-                        )}
+                      : formatDate(paymentDetails.transactionTime)}
                   </span>
                 </Client>
               </div>

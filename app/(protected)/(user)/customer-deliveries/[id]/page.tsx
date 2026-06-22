@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import {
   AlertCircle,
   ArrowDownCircle,
@@ -16,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CustomerDeliveriesApi } from "@/lib/modules/customer-deliveries/data";
-import { cardShadowStyle } from "@/lib/utils";
+import { cardShadowStyle, formatDate } from "@/lib/utils";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -147,7 +146,7 @@ export default async function DeliveryDetailPage({ params }: PageProps) {
             </span>
             <div className="flex items-center gap-2 text-foreground">
               <span className="font-medium text-sm">
-                {format(new Date(delivery.requestedAt), "MMM dd, yyyy, HH:mm")}
+                {formatDate(delivery.requestedAt)}
               </span>
             </div>
           </div>

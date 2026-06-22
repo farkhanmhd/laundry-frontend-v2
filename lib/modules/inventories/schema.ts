@@ -76,6 +76,14 @@ export type UpdateInventoryBodySchema = z.infer<
 
 export const allowedAdjustType = ["adjustment", "waste", "restock"] as const;
 
+export const adjustQuantityBodySchema = z.object({
+  changeAmount: positiveIntNoLeadingZero,
+  adjustmentTime: z.date({ error: "inventories.adjustmentTime.required" }),
+  note: z.string().max(500, { error: "inventories.note.max" }).optional(),
+});
+
+export type AdjustQuantityBodySchema = z.infer<typeof adjustQuantityBodySchema>;
+
 export const adjustQuantitySchema = z
   .object({
     id: z
@@ -86,12 +94,7 @@ export const adjustQuantitySchema = z
     currentQuantity: z.int(),
     changeAmount: nonZeroIntegerSchema,
     adjustmentTime: z.date({ error: "inventories.adjustmentTime.required" }),
-    note: z
-      .string({
-        error: "inventories.note.min",
-      })
-      .min(5, { error: "inventories.note.min" })
-      .max(500, { error: "inventories.note.max" }),
+    note: z.string().max(500, { error: "inventories.note.max" }).optional(),
   })
   .refine((data) => data.changeAmount !== data.currentQuantity, {
     error: "inventories.changeAmount.different",
@@ -120,6 +123,21 @@ export const restockInventorySchema = z.object({
 });
 
 export type RestockInventorySchema = z.infer<typeof restockInventorySchema>;
+
+export const updateRestockQuantity = z.object({
+  restockQuantity: positiveIntNoLeadingZero,
+  restockTime: z.date({ error: "inventories.restockTime.required" }),
+  note: z
+    .string()
+    .max(255, { error: "inventories.restockNote.max" })
+    .optional(),
+  supplier: z
+    .string({ error: "inventories.supplier.required" })
+    .min(1, { error: "inventories.supplier.required" }),
+  restockPrice: positiveIntNoLeadingZero,
+});
+
+export type UpdateRestockQuantity = z.infer<typeof updateRestockQuantity>;
 
 export const updateInventoryImageSchema = z.object({
   id: z

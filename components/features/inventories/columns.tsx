@@ -1,7 +1,6 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import {
   Eye,
   PackagePlus,
@@ -12,7 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { useUserData } from "@/hooks/use-user-data";
 import type {
@@ -22,8 +21,12 @@ import type {
   RestockHistory,
   UsageHistory,
 } from "@/lib/modules/inventories/data";
-import { cn, formatToIDR, type SelectOption } from "@/lib/utils";
+import { cn, formatDate, formatToIDR, type SelectOption } from "@/lib/utils";
+import { DeleteAdjustment } from "./delete-adjustment";
 import { DeleteInventoryDialog } from "./delete-inventory-dialog";
+import { DeleteRestock } from "./delete-restock";
+import { UpdateAdjustmentDialog } from "./update-adjustment-dialog";
+import { UpdateRestockDialog } from "./update-restock-dialog";
 
 const useInventoryTranslations = () => {
   const t = useTranslations("Inventories");
@@ -59,11 +62,14 @@ const useInventoryTranslations = () => {
       restockPrice: t("logs.restockPrice"),
       orderRef: t("logs.orderRef"),
       user: t("logs.user"),
+      inputTime: t("logs.inputTime"),
       time: t("logs.time"),
+      createdAt: t("logs.createdAt"),
       supplier: t("logs.supplier"),
       note: t("logs.note"),
       type: t("logs.type"),
       reference: t("logs.reference"),
+      previous: t("logs.previous"),
     },
   };
 };
@@ -164,11 +170,9 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
       accessorKey: "createdAt",
       header: t.table.dateAdded,
       cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        const formattedDate = format(date, "PP, HH:mm");
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
+            {formatDate(row.original.createdAt as string)}
           </div>
         );
       },
@@ -177,11 +181,9 @@ export const useInventoryColumns = (): ColumnDef<Inventory>[] => {
       accessorKey: "updatedAt",
       header: t.table.lastUpdate,
       cell: ({ row }) => {
-        const date = new Date(row.getValue("updatedAt"));
-        const formattedDate = format(date, "PP, HH:mm");
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formattedDate}
+            {formatDate(row.original.updatedAt as string)}
           </div>
         );
       },
@@ -332,12 +334,11 @@ export const useAdjustmentHistoryColumns =
       },
       {
         accessorKey: "createdAt",
-        header: t.logs.time,
+        header: t.logs.createdAt,
         cell: ({ row }) => {
-          const date = new Date(row.getValue("createdAt"));
           return (
             <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
-              {format(date, "PP, HH:mm")}
+              {formatDate(row.getValue("createdAt") as string)}
             </div>
           );
         },
@@ -423,12 +424,11 @@ export const useInventoryUsageHistoryColumns =
       },
       {
         accessorKey: "createdAt",
-        header: t.logs.time,
+        header: t.logs.createdAt,
         cell: ({ row }) => {
-          const date = new Date(row.getValue("createdAt"));
           return (
             <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
-              {format(date, "PP, HH:mm")}
+              {formatDate(row.getValue("createdAt") as string)}
             </div>
           );
         },
@@ -463,32 +463,38 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
       header: t.logs.type,
       cell: ({ row }) => {
         const type = row.getValue("type") as string;
-        const variant =
-          type === "restock"
-            ? "default"
-            : type === "waste"
-              ? "destructive"
-              : type === "adjustment"
-                ? "secondary"
-                : "outline";
-        const label =
-          type === "restock"
-            ? t.categories.restock
-            : type === "waste"
-              ? t.categories.waste
-              : type === "adjustment"
-                ? t.categories.adjustment
-                : type === "order"
-                  ? t.categories.order
-                  : type === "usage"
-                    ? t.categories.usage
-                    : type;
+        const variantMap: Record<string, string> = {
+          restock: "default",
+          waste: "destructive",
+          adjustment: "secondary",
+        };
+        const labelMap: Record<string, string> = {
+          restock: t.categories.restock,
+          waste: t.categories.waste,
+          adjustment: t.categories.adjustment,
+          order: t.categories.order,
+          usage: t.categories.usage,
+        };
+        const variant = variantMap[type] ?? "secondary";
+        const label = labelMap[type] ?? type;
         return (
-          <Badge className="rounded-md font-bold capitalize" variant={variant}>
+          <Badge
+            className="rounded-md uppercase"
+            variant={variant as keyof typeof badgeVariants}
+          >
             {label}
           </Badge>
         );
       },
+    },
+    {
+      accessorKey: "previousStock",
+      header: t.logs.previous,
+      cell: ({ row }) => (
+        <div className="min-w-max font-medium">
+          {row.getValue("previousStock") as number}
+        </div>
+      ),
     },
     {
       accessorKey: "changeAmount",
@@ -527,7 +533,7 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
         if (!reference) {
           return <span className="text-muted-foreground">-</span>;
         }
-        const isOrderRef = reference.startsWith("O-");
+        const isOrderRef = reference.startsWith("o-");
         if (isOrderRef) {
           return (
             <Link
@@ -566,16 +572,67 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
       ),
     },
     {
-      accessorKey: "createdAt",
-      header: t.logs.time,
+      accessorKey: "inputTime",
+      header: t.logs.inputTime,
       cell: ({ row }) => {
-        const dateValue = row.getValue("createdAt") as string | Date;
-        const date = new Date(dateValue);
         return (
           <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
-            {format(date, "PP, HH:mm")}
+            {formatDate(row.getValue("inputTime") as string)}
           </div>
         );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: t.logs.createdAt,
+      cell: ({ row }) => {
+        return (
+          <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+            {formatDate(row.getValue("createdAt") as string)}
+          </div>
+        );
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const rowType = row.getValue("type");
+        const isLatest = row.original.isLatest;
+        const canModify =
+          isLatest && (rowType === "restock" || rowType === "adjustment");
+
+        if (canModify) {
+          return (
+            <div className="flex gap-2">
+              {rowType === "adjustment" && (
+                <>
+                  <UpdateAdjustmentDialog
+                    adjustmentTime={new Date(row.original.inputTime)}
+                    changeAmount={row.original.changeAmount}
+                    id={row.original.id}
+                    note={row.original.note ?? ""}
+                  />
+                  <DeleteAdjustment id={row.original.id} />
+                </>
+              )}
+              {rowType === "restock" && (
+                <>
+                  <UpdateRestockDialog
+                    id={row.original.id}
+                    note={row.original.note ?? ""}
+                    restockPrice={0}
+                    restockQuantity={row.original.changeAmount}
+                    restockTime={new Date(row.original.inputTime)}
+                    supplier={row.original.reference ?? ""}
+                  />
+                  <DeleteRestock id={row.original.id} />
+                </>
+              )}
+            </div>
+          );
+        }
+
+        return null;
       },
     },
   ];
@@ -659,14 +716,11 @@ export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
     },
     {
       accessorKey: "restockTime",
-      header: t.logs.time,
+      header: t.logs.createdAt,
       cell: ({ row }) => {
-        const dateValue = row.getValue("restockTime") as string | Date;
-        const date = new Date(dateValue);
-
         return (
           <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
-            {format(date, "PP, HH:mm")}
+            {formatDate(row.getValue("restockTime") as string)}
           </div>
         );
       },

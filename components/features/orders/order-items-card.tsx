@@ -1,4 +1,4 @@
-import { Coins, ShoppingBag, TicketPercent } from "lucide-react";
+import { Coins, Package, ShoppingBag, TicketPercent } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -68,40 +68,66 @@ export const OrderItemsCard = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items?.map((item) => (
-                <TableRow
-                  className="align-top hover:bg-transparent"
-                  key={item.id}
-                >
-                  <TableCell className="pl-6">
-                    <div className="font-medium text-base">{item.name}</div>
-                    {item.note && (
-                      <div className="mt-2 flex items-start gap-2 rounded-md bg-muted p-2 text-muted-foreground">
-                        <span className="font-medium text-xs italic leading-relaxed">
-                          &quot;{item.note}&quot;
-                        </span>
+              {items?.map((item) => {
+                const isBundling =
+                  "items" in item && item.itemtype === "bundling";
+                return (
+                  <TableRow
+                    className="align-top hover:bg-transparent"
+                    key={item.id}
+                  >
+                    <TableCell className="pl-6">
+                      <div className="font-medium text-base">
+                        {isBundling && (
+                          <Package className="mr-1.5 inline h-4 w-4 text-muted-foreground" />
+                        )}
+                        {item.name}
                       </div>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      className="font-normal capitalize shadow-none"
-                      variant="secondary"
-                    >
-                      {item.itemtype}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="pt-4 text-right">
-                    <Client>{formatToIDR(item.price)}</Client>
-                  </TableCell>
-                  <TableCell className="pt-4 text-right">
-                    {item.quantity}
-                  </TableCell>
-                  <TableCell className="pt-4 pr-6 text-right font-bold text-foreground">
-                    <Client>{formatToIDR(item.subtotal)}</Client>
-                  </TableCell>
-                </TableRow>
-              ))}
+                      {isBundling && item.items && (
+                        <div className="mt-2 ml-5 space-y-1 border-muted border-l-2 pl-3">
+                          {item.items.map((subItem) => (
+                            <div
+                              className="flex items-center gap-2 text-muted-foreground text-xs"
+                              key={subItem.id}
+                            >
+                              <span className="font-medium">
+                                {subItem.name}
+                              </span>
+                              <span className="tabular-nums">
+                                x{subItem.quantity}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {item.note && (
+                        <div className="mt-2 flex items-start gap-2 rounded-md bg-muted p-2 text-muted-foreground">
+                          <span className="font-medium text-xs italic leading-relaxed">
+                            &quot;{item.note}&quot;
+                          </span>
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        className="font-normal capitalize shadow-none"
+                        variant={isBundling ? "default" : "secondary"}
+                      >
+                        {item.itemtype}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="pt-4 text-right">
+                      <Client>{formatToIDR(item.price)}</Client>
+                    </TableCell>
+                    <TableCell className="pt-4 text-right">
+                      {item.quantity}
+                    </TableCell>
+                    <TableCell className="pt-4 pr-6 text-right font-bold text-foreground">
+                      <Client>{formatToIDR(item.subtotal)}</Client>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
           <ScrollBar orientation="horizontal" />

@@ -5,7 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { BadgeCheck, Clock, CreditCard, Package, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ReceiptApi } from "@/lib/modules/receipt/data";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { SectionCard, SectionHeading } from "./order-ui";
 
 // ---------------------------------------------------------------------------
@@ -55,13 +55,6 @@ function formatRupiah(amount: number) {
     currency: "IDR",
     minimumFractionDigits: 0,
   }).format(Math.abs(amount));
-}
-
-function formatDate(raw: string) {
-  return new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(raw));
 }
 
 const STATUS_CLASSES: Record<string, string> = {

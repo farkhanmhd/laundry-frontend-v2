@@ -99,10 +99,9 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
         <DataTableColumnHeader column={column} title={t("table.expiry")} />
       ),
       cell: ({ row }) => {
-        const date = new Date(row.getValue("expiresAt") as string);
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formatDate(new Date(date.getTime() + 7 * 3_600_000).toISOString())}
+            {formatDate(row.getValue("expiresAt") as string)}
           </div>
         );
       },
@@ -115,7 +114,7 @@ export const useVoucherColumns = (): ColumnDef<Voucher>[] => {
       cell: ({ row }) => {
         return (
           <div className="line-clamp-1 min-w-max font-medium">
-            {formatDate(row.getValue("createdAt"))}
+            {formatDate(row.getValue("createdAt") as string)}
           </div>
         );
       },

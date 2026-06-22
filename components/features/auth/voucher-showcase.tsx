@@ -1,15 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { differenceInCalendarDays, format } from "date-fns";
-import { id } from "date-fns/locale";
+import { differenceInCalendarDays } from "date-fns";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { elysia } from "@/elysia";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 /**
  * Stand-in for a real API/server-action call. Replace the body with, e.g.
@@ -73,7 +72,7 @@ function formatExpiry(expiresAt: string | null, t: (key: string, params?: Record
   if (daysLeft <= 7) {
     return t("expiresInDays", { days: daysLeft });
   }
-  return format(new Date(expiresAt), "d MMM yyyy", { locale: id });
+  return formatDate(expiresAt);
 }
 
 function VoucherShowcaseSkeleton() {

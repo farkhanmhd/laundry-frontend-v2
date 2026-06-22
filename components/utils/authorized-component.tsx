@@ -8,15 +8,15 @@ type Props = {
 };
 
 export const AuthorizedComponent = ({ children, requiredRole }: Props) => {
-  const sessionRole = useUserData();
+  const userData = useUserData();
 
-  if (!sessionRole) {
+  if (!userData) {
     return null;
   }
 
   const isAuthorized =
-    sessionRole === requiredRole ||
-    (sessionRole === "superadmin" && requiredRole === "admin");
+    userData.role === requiredRole ||
+    (userData.role === "superadmin" && requiredRole === "admin");
 
   if (!isAuthorized) {
     return null;

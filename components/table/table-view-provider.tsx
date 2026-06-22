@@ -36,7 +36,7 @@ export const TableViewProvider = <TData extends { id: string }>({
     <div>
       <ScrollArea
         className={cn(
-          "w-[calc(100svw-48px)] max-w-[calc(100svw-48px)] overflow-hidden md:w-[calc(100svw-128px)] md:max-w-[calc(100svw-1w8px)]",
+          "w-[calc(100svw-48px)] max-w-[calc(100svw-48px)] overflow-hidden md:w-[calc(100svw-128px)]",
           className
         )}
       >

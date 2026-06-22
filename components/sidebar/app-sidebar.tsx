@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { cardShadowStyle } from "@/lib/utils";
 import { SignoutDialog } from "../features/auth/signout-dialog";
 import { ScrollArea } from "../ui/scroll-area";
 
@@ -22,8 +23,9 @@ export function AppSidebar({ children, ...props }: Props) {
 
   return (
     <Sidebar
-      className="z-50 overflow-hidden *:data-[sidebar=sidebar]:flex-row"
+      className="overflow-hidden bg-background *:data-[sidebar=sidebar]:flex-row"
       collapsible="icon"
+      style={cardShadowStyle}
       {...props}
     >
       <Sidebar collapsible="none" {...props}>

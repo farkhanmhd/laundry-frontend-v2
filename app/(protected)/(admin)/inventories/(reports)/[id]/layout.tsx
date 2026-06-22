@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import type React from "react";
 import { useCallback } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cardShadowStyle } from "@/lib/utils";
 
 const ProductDetailLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations("Inventories");
@@ -51,19 +52,15 @@ const ProductDetailLayout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="h-full p-6 lg:mx-auto lg:max-w-7xl">
-      <Tabs
-        className="relative lg:flex-row lg:gap-8"
-        onValueChange={onTabChange}
-        value={activeTab}
-      >
-        <TabsList className="h-full gap-2 bg-background px-0 lg:sticky lg:top-0 lg:w-50 lg:flex-col lg:gap-2">
+    <div className="h-[calc(100dvh-128px)] p-6 md:h-[calc(100dvh-64px)]">
+      <Tabs className="gap-6" onValueChange={onTabChange} value={activeTab}>
+        <TabsList
+          className="w-5xl self-center bg-background data-[variant=line]:rounded-lg"
+          style={cardShadowStyle}
+          variant="line"
+        >
           {tabLists.map((tab) => (
-            <TabsTrigger
-              className="cursor-pointer rounded-none border-x-0 border-b-2 border-b-background px-0 text-muted-foreground hover:text-primary data-[state=active]:border-x-0 data-[state=active]:border-b-2 data-[state=active]:border-b-primary/70 data-[state=active]:text-primary lg:w-full lg:justify-start lg:rounded-md lg:border-none lg:px-4 lg:py-2 lg:text-muted-foreground lg:data-[state=active]:border-none lg:data-[state=active]:bg-sidebar-accent lg:data-[state=active]:text-primary lg:hover:bg-sidebar-accent dark:data-[state=active]:border-t-background dark:data-[state=active]:border-b-primary dark:data-[state=active]:bg-background dark:data-[state=active]:text-primary dark:data[state=active]:text-primary lg:dark:data-[state=active]:bg-sidebar-accent dark:hover:text-primary"
-              key={tab.value}
-              value={tab.value}
-            >
+            <TabsTrigger key={tab.value} value={tab.value}>
               {tab.label}
             </TabsTrigger>
           ))}

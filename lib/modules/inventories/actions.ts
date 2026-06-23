@@ -102,7 +102,13 @@ export const deleteInventoryAction = actionClient
 export const updateInventoryAction = actionClient
   .inputSchema(updateInventorySchema)
   .action(async ({ parsedInput }) => {
-    const { id, ...data } = parsedInput;
+    const { id, ...rawData } = parsedInput;
+
+    const data = {
+      ...rawData,
+      maxWeight: rawData.maxWeight ?? null,
+      isCustomerOrderable: rawData.isCustomerOrderable ?? false,
+    };
 
     const result = await InventoriesApi.updateInventoryData(id, data);
 
@@ -133,7 +139,7 @@ export const adjustQuantityAction = actionClient
     const result = await InventoriesApi.adjustQuantity(id, {
       note,
       changeAmount,
-      adjustmentTime,
+      adjustmentTime: adjustmentTime.toISOString(),
     });
 
     if (!result || result.error) {
@@ -184,12 +190,19 @@ export const updateInventoryImageAction = actionClient
 export const restockInventoryAction = actionClient
   .inputSchema(restockInventorySchema)
   .action(async ({ parsedInput }) => {
-    const { id, restockPrice, restockQuantity, restockTime, supplier, note, price } =
-      parsedInput;
-    const result = await InventoriesApi.restockInventory(id, {
+    const {
+      id,
       restockPrice,
       restockQuantity,
       restockTime,
+      supplier,
+      note,
+      price,
+    } = parsedInput;
+    const result = await InventoriesApi.restockInventory(id, {
+      restockPrice,
+      restockQuantity,
+      restockTime: restockTime.toISOString(),
       supplier,
       note,
       ...(price !== undefined ? { price } : {}),

@@ -8,7 +8,10 @@ type Props = {
 const RoutesLayout = async ({ children }: Props) => {
   const userData = await getCurrentUserData();
 
-  if (!userData || (userData.role !== "superadmin" && userData.role !== "driver")) {
+  if (
+    !userData ||
+    (userData.role !== "superadmin" && userData.role !== "driver")
+  ) {
     redirect("/dashboard");
   }
 

@@ -26,8 +26,8 @@ import { cn, formatDate, formatToIDR, type SelectOption } from "@/lib/utils";
 import { DeleteAdjustment } from "./delete-adjustment";
 import { DeleteInventoryDialog } from "./delete-inventory-dialog";
 import { DeleteRestock } from "./delete-restock";
-import { UpdateAdjustmentDialog } from "./update-adjustment-dialog";
 import { InventoryLogChangesDialog } from "./inventory-log-changes-dialog";
+import { UpdateAdjustmentDialog } from "./update-adjustment-dialog";
 import { UpdateRestockDialog } from "./update-restock-dialog";
 
 const useInventoryTranslations = () => {

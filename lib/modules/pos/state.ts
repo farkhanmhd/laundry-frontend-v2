@@ -228,7 +228,9 @@ export const usePOS = () => {
     setPosData({
       ...posData,
       items: posData.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: (item.quantity ?? 1) + 1 } : item
+        item.id === itemId
+          ? { ...item, quantity: (item.quantity ?? 1) + 1 }
+          : item
       ),
     });
   };
@@ -309,7 +311,8 @@ export const usePOS = () => {
   );
 
   const totalItems = useMemo(
-    () => posData.items.reduce((total, item) => total + (item.quantity ?? 0), 0),
+    () =>
+      posData.items.reduce((total, item) => total + (item.quantity ?? 0), 0),
     [posData.items]
   );
 

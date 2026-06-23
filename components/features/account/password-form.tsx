@@ -8,7 +8,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { FormInput } from "@/components/forms/form-input";
-import { toastResponse } from "@/lib/toast-helper";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { updatePasswordAction } from "@/lib/modules/account/actions";
 import { updatePasswordSchema } from "@/lib/modules/account/schema";
+import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle } from "@/lib/utils";
 
 export function PasswordForm() {

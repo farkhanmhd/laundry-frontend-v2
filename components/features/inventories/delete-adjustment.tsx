@@ -60,7 +60,9 @@ export function DeleteAdjustment({ id }: DeleteAdjustmentProps) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("adjustmentDeleteDialog.title")}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t("adjustmentDeleteDialog.title")}
+          </AlertDialogTitle>
           <AlertDialogDescription>
             {t("adjustmentDeleteDialog.description")}
           </AlertDialogDescription>

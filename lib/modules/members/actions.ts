@@ -23,8 +23,11 @@ export const addMemberAction = actionClient
       return {
         status: "error" as const,
         message: `Something went wrong. ${result.error?.value?.message}`,
-        messageKey: (result.error?.value as { messageKey?: string })?.messageKey,
-        messageParams: (result.error?.value as { messageParams?: Record<string, unknown> })?.messageParams,
+        messageKey: (result.error?.value as { messageKey?: string })
+          ?.messageKey,
+        messageParams: (
+          result.error?.value as { messageParams?: Record<string, unknown> }
+        )?.messageParams,
       };
     }
 
@@ -33,7 +36,9 @@ export const addMemberAction = actionClient
         status: "success" as const,
         message: "New Member added",
         messageKey: (result.data as { messageKey?: string })?.messageKey,
-        messageParams: (result.data as { messageParams?: Record<string, unknown> })?.messageParams,
+        messageParams: (
+          result.data as { messageParams?: Record<string, unknown> }
+        )?.messageParams,
       };
     }
   });

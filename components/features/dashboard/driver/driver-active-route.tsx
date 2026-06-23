@@ -1,21 +1,20 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Label, Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Progress } from "@/components/ui/progress";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DriverDashboardApi } from "@/lib/modules/driver-dashboard/data";
 import { cardShadowStyle } from "@/lib/utils";
 import { ErrorSection } from "./error-section";
@@ -36,7 +35,11 @@ export function DriverActiveRoute() {
     if (!data?.statusBreakdown) return {};
     const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)"];
     return (data.statusBreakdown as ChartItem[]).reduce(
-      (acc: Record<string, { label: string; color: string }>, item: ChartItem, i: number) => ({
+      (
+        acc: Record<string, { label: string; color: string }>,
+        item: ChartItem,
+        i: number
+      ) => ({
         ...acc,
         [item.name]: {
           label: tStatus(item.name),
@@ -83,18 +86,18 @@ export function DriverActiveRoute() {
           <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">{t("empty")}</p>
+          <p className="text-muted-foreground text-sm">{t("empty")}</p>
         </CardContent>
       </Card>
     );
   }
 
-  const chartData = ((data.statusBreakdown ?? []) as ChartItem[]).map((item: ChartItem) => ({
-    ...item,
-    fill:
-      chartConfig[item.name]?.color ??
-      "var(--chart-5)",
-  }));
+  const chartData = ((data.statusBreakdown ?? []) as ChartItem[]).map(
+    (item: ChartItem) => ({
+      ...item,
+      fill: chartConfig[item.name]?.color ?? "var(--chart-5)",
+    })
+  );
 
   return (
     <Card style={cardShadowStyle}>
@@ -104,7 +107,7 @@ export function DriverActiveRoute() {
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <Badge variant="outline">{data.assetLicensePlate}</Badge>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-muted-foreground text-sm">
             {data.completedDeliveries}/{data.totalDeliveries}
           </span>
         </div>
@@ -117,10 +120,7 @@ export function DriverActiveRoute() {
             config={chartConfig}
           >
             <PieChart>
-              <ChartTooltip
-                content={<ChartTooltipContent />}
-                cursor={false}
-              />
+              <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
               <Pie
                 data={chartData}
                 dataKey="value"
@@ -155,7 +155,7 @@ export function DriverActiveRoute() {
           </ChartContainer>
         )}
 
-        <Button variant="outline" size="sm" asChild>
+        <Button asChild size="sm" variant="outline">
           <Link href={`/routes/${data.id}`}>{t("viewDetails")}</Link>
         </Button>
       </CardContent>

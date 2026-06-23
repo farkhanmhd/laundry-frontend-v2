@@ -43,9 +43,21 @@ export const addInventorySchema = z.object({
     z.literal("milliliter"),
     z.literal("pieces"),
   ]),
-  maxWeight: z.optional(positiveIntNoLeadingZero),
-  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.boolean(),
 });
+
+// type AddInventoryBody = {
+//     maxWeight?: number | null | undefined;
+//     name: string;
+//     description: string;
+//     image: File;
+//     price: number;
+//     isCustomerOrderable: boolean;
+//     stock: number;
+//     safetyStock: number;
+//     unit: "kilogram" | "gram" | "litre" | "milliliter" | "pieces";
+// }
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
 

@@ -146,11 +146,7 @@ export const usePickupColumns = () => {
         if (!value) {
           return <span className="text-muted-foreground text-sm">-</span>;
         }
-        return (
-          <div className="text-sm">
-            {formatDate(value)}
-          </div>
-        );
+        return <div className="text-sm">{formatDate(value)}</div>;
       },
     },
   ];

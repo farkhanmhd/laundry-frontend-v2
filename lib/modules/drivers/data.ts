@@ -7,7 +7,11 @@ export type Driver = {
 };
 
 export abstract class DriversApi extends BaseApi {
-  static async getDrivers(query?: { search?: string; page?: number; rows?: number }) {
+  static async getDrivers(query?: {
+    search?: string;
+    page?: number;
+    rows?: number;
+  }) {
     const { data: response } = await elysia.drivers.get({
       ...(await DriversApi.getConfig()),
       query,

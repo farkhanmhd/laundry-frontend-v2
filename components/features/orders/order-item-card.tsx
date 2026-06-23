@@ -12,7 +12,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Client } from "@/components/utils/client";
-import type { PriceItemData } from "@/lib/modules/prices/data";
+import type { CustomerItemCatalog } from "@/lib/modules/customer-orders/schema";
 import {
   cardShadowStyle,
   cn,
@@ -22,7 +22,7 @@ import {
 import { useCustomerOrder } from "../customer-orders/state";
 
 type Props = {
-  item: PriceItemData;
+  item: CustomerItemCatalog;
 };
 
 export function OrderItemCard({ item }: Props) {

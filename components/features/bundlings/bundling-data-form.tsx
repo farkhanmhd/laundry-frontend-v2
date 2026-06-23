@@ -72,7 +72,7 @@ export const BundlingDataForm = ({
       name: form.getValues("name"),
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
-      maxWeight: form.getValues("maxWeight") || null,
+      maxWeight: Number(form.getValues("maxWeight")) || null,
       isCustomerOrderable: form.getValues("isCustomerOrderable") || null,
     };
 

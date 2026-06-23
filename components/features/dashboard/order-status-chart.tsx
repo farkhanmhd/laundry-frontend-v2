@@ -64,10 +64,7 @@ export const OrderStatusChart = ({ data }: Props) => {
       config={orderStatusConfig}
     >
       <PieChart>
-        <ChartTooltip
-          content={<ChartTooltipContent />}
-          cursor={false}
-        />
+        <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
         <Pie
           data={chartData}
           dataKey="value"
@@ -109,7 +106,10 @@ export const OrderStatusChart = ({ data }: Props) => {
           content={({ payload }) => (
             <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
               {payload?.map((entry) => (
-                <div className="flex items-center gap-2 text-sm" key={entry.value}>
+                <div
+                  className="flex items-center gap-2 text-sm"
+                  key={entry.value}
+                >
                   <div
                     className="h-2.5 w-2.5 rounded-full"
                     style={{ backgroundColor: entry.color }}

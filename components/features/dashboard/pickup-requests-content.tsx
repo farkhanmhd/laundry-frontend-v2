@@ -5,9 +5,9 @@ import { MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { AdminDashboardApi } from "@/lib/modules/admin-dashboard/data";
+import { formatDate } from "@/lib/utils";
 import { PickupRequestsError } from "./pickup-requests-error";
 import { PickupRequestsSkeleton } from "./pickup-requests-skeleton";
-import { formatDate } from "@/lib/utils";
 
 const getBadgeVariant = (
   status: string

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { elysia } from "@/elysia";
 import { orderItemSchema } from "../pos/schema";
 
 const pickupOrderItemSchema = orderItemSchema.extend({
@@ -15,3 +16,8 @@ export const requestPickupSchema = z.object({
 });
 
 export type RequestPickupSchema = z.infer<typeof requestPickupSchema>;
+export type CustomerItemCatalog = NonNullable<
+  NonNullable<
+    Awaited<ReturnType<typeof elysia.customerorders.items.get>>
+  >["data"]
+>["data"][number];

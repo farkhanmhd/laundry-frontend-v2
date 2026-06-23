@@ -7,18 +7,16 @@ export const orderItemSchema = z.object({
   bundlingId: z.optional(z.nullable(z.string())),
   voucherId: z.optional(z.nullable(z.string())),
   note: z.optional(z.nullable(z.string())),
-  quantity: z.optional(z.nullable(z.number().positive())),
+  quantity: z.number().positive(),
 });
 
 export type OrderItem = z.infer<typeof orderItemSchema>;
 
 const newPosOrderBaseSchema = {
-  customerName: z
-    .string()
-    .min(2, { error: "common.required" }),
+  customerName: z.string().min(2, { error: "common.required" }),
   items: z.array(orderItemSchema),
-  memberId: z.string().optional(),
-  newMember: z.boolean().optional(),
+  memberId: z.string().optional().nullable(),
+  newMember: z.boolean().optional().nullable(),
   phone: z.string().optional(),
   points: z.optional(z.nullable(z.number())),
 };

@@ -8,7 +8,11 @@ export type Asset = {
 };
 
 export abstract class AssetsApi extends BaseApi {
-  static async getAssets(query?: { search?: string; page?: number; rows?: number }) {
+  static async getAssets(query?: {
+    search?: string;
+    page?: number;
+    rows?: number;
+  }) {
     const { data: response } = await elysia.assets.get({
       ...(await AssetsApi.getConfig()),
       query,
@@ -25,7 +29,10 @@ export abstract class AssetsApi extends BaseApi {
     return result;
   }
 
-  static async updateAsset(id: string, body: { name?: string; licensePlate?: string }) {
+  static async updateAsset(
+    id: string,
+    body: { name?: string; licensePlate?: string }
+  ) {
     const result = await elysia.assets({ id }).patch(body, {
       ...(await AssetsApi.getConfig()),
     });
@@ -34,10 +41,9 @@ export abstract class AssetsApi extends BaseApi {
   }
 
   static async deleteAsset(id: string) {
-    const result = await elysia.assets({ id }).delete(
-      {},
-      { ...(await AssetsApi.getConfig()) }
-    );
+    const result = await elysia
+      .assets({ id })
+      .delete({}, { ...(await AssetsApi.getConfig()) });
 
     return result;
   }

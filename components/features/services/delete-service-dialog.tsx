@@ -17,9 +17,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { toastResponse } from "@/lib/toast-helper";
 import { deleteServiceAction } from "@/lib/modules/services/actions";
 import type { Service } from "@/lib/modules/services/data";
+import { toastResponse } from "@/lib/toast-helper";
 
 interface DeleteServiceDialogProps {
   id: string;
@@ -51,11 +51,7 @@ export function DeleteServiceDialog({ id }: DeleteServiceDialogProps) {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <Button
-          className="text-destructive"
-          size="icon-sm"
-          variant="ghost"
-        >
+        <Button className="text-destructive" size="icon-sm" variant="ghost">
           <Trash2 />
         </Button>
       </AlertDialogTrigger>

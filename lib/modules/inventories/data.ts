@@ -174,10 +174,7 @@ export abstract class InventoriesApi extends BaseApi {
     return result;
   }
 
-  static async getInventoryLogs(
-    id: string,
-    query?: InventoryLogsQuery
-  ) {
+  static async getInventoryLogs(id: string, query?: InventoryLogsQuery) {
     const { data: response } = await elysia.inventories({ id }).logs.get({
       ...(await InventoriesApi.getConfig()),
       query,

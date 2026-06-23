@@ -4,7 +4,6 @@ import type { elysia } from "@/elysia";
 import { actionClient } from "@/lib/safe-action";
 import { ServicesApi } from "./data";
 import {
-  type AddServiceSchema,
   addServiceSchema,
   deleteServiceSchema,
   updateServiceImageSchema,
@@ -33,9 +32,7 @@ const errorResult = {
 export const addServiceAction = actionClient
   .inputSchema(addServiceSchema)
   .action(async ({ parsedInput }) => {
-    const result = await ServicesApi.addService(
-      parsedInput as AddServiceSchema
-    );
+    const result = await ServicesApi.addService(parsedInput);
 
     if (!result) {
       return errorResult;
@@ -109,7 +106,13 @@ export const deleteServiceAction = actionClient
 export const updateServiceAction = actionClient
   .inputSchema(updateServiceSchema)
   .action(async ({ parsedInput }) => {
-    const { id, ...data } = parsedInput;
+    const { id, ...rawData } = parsedInput;
+
+    const data = {
+      ...rawData,
+      maxWeight: rawData.maxWeight ?? null,
+      isCustomerOrderable: rawData.isCustomerOrderable ?? false,
+    };
 
     const result = await ServicesApi.updateServiceData(id, data);
 

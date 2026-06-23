@@ -116,9 +116,7 @@ export function DateTimePicker({
             style={style}
             variant="outline"
           >
-            {date
-              ? formatDate(date.toISOString())
-              : "Select date"}
+            {date ? formatDate(date.toISOString()) : "Select date"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>

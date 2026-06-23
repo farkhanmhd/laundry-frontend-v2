@@ -20,11 +20,13 @@ export const createPosOrderAction = actionClient
     }
 
     if (response.status !== 201) {
-      const errorValue = response.error?.value as {
-        messageKey?: string;
-        messageParams?: Record<string, unknown>;
-        message?: string;
-      } | undefined;
+      const errorValue = response.error?.value as
+        | {
+            messageKey?: string;
+            messageParams?: Record<string, unknown>;
+            message?: string;
+          }
+        | undefined;
       return {
         status: "error",
         messageKey: errorValue?.messageKey,

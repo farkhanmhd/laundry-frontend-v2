@@ -18,12 +18,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { toastResponse } from "@/lib/toast-helper";
 import { UsersApi } from "@/lib/modules/users/data";
 import {
   type CreateCashierSchema,
   createCashierSchema,
 } from "@/lib/modules/users/schema";
+import { toastResponse } from "@/lib/toast-helper";
 
 export function CreateUserDialog() {
   const t = useTranslations("Users.createUserDialog");
@@ -47,9 +47,7 @@ export function CreateUserDialog() {
       const response = await UsersApi.createCashier(data);
 
       if (response.error) {
-        toast.error(
-          toastResponse(tNotifications, response.error.value || {})
-        );
+        toast.error(toastResponse(tNotifications, response.error.value || {}));
         return;
       }
 

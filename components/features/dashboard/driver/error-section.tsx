@@ -12,9 +12,9 @@ export function ErrorSection({ message, onRetry }: ErrorSectionProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-8 text-center">
       <AlertCircle className="h-8 w-8 text-destructive" />
-      <p className="text-sm text-muted-foreground">{message}</p>
+      <p className="text-muted-foreground text-sm">{message}</p>
       {onRetry && (
-        <Button variant="outline" size="sm" onClick={onRetry}>
+        <Button onClick={onRetry} size="sm" variant="outline">
           {t("retry")}
         </Button>
       )}

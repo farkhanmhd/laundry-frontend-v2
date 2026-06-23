@@ -13,8 +13,7 @@ import {
   ReceiptApi,
   type ReceiptLookupResult,
 } from "@/lib/modules/receipt/data";
-import { formatDate } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Result card — found

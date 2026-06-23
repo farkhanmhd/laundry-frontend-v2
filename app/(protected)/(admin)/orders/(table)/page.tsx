@@ -10,7 +10,11 @@ import { TableSkeleton } from "@/components/table/table-skeleton";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { TableView } from "@/components/table/table-view";
 import { OrderInfoError } from "@/components/utils/error-cards";
-import { type OrderStatus, orderStatus, OrdersApi } from "@/lib/modules/orders/data";
+import {
+  type OrderStatus,
+  OrdersApi,
+  orderStatus,
+} from "@/lib/modules/orders/data";
 
 const OrdersTableContent = () => {
   const searchParams = useSearchParams();

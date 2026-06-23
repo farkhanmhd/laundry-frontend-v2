@@ -43,10 +43,7 @@ export const nonZeroIntegerSchema = z.preprocess(
   },
   z
     .string()
-    .regex(
-      /^-?[1-9]\d*$/,
-      "numeric.nonZeroInt"
-    )
+    .regex(/^-?[1-9]\d*$/, "numeric.nonZeroInt")
     .transform((v) => Number(v))
 );
 
@@ -68,10 +65,7 @@ export const percentageSchema = z.preprocess(
     // - ^(100 ... : Handles 100 explicitly
     // - |[1-9]\d? : Matches 1-9 or 10-99 (No leading zeros like '05')
     // - (\.\d+)?$ : Allows optional decimals (e.g. .5, .25)
-    .regex(
-      /^(100(\.0+)?|[1-9]\d?(\.\d+)?)$/,
-      "numeric.percentageFormat"
-    )
+    .regex(/^(100(\.0+)?|[1-9]\d?(\.\d+)?)$/, "numeric.percentageFormat")
     .transform((v) => Number(v))
     // 3. Logic Checks
     .refine((n) => n >= 1, "numeric.percentageMin")

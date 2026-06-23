@@ -17,9 +17,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { toastResponse } from "@/lib/toast-helper";
 import { deleteBundlingAction } from "@/lib/modules/bundlings/actions";
 import type { Bundling } from "@/lib/modules/bundlings/data";
+import { toastResponse } from "@/lib/toast-helper";
 
 interface DeleteBundlingDialogProps {
   id: string;
@@ -51,11 +51,7 @@ export function DeleteBundlingDialog({ id }: DeleteBundlingDialogProps) {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <Button
-          className="text-destructive"
-          size="icon-sm"
-          variant="ghost"
-        >
+        <Button className="text-destructive" size="icon-sm" variant="ghost">
           <Trash2 />
         </Button>
       </AlertDialogTrigger>

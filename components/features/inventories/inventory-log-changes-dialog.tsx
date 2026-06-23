@@ -1,5 +1,6 @@
 import { Eye } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -20,10 +20,18 @@ import {
 import { formatToIDR } from "@/lib/utils";
 
 const displayValue = (value: unknown): string => {
-  if (value === null || value === undefined) return "-";
-  if (typeof value === "boolean") return value ? "true" : "false";
-  if (typeof value === "number") return formatToIDR(value);
-  if (typeof value === "object") return JSON.stringify(value);
+  if (value === null || value === undefined) {
+    return "-";
+  }
+  if (typeof value === "boolean") {
+    return value ? "true" : "false";
+  }
+  if (typeof value === "number") {
+    return formatToIDR(value);
+  }
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
   return String(value);
 };
 

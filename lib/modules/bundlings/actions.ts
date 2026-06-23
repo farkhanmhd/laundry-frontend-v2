@@ -16,7 +16,9 @@ function extractErrorDetails(error: unknown) {
   };
   return {
     messageKey: err?.value?.messageKey,
-    messageParams: err?.value?.messageParams as Record<string, unknown> | undefined,
+    messageParams: err?.value?.messageParams as
+      | Record<string, unknown>
+      | undefined,
   };
 }
 
@@ -46,14 +48,22 @@ export const addBundlingAction = actionClient
       status: "success" as const,
       message: result.message,
       messageKey: result.messageKey as string | undefined,
-      messageParams: result.messageParams as Record<string, unknown> | undefined,
+      messageParams: result.messageParams as
+        | Record<string, unknown>
+        | undefined,
     };
   });
 
 export const updateBundlingAction = actionClient
   .inputSchema(updateBundlingSchema)
   .action(async ({ parsedInput }) => {
-    const { id, ...data } = parsedInput;
+    const { id, ...rawData } = parsedInput;
+
+    const data = {
+      ...rawData,
+      maxWeight: rawData.maxWeight ?? null,
+      isCustomerOrderable: rawData.isCustomerOrderable ?? null,
+    };
 
     const result = await BundlingsApi.updateBundlingData(id, data);
 
@@ -65,7 +75,11 @@ export const updateBundlingAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -90,7 +104,11 @@ export const updateBundlingItemsAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -114,7 +132,11 @@ export const updateBundlingImageAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -139,7 +161,11 @@ export const deleteBundlingAction = actionClient
     }
 
     const successData = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {

@@ -4,7 +4,6 @@ import { Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { toastResponse } from "@/lib/toast-helper";
 import { useTableContext } from "@/components/table/context";
 import {
   AlertDialog,
@@ -20,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { deleteVoucherAction } from "@/lib/modules/vouchers/actions";
 import type { Voucher } from "@/lib/modules/vouchers/data";
+import { toastResponse } from "@/lib/toast-helper";
 
 interface DeleteVoucherDialogProps {
   id: string;
@@ -51,11 +51,7 @@ export function DeleteVoucherDialog({ id }: DeleteVoucherDialogProps) {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <Button
-          className="text-destructive"
-          size="icon-sm"
-          variant="ghost"
-        >
+        <Button className="text-destructive" size="icon-sm" variant="ghost">
           <Trash2 />
         </Button>
       </AlertDialogTrigger>

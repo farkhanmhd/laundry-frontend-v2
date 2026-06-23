@@ -3,8 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { differenceInCalendarDays } from "date-fns";
 import { AlertCircle, RefreshCw } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { elysia } from "@/elysia";
@@ -61,7 +61,10 @@ function formatDiscountValue(voucher: Voucher) {
   return "-";
 }
 
-function formatExpiry(expiresAt: string | null, t: (key: string, params?: Record<string, string | number>) => string) {
+function formatExpiry(
+  expiresAt: string | null,
+  t: (key: string, params?: Record<string, string | number>) => string
+) {
   if (!expiresAt) {
     return t("noExpiry");
   }
@@ -167,7 +170,9 @@ export function VoucherShowcase() {
     return (
       <VoucherShowcaseError
         isRetrying={isFetching}
-        message={error instanceof Error ? error.message : t("voucherErrorGeneric")}
+        message={
+          error instanceof Error ? error.message : t("voucherErrorGeneric")
+        }
         onRetry={() => refetch()}
       />
     );

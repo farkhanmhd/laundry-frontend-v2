@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Client } from "@/components/utils/client";
 import type { PosVoucher } from "@/lib/modules/pos/data";
 import { usePOS } from "@/lib/modules/pos/state";
-import { formatDate } from "@/lib/utils";
-import { cn, formatToIDR } from "@/lib/utils";
+import { cn, formatDate, formatToIDR } from "@/lib/utils";
 
 interface VoucherCardProps {
   voucher: PosVoucher;

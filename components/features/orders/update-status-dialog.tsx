@@ -39,14 +39,12 @@ export const UpdateOrderStatusDialog = () => {
 
     setIsPending(true);
     try {
-      const { error } = await elysia
-        .orders({ id: data.orderId })
-        .status.patch(
-          {},
-          {
-            fetch: { credentials: "include" },
-          }
-        );
+      const { error } = await elysia.orders({ id: data.orderId }).status.patch(
+        {},
+        {
+          fetch: { credentials: "include" },
+        }
+      );
 
       if (error) {
         throw new Error(

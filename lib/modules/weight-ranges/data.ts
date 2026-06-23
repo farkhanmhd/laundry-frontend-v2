@@ -23,17 +23,32 @@ export abstract class WeightRangesApi extends BaseApi {
     return data?.find((wr) => wr.id === id) ?? null;
   }
 
-  static async create(body: { label: string; minWeight: number; maxWeight: number }) {
+  static async create(body: {
+    label: string;
+    minWeight: number;
+    maxWeight: number;
+  }) {
     const result = await elysia["weight-ranges"].post(body, {
       ...(await WeightRangesApi.getConfig()),
     });
     return result;
   }
 
-  static async update(id: number, body: { label?: string; minWeight?: number; maxWeight?: number; isActive?: boolean }) {
-    const result = await elysia["weight-ranges"]({ id: String(id) }).patch(body, {
-      ...(await WeightRangesApi.getConfig()),
-    });
+  static async update(
+    id: number,
+    body: {
+      label?: string;
+      minWeight?: number;
+      maxWeight?: number;
+      isActive?: boolean;
+    }
+  ) {
+    const result = await elysia["weight-ranges"]({ id: String(id) }).patch(
+      body,
+      {
+        ...(await WeightRangesApi.getConfig()),
+      }
+    );
     return result;
   }
 }

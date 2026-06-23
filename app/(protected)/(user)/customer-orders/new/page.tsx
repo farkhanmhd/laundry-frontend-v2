@@ -7,6 +7,6 @@ export default async function NewOrderPage() {
     headers: await headers(),
   });
 
-  const data = response?.data;
-  return <CustomerNewOrderPageClient items={data ?? []} />;
+  const data = response?.data ?? [];
+  return <CustomerNewOrderPageClient items={data} />;
 }

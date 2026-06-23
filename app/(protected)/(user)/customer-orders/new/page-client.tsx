@@ -1,10 +1,10 @@
 "use client";
 
 import { OrderItemCard } from "@/components/features/orders/order-item-card";
-import type { PriceItemData } from "@/lib/modules/prices/data";
+import type { CustomerItemCatalog } from "@/lib/modules/customer-orders/schema";
 
 type Props = {
-  items: PriceItemData[];
+  items: CustomerItemCatalog[];
 };
 
 export function CustomerNewOrderPageClient({ items }: Props) {

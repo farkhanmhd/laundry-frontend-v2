@@ -11,10 +11,14 @@ const errorResult = {
   message: "Something went wrong",
 };
 
-function extractErrorDetails(error: { value?: Record<string, unknown> } | undefined | null) {
+function extractErrorDetails(
+  error: { value?: Record<string, unknown> } | undefined | null
+) {
   return {
     messageKey: error?.value?.messageKey as string | undefined,
-    messageParams: error?.value?.messageParams as Record<string, unknown> | undefined,
+    messageParams: error?.value?.messageParams as
+      | Record<string, unknown>
+      | undefined,
   };
 }
 
@@ -41,7 +45,11 @@ export const addVoucherAction = actionClient
     }
 
     const data = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -70,7 +78,11 @@ export const deleteVoucherAction = actionClient
     }
 
     const data = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {
@@ -108,7 +120,11 @@ export const updateVoucherAction = actionClient
     }
 
     const data = result.data as
-      | { message?: string; messageKey?: string; messageParams?: Record<string, unknown> }
+      | {
+          message?: string;
+          messageKey?: string;
+          messageParams?: Record<string, unknown>;
+        }
       | undefined;
 
     return {

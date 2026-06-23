@@ -16,10 +16,7 @@ export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
 
 export const addressSchema = z.object({
   id: z.string(),
-  label: z
-    .string()
-    .min(3, "account.label.min")
-    .max(255, "account.label.max"),
+  label: z.string().min(3, "account.label.min").max(255, "account.label.max"),
   street: z
     .string()
     .min(3, "account.street.min")

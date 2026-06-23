@@ -108,7 +108,11 @@ export const ordersColumns: ColumnDef<Order>[] = [
       return t("date");
     },
     cell: ({ row }) => {
-      return <div className="text-sm">{formatDate(row.getValue("createdAt") as string)}</div>;
+      return (
+        <div className="text-sm">
+          {formatDate(row.getValue("createdAt") as string)}
+        </div>
+      );
     },
   },
   {

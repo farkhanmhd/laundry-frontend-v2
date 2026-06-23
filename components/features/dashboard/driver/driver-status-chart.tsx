@@ -5,12 +5,7 @@ import { PackageSearch } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Label, Legend, Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
@@ -44,7 +39,10 @@ export function DriverStatusChart() {
   const chartConfig = useMemo(() => {
     if (!data) return {} satisfies ChartConfig;
     return (data as DeliveryStatusData[]).reduce(
-      (acc: Record<string, { label: string; color: string }>, item: DeliveryStatusData) => ({
+      (
+        acc: Record<string, { label: string; color: string }>,
+        item: DeliveryStatusData
+      ) => ({
         ...acc,
         [item.name]: {
           label: tStatus(item.name),
@@ -55,13 +53,19 @@ export function DriverStatusChart() {
     );
   }, [data, tStatus]);
 
-  const statusChartData = ((data ?? []) as DeliveryStatusData[]).map((item: DeliveryStatusData) => ({
-    ...item,
-    fill: STATUS_COLORS[item.name] ?? "var(--chart-5)",
-  }));
+  const statusChartData = ((data ?? []) as DeliveryStatusData[]).map(
+    (item: DeliveryStatusData) => ({
+      ...item,
+      fill: STATUS_COLORS[item.name] ?? "var(--chart-5)",
+    })
+  );
 
   const totalCount = useMemo(
-    () => statusChartData.reduce((acc: number, curr: DeliveryStatusData) => acc + curr.value, 0),
+    () =>
+      statusChartData.reduce(
+        (acc: number, curr: DeliveryStatusData) => acc + curr.value,
+        0
+      ),
     [statusChartData]
   );
 
@@ -120,74 +124,72 @@ export function DriverStatusChart() {
           className="mx-auto aspect-square max-h-64"
           config={chartConfig}
         >
-            <PieChart>
-              <ChartTooltip
-                content={<ChartTooltipContent />}
-                cursor={false}
-              />
-              <Pie
-                data={statusChartData}
-                dataKey="value"
-                innerRadius={60}
-                nameKey="name"
-                strokeWidth={5}
-              >
-                <Label
-                  content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      return (
-                        <text
-                          dominantBaseline="middle"
-                          textAnchor="middle"
+          <PieChart>
+            <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+            <Pie
+              data={statusChartData}
+              dataKey="value"
+              innerRadius={60}
+              nameKey="name"
+              strokeWidth={5}
+            >
+              <Label
+                content={({ viewBox }) => {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    return (
+                      <text
+                        dominantBaseline="middle"
+                        textAnchor="middle"
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                      >
+                        <tspan
+                          className="fill-foreground font-bold text-3xl"
                           x={viewBox.cx}
                           y={viewBox.cy}
                         >
-                          <tspan
-                            className="fill-foreground font-bold text-3xl"
-                            x={viewBox.cx}
-                            y={viewBox.cy}
-                          >
-                            {totalCount.toLocaleString()}
-                          </tspan>
-                          <tspan
-                            className="fill-muted-foreground"
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 24}
-                          >
-                            {t("title")}
-                          </tspan>
-                        </text>
-                      );
-                    }
-                  }}
-                />
-              </Pie>
-              <Legend
-                content={({ payload }) => (
-                  <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
-                    {payload?.map((entry) => (
-                      <div
-                        className="flex items-center gap-2 text-sm"
-                        key={entry.value}
-                      >
-                        <div
-                          className="h-2.5 w-2.5 rounded-full"
-                          style={{ backgroundColor: entry.color }}
-                        />
-                        <span className="text-muted-foreground">
-                          {tStatus(entry.value as string)}
-                        </span>
-                        <span className="font-medium">
-                          {statusChartData.find((d: DeliveryStatusData) => d.name === entry.value)
-                            ?.value ?? 0}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                verticalAlign="bottom"
+                          {totalCount.toLocaleString()}
+                        </tspan>
+                        <tspan
+                          className="fill-muted-foreground"
+                          x={viewBox.cx}
+                          y={(viewBox.cy || 0) + 24}
+                        >
+                          {t("title")}
+                        </tspan>
+                      </text>
+                    );
+                  }
+                }}
               />
-            </PieChart>
+            </Pie>
+            <Legend
+              content={({ payload }) => (
+                <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2">
+                  {payload?.map((entry) => (
+                    <div
+                      className="flex items-center gap-2 text-sm"
+                      key={entry.value}
+                    >
+                      <div
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <span className="text-muted-foreground">
+                        {tStatus(entry.value as string)}
+                      </span>
+                      <span className="font-medium">
+                        {statusChartData.find(
+                          (d: DeliveryStatusData) => d.name === entry.value
+                        )?.value ?? 0}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              verticalAlign="bottom"
+            />
+          </PieChart>
         </ChartContainer>
       </CardContent>
     </Card>

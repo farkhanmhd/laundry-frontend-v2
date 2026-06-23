@@ -654,7 +654,11 @@
       "adjustmentTitle": "Adjustment Report",
       "restockTitle": "Restock Report",
       "usageTitle": "Usage Report",
+      "metadataTitle": "Metadata Changes",
+      "changedFieldsTitle": "Changed Fields",
+      "noInventorySelected": "Select an inventory to view metadata changes",
       "adjustmentButton": "Adjustment Report",
+      "metadataButton": "Metadata Changes",
       "restockButton": "Restock Report",
       "usageButton": "Usage Report",
       "searchByProduct": "Search by Product name or Order ID",
@@ -664,7 +668,7 @@
       "category": "Category",
       "change": "Change",
       "remaining": "Remaining",
-      "movementTab": "Movement",
+      "movementTab": "Stock History",
       "movementTitle": "Movement History",
       "movementDescription": "View the complete history of stock movements for this inventory item.",
       "dateRange": "Date Range",
@@ -678,7 +682,7 @@
       "restockPrice": "Restock Price",
       "type": "Type",
       "reference": "Reference",
-      "previous": "Previous Stok"
+      "previous": "Previous"
     },
     "monthlyReport": {
       "buttonLabel": "Monthly Report",

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { InventoryDataForm } from "@/components/features/inventories/inventory-data-form";
 import { InventoryImageForm } from "@/components/features/inventories/inventory-image-form";
+import InventoryLogsTab from "@/components/features/inventories/inventory-logs-tab";
 import InventoryMovementTab from "@/components/features/inventories/inventory-movement-tab";
 import { InventoryRestockForm } from "@/components/features/inventories/inventory-restock-form";
 import { StockAdjustmentForm } from "@/components/features/inventories/stock-adjustment-form";
@@ -89,6 +90,18 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
         value="movement"
       >
         <InventoryMovementTab
+          id={inventory.id}
+          name={inventory.name}
+          page={page}
+          rows={rows}
+        />
+      </TabsContent>
+      <TabsContent
+        className="data-[state=inactive]:hidden"
+        forceMount
+        value="logs"
+      >
+        <InventoryLogsTab
           id={inventory.id}
           name={inventory.name}
           page={page}

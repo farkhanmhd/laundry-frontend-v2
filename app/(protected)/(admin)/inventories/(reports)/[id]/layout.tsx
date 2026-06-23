@@ -49,6 +49,10 @@ const ProductDetailLayout = ({ children }: { children: React.ReactNode }) => {
       label: t("logs.movementTab"),
       value: "movement",
     },
+    {
+      label: t("logs.metadataButton"),
+      value: "logs",
+    },
   ];
 
   return (

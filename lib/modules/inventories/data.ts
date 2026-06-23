@@ -47,6 +47,16 @@ export type MovementHistory = NonNullable<
   Awaited<ReturnType<typeof InventoriesApi.getInventoryMovement>>
 >["movementHistory"][number];
 
+export type InventoryLog = NonNullable<
+  Awaited<ReturnType<typeof InventoriesApi.getInventoryLogs>>
+>["logs"][number];
+
+export type InventoryLogsQuery = {
+  search?: string;
+  rows?: number;
+  page?: number;
+};
+
 export abstract class InventoriesApi extends BaseApi {
   static async getInventories() {
     const { data: response } = await elysia.inventories.get({
@@ -162,6 +172,19 @@ export abstract class InventoriesApi extends BaseApi {
     });
 
     return result;
+  }
+
+  static async getInventoryLogs(
+    id: string,
+    query?: InventoryLogsQuery
+  ) {
+    const { data: response } = await elysia.inventories({ id }).logs.get({
+      ...(await InventoriesApi.getConfig()),
+      query,
+    });
+
+    const data = response?.data;
+    return data;
   }
 
   static async getInventoryMovement(

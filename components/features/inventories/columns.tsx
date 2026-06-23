@@ -17,6 +17,7 @@ import { useUserData } from "@/hooks/use-user-data";
 import type {
   AdjustmentHistory,
   Inventory,
+  InventoryLog,
   MovementHistory,
   RestockHistory,
   UsageHistory,
@@ -26,6 +27,7 @@ import { DeleteAdjustment } from "./delete-adjustment";
 import { DeleteInventoryDialog } from "./delete-inventory-dialog";
 import { DeleteRestock } from "./delete-restock";
 import { UpdateAdjustmentDialog } from "./update-adjustment-dialog";
+import { InventoryLogChangesDialog } from "./inventory-log-changes-dialog";
 import { UpdateRestockDialog } from "./update-restock-dialog";
 
 const useInventoryTranslations = () => {
@@ -630,6 +632,100 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
 
         return null;
       },
+    },
+  ];
+};
+
+export const useInventoryLogsColumns = (): ColumnDef<InventoryLog>[] => {
+  const t = useInventoryTranslations();
+
+  return [
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max font-medium text-xs uppercase">
+          {row.getValue("id")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "action",
+      header: t.logs.type,
+      cell: ({ row }) => {
+        const action = row.getValue("action") as string;
+        const variantMap: Record<string, string> = {
+          create: "default",
+          update: "secondary",
+          delete: "destructive",
+          image_update: "outline",
+        };
+        return (
+          <Badge
+            className="rounded-md uppercase"
+            variant={
+              (variantMap[action] ?? "secondary") as keyof typeof badgeVariants
+            }
+          >
+            {action.replace("_", " ")}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "summary",
+      header: t.logs.note,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {row.getValue("summary") || "-"}
+        </div>
+      ),
+    },
+    {
+      id: "actor",
+      header: t.logs.user,
+      cell: ({ row }) => {
+        const actor = row.original.actor;
+        return (
+          <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+            {actor?.name || "System"}
+          </div>
+        );
+      },
+    },
+    {
+      id: "actorRole",
+      header: t.logs.category,
+      cell: ({ row }) => {
+        const actor = row.original.actor;
+        const role = actor?.role;
+        if (!role) {
+          return <span className="text-muted-foreground text-xs">-</span>;
+        }
+        return (
+          <Badge className="rounded-md text-xs uppercase" variant="outline">
+            {role}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: t.logs.createdAt,
+      cell: ({ row }) => (
+        <div className="line-clamp-1 min-w-max text-muted-foreground text-sm">
+          {formatDate(row.getValue("createdAt") as string)}
+        </div>
+      ),
+    },
+    {
+      id: "actions",
+      header: t.table.actions,
+      cell: ({ row }) => (
+        <InventoryLogChangesDialog changedFields={row.original.changedFields} />
+      ),
+      enableSorting: false,
+      enableHiding: false,
     },
   ];
 };

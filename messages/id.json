@@ -654,7 +654,11 @@
       "adjustmentTitle": "Laporan Penyesuaian",
       "restockTitle": "Laporan Restok",
       "usageTitle": "Laporan Penggunaan",
+      "metadataTitle": "Perubahan Metadata",
+      "changedFieldsTitle": "Bidang yang Diubah",
+      "noInventorySelected": "Pilih inventaris untuk melihat perubahan metadata",
       "adjustmentButton": "Laporan Penyesuaian",
+      "metadataButton": "Perubahan Metadata",
       "usageButton": "Laporan Penggunaan",
       "restockButton": "Laporan Restok",
       "searchByProduct": "Cari berdasarkan nama produk atau ID Pesanan",
@@ -664,8 +668,8 @@
       "category": "Kategori",
       "change": "Perubahan",
       "remaining": "Sisa",
-      "movementTab": "Riwayat",
-      "movementTitle": "Riwayat Pergerakan",
+      "movementTab": "Riwayat Stok",
+      "movementTitle": "Riwayat Stok",
       "movementDescription": "Lihat riwayat lengkap pergerakan stok untuk item inventaris ini.",
       "dateRange": "Rentang Tanggal",
       "note": "Catatan",
@@ -678,7 +682,7 @@
       "restockPrice": "Harga Restok",
       "type": "Tipe",
       "reference": "Referensi",
-      "previous": "Stok Sebelum"
+      "previous": "Sebelum"
     },
     "monthlyReport": {
       "buttonLabel": "Laporan Bulanan",

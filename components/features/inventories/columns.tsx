@@ -272,6 +272,11 @@ export const useAdjustmentHistoryColumns =
 
     return [
       {
+        accessorKey: "id",
+        header: "ID",
+        cell: ({ row }) => <div className="uppercase">{row.original.id}</div>,
+      },
+      {
         accessorKey: "name",
         header: t.logs.product,
         cell: ({ row }) => {
@@ -310,15 +315,6 @@ export const useAdjustmentHistoryColumns =
         },
       },
       {
-        accessorKey: "stockRemaining",
-        header: t.logs.remaining,
-        cell: ({ row }) => (
-          <div className="min-w-max font-medium">
-            {row.getValue("stockRemaining")}
-          </div>
-        ),
-      },
-      {
         accessorKey: "note",
         header: t.logs.note,
         cell: ({ row }) => (
@@ -354,6 +350,11 @@ export const useInventoryUsageHistoryColumns =
 
     return [
       {
+        accessorKey: "id",
+        header: "ID",
+        cell: ({ row }) => <div className="uppercase">{row.original.id}</div>,
+      },
+      {
         accessorKey: "name",
         header: t.logs.product,
         cell: ({ row }) => {
@@ -383,15 +384,6 @@ export const useInventoryUsageHistoryColumns =
             </div>
           );
         },
-      },
-      {
-        accessorKey: "stockRemaining",
-        header: t.logs.remaining,
-        cell: ({ row }) => (
-          <div className="min-w-max font-medium">
-            {row.getValue("stockRemaining")}
-          </div>
-        ),
       },
       {
         accessorKey: "orderId",
@@ -443,6 +435,11 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
 
   return [
     {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div className="uppercase">{row.original.id}</div>,
+    },
+    {
       accessorKey: "inventoryName",
       header: t.logs.product,
       cell: ({ row }) => {
@@ -490,15 +487,6 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
       },
     },
     {
-      accessorKey: "previousStock",
-      header: t.logs.previous,
-      cell: ({ row }) => (
-        <div className="min-w-max font-medium">
-          {row.getValue("previousStock") as number}
-        </div>
-      ),
-    },
-    {
       accessorKey: "changeAmount",
       header: t.logs.change,
       cell: ({ row }) => {
@@ -517,15 +505,6 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
           </div>
         );
       },
-    },
-    {
-      accessorKey: "stockRemaining",
-      header: t.logs.remaining,
-      cell: ({ row }) => (
-        <div className="min-w-max font-medium">
-          {row.getValue("stockRemaining") as number}
-        </div>
-      ),
     },
     {
       accessorKey: "reference",
@@ -694,22 +673,6 @@ export const useInventoryLogsColumns = (): ColumnDef<InventoryLog>[] => {
       },
     },
     {
-      id: "actorRole",
-      header: t.logs.category,
-      cell: ({ row }) => {
-        const actor = row.original.actor;
-        const role = actor?.role;
-        if (!role) {
-          return <span className="text-muted-foreground text-xs">-</span>;
-        }
-        return (
-          <Badge className="rounded-md text-xs uppercase" variant="outline">
-            {role}
-          </Badge>
-        );
-      },
-    },
-    {
       accessorKey: "createdAt",
       header: t.logs.createdAt,
       cell: ({ row }) => (
@@ -735,6 +698,11 @@ export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
 
   return [
     {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div className="uppercase">{row.original.id}</div>,
+    },
+    {
       accessorKey: "inventoryName",
       header: t.logs.product,
       cell: ({ row }) => {
@@ -758,15 +726,6 @@ export const useRestockHistoryColumns = (): ColumnDef<RestockHistory>[] => {
       cell: ({ row }) => (
         <div className="min-w-max font-medium text-green-600">
           +{row.getValue("restockQuantity") as number}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "stockRemaining",
-      header: t.logs.remaining,
-      cell: ({ row }) => (
-        <div className="min-w-max font-medium">
-          {row.getValue("stockRemaining") as number}
         </div>
       ),
     },

@@ -5,37 +5,38 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { updateAssetAction } from "@/lib/modules/assets/actions";
-import type { Asset } from "@/lib/modules/assets/data";
-import { assetSchema } from "@/lib/modules/assets/schema";
+import { updateVehicleAction } from "@/lib/modules/vehicles/actions";
+import type { Vehicle } from "@/lib/modules/vehicles/data";
+import { vehicleSchema } from "@/lib/modules/vehicles/schema";
 import { toastResponse } from "@/lib/toast-helper";
-import { AssetDataForm } from "./asset-data-form";
+import { VehicleDataForm } from "./vehicle-data-form";
 
 type Props = {
-  asset: Asset;
+  vehicle: Vehicle;
 };
 
-export const UpdateAssetForm = ({ asset }: Props) => {
-  const t = useTranslations("Assets");
+export const UpdateVehicleForm = ({ vehicle }: Props) => {
+  const t = useTranslations("Vehicles");
   const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
   const formData = useHookFormAction(
-    updateAssetAction,
-    zodResolver(assetSchema),
+    updateVehicleAction,
+    zodResolver(vehicleSchema),
     {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          id: asset.id,
-          name: asset.name,
-          licensePlate: asset.licensePlate,
+          id: vehicle.id,
+          name: vehicle.name,
+          licensePlate: vehicle.licensePlate,
+          ownerId: vehicle.ownerId ?? undefined,
         },
       },
       actionProps: {
         onSettled: ({ result: { data } }) => {
           if (data?.status === "success") {
             toast.success(toastResponse(tNotifications, data));
-            push("/assets");
+            push("/vehicles");
           }
         },
       },
@@ -43,10 +44,11 @@ export const UpdateAssetForm = ({ asset }: Props) => {
   );
 
   return (
-    <AssetDataForm
+    <VehicleDataForm
       formData={formData}
-      onSubmitAssetAction={formData.handleSubmitWithAction}
-      submitLabel={t("form.updateAsset")}
+      initialDriverName={vehicle.ownerName}
+      onSubmitVehicleAction={formData.handleSubmitWithAction}
+      submitLabel={t("form.updateVehicle")}
     />
   );
 };

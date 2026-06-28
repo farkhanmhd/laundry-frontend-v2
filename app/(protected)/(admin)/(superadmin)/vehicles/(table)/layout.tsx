@@ -3,23 +3,23 @@
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useAssetColumns } from "@/components/features/assets/columns";
+import { useVehicleColumns } from "@/components/features/vehicles/columns";
 import { TableProvider } from "@/components/table/context";
 import { TablePagination } from "@/components/table/table-pagination";
 import { TableToolbar } from "@/components/table/table-toolbar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const AssetLayout = ({ children }: { children: React.ReactNode }) => {
-  const t = useTranslations("Assets");
-  const columns = useAssetColumns();
+const VehicleLayout = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations("Vehicles");
+  const columns = useVehicleColumns();
 
   return (
     <TableProvider columns={columns}>
       <TableToolbar>
         <Link
           className={cn(buttonVariants(), "rounded-none")}
-          href="/assets/new"
+          href="/vehicles/new"
         >
           <Plus />
           {t("title")}
@@ -31,4 +31,4 @@ const AssetLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AssetLayout;
+export default VehicleLayout;

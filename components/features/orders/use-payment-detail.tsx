@@ -41,12 +41,12 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
       return;
     }
 
+    const expiryTime = paymentDetails.expiryTime;
+
     const calculateTimeLeft = () => {
       const now = Date.now();
       const expiryDate = new Date(
-        paymentDetails.expiryTime
-          .replace(" ", "T")
-          .replace(timestampRegex, "$1:00")
+        expiryTime.replace(" ", "T").replace(timestampRegex, "$1:00")
       );
 
       if (expiryDate.getSeconds() > 0) {

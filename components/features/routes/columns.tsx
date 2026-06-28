@@ -37,20 +37,20 @@ export const useRouteColumns = (): ColumnDef<Route>[] => {
       ),
     },
     {
-      accessorKey: "assetName",
-      header: t("table.asset"),
+      accessorKey: "vehicleName",
+      header: t("table.vehicle"),
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max">
-          {row.getValue("assetName") || "-"}
+          {row.getValue("vehicleName") || "-"}
         </div>
       ),
     },
     {
-      accessorKey: "assetLicensePlate",
+      accessorKey: "vehicleLicensePlate",
       header: t("table.licensePlate"),
       cell: ({ row }) => (
         <div className="line-clamp-1 min-w-max">
-          {row.getValue("assetLicensePlate") || "-"}
+          {row.getValue("vehicleLicensePlate") || "-"}
         </div>
       ),
     },

@@ -1,7 +1,6 @@
 import {
   Archive,
   Blocks,
-  Car,
   ChartColumnIncreasing,
   ChartNoAxesCombined,
   HandPlatter,
@@ -11,6 +10,7 @@ import {
   MapPin,
   Monitor,
   Motorbike,
+  MotorbikeIcon,
   ShieldUser,
   Ticket,
   Truck,
@@ -86,9 +86,9 @@ export const superAdminNavData: NavItem[] = [
     icon: MapPin,
   },
   {
-    title: "Assets",
-    url: "/assets",
-    icon: Car,
+    title: "Vehicles",
+    url: "/vehicles",
+    icon: MotorbikeIcon,
   },
   {
     title: "Vouchers",

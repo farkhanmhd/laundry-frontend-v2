@@ -5,18 +5,18 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { createAssetAction } from "@/lib/modules/assets/actions";
-import { assetSchema } from "@/lib/modules/assets/schema";
+import { createVehicleAction } from "@/lib/modules/vehicles/actions";
+import { vehicleSchema } from "@/lib/modules/vehicles/schema";
 import { toastResponse } from "@/lib/toast-helper";
-import { AssetDataForm } from "./asset-data-form";
+import { VehicleDataForm } from "./vehicle-data-form";
 
-export const CreateAssetForm = () => {
-  const t = useTranslations("Assets");
+export const CreateVehicleForm = () => {
+  const t = useTranslations("Vehicles");
   const tNotifications = useTranslations("Notifications");
   const { push } = useRouter();
   const formData = useHookFormAction(
-    createAssetAction,
-    zodResolver(assetSchema),
+    createVehicleAction,
+    zodResolver(vehicleSchema),
     {
       formProps: {
         mode: "onChange",
@@ -29,7 +29,7 @@ export const CreateAssetForm = () => {
         onSettled: ({ result }) => {
           if (result.data?.status === "success") {
             toast.success(toastResponse(tNotifications, result.data));
-            push("/assets");
+            push("/vehicles");
           } else {
             toast.error(toastResponse(tNotifications, result.data ?? {}));
           }
@@ -39,9 +39,9 @@ export const CreateAssetForm = () => {
   );
 
   return (
-    <AssetDataForm
+    <VehicleDataForm
       formData={formData}
-      onSubmitAssetAction={formData.handleSubmitWithAction}
+      onSubmitVehicleAction={formData.handleSubmitWithAction}
       submitLabel={t("form.createNew")}
     />
   );

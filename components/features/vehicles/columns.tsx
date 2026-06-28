@@ -6,12 +6,12 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import { buttonVariants } from "@/components/ui/button";
-import type { Asset } from "@/lib/modules/assets/data";
+import type { Vehicle } from "@/lib/modules/vehicles/data";
 import { cn } from "@/lib/utils";
-import { DeleteAssetDialog } from "./delete-asset-dialog";
+import { DeleteVehicleDialog } from "./delete-vehicle-dialog";
 
-export const useAssetColumns = (): ColumnDef<Asset>[] => {
-  const t = useTranslations("Assets");
+export const useVehicleColumns = (): ColumnDef<Vehicle>[] => {
+  const t = useTranslations("Vehicles");
 
   return [
     {
@@ -33,6 +33,16 @@ export const useAssetColumns = (): ColumnDef<Asset>[] => {
       ),
     },
     {
+      accessorKey: "ownerName",
+      header: t("table.ownerName"),
+      cell: ({ row }) => {
+        const ownerName = row.original.ownerName ?? t("table.business");
+        return (
+          <div className="line-clamp-1 min-w-max font-medium">{ownerName}</div>
+        );
+      },
+    },
+    {
       id: "actions",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title={t("table.actions")} />
@@ -43,15 +53,13 @@ export const useAssetColumns = (): ColumnDef<Asset>[] => {
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon-sm" })
             )}
-            href={`/assets/${row.original.id}`}
+            href={`/vehicles/${row.original.id}`}
           >
             <Eye />
           </Link>
-          <DeleteAssetDialog id={row.original.id} />
+          <DeleteVehicleDialog id={row.original.id} />
         </div>
       ),
-      enableSorting: false,
-      enableHiding: false,
     },
   ];
 };

@@ -32,20 +32,22 @@ export function DriverActiveRoute() {
   type ChartItem = { name: string; value: number };
 
   const chartConfig = useMemo(() => {
-    if (!data?.statusBreakdown) return {};
+    if (!data?.statusBreakdown) {
+      return {};
+    }
     const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)"];
     return (data.statusBreakdown as ChartItem[]).reduce(
       (
         acc: Record<string, { label: string; color: string }>,
         item: ChartItem,
         i: number
-      ) => ({
-        ...acc,
-        [item.name]: {
+      ) => {
+        acc[item.name] = {
           label: tStatus(item.name),
           color: colors[i % colors.length],
-        },
-      }),
+        };
+        return acc;
+      },
       {} as Record<string, { label: string; color: string }>
     );
   }, [data, tStatus]);
@@ -106,7 +108,7 @@ export function DriverActiveRoute() {
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <Badge variant="outline">{data.assetLicensePlate}</Badge>
+          <Badge variant="outline">{data.vehicleLicensePlate}</Badge>
           <span className="text-muted-foreground text-sm">
             {data.completedDeliveries}/{data.totalDeliveries}
           </span>

@@ -37,18 +37,20 @@ export function DriverStatusChart() {
   const tError = useTranslations("driverDashboard.error");
 
   const chartConfig = useMemo(() => {
-    if (!data) return {} satisfies ChartConfig;
+    if (!data) {
+      return {} satisfies ChartConfig;
+    }
     return (data as DeliveryStatusData[]).reduce(
       (
         acc: Record<string, { label: string; color: string }>,
         item: DeliveryStatusData
-      ) => ({
-        ...acc,
-        [item.name]: {
+      ) => {
+        acc[item.name] = {
           label: tStatus(item.name),
           color: STATUS_COLORS[item.name] ?? "var(--chart-5)",
-        },
-      }),
+        };
+        return acc;
+      },
       {} satisfies ChartConfig
     );
   }, [data, tStatus]);

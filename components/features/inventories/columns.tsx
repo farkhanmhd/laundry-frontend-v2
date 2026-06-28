@@ -72,6 +72,7 @@ const useInventoryTranslations = () => {
       type: t("logs.type"),
       reference: t("logs.reference"),
       previous: t("logs.previous"),
+      initialQty: t("logs.initialQty"),
     },
   };
 };
@@ -487,6 +488,14 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
       },
     },
     {
+      accessorKey: "initialQty",
+      header: t.logs.initialQty,
+      cell: ({ row }) => {
+        const initialQty = row.getValue("initialQty") as number;
+        return <div className="min-w-max font-medium">{initialQty}</div>;
+      },
+    },
+    {
       accessorKey: "changeAmount",
       header: t.logs.change,
       cell: ({ row }) => {
@@ -504,6 +513,14 @@ export const useMovementHistoryColumns = (): ColumnDef<MovementHistory>[] => {
             {amount}
           </div>
         );
+      },
+    },
+    {
+      accessorKey: "stockRemaining",
+      header: t.logs.remaining,
+      cell: ({ row }) => {
+        const stockRemaining = row.getValue("stockRemaining") as number;
+        return <div className="min-w-max font-medium">{stockRemaining}</div>;
       },
     },
     {

@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { CreateAssetForm } from "@/components/features/assets/create-asset-form";
+import { CreateVehicleForm } from "@/components/features/vehicles/create-vehicle-form";
 
-const NewAssetPage = async () => {
-  const t = await getTranslations("Assets");
+const NewVehiclePage = async () => {
+  const t = await getTranslations("Vehicles");
 
   return (
     <div className="h-full space-y-4 p-6 lg:mx-auto lg:max-w-3xl">
@@ -12,9 +12,9 @@ const NewAssetPage = async () => {
           {t("form.createDescription")}
         </p>
       </div>
-      <CreateAssetForm />
+      <CreateVehicleForm />
     </div>
   );
 };
 
-export default NewAssetPage;
+export default NewVehiclePage;

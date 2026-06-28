@@ -35,9 +35,9 @@ export const DeliverSelectedDelivery = () => {
   const [isPending, setIsPending] = useState(false);
   const [open, setOpen] = useState(false);
   const [driverId, setDriverId] = useState("");
-  const [assetId, setAssetId] = useState("");
+  const [vehicleId, setVehicleId] = useState("");
   const queryClient = useQueryClient();
-  const [driverResult, assetResult] = useQueries({
+  const [driverResult, vehicleResult] = useQueries({
     queries: [
       {
         queryKey: ["drivers"],
@@ -54,16 +54,16 @@ export const DeliverSelectedDelivery = () => {
         },
       },
       {
-        queryKey: ["assets"],
+        queryKey: ["vehicles"],
         queryFn: async () => {
-          const response = await elysia.assets.get({
+          const response = await elysia.vehicles.get({
             fetch: {
               credentials: "include",
             },
           });
 
           if (response.data) {
-            return response.data.data.assets;
+            return response.data.data.vehicles;
           }
         },
       },
@@ -77,9 +77,9 @@ export const DeliverSelectedDelivery = () => {
     value: driver.id,
   }));
 
-  const assetOptions = assetResult.data?.map((asset) => ({
-    label: `${asset.name} - ${asset.licensePlate}`,
-    value: asset.id,
+  const vehicleOptions = vehicleResult.data?.map((vehicle) => ({
+    label: `${vehicle.name} - ${vehicle.licensePlate}`,
+    value: vehicle.id,
   }));
 
   if (!selectedIds.length) {
@@ -87,7 +87,7 @@ export const DeliverSelectedDelivery = () => {
   }
 
   const handleDeliver = async () => {
-    if (!(driverId && assetId)) {
+    if (!(driverId && vehicleId)) {
       return;
     }
 
@@ -97,7 +97,7 @@ export const DeliverSelectedDelivery = () => {
         {
           deliveryIds: selectedIds,
           driverId,
-          assetId,
+          vehicleId,
         },
         {
           fetch: {
@@ -171,17 +171,17 @@ export const DeliverSelectedDelivery = () => {
             </Select>
           </div>
           <div className="space-y-3">
-            <Label htmlFor="asset-select">{t("selectAsset")}</Label>
+            <Label htmlFor="vehicle-select">{t("selectVehicle")}</Label>
             <Select
               disabled={isPending}
-              onValueChange={setAssetId}
-              value={assetId}
+              onValueChange={setVehicleId}
+              value={vehicleId}
             >
-              <SelectTrigger className="w-full" id="asset-select">
-                <SelectValue placeholder={t("selectAsset")} />
+              <SelectTrigger className="w-full" id="vehicle-select">
+                <SelectValue placeholder={t("selectVehicle")} />
               </SelectTrigger>
               <SelectContent>
-                {assetOptions?.map((option) => (
+                {vehicleOptions?.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -195,7 +195,7 @@ export const DeliverSelectedDelivery = () => {
             {t("cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
-            disabled={isPending || !driverId || !assetId}
+            disabled={isPending || !driverId || !vehicleId}
             onClick={handleDeliver}
           >
             {isPending ? t("creating") : t("confirm")}

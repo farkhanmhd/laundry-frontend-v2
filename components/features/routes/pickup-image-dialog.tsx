@@ -15,7 +15,9 @@ type Props = {
 };
 
 export function PickupImageDialog({ src, label }: Props) {
-  if (!src) return null;
+  if (!src) {
+    return null;
+  }
 
   return (
     <Dialog>

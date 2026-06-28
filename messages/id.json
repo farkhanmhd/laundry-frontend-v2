@@ -243,12 +243,14 @@
       "inventories": "Inventaris",
       "services": "Layanan",
       "vouchers": "Voucher",
-      "assets": "Aset",
+      "vehicles": "Kendaraan",
       "drivers": "Driver",
       "bundlings": "Paket",
       "users": "Pengguna",
       "home": "Beranda",
-      "account": "Akun"
+      "account": "Akun",
+      "weights": "Berat",
+      "routes": "Rute"
     },
     "checkReceipt": "Cek Struk",
     "login": "Masuk"
@@ -429,8 +431,8 @@
     "confirm": "Konfirmasi",
     "driver": "Driver",
     "selectDriver": "Pilih Driver",
-    "asset": "Aset",
-    "selectAsset": "Pilih aset"
+    "vehicle": "Kendaraan",
+    "selectVehicle": "Pilih Kendaraan"
   },
   "Pickups": {
     "table": {
@@ -455,14 +457,14 @@
     "confirm": "Konfirmasi",
     "driver": "Driver",
     "selectDriver": "Pilih Driver",
-    "asset": "Aset",
-    "selectAsset": "Pilih aset"
+    "vehicle": "Kendaraan",
+    "selectvehicle": "Pilih Kendaraan"
   },
   "Routes": {
     "table": {
       "id": "ID",
       "driver": "Kurir",
-      "asset": "Kendaraan",
+      "vehicle": "Kendaraan",
       "licensePlate": "Plat Nomor",
       "deliveries": "Pengiriman",
       "completed": "Selesai",
@@ -556,7 +558,7 @@
       "id": "ID",
       "name": "Nama",
       "price": "Harga",
-      "quantity": "Jumlah",
+      "quantity": "Sisa Stok",
       "safetyStock": "Stok Aman",
       "status": "Status",
       "dateAdded": "Tanggal Ditambahkan",
@@ -682,7 +684,8 @@
       "restockPrice": "Harga Restok",
       "type": "Tipe",
       "reference": "Referensi",
-      "previous": "Sebelum"
+      "previous": "Sebelum",
+      "initialQty": "Jumlah Awal"
     },
     "monthlyReport": {
       "buttonLabel": "Laporan Bulanan",
@@ -1656,9 +1659,9 @@
         "min": "Nama minimal 2 karakter"
       }
     },
-    "assets": {
+    "vehicles": {
       "name": {
-        "required": "Nama aset wajib diisi"
+        "required": "Nama kendaraan wajib diisi"
       },
       "licensePlate": {
         "required": "Plat nomor wajib diisi"
@@ -1885,41 +1888,46 @@
         "started": "Unduhan laporan dimulai"
       }
     },
-    "asset": {
-      "retrieved": "Aset berhasil diambil",
-      "created": "Aset berhasil dibuat",
-      "updated": "Aset berhasil diperbarui",
-      "deleted": "Aset berhasil dihapus",
-      "notFound": "Aset {id} tidak ditemukan"
+    "vehicle": {
+      "retrieved": "Kendaraan berhasil diambil",
+      "created": "Kendaraan berhasil dibuat",
+      "updated": "Kendaraan berhasil diperbarui",
+      "deleted": "Kendaraan berhasil dihapus",
+      "notFound": "Kendaraan {id} tidak ditemukan"
     },
     "driver": {
       "retrieved": "Driver berhasil diambil"
     }
   },
-  "Assets": {
-    "title": "Aset",
+  "Vehicles": {
+    "title": "Kendaraan",
     "table": {
-      "searchPlaceholder": "Cari aset...",
+      "searchPlaceholder": "Cari Kendaraan...",
       "id": "ID",
       "name": "Nama",
       "licensePlate": "Nomor Plat",
-      "actions": "Aksi"
+      "actions": "Aksi",
+      "ownerName": "Pemilik",
+      "business": "Operasional Kendaraan Laundry"
     },
     "deleteDialog": {
-      "title": "Hapus Aset",
-      "description": "Apakah Anda yakin ingin menghapus aset ini? Tindakan ini tidak dapat dibatalkan.",
+      "title": "Hapus Kendaraan",
+      "description": "Apakah Anda yakin ingin menghapus kendaraan ini? Tindakan ini tidak dapat dibatalkan.",
       "cancel": "Batal",
       "confirm": "Hapus"
     },
     "form": {
-      "name": "Nama Aset",
-      "namePlaceholder": "Masukkan nama aset",
+      "name": "Nama Kendaraan",
+      "namePlaceholder": "Masukkan nama Kendaraan",
       "licensePlate": "Nomor Plat",
       "licensePlatePlaceholder": "Masukkan nomor plat",
-      "createNew": "Buat Aset Baru",
-      "createDescription": "Masukkan detail di bawah untuk menambah aset baru.",
-      "updateAsset": "Perbarui Aset",
-      "updateDescription": "Masukkan detail di bawah untuk mengubah aset."
+      "createNew": "Buat Kendaraan Baru",
+      "createDescription": "Masukkan detail di bawah untuk menambah kendaraan baru.",
+      "updateVehicle": "Perbarui Kendaraan",
+      "updateDescription": "Masukkan detail di bawah untuk mengubah kendaraan.",
+      "driver": "Driver",
+      "driverPlaceholder": "Cari driver...",
+      "clearDriver": "Hapus pilihan driver"
     }
   },
   "Drivers": {

@@ -17,25 +17,25 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { deleteAssetAction } from "@/lib/modules/assets/actions";
-import type { Asset } from "@/lib/modules/assets/data";
+import { deleteVehicleAction } from "@/lib/modules/vehicles/actions";
+import type { Vehicle } from "@/lib/modules/vehicles/data";
 import { toastResponse } from "@/lib/toast-helper";
 
-interface DeleteAssetDialogProps {
+interface DeleteVehicleDialogProps {
   id: string;
 }
 
-export function DeleteAssetDialog({ id }: DeleteAssetDialogProps) {
+export function DeleteVehicleDialog({ id }: DeleteVehicleDialogProps) {
   const [open, setOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const { setInternalData } = useTableContext<Asset>();
-  const t = useTranslations("Assets");
+  const { setInternalData } = useTableContext<Vehicle>();
+  const t = useTranslations("Vehicles");
   const tNotifications = useTranslations("Notifications");
   const tToast = useTranslations("Toast");
 
   const handleDelete = async () => {
     setIsPending(true);
-    const result = await deleteAssetAction({ id });
+    const result = await deleteVehicleAction({ id });
 
     if (result?.data?.status === "success") {
       toast.success(toastResponse(tNotifications, result.data));

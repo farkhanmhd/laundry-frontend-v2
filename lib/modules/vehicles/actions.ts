@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { actionClient } from "@/lib/safe-action";
-import { AssetsApi } from "./data";
-import { assetSchema } from "./schema";
+import { VehiclesApi } from "./data";
+import { vehicleSchema } from "./schema";
 
 const errorResult = {
   status: "error" as const,
@@ -21,11 +21,11 @@ function extractErrorDetails(
   };
 }
 
-export const createAssetAction = actionClient
-  .inputSchema(assetSchema)
+export const createVehicleAction = actionClient
+  .inputSchema(vehicleSchema)
   .action(async ({ parsedInput }) => {
     const { id: _, ...body } = parsedInput;
-    const result = await AssetsApi.createAsset(body);
+    const result = await VehiclesApi.createVehicle(body);
 
     if (result.error) {
       return {
@@ -51,24 +51,24 @@ export const createAssetAction = actionClient
     };
   });
 
-export const updateAssetAction = actionClient
-  .inputSchema(assetSchema)
+export const updateVehicleAction = actionClient
+  .inputSchema(vehicleSchema)
   .action(async ({ parsedInput }) => {
     const { id, ...body } = parsedInput;
 
     if (!id) {
       return {
         ...errorResult,
-        message: "Asset ID is required for update.",
+        message: "Vehicle ID is required for update.",
       };
     }
 
-    const result = await AssetsApi.updateAsset(id, body);
+    const result = await VehiclesApi.updateVehicle(id, body);
 
     if (result.error) {
       return {
         ...errorResult,
-        message: result.error.value.message || "Failed to update asset.",
+        message: result.error.value.message || "Failed to update vehicle.",
         ...extractErrorDetails(result.error),
       };
     }
@@ -89,19 +89,19 @@ export const updateAssetAction = actionClient
     };
   });
 
-const deleteAssetSchema = z.object({
+const deleteVehicleSchema = z.object({
   id: z.string(),
 });
 
-export const deleteAssetAction = actionClient
-  .inputSchema(deleteAssetSchema)
+export const deleteVehicleAction = actionClient
+  .inputSchema(deleteVehicleSchema)
   .action(async ({ parsedInput }) => {
-    const result = await AssetsApi.deleteAsset(parsedInput.id);
+    const result = await VehiclesApi.deleteVehicle(parsedInput.id);
 
     if (result.error) {
       return {
         ...errorResult,
-        message: result.error.value.message || "Failed to delete asset.",
+        message: result.error.value.message || "Failed to delete vehicle.",
         ...extractErrorDetails(result.error),
       };
     }

@@ -76,10 +76,37 @@ export const PickupSelectedDelivery = () => {
     value: driver.id,
   }));
 
-  const vehicleOptions = vehicleResult.data?.map((vehicle) => ({
-    label: `${vehicle.name} - ${vehicle.licensePlate}`,
-    value: vehicle.id,
-  }));
+  const vehicleOptions = vehicleResult.data
+    ?.filter((vehicle) => {
+      if (!driverId) {
+        return true;
+      }
+      return !vehicle.ownerId || vehicle.ownerId === driverId;
+    })
+    .map((vehicle) => ({
+      label: `${vehicle.name} - ${vehicle.licensePlate}`,
+      value: vehicle.id,
+    }));
+
+  const handleDriverChange = (value: string) => {
+    setDriverId(value);
+    if (vehicleId) {
+      const selectedVehicle = vehicleResult.data?.find(
+        (v) => v.id === vehicleId
+      );
+      if (selectedVehicle?.ownerId && selectedVehicle.ownerId !== value) {
+        setVehicleId("");
+      }
+    }
+  };
+
+  const handleVehicleChange = (value: string) => {
+    setVehicleId(value);
+    const selectedVehicle = vehicleResult.data?.find((v) => v.id === value);
+    if (selectedVehicle?.ownerId) {
+      setDriverId(selectedVehicle.ownerId);
+    }
+  };
 
   if (!selectedIds.length) {
     return null;
@@ -153,7 +180,7 @@ export const PickupSelectedDelivery = () => {
           <div>
             <Select
               disabled={isPending}
-              onValueChange={setDriverId}
+              onValueChange={handleDriverChange}
               value={driverId}
             >
               <SelectTrigger className="w-full">
@@ -171,7 +198,7 @@ export const PickupSelectedDelivery = () => {
           <div>
             <Select
               disabled={isPending}
-              onValueChange={setVehicleId}
+              onValueChange={handleVehicleChange}
               value={vehicleId}
             >
               <SelectTrigger className="w-full">

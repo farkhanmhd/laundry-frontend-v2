@@ -42,6 +42,8 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
   const [updatePrice, setUpdatePrice] = useState(false);
+  const [localCurrentQuantity, setLocalCurrentQuantity] =
+    useState(currentQuantity);
   const { push } = useRouter();
 
   const defaultValues: RestockInventorySchema = {
@@ -67,8 +69,13 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
           if (data?.status === "success") {
             toast.success(toastResponse(tNotifications, data));
 
+            const restockQuantity = Number(form.getValues("restockQuantity"));
+            const newQuantity = localCurrentQuantity + restockQuantity;
+            setLocalCurrentQuantity(newQuantity);
+
             form.reset({
               id,
+              currentQuantity: newQuantity,
               supplier: "",
               restockQuantity: 0,
               restockTime: new Date(),
@@ -86,7 +93,7 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
     e.preventDefault();
     const formData: RestockInventorySchema = {
       id,
-      currentQuantity,
+      currentQuantity: localCurrentQuantity,
       supplier: form.watch("supplier"),
       restockQuantity: Number(form.watch("restockQuantity")),
       restockTime: form.watch("restockTime"),
@@ -99,7 +106,10 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
   };
 
   const handleCancel = () => {
-    form.reset(defaultValues);
+    form.reset({
+      ...defaultValues,
+      currentQuantity: localCurrentQuantity,
+    });
     setIsEditing(false);
   };
 
@@ -121,7 +131,7 @@ export const InventoryRestockForm = ({ id, currentQuantity, name }: Props) => {
             name="currentQuantity"
             placeholder={t("stockForm.currentQuantityPlaceholder")}
             tValidation={tValidation}
-            value={currentQuantity}
+            value={localCurrentQuantity}
           />
 
           <FormInput

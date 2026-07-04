@@ -122,7 +122,7 @@ export abstract class InventoriesApi extends BaseApi {
 
   static async addInventory(body: AddInventoryBody) {
     const result = await elysia.inventories.post(body, {
-      ...(await InventoriesApi.getFormDataConfig()),
+      ...(await InventoriesApi.getConfig()),
     });
 
     return result;

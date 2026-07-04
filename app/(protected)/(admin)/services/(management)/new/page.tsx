@@ -94,11 +94,18 @@ const NewServicePage = () => {
           <FormInput
             disabled={action.isPending}
             form={form}
+            inputMode="numeric"
             label={t("form.maxWeight")}
             name="maxWeight"
+            parseValue={(v: string) => {
+              if (v === "") {
+                return null;
+              }
+              const n = Number(v);
+              return Number.isNaN(n) ? null : n;
+            }}
             placeholder="10"
             tValidation={tValidation}
-            type="number"
           />
         </div>
         <FieldGroup>
@@ -116,9 +123,7 @@ const NewServicePage = () => {
                     disabled={action.isPending}
                     id={field.name}
                     name={field.name}
-                    onCheckedChange={(checked) =>
-                      field.onChange(checked || null)
-                    }
+                    onCheckedChange={(checked) => field.onChange(checked)}
                   />
                   <FieldContent>
                     <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>

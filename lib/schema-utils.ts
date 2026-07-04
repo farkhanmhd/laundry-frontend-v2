@@ -78,3 +78,15 @@ export const percentageSchema = z.preprocess(
     }, "numeric.decimalPlaces")
     .transform((n) => String(n))
 );
+
+export const booleanFromString = z.preprocess((val) => {
+  if (typeof val === "string") {
+    if (val === "true") {
+      return true;
+    }
+    if (val === "false") {
+      return false;
+    }
+  }
+  return val;
+}, z.boolean());

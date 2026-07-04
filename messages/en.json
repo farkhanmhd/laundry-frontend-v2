@@ -1315,7 +1315,7 @@
         "totalOrders": "Total Orders",
         "activeMembers": "Active Members",
         "activeMembersSubtext": "Registered loyalty members",
-        "staffMembers": "Staff Members",
+        "staffMembers": "Staff",
         "staffMembersSubtext": "Across all branches",
         "failedToLoad": "Failed to load",
         "errorMessage": "Something went wrong while fetching metrics.",

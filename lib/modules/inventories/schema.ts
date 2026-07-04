@@ -44,7 +44,7 @@ export const addInventorySchema = z.object({
     z.literal("pieces"),
   ]),
   maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
-  isCustomerOrderable: z.optional(z.boolean()),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export type AddInventorySchema = z.infer<typeof addInventorySchema>;
@@ -67,7 +67,7 @@ export const updateInventorySchema = z.object({
     z.literal("pieces"),
   ]),
   maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
-  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export const updateInventoryBodySchema = updateInventorySchema.omit({

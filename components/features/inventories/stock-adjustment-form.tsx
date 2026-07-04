@@ -36,6 +36,8 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
   const tNotifications = useTranslations("Notifications");
   const tValidation = useTranslations("Validation");
   const [isEditing, setIsEditing] = useState(false);
+  const [localCurrentQuantity, setLocalCurrentQuantity] =
+    useState(currentQuantity);
   const { refresh } = useRouter();
 
   const defaultValues: AdjustQuantitySchema = {
@@ -59,9 +61,13 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
           if (data?.status === "success") {
             toast.success(toastResponse(tNotifications, data));
 
+            const changeAmount = Number(form.getValues("changeAmount"));
+            const newQuantity = localCurrentQuantity + changeAmount;
+            setLocalCurrentQuantity(newQuantity);
+
             form.reset({
               id,
-              currentQuantity,
+              currentQuantity: newQuantity,
               changeAmount: 0,
               note: "",
             });
@@ -77,7 +83,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
     e.preventDefault();
     const formData: AdjustQuantitySchema = {
       id,
-      currentQuantity,
+      currentQuantity: localCurrentQuantity,
       changeAmount: Number(form.watch("changeAmount")),
       note: form.watch("note"),
       adjustmentTime: form.watch("adjustmentTime"),
@@ -86,7 +92,10 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
   };
 
   const handleCancel = () => {
-    form.reset(defaultValues);
+    form.reset({
+      ...defaultValues,
+      currentQuantity: localCurrentQuantity,
+    });
     setIsEditing(false);
   };
 
@@ -109,7 +118,7 @@ export const StockAdjustmentForm = ({ id, currentQuantity, name }: Props) => {
             name="currentQuantity"
             placeholder={t("stockForm.currentQuantityPlaceholder")}
             tValidation={tValidation}
-            value={currentQuantity}
+            value={localCurrentQuantity}
           />
 
           <FormInput

@@ -1,7 +1,7 @@
 import type { useQuery } from "@tanstack/react-query";
 import { type ClassValue, clsx } from "clsx";
 import { format, parse, startOfMonth } from "date-fns";
-import { Children, type ReactNode } from "react";
+import { createElement, Fragment, type ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { twMerge } from "tailwind-merge";
 
@@ -15,7 +15,7 @@ interface MapItemsProps<T> {
 }
 
 export const MapItems = <T>({ of, render }: MapItemsProps<T>): ReactNode[] =>
-  Children.toArray(of.map((item, index) => render(item, index)));
+  of.map((item, index) => createElement(Fragment, { key: index }, render(item, index)));
 
 export const formatToIDR = (value: number) =>
   new Intl.NumberFormat("en-ID", {

@@ -36,7 +36,7 @@ const InventoryDetailPage = async ({ params, searchParams }: Props) => {
           <InventoryDataForm
             description={inventory.description}
             id={inventory.id}
-            isCustomerOrderable={inventory.isCustomerOrderable}
+            isCustomerOrderable={inventory.isCustomerOrderable ?? false}
             maxWeight={inventory.maxWeight ? Number(inventory.maxWeight) : null}
             name={inventory.name}
             price={inventory.price}

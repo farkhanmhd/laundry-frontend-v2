@@ -41,8 +41,8 @@ export const addBundlingSchema = z.object({
     .array(bundlingItem)
     .min(1, "bundlings.items.min")
     .max(10, "bundlings.items.max"),
-  maxWeight: z.optional(positiveIntNoLeadingZero),
-  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export type AddBundlingSchema = z.infer<typeof addBundlingSchema>;
@@ -56,8 +56,8 @@ export const updateBundlingSchema = z.object({
   name: z.string().min(1, "bundlings.name.required"),
   description: z.string().min(1, "bundlings.description.required"),
   price: positiveIntNoLeadingZero,
-  maxWeight: z.nullable(positiveIntNoLeadingZero),
-  isCustomerOrderable: z.nullable(z.boolean()),
+  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export const updateBundlingBodySchema = updateBundlingSchema.omit({

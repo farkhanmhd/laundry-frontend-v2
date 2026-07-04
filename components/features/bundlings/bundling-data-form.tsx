@@ -65,7 +65,7 @@ export const BundlingDataForm = ({
     }
   );
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     const formData: UpdateBundlingSchema = {
       id,
@@ -73,8 +73,10 @@ export const BundlingDataForm = ({
       description: form.getValues("description"),
       price: Number(form.getValues("price")),
       maxWeight: Number(form.getValues("maxWeight")) || null,
-      isCustomerOrderable: form.getValues("isCustomerOrderable") || null,
+      isCustomerOrderable: form.getValues("isCustomerOrderable") ?? false,
     };
+
+    console.log({ formData });
 
     action.execute(formData);
   };
@@ -126,14 +128,20 @@ export const BundlingDataForm = ({
         />
         <div className="flex flex-col gap-6 md:flex-row">
           <FormInput
-            defaultValue={maxWeight ?? undefined}
             disabled={!isEditing || action.isPending}
             form={form}
             label={t("form.maxWeight")}
             name="maxWeight"
+            parseValue={(v: string) => {
+              if (v === "") {
+                return null;
+              }
+              const n = Number(v);
+              return Number.isNaN(n) ? null : n;
+            }}
             placeholder="10"
             tValidation={tValidation}
-            type="number"
+            type="text"
           />
         </div>
 
@@ -152,9 +160,7 @@ export const BundlingDataForm = ({
                     disabled={!isEditing || action.isPending}
                     id={field.name}
                     name={field.name}
-                    onCheckedChange={(checked) =>
-                      field.onChange(checked || null)
-                    }
+                    onCheckedChange={(checked) => field.onChange(checked)}
                   />
                   <FieldContent>
                     <FieldTitle>{t("form.isCustomerOrderable")}</FieldTitle>

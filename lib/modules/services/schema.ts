@@ -8,19 +8,10 @@ export const addServiceSchema = z.object({
   price: positiveIntNoLeadingZero,
   image: imageSchema,
   maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
-  isCustomerOrderable: z.boolean(),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export type AddServiceSchema = z.infer<typeof addServiceSchema>;
-
-// type AddServiceBody = {
-//     maxWeight?: number | null | undefined | undefined;
-//     name: string;
-//     image: File;
-//     description: string;
-//     price: number;
-//     isCustomerOrderable: boolean;
-// }
 
 export const deleteServiceSchema = z.object({
   id: z.string(),
@@ -32,7 +23,7 @@ export const updateServiceSchema = z.object({
   description: z.string().min(1, "services.description.required"),
   price: positiveIntNoLeadingZero,
   maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
-  isCustomerOrderable: z.optional(z.nullable(z.boolean())),
+  isCustomerOrderable: z.boolean().default(false),
 });
 
 export type UpdateServiceSchema = z.infer<typeof updateServiceSchema>;

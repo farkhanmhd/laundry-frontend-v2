@@ -56,7 +56,7 @@ export const updateBundlingSchema = z.object({
   name: z.string().min(1, "bundlings.name.required"),
   description: z.string().min(1, "bundlings.description.required"),
   price: positiveIntNoLeadingZero,
-  maxWeight: z.optional(z.nullable(positiveIntNoLeadingZero)),
+  maxWeight: z.nullable(positiveIntNoLeadingZero),
   isCustomerOrderable: z.boolean().default(false),
 });
 

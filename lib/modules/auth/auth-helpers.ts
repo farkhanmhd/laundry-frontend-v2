@@ -18,11 +18,10 @@ export const getHeadersWithoutContentType = async () => {
   return nextHeaders;
 };
 
-export const getMiddlewareSession = async () => {
-  const nextHeaders = await headers();
+export const getMiddlewareSession = async (headersInput: Headers) => {
   const { data: session } = await authClient.getSession({
     fetchOptions: {
-      headers: nextHeaders,
+      headers: headersInput,
     },
   });
 

@@ -5,7 +5,7 @@ const PUBLIC_PATHS = ["/login", "/receipt"];
 
 export async function middleware(request: NextRequest) {
   try {
-    const session = await getMiddlewareSession(request.headers);
+    const session = await getMiddlewareSession();
     const nextUrl = request.nextUrl.pathname;
 
     const isPublic = PUBLIC_PATHS.some((path) => nextUrl.startsWith(path));

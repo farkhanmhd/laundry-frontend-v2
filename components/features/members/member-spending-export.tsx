@@ -10,7 +10,7 @@ interface Props {
 
 export const MembersSpendingExport = ({ query }: Props) => {
   const { from, to, rows } = query;
-  const baseUrl = process.env.INTERNAL_API_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   const params = new URLSearchParams();
   params.set("from", from);
   params.set("to", to);

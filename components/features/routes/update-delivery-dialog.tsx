@@ -17,7 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { toastResponse } from "@/lib/toast-helper";
 
@@ -126,7 +126,7 @@ export const UpdateDeliveryDialog = () => {
         type: "image/jpeg",
       });
 
-      const { data: responseData, error } = await elysia
+      const { data: responseData, error } = await elysiaClient
         .deliveries({ id: data.id })
         .status.patch(
           { image: imageFile },

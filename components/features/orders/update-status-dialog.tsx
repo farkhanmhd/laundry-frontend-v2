@@ -16,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { toastResponse } from "@/lib/toast-helper";
 
 export interface UpdateOrderStatusData {
@@ -39,12 +39,14 @@ export const UpdateOrderStatusDialog = () => {
 
     setIsPending(true);
     try {
-      const { error } = await elysia.orders({ id: data.orderId }).status.patch(
-        {},
-        {
-          fetch: { credentials: "include" },
-        }
-      );
+      const { error } = await elysiaClient
+        .orders({ id: data.orderId })
+        .status.patch(
+          {},
+          {
+            fetch: { credentials: "include" },
+          }
+        );
 
       if (error) {
         throw new Error(

@@ -1,8 +1,9 @@
 import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const fetchCustomerOrders = async (page: number = 1) => {
-  const { data: response } = await elysia.customerorders.get({
+  const { data: response } = await elysiaClient.customerorders.get({
     fetch: {
       credentials: 'include'
     },

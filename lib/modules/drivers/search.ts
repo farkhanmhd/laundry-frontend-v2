@@ -1,8 +1,8 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { Driver } from "./data";
 
 export const getDrivers = async (query: { search?: string; rows?: number }) => {
-  const { data: response } = await elysia.drivers.get({
+  const { data: response } = await elysiaClient.drivers.get({
     fetch: {
       credentials: "include",
     },

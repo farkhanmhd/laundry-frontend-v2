@@ -18,7 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { toastResponse } from "@/lib/toast-helper";
 
 interface DeleteAdjustmentProps {
@@ -34,7 +34,7 @@ export function DeleteAdjustment({ id }: DeleteAdjustmentProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const { data: result } = await elysia.inventories
+      const { data: result } = await elysiaClient.inventories
         .adjustments({ id })
         .delete({}, { fetch: { credentials: "include" } });
       return result;

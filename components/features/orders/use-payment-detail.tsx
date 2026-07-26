@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { OrderPaymentDetails } from "@/lib/modules/orders/data";
 
 type PaymentSocketMessage = {
@@ -83,7 +83,7 @@ export const usePaymentDetail = (initialData: OrderPaymentDetails) => {
       return;
     }
 
-    const socket = elysia.orders
+    const socket = elysiaClient.orders
       .payment({ id: paymentDetails.orderId })
       .subscribe();
 

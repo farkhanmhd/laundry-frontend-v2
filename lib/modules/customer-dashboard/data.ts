@@ -1,8 +1,10 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 
 export abstract class CustomerDashboardApi {
   static async getCustomerInfo() {
-    const { data: response } = await elysia["customer-dashboard"].customer.get({
+    const { data: response } = await elysiaClient[
+      "customer-dashboard"
+    ].customer.get({
       fetch: {
         credentials: "include",
       },
@@ -16,7 +18,9 @@ export abstract class CustomerDashboardApi {
   }
 
   static async getOrders() {
-    const { data: response } = await elysia["customer-dashboard"].orders.get({
+    const { data: response } = await elysiaClient[
+      "customer-dashboard"
+    ].orders.get({
       fetch: {
         credentials: "include",
       },
@@ -30,7 +34,7 @@ export abstract class CustomerDashboardApi {
   }
 
   static async getDeliveries() {
-    const { data: response } = await elysia[
+    const { data: response } = await elysiaClient[
       "customer-dashboard"
     ].deliveries.get({
       fetch: {
@@ -46,7 +50,9 @@ export abstract class CustomerDashboardApi {
   }
 
   static async getVouchers() {
-    const { data: response } = await elysia["customer-dashboard"].vouchers.get({
+    const { data: response } = await elysiaClient[
+      "customer-dashboard"
+    ].vouchers.get({
       fetch: {
         credentials: "include",
       },

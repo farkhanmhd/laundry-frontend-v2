@@ -16,7 +16,7 @@ import {
   useTransition,
 } from "react";
 import { toast } from "sonner";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
 import type { RequestPickupSchema } from "@/lib/modules/customer-orders/schema";
@@ -26,7 +26,7 @@ import { toastResponse } from "@/lib/toast-helper";
 import { positiveIntRegex } from "@/lib/utils";
 
 const getUserPoints = async () => {
-  const { data: response } = await elysia.members.points.get({
+  const { data: response } = await elysiaClient.members.points.get({
     fetch: {
       credentials: "include",
     },
@@ -187,7 +187,7 @@ export const useCustomerOrder = () => {
   const { data: weightRanges } = useQuery({
     queryKey: ["weight-ranges"],
     queryFn: async () => {
-      const { data: response } = await elysia["weight-ranges"].get({
+      const { data: response } = await elysiaClient["weight-ranges"].get({
         fetch: {
           credentials: "include",
         },
@@ -532,7 +532,7 @@ const CustomerOrderAddressContext = createContext<CustomerOrderAddress | null>(
 );
 
 async function getUserAddresses() {
-  const { data: response } = await elysia.account.addresses.get({
+  const { data: response } = await elysiaClient.account.addresses.get({
     fetch: {
       credentials: "include",
     },
@@ -549,14 +549,13 @@ async function createDeliveryRequest(body: {
   orderId: string;
   requestTime: string;
 }) {
-  const { data, error } = await elysia.customerorders["request-delivery"].post(
-    body,
-    {
-      fetch: {
-        credentials: "include",
-      },
-    }
-  );
+  const { data, error } = await elysiaClient.customerorders[
+    "request-delivery"
+  ].post(body, {
+    fetch: {
+      credentials: "include",
+    },
+  });
 
   if (error) {
     throw error.value || new Error("Error creating delivery request");

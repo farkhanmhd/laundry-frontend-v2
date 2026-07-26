@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { cn, formatDate } from "@/lib/utils";
 
 /**
@@ -16,7 +16,7 @@ import { cn, formatDate } from "@/lib/utils";
  * endpoint exists — the return type already matches `useActiveVouchers`.
  */
 export async function fetchActiveVouchers() {
-  const { data } = await elysia.vouchers.visible.get();
+  const { data } = await elysiaClient.vouchers.visible.get();
 
   return data?.data.vouchers;
 }

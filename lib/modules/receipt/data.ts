@@ -5,17 +5,17 @@ import type {
   OrderItems,
   OrderPayment,
 } from "@/components/features/receipt/order-types";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 
 export type ReceiptLookupResult = Partial<
   NonNullable<
-    Awaited<ReturnType<typeof elysia.receipt.lookup.get>>["data"]
+    Awaited<ReturnType<typeof elysiaClient.receipt.lookup.get>>["data"]
   >["data"]
 >;
 
 export abstract class ReceiptApi {
   static async lookupReceipt(orderId: string): Promise<ReceiptLookupResult> {
-    const { data: response } = await elysia.receipt.lookup.get({
+    const { data: response } = await elysiaClient.receipt.lookup.get({
       query: { orderId },
     });
 
@@ -27,7 +27,9 @@ export abstract class ReceiptApi {
   }
 
   static async fetchOrderInfo(orderId: string): Promise<OrderInfo> {
-    const { data: response } = await elysia.receipt({ id: orderId }).info.get();
+    const { data: response } = await elysiaClient
+      .receipt({ id: orderId })
+      .info.get();
 
     if (!response || response.status !== "success") {
       throw new Error("Failed to load order info");
@@ -37,7 +39,7 @@ export abstract class ReceiptApi {
   }
 
   static async fetchOrderCustomer(orderId: string): Promise<OrderCustomer> {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .receipt({ id: orderId })
       .customer.get();
 
@@ -49,7 +51,7 @@ export abstract class ReceiptApi {
   }
 
   static async fetchOrderDeliveries(orderId: string): Promise<OrderDelivery[]> {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .receipt({ id: orderId })
       .deliveries.get();
 
@@ -61,7 +63,7 @@ export abstract class ReceiptApi {
   }
 
   static async fetchOrderPayment(orderId: string): Promise<OrderPayment> {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .receipt({ id: orderId })
       .payment.get();
 
@@ -73,7 +75,7 @@ export abstract class ReceiptApi {
   }
 
   static async fetchOrderItems(orderId: string): Promise<OrderItems> {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .receipt({ id: orderId })
       .items.get();
 

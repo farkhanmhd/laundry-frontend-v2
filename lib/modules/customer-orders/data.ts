@@ -1,5 +1,5 @@
 import type { Prettify } from "better-auth";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { RequestPickupSchema } from "./schema";
 
 const customerOrderFetchConfig = {
@@ -10,7 +10,7 @@ const customerOrderFetchConfig = {
 
 export abstract class CustomerOrdersApi {
   static async getCustomerOrderDetail(id: string) {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .customerorders({
         id,
       })
@@ -24,7 +24,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async getCustomerOrderItems(id: string) {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .customerorders({
         id,
       })
@@ -38,7 +38,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async getCustomerOrderPayment(id: string) {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .customerorders({
         id,
       })
@@ -52,7 +52,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async getCustomerOrderDelivery(id: string) {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .customerorders({
         id,
       })
@@ -66,7 +66,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async createPickupRequest(body: RequestPickupSchema) {
-    const response = await elysia.customerorders["request-pickup"].post(
+    const response = await elysiaClient.customerorders["request-pickup"].post(
       body,
       customerOrderFetchConfig
     );
@@ -75,7 +75,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async getOrderPaymentDetails(id: string) {
-    const { data: response } = await elysia
+    const { data: response } = await elysiaClient
       .customerorders({ id })
       .payment_details.get(customerOrderFetchConfig);
 
@@ -85,7 +85,7 @@ export abstract class CustomerOrdersApi {
   }
 
   static async cancelCustomerOrder(id: string) {
-    const result = await elysia
+    const result = await elysiaClient
       .customerorders({ id })
       .patch({}, customerOrderFetchConfig);
 

@@ -1,8 +1,10 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 
 export abstract class DriverDashboardApi {
   static async getMetrics() {
-    const { data: response } = await elysia["driver-dashboard"].metrics.get({
+    const { data: response } = await elysiaClient[
+      "driver-dashboard"
+    ].metrics.get({
       fetch: { credentials: "include" },
     });
 
@@ -13,7 +15,7 @@ export abstract class DriverDashboardApi {
   }
 
   static async getActiveRoute() {
-    const { data: response } = await elysia["driver-dashboard"][
+    const { data: response } = await elysiaClient["driver-dashboard"][
       "active-route"
     ].get({
       fetch: { credentials: "include" },
@@ -26,7 +28,7 @@ export abstract class DriverDashboardApi {
   }
 
   static async getRecentDeliveries() {
-    const { data: response } = await elysia["driver-dashboard"][
+    const { data: response } = await elysiaClient["driver-dashboard"][
       "recent-deliveries"
     ].get({
       fetch: { credentials: "include" },
@@ -39,7 +41,7 @@ export abstract class DriverDashboardApi {
   }
 
   static async getDeliveryStatus() {
-    const { data: response } = await elysia["driver-dashboard"][
+    const { data: response } = await elysiaClient["driver-dashboard"][
       "delivery-status"
     ].get({
       fetch: { credentials: "include" },

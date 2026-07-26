@@ -18,7 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { toastResponse } from "@/lib/toast-helper";
 
 interface DeleteRestockProps {
@@ -34,7 +34,9 @@ export function DeleteRestock({ id }: DeleteRestockProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      const { data: result } = await elysia.inventories["restock-history"]({
+      const { data: result } = await elysiaClient.inventories[
+        "restock-history"
+      ]({
         id,
       }).delete({}, { fetch: { credentials: "include" } });
       return result;

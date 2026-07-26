@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { toastResponse } from "@/lib/toast-helper";
 
 export const PickupSelectedDelivery = () => {
@@ -41,7 +41,7 @@ export const PickupSelectedDelivery = () => {
       {
         queryKey: ["drivers"],
         queryFn: async () => {
-          const response = await elysia.drivers.get({
+          const response = await elysiaClient.drivers.get({
             fetch: {
               credentials: "include",
             },
@@ -55,7 +55,7 @@ export const PickupSelectedDelivery = () => {
       {
         queryKey: ["vehicles"],
         queryFn: async () => {
-          const response = await elysia.vehicles.get({
+          const response = await elysiaClient.vehicles.get({
             fetch: {
               credentials: "include",
             },
@@ -119,7 +119,7 @@ export const PickupSelectedDelivery = () => {
 
     setIsPending(true);
     try {
-      const { data, error } = await elysia.deliveries.post(
+      const { data, error } = await elysiaClient.deliveries.post(
         {
           deliveryIds: selectedIds,
           driverId,

@@ -1,7 +1,7 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 
 export const clientgetCurrentUserData = async () => {
-  const { data } = await elysia.account.get({
+  const { data } = await elysiaClient.account.get({
     fetch: {
       credentials: "include",
     },

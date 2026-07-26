@@ -1,8 +1,10 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 
 export abstract class AdminDashboardApi {
   static async getMetrics(from?: string, to?: string) {
-    const { data: response } = await elysia["admin-dashboard"].metrics.get({
+    const { data: response } = await elysiaClient[
+      "admin-dashboard"
+    ].metrics.get({
       fetch: {
         credentials: "include",
       },
@@ -16,20 +18,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getOrders() {
-    const { data: response } = await elysia["admin-dashboard"].orders.get({
-      fetch: {
-        credentials: "include",
-      },
-    });
-
-    if (!response) {
-      throw new Error("Failed to fetch dashboard orders");
-    }
-    return response.data;
-  }
-
-  static async getLowStock() {
-    const { data: response } = await elysia["admin-dashboard"]["low-stock"].get(
+    const { data: response } = await elysiaClient["admin-dashboard"].orders.get(
       {
         fetch: {
           credentials: "include",
@@ -38,13 +27,28 @@ export abstract class AdminDashboardApi {
     );
 
     if (!response) {
+      throw new Error("Failed to fetch dashboard orders");
+    }
+    return response.data;
+  }
+
+  static async getLowStock() {
+    const { data: response } = await elysiaClient["admin-dashboard"][
+      "low-stock"
+    ].get({
+      fetch: {
+        credentials: "include",
+      },
+    });
+
+    if (!response) {
       throw new Error("Failed to fetch low stock items");
     }
     return response.data;
   }
 
   static async getOrderStatus(query: { from: string; to: string }) {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "order-status"
     ].get({
       fetch: {
@@ -60,7 +64,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getTopServices(query: { from: string; to: string }) {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "top-services"
     ].get({
       fetch: {
@@ -76,7 +80,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getInventoryUsage(query: { from: string; to: string }) {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "inventory-usage"
     ].get({
       fetch: {
@@ -92,7 +96,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getBundlingStats(query: { from: string; to: string }) {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "bundling-stats"
     ].get({
       fetch: {
@@ -108,7 +112,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getOperationalMetrics() {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "operational-metrics"
     ].get({
       fetch: {
@@ -122,7 +126,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getRecentPickups() {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "recent-pickups"
     ].get({
       fetch: {
@@ -136,7 +140,7 @@ export abstract class AdminDashboardApi {
   }
 
   static async getRecentDeliveries() {
-    const { data: response } = await elysia["admin-dashboard"][
+    const { data: response } = await elysiaClient["admin-dashboard"][
       "recent-deliveries"
     ].get({
       fetch: {

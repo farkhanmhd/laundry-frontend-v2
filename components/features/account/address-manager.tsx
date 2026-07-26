@@ -25,7 +25,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import type { UpdateAddressSchemaWithId } from "@/lib/modules/account/schema";
 import { toastResponse } from "@/lib/toast-helper";
@@ -40,7 +40,7 @@ interface AddressManagerProps {
 }
 
 const deleteAddress = async (id: string) => {
-  const { data: response } = await elysia.account.address({ id }).delete(
+  const { data: response } = await elysiaClient.account.address({ id }).delete(
     { id },
     {
       fetch: {

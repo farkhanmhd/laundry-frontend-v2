@@ -1,4 +1,4 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { SearchQuery } from "@/lib/search-params";
 import { authClient } from "../auth/auth-client";
 import type { CreateCashierSchema, UpdateRoleSchema } from "./schema";
@@ -20,7 +20,7 @@ export abstract class UsersApi {
   static async getUsers(
     query: SearchQuery & { role?: UserRole[] | undefined }
   ) {
-    const { data: response } = await elysia.users.get({
+    const { data: response } = await elysiaClient.users.get({
       fetch: {
         credentials: "include",
       },
@@ -43,7 +43,7 @@ export abstract class UsersApi {
   }
 
   static async createCashier(body: CreateCashierSchema) {
-    const response = await elysia.users.cashier.post(body, {
+    const response = await elysiaClient.users.cashier.post(body, {
       fetch: {
         credentials: "include",
       },

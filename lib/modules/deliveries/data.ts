@@ -1,5 +1,5 @@
 import type { Prettify } from "better-auth";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { SearchQuery } from "@/lib/search-params";
 
 export const deliveryStatus = [
@@ -22,7 +22,7 @@ export type DeliveriesQuery = SearchQuery & {
 
 export abstract class PickupsApi {
   static async getPickups(query: PickupsQuery) {
-    const { data: response } = await elysia.deliveries.pickups.get({
+    const { data: response } = await elysiaClient.deliveries.pickups.get({
       fetch: {
         credentials: "include",
       },
@@ -37,7 +37,7 @@ export abstract class PickupsApi {
 export abstract class DeliveriesApi {
   static async getDeliveries(query: DeliveriesQuery) {
     console.log({ query });
-    const { data: response } = await elysia.deliveries.deliveries.get({
+    const { data: response } = await elysiaClient.deliveries.deliveries.get({
       fetch: {
         credentials: "include",
       },

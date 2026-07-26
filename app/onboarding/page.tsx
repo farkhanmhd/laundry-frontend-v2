@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { authClient } from "@/lib/modules/auth/auth-client";
 import { toastResponse } from "@/lib/toast-helper";
 
@@ -82,9 +82,11 @@ export default function OnboardingPage() {
   const onPhoneSubmit = async (values: PhoneValues) => {
     setIsSearching(true);
     try {
-      const { data, error } = await elysia.members["search-by-phone"].get({
-        query: { phone: values.phoneNumber },
-      });
+      const { data, error } = await elysiaClient.members["search-by-phone"].get(
+        {
+          query: { phone: values.phoneNumber },
+        }
+      );
 
       setPhoneNumber(values.phoneNumber);
 
@@ -122,7 +124,7 @@ export default function OnboardingPage() {
 
     setIsConnecting(true);
     try {
-      const { data, error } = await elysia.users["connect-member"].post(
+      const { data, error } = await elysiaClient.users["connect-member"].post(
         {
           memberId: existingMember.memberId,
           phoneNumber,
@@ -153,7 +155,7 @@ export default function OnboardingPage() {
 
   const onCreateMember = async (values: CreateMemberValues) => {
     try {
-      const { data, error } = await elysia.users["create-member"].post(
+      const { data, error } = await elysiaClient.users["create-member"].post(
         {
           name: values.name,
           phoneNumber,

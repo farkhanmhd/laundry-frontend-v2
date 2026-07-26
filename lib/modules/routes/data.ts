@@ -1,9 +1,9 @@
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { SearchQuery } from "@/lib/search-params";
 
 export abstract class RoutesApi {
   static async getRoutes(query: SearchQuery) {
-    const { data: response } = await elysia.routes.get({
+    const { data: response } = await elysiaClient.routes.get({
       fetch: {
         credentials: "include",
       },
@@ -24,7 +24,7 @@ export type Delivery = NonNullable<
 >[number];
 
 export async function getRouteDetail(id: string) {
-  const { data: response, error } = await elysia.routes({ id }).get({
+  const { data: response, error } = await elysiaClient.routes({ id }).get({
     fetch: {
       credentials: "include",
     },

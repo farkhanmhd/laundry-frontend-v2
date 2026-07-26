@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import {
   type UpdateAdjustmentSchema,
   updateAdjustmentSchema,
@@ -49,7 +49,7 @@ export function UpdateAdjustmentDialog({ id, note, changeAmount }: Props) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: UpdateAdjustmentSchema) => {
-      const { data: result } = await elysia.inventories
+      const { data: result } = await elysiaClient.inventories
         .adjustments({
           id,
         })

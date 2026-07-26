@@ -4,13 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { createContext, useContext, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import { CustomerOrdersApi } from "@/lib/modules/customer-orders/data";
 import { toastResponse } from "@/lib/toast-helper";
 
 const getUserAddresses = async () => {
-  const { data: response } = await elysia.account.addresses.get({
+  const { data: response } = await elysiaClient.account.addresses.get({
     fetch: {
       credentials: "include",
     },
@@ -24,14 +24,13 @@ const createDeliveryRequest = async (body: {
   orderId: string;
   requestTime: string;
 }) => {
-  const { data, error } = await elysia.customerorders["request-delivery"].post(
-    body,
-    {
-      fetch: {
-        credentials: "include",
-      },
-    }
-  );
+  const { data, error } = await elysiaClient.customerorders[
+    "request-delivery"
+  ].post(body, {
+    fetch: {
+      credentials: "include",
+    },
+  });
 
   if (error) {
     throw error.value || new Error("Error creating delivery request");

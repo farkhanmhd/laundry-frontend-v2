@@ -1,5 +1,5 @@
 import type { Prettify } from "better-auth";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import type { SearchQuery } from "@/lib/search-params";
 
 export const orderStatus = [
@@ -14,7 +14,7 @@ export type OrderStatus = (typeof orderStatus)[number];
 
 export abstract class OrdersApi {
   static async getOrders(query: SearchQuery & { status?: OrderStatus[] }) {
-    const { data: response } = await elysia.orders.get({
+    const { data: response } = await elysiaClient.orders.get({
       fetch: {
         credentials: "include",
       },
@@ -26,7 +26,7 @@ export abstract class OrdersApi {
   }
 
   static async getOrderStatus(id: string) {
-    const { data: response } = await elysia.orders({ id }).status.get({
+    const { data: response } = await elysiaClient.orders({ id }).status.get({
       fetch: {
         credentials: "include",
       },
@@ -37,7 +37,7 @@ export abstract class OrdersApi {
   }
 
   static async getOrderItems(id: string) {
-    const { data: response } = await elysia.orders({ id }).items.get({
+    const { data: response } = await elysiaClient.orders({ id }).items.get({
       fetch: {
         credentials: "include",
       },
@@ -48,7 +48,7 @@ export abstract class OrdersApi {
   }
 
   static async getOrderPayment(id: string) {
-    const { data: response } = await elysia.orders({ id }).payment.get({
+    const { data: response } = await elysiaClient.orders({ id }).payment.get({
       fetch: {
         credentials: "include",
       },
@@ -59,7 +59,7 @@ export abstract class OrdersApi {
   }
 
   static async getOrderCustomer(id: string) {
-    const { data: response } = await elysia.orders({ id }).customer.get({
+    const { data: response } = await elysiaClient.orders({ id }).customer.get({
       fetch: {
         credentials: "include",
       },
@@ -70,22 +70,26 @@ export abstract class OrdersApi {
   }
 
   static async getOrderDeliveries(id: string) {
-    const { data: response } = await elysia.orders({ id }).deliveries.get({
-      fetch: {
-        credentials: "include",
-      },
-    });
+    const { data: response } = await elysiaClient
+      .orders({ id })
+      .deliveries.get({
+        fetch: {
+          credentials: "include",
+        },
+      });
 
     const data = response?.data;
     return data;
   }
 
   static async getOrderPaymentDetails(id: string) {
-    const { data: response } = await elysia.orders({ id }).payment_details.get({
-      fetch: {
-        credentials: "include",
-      },
-    });
+    const { data: response } = await elysiaClient
+      .orders({ id })
+      .payment_details.get({
+        fetch: {
+          credentials: "include",
+        },
+      });
 
     const data = response?.data;
     return data;

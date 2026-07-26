@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import {
   type UpdateRestockQuantity,
   updateRestockQuantity,
@@ -51,7 +51,9 @@ export function UpdateRestockDialog({ id, note, restockQuantity }: Props) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: UpdateRestockQuantity) => {
-      const { data: result } = await elysia.inventories["restock-history"]({
+      const { data: result } = await elysiaClient.inventories[
+        "restock-history"
+      ]({
         id,
       }).patch(
         {

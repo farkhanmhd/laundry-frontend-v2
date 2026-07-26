@@ -7,7 +7,7 @@ import { useAction } from "next-safe-action/hooks";
 import { type ChangeEvent, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { useBreakpoint } from "@/hooks/use-breakpoints";
 import type { SearchQuery } from "@/lib/search-params";
 import { toastResponse } from "@/lib/toast-helper";
@@ -17,7 +17,7 @@ import type { PosItemData, PosVoucher } from "./data";
 import type { NewOrderSchema, OrderItem } from "./schema";
 
 export const getPosMembers = async (query: SearchQuery) => {
-  const { data: response } = await elysia.pos.members.get({
+  const { data: response } = await elysiaClient.pos.members.get({
     fetch: {
       credentials: "include",
     },
@@ -29,7 +29,7 @@ export const getPosMembers = async (query: SearchQuery) => {
 };
 
 export const getVoucherByCode = async (query: SearchQuery) => {
-  const { data: response } = await elysia.pos.voucher.get({
+  const { data: response } = await elysiaClient.pos.voucher.get({
     fetch: {
       credentials: "include",
     },

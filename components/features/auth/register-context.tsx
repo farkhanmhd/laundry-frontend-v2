@@ -9,7 +9,7 @@ import { createContext, type ReactNode, use, useEffect, useState } from "react";
 import { type UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { type RegisterSchema, registerSchema } from "./schema";
 
 export type PhoneStatus =
@@ -21,7 +21,7 @@ export type PhoneStatus =
   | "registered";
 
 async function checkPhoneNumber(phone: string) {
-  const { data, error } = await elysia.members["search-by-phone"].get({
+  const { data, error } = await elysiaClient.members["search-by-phone"].get({
     query: { phone },
   });
 
@@ -51,7 +51,7 @@ interface RegisterContextValue {
 const RegisterContext = createContext<RegisterContextValue | null>(null);
 
 const registerUser = async (body: Omit<RegisterSchema, "confirmPassword">) => {
-  const { data, error } = await elysia.users.post(body);
+  const { data, error } = await elysiaClient.users.post(body);
 
   if (error || !data) {
     return null;

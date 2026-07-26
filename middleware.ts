@@ -1,11 +1,11 @@
+import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
-import { getMiddlewareSession } from "./lib/modules/auth/auth-helpers";
 
 const PUBLIC_PATHS = ["/login", "/receipt"];
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   try {
-    const session = await getMiddlewareSession();
+    const session = getSessionCookie(request);
     const nextUrl = request.nextUrl.pathname;
 
     const isPublic = PUBLIC_PATHS.some((path) => nextUrl.startsWith(path));

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "export NODE_ENV=development && bun run --bun next dev --turbopack",
     "build": "export NODE_ENV=production && bun run --bun next build --turbopack",
-    "start": "export NODE_ENV=production && bun run --bun next start -p 3001",
+    "start": "export NODE_ENV=production && bun run --bun next start -p 3100",
     "lint": "bun tsc && bun ultracite check",
     "format": "bun ultracite fix"
   },

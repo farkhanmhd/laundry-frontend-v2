@@ -32,7 +32,7 @@ import {
   MarkerLabel,
 } from "@/components/ui/map";
 import { Progress } from "@/components/ui/progress";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { toastResponse } from "@/lib/toast-helper";
@@ -232,7 +232,7 @@ export function ProgressCard({ routeId, deliveries }: Props) {
   const handleFinishRoute = () => {
     startTransition(async () => {
       try {
-        const { error } = await elysia
+        const { error } = await elysiaClient
           .routes({ id: routeId })
           .patch({}, { fetch: { credentials: "include" } });
 

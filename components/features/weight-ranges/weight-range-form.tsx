@@ -18,7 +18,7 @@ import {
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import {
   addWeightRangeAction,
   updateWeightRangeAction,
@@ -38,7 +38,7 @@ export const AddWeightRangeForm = () => {
   const { data: existingRanges } = useQuery({
     queryKey: ["weight-ranges"],
     queryFn: async () => {
-      const { data: response } = await elysia["weight-ranges"].get({
+      const { data: response } = await elysiaClient["weight-ranges"].get({
         fetch: {
           credentials: "include",
         },
@@ -166,7 +166,7 @@ export const EditWeightRangeForm = ({
   const { data: existingRanges } = useQuery({
     queryKey: ["weight-ranges"],
     queryFn: async () => {
-      const { data: response } = await elysia["weight-ranges"].get({
+      const { data: response } = await elysiaClient["weight-ranges"].get({
         fetch: {
           credentials: "include",
         },

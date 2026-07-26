@@ -61,14 +61,11 @@ export abstract class BundlingsApi extends BaseApi {
 
     const headers = (await BundlingsApi.getFormDataConfig()).fetch.headers;
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/bundlings`,
-      {
-        method: "POST",
-        body: formData,
-        headers,
-      }
-    );
+    const response = await fetch(`${process.env.INTERNAL_API_URL}/bundlings`, {
+      method: "POST",
+      body: formData,
+      headers,
+    });
 
     const json = await response.json();
     return json;

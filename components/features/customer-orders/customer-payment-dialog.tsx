@@ -15,7 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { elysia } from "@/elysia";
+import { elysiaClient } from "@/elysia/client";
 import { toastResponse } from "@/lib/toast-helper";
 
 export const CustomerPaymentDialog = () => {
@@ -29,7 +29,7 @@ export const CustomerPaymentDialog = () => {
   const handlePayment = () => {
     startTransition(async () => {
       try {
-        const { data, error } = await elysia
+        const { data, error } = await elysiaClient
           .customerorders({ id: params.id as string })
           .payment.post({}, { fetch: { credentials: "include" } });
 

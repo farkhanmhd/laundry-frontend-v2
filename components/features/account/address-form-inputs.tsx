@@ -29,6 +29,23 @@ export const AddressFormInputs = ({
   const tValidation = useTranslations("Validation");
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmitWithAction}>
+      <div className="space-y-3">
+        <Label
+          className={cn("text-base", {
+            "text-destructive":
+              form.formState.errors.lat || form.formState.errors.lng,
+          })}
+        >
+          {t("pinLocation")}
+        </Label>
+        <div className="overflow-hidden rounded-md border">{children}</div>
+        {(form.formState.errors.lat || form.formState.errors.lng) && (
+          <p className="font-medium text-[0.8rem] text-destructive">
+            {t("pinLocationError")}
+          </p>
+        )}
+      </div>
+
       <FormInput
         disabled={action.isExecuting}
         form={form}
@@ -54,23 +71,6 @@ export const AddressFormInputs = ({
         placeholder={t("addressNotePlaceholder")}
         tValidation={tValidation}
       />
-
-      <div className="space-y-3">
-        <Label
-          className={cn("text-base", {
-            "text-destructive":
-              form.formState.errors.lat || form.formState.errors.lng,
-          })}
-        >
-          {t("pinLocation")}
-        </Label>
-        <div className="overflow-hidden rounded-md border">{children}</div>
-        {(form.formState.errors.lat || form.formState.errors.lng) && (
-          <p className="font-medium text-[0.8rem] text-destructive">
-            {t("pinLocationError")}
-          </p>
-        )}
-      </div>
 
       <div className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 pt-2 duration-300">
         <Button disabled={action.isExecuting || !validDistance} type="submit">

@@ -38,7 +38,7 @@ export const AddressMap = ({ location }: AddressMapProps) => {
 
   // Single source of truth for updating marker + form values + distance validation
   const applyLocation = useCallback(
-    (lng: number, lat: number) => {
+    async (lng: number, lat: number) => {
       setDraggableMarker({ lng, lat });
       form.setValue("lng", lng);
       form.setValue("lat", lat);
@@ -46,6 +46,22 @@ export const AddressMap = ({ location }: AddressMapProps) => {
       const distanceKm = origin.distanceTo(new LngLat(lng, lat)) / 1000;
       if (distanceKm > 2) {
         showLocationTooFarToast();
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `https://router.project-osrm.org/nearest/v1/driving/${lng},${lat}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const streetName: string = data.waypoints?.[0]?.name;
+          if (streetName && streetName !== "") {
+            form.setValue("street", streetName);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch address from OSRM:", error);
       }
     },
     [origin, showLocationTooFarToast, form, setDraggableMarker]

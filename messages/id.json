@@ -250,7 +250,8 @@
       "home": "Beranda",
       "account": "Akun",
       "weights": "Berat",
-      "routes": "Rute"
+      "routes": "Rute",
+      "settings": "Pengaturan"
     },
     "checkReceipt": "Cek Struk",
     "login": "Masuk"
@@ -1230,7 +1231,7 @@
       "laundryLocation": "Lokasi Laundry",
       "locationDetails": "Detail Lokasi",
       "distance": "Jarak",
-      "distanceTooFar": "Jarak harus kurang dari 2km"
+      "distanceTooFar": "Jarak harus kurang dari {maxDistance} km"
     }
   },
   "Auth": {
@@ -1718,6 +1719,11 @@
       "notFound": "Voucher {id} tidak ditemukan",
       "codeTaken": "Kode voucher {code} sudah digunakan"
     },
+    "businessSettings": {
+      "retrieved": "Pengaturan bisnis berhasil diambil",
+      "updated": "Pengaturan bisnis berhasil diperbarui",
+      "notFound": "Pengaturan bisnis tidak ditemukan"
+    },
     "weightRange": {
       "created": "Rentang berat berhasil dibuat",
       "updated": "Rentang berat berhasil diperbarui"
@@ -1897,6 +1903,20 @@
     },
     "driver": {
       "retrieved": "Driver berhasil diambil"
+    }
+  },
+  "BusinessSettings": {
+    "title": "Pengaturan Bisnis",
+    "description": "Kelola alamat toko, titik koordinat, dan jarak maksimum pengiriman.",
+    "form": {
+      "address": "Alamat Toko",
+      "addressPlaceholder": "Masukkan alamat lengkap toko",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "maxDistanceKm": "Jarak Maks (Km)",
+      "mapHint": "Seret marker untuk menentukan lokasi toko",
+      "save": "Simpan",
+      "saving": "Menyimpan..."
     }
   },
   "Vehicles": {

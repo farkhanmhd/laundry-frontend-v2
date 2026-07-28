@@ -11,6 +11,7 @@ import {
   Monitor,
   Motorbike,
   MotorbikeIcon,
+  Settings,
   ShieldUser,
   Ticket,
   Truck,
@@ -105,6 +106,11 @@ export const superAdminNavData: NavItem[] = [
     url: "/users",
     icon: ShieldUser,
   },
+  {
+    title: "Settings",
+    url: "/business-settings",
+    icon: Settings,
+  },
 ];
 
 export const driverNavData: NavItem[] = [
@@ -186,6 +192,11 @@ export const superAdminMobileNavData: NavItem[] = [
     title: "Sales",
     url: "/sales",
     icon: ChartColumnIncreasing,
+  },
+  {
+    title: "Settings",
+    url: "/business-settings",
+    icon: Settings,
   },
   {
     title: "Users",

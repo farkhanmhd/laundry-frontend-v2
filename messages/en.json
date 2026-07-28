@@ -250,7 +250,8 @@
       "home": "Home",
       "account": "Account",
       "weights": "Weights",
-      "routes": "Routes"
+      "routes": "Routes",
+      "settings": "Settings"
     },
     "checkReceipt": "Check Receipt",
     "login": "Login"
@@ -1230,7 +1231,7 @@
       "laundryLocation": "Laundry Location",
       "locationDetails": "Location Details",
       "distance": "Distance",
-      "distanceTooFar": "Distance from must be under 2km"
+      "distanceTooFar": "Distance must be under {maxDistance} km"
     }
   },
   "Auth": {
@@ -1718,6 +1719,11 @@
       "notFound": "Voucher {id} not found",
       "codeTaken": "Voucher code {code} is already taken"
     },
+    "businessSettings": {
+      "retrieved": "Business settings retrieved",
+      "updated": "Business settings updated successfully",
+      "notFound": "Business settings not found"
+    },
     "weightRange": {
       "created": "Weight range created successfully",
       "updated": "Weight range updated successfully"
@@ -1897,6 +1903,20 @@
     },
     "driver": {
       "retrieved": "Drivers retrieved"
+    }
+  },
+  "BusinessSettings": {
+    "title": "Business Settings",
+    "description": "Manage store address, coordinates, and maximum delivery distance.",
+    "form": {
+      "address": "Store Address",
+      "addressPlaceholder": "Enter the full store address",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "maxDistanceKm": "Max Distance (Km)",
+      "mapHint": "Drag the marker to set the store location",
+      "save": "Save",
+      "saving": "Saving..."
     }
   },
   "Vehicles": {

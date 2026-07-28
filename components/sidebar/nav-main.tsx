@@ -39,6 +39,7 @@ const navTitleToKey: Record<string, string> = {
   Users: "users",
   Home: "home",
   Account: "account",
+  Settings: "settings",
 };
 
 export function NavMain() {

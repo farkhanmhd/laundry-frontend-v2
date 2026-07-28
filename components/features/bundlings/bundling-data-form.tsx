@@ -76,8 +76,6 @@ export const BundlingDataForm = ({
       isCustomerOrderable: form.getValues("isCustomerOrderable") ?? false,
     };
 
-    console.log({ formData });
-
     action.execute(formData);
   };
 

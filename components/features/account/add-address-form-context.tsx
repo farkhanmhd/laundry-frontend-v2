@@ -1,14 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useQuery } from "@tanstack/react-query";
 import { LngLat } from "maplibre-gl";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { createContext, use, useMemo, useState } from "react";
+import { createContext, use, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import { addAddressAction } from "@/lib/modules/account/actions";
 import type { AccountAddress } from "@/lib/modules/account/data";
 import { addressSchema } from "@/lib/modules/account/schema";
+import { BusinessSettingsApi } from "@/lib/modules/business-settings/data";
 import { toastResponse } from "@/lib/toast-helper";
 
 interface AddAddressFormContextState {
@@ -27,6 +29,7 @@ interface AddAddressFormContextState {
   validDistance: boolean;
   distanceInKm: string;
   origin: LngLat;
+  maxDistanceKm: number;
 }
 
 const addAddressDefaultValues: AccountAddress = {
@@ -75,14 +78,42 @@ export const AddAddressFormProvider = ({
     }
   );
 
+  const { data: businessSettings } = useQuery({
+    queryKey: ["business-settings"],
+    queryFn: async () => {
+      const response = await BusinessSettingsApi.get();
+      if (response?.status === "success") {
+        return response.data;
+      }
+      return null;
+    },
+    retry: false,
+  });
+
+  const storeLat = businessSettings
+    ? Number(businessSettings.latitude)
+    : LAUNDRY_POINT_ZERO[1];
+  const storeLng = businessSettings
+    ? Number(businessSettings.longitude)
+    : LAUNDRY_POINT_ZERO[0];
+  const maxDistanceKm = businessSettings
+    ? Number(businessSettings.maxDistanceKm)
+    : 2;
+
   const [draggableMarker, setDraggableMarker] = useState({
     lng: LAUNDRY_POINT_ZERO[0],
     lat: LAUNDRY_POINT_ZERO[1],
   });
 
+  useEffect(() => {
+    if (businessSettings) {
+      setDraggableMarker({ lng: storeLng, lat: storeLat });
+    }
+  }, [businessSettings, storeLng, storeLat]);
+
   const origin = useMemo(
-    () => new LngLat(LAUNDRY_POINT_ZERO[0], LAUNDRY_POINT_ZERO[1]),
-    []
+    () => new LngLat(storeLng, storeLat),
+    [storeLng, storeLat]
   );
 
   const destination = useMemo(
@@ -96,8 +127,8 @@ export const AddAddressFormProvider = ({
   );
 
   const validDistance = useMemo(
-    () => Number(distanceInKm) <= 2,
-    [distanceInKm]
+    () => Number(distanceInKm) <= maxDistanceKm,
+    [distanceInKm, maxDistanceKm]
   );
 
   const handleCancel = () => {
@@ -116,6 +147,7 @@ export const AddAddressFormProvider = ({
     validDistance,
     distanceInKm,
     origin,
+    maxDistanceKm,
   };
 
   return (

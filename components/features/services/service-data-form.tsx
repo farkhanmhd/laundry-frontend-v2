@@ -76,7 +76,6 @@ export const ServiceDataForm = ({
     };
 
     action.execute(formData);
-    console.log(action.result);
   };
 
   const handleCancel = () => {

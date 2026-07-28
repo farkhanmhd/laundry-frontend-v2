@@ -12,7 +12,6 @@ import {
   MarkerPopup,
   useMap,
 } from "@/components/ui/map";
-import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useAddAddressFormContext } from "./add-address-form-context";
 
@@ -29,12 +28,13 @@ export const AddressMap = ({ location }: AddressMapProps) => {
     validDistance,
     distanceInKm,
     origin,
+    maxDistanceKm,
   } = useAddAddressFormContext();
   const { map, isLoaded } = useMap();
 
   const showLocationTooFarToast = useCallback(() => {
-    toast.error(t("distanceTooFar"));
-  }, [t]);
+    toast.error(t("distanceTooFar", { maxDistance: maxDistanceKm }));
+  }, [t, maxDistanceKm]);
 
   // Single source of truth for updating marker + form values + distance validation
   const applyLocation = useCallback(
@@ -44,7 +44,7 @@ export const AddressMap = ({ location }: AddressMapProps) => {
       form.setValue("lat", lat);
 
       const distanceKm = origin.distanceTo(new LngLat(lng, lat)) / 1000;
-      if (distanceKm > 2) {
+      if (distanceKm > maxDistanceKm) {
         showLocationTooFarToast();
         return;
       }
@@ -64,7 +64,7 @@ export const AddressMap = ({ location }: AddressMapProps) => {
         console.error("Failed to fetch address from OSRM:", error);
       }
     },
-    [origin, showLocationTooFarToast, form, setDraggableMarker]
+    [origin, showLocationTooFarToast, form, setDraggableMarker, maxDistanceKm]
   );
 
   // Request browser geolocation on mount (only when no existing location is provided)
@@ -163,8 +163,8 @@ export const AddressMap = ({ location }: AddressMapProps) => {
       />
       <MapMarker
         draggable
-        latitude={LAUNDRY_POINT_ZERO[1]}
-        longitude={LAUNDRY_POINT_ZERO[0]}
+        latitude={origin.lat}
+        longitude={origin.lng}
       >
         <MarkerContent>
           <div className="cursor-move">

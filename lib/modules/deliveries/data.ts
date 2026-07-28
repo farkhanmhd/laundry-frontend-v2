@@ -36,7 +36,6 @@ export abstract class PickupsApi {
 
 export abstract class DeliveriesApi {
   static async getDeliveries(query: DeliveriesQuery) {
-    console.log({ query });
     const { data: response } = await elysiaClient.deliveries.deliveries.get({
       fetch: {
         credentials: "include",

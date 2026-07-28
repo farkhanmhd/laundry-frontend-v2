@@ -49,8 +49,6 @@ export abstract class AccountApi extends BaseApi {
       ...(await AccountApi.getConfig()),
     });
 
-    console.log({ response });
-
     return response;
   }
 

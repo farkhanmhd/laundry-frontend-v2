@@ -12,7 +12,6 @@ import {
   MarkerPopup,
   useMap,
 } from "@/components/ui/map";
-import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useUpdateAddressFormContext } from "./update-address-context";
 
@@ -29,26 +28,43 @@ export const UpdateAddressMap = ({ location }: UpdateAddressMapProps) => {
     validDistance,
     distanceInKm,
     origin,
+    maxDistanceKm,
   } = useUpdateAddressFormContext();
   const { map, isLoaded } = useMap();
 
   const showLocationTooFarToast = useCallback(() => {
-    toast.error(t("distanceTooFar"));
-  }, [t]);
+    toast.error(t("distanceTooFar", { maxDistance: maxDistanceKm }));
+  }, [t, maxDistanceKm]);
 
   // Single source of truth for updating marker + form values + distance validation
   const applyLocation = useCallback(
-    (lng: number, lat: number) => {
+    async (lng: number, lat: number) => {
       setDraggableMarker({ lng, lat });
       form.setValue("lng", lng);
       form.setValue("lat", lat);
 
       const distanceKm = origin.distanceTo(new LngLat(lng, lat)) / 1000;
-      if (distanceKm > 2) {
+      if (distanceKm > maxDistanceKm) {
         showLocationTooFarToast();
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `https://router.project-osrm.org/nearest/v1/driving/${lng},${lat}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const streetName: string = data.waypoints?.[0]?.name;
+          if (streetName && streetName !== "") {
+            form.setValue("street", streetName);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch address from OSRM:", error);
       }
     },
-    [origin, showLocationTooFarToast, form, setDraggableMarker]
+    [origin, showLocationTooFarToast, form, setDraggableMarker, maxDistanceKm]
   );
 
   // Request browser geolocation on mount (only when no existing location is provided)
@@ -99,19 +115,6 @@ export const UpdateAddressMap = ({ location }: UpdateAddressMapProps) => {
     applyLocation(location.lng, location.lat);
   }, [location, applyLocation]);
 
-  // Effect 2: Fly to location once map is ready
-  useEffect(() => {
-    if (!(location && map && isLoaded)) {
-      return;
-    }
-
-    map.flyTo({
-      center: [location.lng, location.lat],
-      zoom: 12,
-      duration: 2000,
-    });
-  }, [map, isLoaded, location]);
-
   // Attach map click handler
   useEffect(() => {
     if (!(map && isLoaded)) {
@@ -131,8 +134,13 @@ export const UpdateAddressMap = ({ location }: UpdateAddressMapProps) => {
   const handleLocate = useCallback(
     (coords: { longitude: number; latitude: number }) => {
       applyLocation(coords.longitude, coords.latitude);
+      map?.flyTo({
+        center: [coords.longitude, coords.latitude],
+        zoom: 12,
+        duration: 2000,
+      });
     },
-    [applyLocation]
+    [applyLocation, map]
   );
 
   return (
@@ -147,8 +155,8 @@ export const UpdateAddressMap = ({ location }: UpdateAddressMapProps) => {
       />
       <MapMarker
         draggable
-        latitude={LAUNDRY_POINT_ZERO[1]}
-        longitude={LAUNDRY_POINT_ZERO[0]}
+        latitude={origin.lat}
+        longitude={origin.lng}
       >
         <MarkerContent>
           <div className="cursor-move">

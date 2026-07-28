@@ -15,7 +15,9 @@ interface MapItemsProps<T> {
 }
 
 export const MapItems = <T>({ of, render }: MapItemsProps<T>): ReactNode[] =>
-  of.map((item, index) => createElement(Fragment, { key: index }, render(item, index)));
+  of.map((item, index) =>
+    createElement(Fragment, { key: index }, render(item, index))
+  );
 
 export const formatToIDR = (value: number) =>
   new Intl.NumberFormat("en-ID", {

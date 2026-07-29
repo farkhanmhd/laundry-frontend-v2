@@ -34,6 +34,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { elysiaClient } from "@/elysia/client";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
+import { BusinessSettingsApi } from "@/lib/modules/business-settings/data";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { toastResponse } from "@/lib/toast-helper";
 import { cardShadowStyle, isDone } from "@/lib/utils";
@@ -64,12 +65,28 @@ function formatDistance(meters: number): string {
 function RouteMapNavigation({ deliveries }: { deliveries: Delivery[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const { data: businessSettings } = useQuery({
+    queryKey: ["business-settings"],
+    queryFn: async () => {
+      const response = await BusinessSettingsApi.get();
+      if (response?.status === "success") {
+        return response.data;
+      }
+      return null;
+    },
+    retry: false,
+  });
+
   const validDeliveries = deliveries.filter((d) => d.longitude && d.latitude);
 
   const start = {
     name: "HQ",
-    lng: LAUNDRY_POINT_ZERO[0],
-    lat: LAUNDRY_POINT_ZERO[1],
+    lng: businessSettings
+      ? Number(businessSettings.longitude)
+      : LAUNDRY_POINT_ZERO[0],
+    lat: businessSettings
+      ? Number(businessSettings.latitude)
+      : LAUNDRY_POINT_ZERO[1],
   };
 
   const waypoints = validDeliveries.map((d) => ({

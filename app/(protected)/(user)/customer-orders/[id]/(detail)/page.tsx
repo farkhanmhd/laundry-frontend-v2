@@ -1,23 +1,29 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowDownCircle,
   ArrowUpCircle,
   Calendar,
   CreditCard,
   MapPin,
+  MinusIcon,
   Package,
+  PlusIcon,
   Truck,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { use, useState } from "react";
+import { AddItemFromCatalogDialog } from "@/components/features/customer-orders/add-item-dialog";
 import {
   CustomerOrderDetailProvider,
   useCustomerOrderDetail,
 } from "@/components/features/customer-orders/customer-order-detail-context";
 import { CustomerPaymentDialog } from "@/components/features/customer-orders/customer-payment-dialog";
 import { RequestDeliverySection } from "@/components/features/customer-orders/request-delivery-section";
+import { WeightRangePicker } from "@/components/features/customer-orders/weight-range-picker";
 import { ExportButton } from "@/components/features/report/export-button";
 import {
   AlertDialog,
@@ -32,9 +38,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { elysiaClient } from "@/elysia/client";
 import { cardShadowStyle, cn, formatDate, formatToIDR } from "@/lib/utils";
 
 type Props = {
@@ -151,14 +165,46 @@ const OrderDetailHeaderLoading = () => {
 
 const OrderDetailItems = () => {
   const t = useTranslations("CustomerOrders.orderDetail");
-  const { items } = useCustomerOrderDetail();
+  const {
+    data,
+    isEditing,
+    hasProgressingPickup,
+    enterEditMode,
+    cancelEditMode,
+    updateItemQuantity,
+    removeItem,
+    saveEdits,
+    isSavingEdits,
+    canSave,
+    saveError,
+    selectedWeightRangeId,
+    setSelectedWeightRangeId,
+    weight,
+    setWeight,
+  } = useCustomerOrderDetail();
 
-  const isItemDiscount = (itemType: (typeof items)[number]["itemType"]) =>
+  const { data: weightRanges } = useQuery({
+    queryKey: ["weight-ranges"],
+    queryFn: async () => {
+      const { data: response } = await elysiaClient["weight-ranges"].get({
+        fetch: {
+          credentials: "include",
+        },
+      });
+      return response?.data;
+    },
+  });
+
+  const selectedWeightRange = weightRanges?.find(
+    (r) => r.id === selectedWeightRangeId
+  );
+
+  const isItemDiscount = (itemType: string) =>
     ["voucher", "points"].includes(itemType);
 
   const isBundling = (
-    item: (typeof items)[number]
-  ): item is (typeof items)[number] & {
+    item: (typeof data)[number]
+  ): item is (typeof data)[number] & {
     items: { id: string; quantity: number; name: string }[];
   } => item.itemType === "bundling" && "items" in item;
 
@@ -171,58 +217,173 @@ const OrderDetailItems = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {isEditing && weightRanges && (
+          <div className="mb-6">
+            <WeightRangePicker
+              onWeightChange={setWeight}
+              onWeightRangeChange={(range) => {
+                setSelectedWeightRangeId(range?.id ?? null);
+                if (!range) {
+                  return;
+                }
+                const rangeMax = Number(range.maxWeight);
+                for (const item of data) {
+                  if (isItemDiscount(item.itemType) || item.isNew) {
+                    continue;
+                  }
+                  if (item.maxWeight != null && item.maxWeight > 0) {
+                    const newQty = Math.ceil(rangeMax / item.maxWeight);
+                    if (newQty !== item.quantity) {
+                      updateItemQuantity(item.itemId, newQty);
+                    }
+                  }
+                }
+              }}
+              selectedWeightRange={selectedWeightRange ?? null}
+              weight={weight}
+              weightRanges={weightRanges ?? []}
+            />
+          </div>
+        )}
         <div className="space-y-4">
-          {items.map((item) => (
-            <div className="rounded-xl border p-3" key={item.id}>
-              <div className="flex flex-1 flex-col justify-between">
-                <div className="space-y-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <h4 className="line-clamp-1 font-semibold text-foreground">
-                      {isItemDiscount(item.itemType) ? item.note : item.name}
-                    </h4>
+          {data.map((item) => {
+            const minQty =
+              selectedWeightRange &&
+              item.maxWeight != null &&
+              item.maxWeight > 0
+                ? Math.ceil(
+                    Number(selectedWeightRange.minWeight) / item.maxWeight
+                  )
+                : 1;
+
+            return (
+              <div className="rounded-xl border p-3" key={item.itemId}>
+                <div className="flex flex-1 flex-col justify-between">
+                  <div className="space-y-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="line-clamp-1 font-semibold text-foreground">
+                        {isItemDiscount(item.itemType) ? item.note : item.name}
+                      </h4>
+                      {isEditing && !isItemDiscount(item.itemType) && (
+                        <button
+                          className="shrink-0 text-muted-foreground transition-colors hover:text-destructive"
+                          onClick={() => removeItem(item.itemId)}
+                          type="button"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                    {!isItemDiscount(item.itemType) && isEditing && (
+                      <p className="text-muted-foreground text-sm">
+                        {item.quantity} x {formatToIDR(item.price)}
+                      </p>
+                    )}
                   </div>
-                  {!isItemDiscount(item.itemType) && (
-                    <p className="text-muted-foreground text-sm">
-                      {item.quantity} x {formatToIDR(item.price)}
-                    </p>
+                  {isBundling(item) && (
+                    <div className="mt-3 space-y-1.5 border-muted border-l-2 pl-3">
+                      {item.items.map((subItem) => (
+                        <div
+                          className="flex items-center gap-2 text-muted-foreground text-xs"
+                          key={subItem.id}
+                        >
+                          <span className="font-medium">{subItem.name}</span>
+                          <span className="tabular-nums">
+                            x{subItem.quantity}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   )}
-                </div>
-                {isBundling(item) && (
-                  <div className="mt-3 space-y-1.5 border-muted border-l-2 pl-3">
-                    {item.items.map((subItem) => (
-                      <div
-                        className="flex items-center gap-2 text-muted-foreground text-xs"
-                        key={subItem.id}
-                      >
-                        <span className="font-medium">{subItem.name}</span>
-                        <span className="tabular-nums">
-                          x{subItem.quantity}
-                        </span>
+                  {!isItemDiscount(item.itemType) && !!item.note && (
+                    <div className="mt-3 flex items-start gap-2 rounded-md bg-muted/30 p-2 text-muted-foreground text-xs">
+                      <span className="italic">"{item.note}"</span>
+                    </div>
+                  )}
+                  <div className="mt-3 flex items-center justify-between border-t pt-3">
+                    {isEditing && !isItemDiscount(item.itemType) ? (
+                      <div className="flex items-center gap-1">
+                        <Button
+                          className="h-7.5"
+                          disabled={item.quantity <= minQty}
+                          onClick={() =>
+                            updateItemQuantity(item.itemId, item.quantity - 1)
+                          }
+                          size="icon-sm"
+                          type="button"
+                          variant="outline"
+                        >
+                          <MinusIcon className="h-3 w-3" />
+                        </Button>
+                        <Input
+                          className="h-7.5 w-14 text-center font-mono"
+                          disabled
+                          readOnly
+                          value={item.quantity}
+                        />
+                        <Button
+                          className="h-7.5"
+                          onClick={() =>
+                            updateItemQuantity(item.itemId, item.quantity + 1)
+                          }
+                          size="icon-sm"
+                          type="button"
+                          variant="outline"
+                        >
+                          <PlusIcon className="h-3 w-3" />
+                        </Button>
                       </div>
-                    ))}
+                    ) : (
+                      <span className="font-medium text-sm">
+                        {t("subtotal")}
+                      </span>
+                    )}
+                    <span
+                      className={cn("font-bold", {
+                        "text-green-600": isItemDiscount(item.itemType),
+                        "text-primary": !isItemDiscount(item.itemType),
+                      })}
+                    >
+                      {formatToIDR(item.subtotal)}
+                    </span>
                   </div>
-                )}
-                {!isItemDiscount(item.itemType) && !!item.note && (
-                  <div className="mt-3 flex items-start gap-2 rounded-md bg-muted/30 p-2 text-muted-foreground text-xs">
-                    <span className="italic">"{item.note}"</span>
-                  </div>
-                )}
-                <div className="mt-3 flex items-center justify-between border-t pt-3">
-                  <span className="font-medium text-sm">{t("subtotal")}</span>
-                  <span
-                    className={cn("font-bold", {
-                      "text-green-600": isItemDiscount(item.itemType),
-                      "text-primary": !isItemDiscount(item.itemType),
-                    })}
-                  >
-                    {formatToIDR(item.subtotal)}
-                  </span>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
+      {hasProgressingPickup && !isEditing && (
+        <CardFooter>
+          <Button className="ml-auto" onClick={enterEditMode}>
+            {t("edit")}
+          </Button>
+        </CardFooter>
+      )}
+      {hasProgressingPickup && isEditing && (
+        <CardFooter className="flex-col gap-3">
+          {saveError && (
+            <p className="w-full text-center text-destructive text-sm">
+              {saveError}
+            </p>
+          )}
+          <div className="flex w-full items-center justify-between">
+            <AddItemFromCatalogDialog />
+            <div className="flex items-center gap-2">
+              <Button
+                disabled={isSavingEdits}
+                onClick={cancelEditMode}
+                variant="outline"
+              >
+                {t("cancel")}
+              </Button>
+              <Button disabled={!canSave} onClick={saveEdits}>
+                {isSavingEdits ? t("saving") : t("save")}
+              </Button>
+            </div>
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 };
@@ -246,7 +407,8 @@ const OrderDetailItemsLoading = () => {
 
 const OrderDetailPayment = ({ orderId }: { orderId: string }) => {
   const t = useTranslations("CustomerOrders.orderDetail");
-  const { payment, deliveries } = useCustomerOrderDetail();
+  const { payment, deliveries, isEditing, editingTotal } =
+    useCustomerOrderDetail();
 
   const hasCompletedPickup = deliveries.some(
     (delivery) =>
@@ -288,7 +450,7 @@ const OrderDetailPayment = ({ orderId }: { orderId: string }) => {
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">{t("amountPaid")}</span>
           <span className="font-medium text-sidebar-foreground">
-            {formatToIDR(payment.amountPaid)}
+            {formatToIDR(isEditing ? editingTotal : payment.total || 0)}
           </span>
         </div>
         {(payment.change ?? 0) > 0 && (
@@ -305,7 +467,7 @@ const OrderDetailPayment = ({ orderId }: { orderId: string }) => {
             {t("total")}
           </span>
           <span className="font-bold text-lg text-primary">
-            {formatToIDR(payment.total || 0)}
+            {formatToIDR(isEditing ? editingTotal : payment.total || 0)}
           </span>
         </div>
         {canMakePayment && <CustomerPaymentDialog />}

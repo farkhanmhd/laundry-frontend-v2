@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { PickupImageDialog } from "@/components/features/routes/pickup-image-dialog";
 import { useAlertDialog } from "@/components/providers/alert-dialog-provider";
@@ -25,6 +26,7 @@ import {
   MarkerLabel,
 } from "@/components/ui/map";
 import { LAUNDRY_POINT_ZERO } from "@/lib/constants";
+import { BusinessSettingsApi } from "@/lib/modules/business-settings/data";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { cardShadowStyle, cn, isDone } from "@/lib/utils";
 
@@ -56,10 +58,26 @@ function DeliveryMapNavigation({ delivery }: { delivery: Delivery }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { data: businessSettings } = useQuery({
+    queryKey: ["business-settings"],
+    queryFn: async () => {
+      const response = await BusinessSettingsApi.get();
+      if (response?.status === "success") {
+        return response.data;
+      }
+      return null;
+    },
+    retry: false,
+  });
+
   const start = {
     name: "HQ",
-    lng: LAUNDRY_POINT_ZERO[0],
-    lat: LAUNDRY_POINT_ZERO[1],
+    lng: businessSettings
+      ? Number(businessSettings.longitude)
+      : LAUNDRY_POINT_ZERO[0],
+    lat: businessSettings
+      ? Number(businessSettings.latitude)
+      : LAUNDRY_POINT_ZERO[1],
   };
   const end = {
     name: delivery.customerName,

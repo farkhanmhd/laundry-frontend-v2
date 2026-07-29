@@ -488,6 +488,7 @@
     "cameraError": "Gagal mengakses kamera",
     "capturePhoto": "Ambil",
     "photoCaptured": "Foto berhasil diambil",
+    "weightLabel": "Berat (kg)",
     "viewOrder": "Lihat Pesanan",
     "call": "Hubungi",
     "viewPhoto": "Lihat Foto",
@@ -1082,7 +1083,14 @@
       "cancelPickupRequest": "Batalkan Permintaan Jemput",
       "cancelPickupRequestTitle": "Batalkan Permintaan Jemput",
       "cancelPickupRequestDescription": "Apakah Anda yakin ingin membatalkan permintaan jemput ini? Tindakan ini tidak dapat dibatalkan.",
-      "cancelPickupRequestConfirm": "Ya, Batalkan"
+      "cancelPickupRequestConfirm": "Ya, Batalkan",
+      "edit": "Ubah",
+      "save": "Simpan",
+      "saving": "Menyimpan...",
+      "addItem": "Tambah Item",
+      "addItemFromCatalog": "Tambah Item dari Katalog",
+      "searchCatalog": "Cari katalog...",
+      "noItemsFound": "Tidak ada item ditemukan"
     },
     "payment": {
       "success": "Pembayaran Berhasil!",
@@ -1817,7 +1825,8 @@
       },
       "statusUpdated": "Status pesanan berhasil diperbarui",
       "items": {
-        "retrieved": "Item pesanan berhasil diambil"
+        "retrieved": "Item pesanan berhasil diambil",
+        "updated": "Item pesanan berhasil diperbarui"
       },
       "payment": {
         "retrieved": "Pembayaran pesanan berhasil diambil",
@@ -1867,6 +1876,7 @@
       "status": {
         "updated": "Status pengiriman berhasil diperbarui"
       },
+      "statusUpdateFailed": "Gagal memperbarui status pengiriman ({details})",
       "notFound": "Pengiriman tidak ditemukan"
     },
     "pos": {

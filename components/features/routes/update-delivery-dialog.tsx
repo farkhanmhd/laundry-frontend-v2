@@ -21,6 +21,10 @@ import { elysiaClient } from "@/elysia/client";
 import type { Delivery } from "@/lib/modules/routes/data";
 import { toastResponse } from "@/lib/toast-helper";
 
+export type UpdateDeliveryStatusBody = Parameters<
+  ReturnType<typeof elysiaClient.deliveries>["status"]["patch"]
+>[0];
+
 export const UpdateDeliveryDialog = () => {
   const { open, onOpenChange, data } = useAlertDialog<Delivery>();
   const t = useTranslations("Routes");
@@ -33,6 +37,7 @@ export const UpdateDeliveryDialog = () => {
   const [showCamera, setShowCamera] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [weight, setWeight] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -126,12 +131,19 @@ export const UpdateDeliveryDialog = () => {
         type: "image/jpeg",
       });
 
+      const isPickup = data.type === "pickup";
+
+      const body: UpdateDeliveryStatusBody = isPickup
+        ? {
+            deliveryType: "pickup",
+            image: imageFile,
+            weight: Number(weight),
+          }
+        : { deliveryType: "delivery" as const, image: imageFile };
+
       const { data: responseData, error } = await elysiaClient
         .deliveries({ id: data.id })
-        .status.patch(
-          { image: imageFile },
-          { fetch: { credentials: "include" } }
-        );
+        .status.patch(body, { fetch: { credentials: "include" } });
 
       if (error) {
         throw error.value;
@@ -142,11 +154,12 @@ export const UpdateDeliveryDialog = () => {
       onOpenChange(false);
       cleanup();
     } catch (err) {
+      const errorBody = err as { message?: string; messageKey?: string; messageParams?: Record<string, unknown> };
       toast.error(
-        toastResponse(
-          tNotifications,
-          (err as { messageKey?: string; message?: string }) || {}
-        )
+        toastResponse(tNotifications, {
+          ...errorBody,
+          messageParams: { ...(errorBody?.messageParams || {}), details: errorBody?.message || "" },
+        })
       );
     } finally {
       setIsPending(false);
@@ -161,6 +174,7 @@ export const UpdateDeliveryDialog = () => {
     setPhotoBlob(null);
     setPhotoPreview(null);
     setCameraError(null);
+    setWeight("");
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -264,12 +278,40 @@ export const UpdateDeliveryDialog = () => {
 
         {renderCameraContent()}
 
+        {data?.type === "pickup" && (
+          <div className="space-y-2">
+            <label className="font-medium text-sm" htmlFor="weight">
+              {t("weightLabel")}
+            </label>
+            <div className="relative">
+              <input
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:font-medium file:text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                id="weight"
+                inputMode="numeric"
+                min="0"
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="0"
+                step="0.1"
+                type="text"
+                value={weight}
+              />
+              <span className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground text-sm">
+                kg
+              </span>
+            </div>
+          </div>
+        )}
+
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>
             {t("cancel")}
           </AlertDialogCancel>
           <AlertDialogAction
-            disabled={isPending || !photoBlob}
+            disabled={
+              isPending ||
+              !photoBlob ||
+              (data?.type === "pickup" && (!weight || Number(weight) <= 0))
+            }
             onClick={handleDeliveryUpdate}
           >
             {isPending ? (

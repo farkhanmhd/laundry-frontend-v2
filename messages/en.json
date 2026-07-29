@@ -488,6 +488,7 @@
     "cameraError": "Failed to access camera",
     "capturePhoto": "Capture",
     "photoCaptured": "Photo captured",
+    "weightLabel": "Weight (kg)",
     "viewOrder": "View Order",
     "call": "Call",
     "viewPhoto": "View Photo",
@@ -1082,7 +1083,14 @@
       "cancelPickupRequest": "Cancel Pickup Request",
       "cancelPickupRequestTitle": "Cancel Pickup Request",
       "cancelPickupRequestDescription": "Are you sure you want to cancel this pickup request? This action cannot be undone.",
-      "cancelPickupRequestConfirm": "Yes, Cancel Request"
+      "cancelPickupRequestConfirm": "Yes, Cancel Request",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving...",
+      "addItem": "Add Item",
+      "addItemFromCatalog": "Add Item from Catalog",
+      "searchCatalog": "Search catalog...",
+      "noItemsFound": "No items found"
     },
     "payment": {
       "success": "Payment Successful!",
@@ -1817,7 +1825,8 @@
       },
       "statusUpdated": "Order status updated successfully",
       "items": {
-        "retrieved": "Order Items Retrieved"
+        "retrieved": "Order Items Retrieved",
+        "updated": "Order items updated successfully"
       },
       "payment": {
         "retrieved": "Order Payment Retrieved",
@@ -1867,6 +1876,7 @@
       "status": {
         "updated": "Delivery status updated"
       },
+      "statusUpdateFailed": "Failed to update delivery status ({details})",
       "notFound": "Delivery not found"
     },
     "pos": {

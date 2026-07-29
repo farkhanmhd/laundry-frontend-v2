@@ -149,6 +149,7 @@ export const PickupSelectedDelivery = () => {
         toast.success(toastResponse(tNotifications, data));
         queryClient.invalidateQueries({ queryKey: ["pickups"] });
         queryClient.invalidateQueries({ queryKey: ["routes"] });
+        table.setRowSelection({});
       }
     } catch (err) {
       toast.error(

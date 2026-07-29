@@ -74,7 +74,6 @@ export function DateTimePicker({
     newDate.setHours(currentHours, currentMinutes, currentSeconds);
 
     onChange(newDate);
-    setOpen(false);
   };
 
   /**

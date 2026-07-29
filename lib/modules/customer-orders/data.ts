@@ -9,6 +9,18 @@ const customerOrderFetchConfig = {
 };
 
 export abstract class CustomerOrdersApi {
+  static async getCatalogs() {
+    const { data: response } = await elysiaClient.customerorders.items.get(
+      customerOrderFetchConfig
+    );
+
+    if (!response) {
+      throw new Error("Failed to fetch catalogs");
+    }
+
+    return response.data;
+  }
+
   static async getCustomerOrderDetail(id: string) {
     const { data: response } = await elysiaClient
       .customerorders({
@@ -90,6 +102,25 @@ export abstract class CustomerOrdersApi {
       .patch({}, customerOrderFetchConfig);
 
     return result;
+  }
+
+  static async updateCustomerOrderItems(
+    id: string,
+    body: {
+      weight?: number | null | undefined;
+      data: {
+        itemId: string;
+        itemType: "service" | "inventory" | "bundling";
+        quantity: number;
+      }[];
+      weightRangeId: number;
+    }
+  ) {
+    const { data: response } = await elysiaClient
+      .customerorders({ id })
+      .items.patch(body, customerOrderFetchConfig);
+
+    return response;
   }
 }
 
